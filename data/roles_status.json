@@ -1974,9 +1974,9 @@
     "extra": ""
   },
   "Ричард": {
-    "status": "свободна",
-    "owner_id": null,
-    "username": null,
+    "status": "занята",
+    "owner_id": 6009359887,
+    "username": "oopppssiee",
     "season": "Последняя реальность",
     "extra": ""
   },
