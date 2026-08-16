@@ -1,7 +1,16 @@
-from .commands import router
-from .forward import forward_to_admin_group, reply_from_admin_group
+from .commands import router as commands_router
+from .apply_handlers import router as apply_router
+from .apply_states import router as apply_states_router
 from .chat_member import router as chat_member_router
-from .apply_handlers import router as apply_router  # <-- Добавляем
+from .forward import router as forward_router
+from .keyboards import router as keyboards_router
 
-# Экспортируем все роутеры
-__all__ = ['router', 'chat_member_router', 'apply_router']
+# Список всех роутеров для подключения в main.py
+routers = [
+    commands_router,
+    apply_router,
+    apply_states_router,
+    chat_member_router,
+    forward_router,
+    keyboards_router,
+]

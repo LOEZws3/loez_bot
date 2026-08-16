@@ -2688,30 +2688,6 @@ async def btn_call(message: Message):
 
 
 # ============================================================
-# ПЕРЕНАПРАВЛЕНИЕ /apply И /freerole В apply_handlers
-# ============================================================
-
-@router.message(Command('apply'))
-async def cmd_apply_forward(message: Message, state: FSMContext):
-    if message.chat.id == GENERAL_CHAT_ID:
-        await message.answer("❌ Подача заявки недоступна во флуд-чате. Напишите боту в личные сообщения.")
-        return
-    logger.info("🔄 Команда /apply перехвачена в commands.py")
-    from .apply_handlers import cmd_apply
-    await cmd_apply(message, state)
-
-
-@router.message(Command('freerole'))
-async def cmd_freerole_forward(message: Message, state: FSMContext):
-    if message.chat.id == GENERAL_CHAT_ID:
-        await message.answer("❌ Освобождение роли недоступно во флуд-чате. Напишите боту в личные сообщения.")
-        return
-    logger.info("🔄 Команда /freerole перехвачена в commands.py")
-    from .apply_handlers import cmd_apply
-    await cmd_apply(message, state)
-
-
-# ============================================================
 # ИНЛАЙН-КНОПКИ
 # ============================================================
 
