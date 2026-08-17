@@ -1,7 +1,9 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
 from utils.admin_utils import is_admin, is_owner
 from config import GENERAL_CHAT_ID
+from aiogram import Router
 
+router = Router()
 
 def get_main_keyboard(user_id: int, chat_id: int = None):
     """Возвращает клавиатуру, если чат не является флуд-чатом"""

@@ -1,5 +1,5 @@
 import json
-import os  # <-- добавлено для работы с путями
+import os
 import time
 import logging
 import requests
@@ -9,7 +9,6 @@ from aiogram import Bot
 class ProxyManager:
     def __init__(self, token, data_dir="data/proxies"):
         self.token = token
-        # Определяем корень проекта (папка, где лежит proxy_manager.py)
         base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         self.data_dir = os.path.join(base_dir, data_dir)
         self.whitelist = {}
@@ -43,33 +42,31 @@ class ProxyManager:
             with open(full_path, "r", encoding="utf-8") as f:
                 return json.load(f)
         except (FileNotFoundError, json.JSONDecodeError):
-            # Возвращаем пустой словарь или список в зависимости от типа файла
             return {} if "blacklist" not in filename else []
 
     def _save_json(self, filename, data):
         full_path = os.path.join(self.data_dir, filename)
-        os.makedirs(os.path.dirname(full_path), exist_ok=True)  # создаём папку, если её нет
+        os.makedirs(os.path.dirname(full_path), exist_ok=True)
         with open(full_path, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
 
-    def check_proxy(self, proxy):
+    async def check_proxy(self, proxy):
         try:
             bot = Bot(token=self.token, proxy=proxy)
-            bot.get_me()
+            await bot.get_me()
             return True
         except Exception:
             return False
 
-    def refresh_all(self):
+    async def refresh_all(self):
         self.log.info("🔄 Запущено обновление всех списков прокси...")
         new_whitelist = {}
         new_suspicious = {}
         new_temp = {}
         new_reserve = {}
 
-        # 1. WHITELIST
         for proxy, rating in self.whitelist.items():
-            if self.check_proxy(proxy):
+            if await self.check_proxy(proxy):
                 new_whitelist[proxy] = rating
             else:
                 new_rating = rating - 10
@@ -79,9 +76,8 @@ class ProxyManager:
                 else:
                     new_whitelist[proxy] = new_rating
 
-        # 2. SUSPICIOUS
         for proxy, rating in self.suspicious.items():
-            if self.check_proxy(proxy):
+            if await self.check_proxy(proxy):
                 new_rating = rating + 5
                 if new_rating >= 70:
                     new_whitelist[proxy] = new_rating
@@ -96,9 +92,8 @@ class ProxyManager:
                 else:
                     new_suspicious[proxy] = new_rating
 
-        # 3. TEMP
         for proxy, rating in self.temp.items():
-            if self.check_proxy(proxy):
+            if await self.check_proxy(proxy):
                 new_rating = rating + 5
                 if new_rating >= 100:
                     new_reserve[proxy] = 100
@@ -113,9 +108,8 @@ class ProxyManager:
                 else:
                     new_temp[proxy] = new_rating
 
-        # 4. RESERVE
         for proxy, rating in self.reserve.items():
-            if self.check_proxy(proxy):
+            if await self.check_proxy(proxy):
                 new_rating = rating + 2
                 if new_rating >= 100:
                     new_reserve[proxy] = new_rating
@@ -130,7 +124,6 @@ class ProxyManager:
                 else:
                     new_reserve[proxy] = new_rating
 
-        # 5. КАРАНТИН
         current_time = datetime.now()
         for proxy, date_str in list(self.quarantine.items()):
             try:
@@ -142,7 +135,6 @@ class ProxyManager:
             except Exception:
                 pass
 
-        # 6. ЧЁРНЫЙ СПИСОК
         for proxy in list(new_temp.keys()):
             if proxy in self.blacklist:
                 del new_temp[proxy]
@@ -155,32 +147,49 @@ class ProxyManager:
         self.save_all()
         self.log.info("✅ Обновление завершено, списки сохранены")
 
+    # ========== ПОЛНОСТЬЮ ПЕРЕПИСАННЫЙ МЕТОД ==========
     def fetch_fresh_proxies(self):
         self.log.info("🌐 Парсинг новых прокси с GitHub...")
         try:
             url = "https://raw.githubusercontent.com/kort0881/telegram-proxy-collector/main/socks5.txt"
             response = requests.get(url, timeout=10)
             if response.status_code != 200:
-                self.log.warning("❌ Не удалось получить список прокси")
+                self.log.warning(f"❌ Ошибка HTTP: {response.status_code}")
                 return
 
-            proxies = response.text.strip().splitlines()
+            # Разбиваем текст на строки
+            lines = response.text.strip().splitlines()
+            self.log.info(f"📥 Получено {len(lines)} строк")
+            
             added = 0
-            for proxy in proxies[:10]:
-                proxy = proxy.strip()
-                if proxy and proxy not in self.blacklist and proxy not in self.temp:
-                    self.temp[proxy] = 0
-                    added += 1
+            for line in lines:
+                line = line.strip()
+                if not line:
+                    continue
+                # Проверяем, что это похоже на прокси (ip:port)
+                if ":" in line and not line.startswith("http"):
+                    # Добавляем префикс socks5:// если его нет
+                    if not line.startswith("socks5://"):
+                        proxy = f"socks5://{line}"
+                    else:
+                        proxy = line
+                    
+                    # Проверяем, что прокси ещё не в списках
+                    if proxy not in self.blacklist and proxy not in self.temp:
+                        self.temp[proxy] = 0
+                        added += 1
+                        if added >= 10:  # Ограничиваем до 10 новых прокси
+                            break
             self.log.info(f"✅ Добавлено {added} новых прокси в текучку (старт: 0)")
             self.save_all()
         except Exception as e:
             self.log.error(f"❌ Ошибка парсинга: {e}")
 
-    def get_working_proxy(self):
+    async def get_working_proxy(self):
         self.log.info("🔍 Подбор рабочего прокси для запуска...")
 
         for proxy, rating in self.whitelist.items():
-            if self.check_proxy(proxy):
+            if await self.check_proxy(proxy):
                 self.log.info(f"✅ Найден рабочий прокси в whitelist: {proxy} (рейтинг: {rating})")
                 return proxy
             else:
@@ -194,7 +203,7 @@ class ProxyManager:
 
         if self.reserve:
             best_proxy = max(self.reserve, key=self.reserve.get)
-            if self.check_proxy(best_proxy):
+            if await self.check_proxy(best_proxy):
                 self.log.info(f"✅ Найден рабочий прокси в резерве: {best_proxy} (рейтинг: {self.reserve[best_proxy]})")
                 return best_proxy
             else:
@@ -210,8 +219,8 @@ class ProxyManager:
         time.sleep(30)
         return None
 
-    def run_auto_update(self):
+    async def run_auto_update(self):
         while True:
-            self.refresh_all()
+            await self.refresh_all()
             self.fetch_fresh_proxies()
-            time.sleep(3600)  # 1 час
+            time.sleep(3600)

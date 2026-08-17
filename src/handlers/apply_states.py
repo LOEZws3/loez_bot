@@ -1,5 +1,7 @@
 from aiogram.fsm.state import State, StatesGroup
+from aiogram import Router
 
+router = Router()
 class ApplyStates(StatesGroup):
     """Состояния для процесса подачи заявки"""
     waiting_for_season = State()      # Ожидание выбора сезона
