@@ -11,6 +11,7 @@ class ProxyManager:
         self.token = token
         base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         self.data_dir = os.path.join(base_dir, data_dir)
+        self.log = logging.getLogger(__name__)
         self.whitelist = {}
         self.suspicious = {}
         self.temp = {}
@@ -18,15 +19,14 @@ class ProxyManager:
         self.blacklist = []
         self.quarantine = {}
         self.load_all()
-        self.log = logging.getLogger(__name__)
 
     def load_all(self):
-        self.whitelist = self._load_json("whitelist.json")
-        self.suspicious = self._load_json("suspicious.json")
-        self.temp = self._load_json("temp.json")
-        self.reserve = self._load_json("reserve.json")
-        self.blacklist = self._load_json("blacklist.json")
-        self.quarantine = self._load_json("quarantine.json")
+        self.whitelist = self._load_json("whitelist.json", default={})
+        self.suspicious = self._load_json("suspicious.json", default={})
+        self.temp = self._load_json("temp.json", default={})
+        self.reserve = self._load_json("reserve.json", default={})
+        self.blacklist = self._load_json("blacklist.json", default=[])
+        self.quarantine = self._load_json("quarantine.json", default={})
 
     def save_all(self):
         self._save_json("whitelist.json", self.whitelist)
@@ -36,19 +36,28 @@ class ProxyManager:
         self._save_json("blacklist.json", self.blacklist)
         self._save_json("quarantine.json", self.quarantine)
 
-    def _load_json(self, filename):
+    def _load_json(self, filename, default):
         full_path = os.path.join(self.data_dir, filename)
         try:
             with open(full_path, "r", encoding="utf-8") as f:
-                return json.load(f)
-        except (FileNotFoundError, json.JSONDecodeError):
-            return {} if "blacklist" not in filename else []
+                data = json.load(f)
+                if type(data) != type(default):
+                    self.log.warning(f"⚠️ {filename} имеет неверный тип. Ожидался {type(default)}, получен {type(data)}. Использую значение по умолчанию.")
+                    return default
+                return data
+        except (FileNotFoundError, json.JSONDecodeError) as e:
+            self.log.warning(f"⚠️ Ошибка загрузки {filename}: {e}. Создаю файл со значением по умолчанию.")
+            self._save_json(filename, default)
+            return default
 
     def _save_json(self, filename, data):
         full_path = os.path.join(self.data_dir, filename)
         os.makedirs(os.path.dirname(full_path), exist_ok=True)
-        with open(full_path, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=2, ensure_ascii=False)
+        try:
+            with open(full_path, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=2, ensure_ascii=False)
+        except Exception as e:
+            self.log.error(f"❌ Ошибка сохранения {filename}: {e}")
 
     async def check_proxy(self, proxy):
         try:
@@ -65,9 +74,12 @@ class ProxyManager:
         new_temp = {}
         new_reserve = {}
 
+        # 1. Проверяем WHITELIST
+        self.log.info("📋 Проверка WHITELIST...")
         for proxy, rating in self.whitelist.items():
             if await self.check_proxy(proxy):
                 new_whitelist[proxy] = rating
+                self.log.info(f"✅ Белый прокси {proxy} работает (рейтинг: {rating})")
             else:
                 new_rating = rating - 10
                 if new_rating < 70 and new_rating >= 0:
@@ -75,7 +87,10 @@ class ProxyManager:
                     self.log.warning(f"🔶 {proxy} стал сомнительным (рейтинг: {new_rating})")
                 else:
                     new_whitelist[proxy] = new_rating
+                    self.log.warning(f"🔽 {proxy} потерял 10 баллов (теперь: {new_rating})")
 
+        # 2. Проверяем SUSPICIOUS
+        self.log.info("📋 Проверка SUSPICIOUS...")
         for proxy, rating in self.suspicious.items():
             if await self.check_proxy(proxy):
                 new_rating = rating + 5
@@ -84,6 +99,7 @@ class ProxyManager:
                     self.log.info(f"⬆️ {proxy} вернулся в белый список (рейтинг: {new_rating})")
                 else:
                     new_suspicious[proxy] = new_rating
+                    self.log.info(f"📈 {proxy} набрал +5 баллов (теперь: {new_rating})")
             else:
                 new_rating = rating - 5
                 if new_rating < 0:
@@ -91,28 +107,45 @@ class ProxyManager:
                     self.log.warning(f"🔽 {proxy} ушёл в текучку (рейтинг: 85)")
                 else:
                     new_suspicious[proxy] = new_rating
+                    self.log.warning(f"📉 {proxy} потерял 5 баллов (теперь: {new_rating})")
 
-        for proxy, rating in self.temp.items():
+        # 3. Проверяем TEMP (текучку) — С РАСШИРЕННЫМ ЛОГИРОВАНИЕМ
+        self.log.info("📋 Проверка TEMP (текучка)...")
+        temp_count = len(self.temp)
+        self.log.info(f"📊 В текучке {temp_count} прокси")
+
+        for proxy, rating in list(self.temp.items()):
+            self.log.info(f"🔍 Проверяю прокси из текучки: {proxy} (текущий рейтинг: {rating})")
+            
             if await self.check_proxy(proxy):
                 new_rating = rating + 5
+                self.log.info(f"✅ Прокси {proxy} РАБОТАЕТ! +5 баллов (было: {rating}, стало: {new_rating})")
+                
                 if new_rating >= 100:
                     new_reserve[proxy] = 100
-                    self.log.info(f"🎉 {proxy} перешёл в резерв!")
+                    self.log.info(f"🎉 {proxy} перешёл в РЕЗЕРВ (набрал 100 баллов)!")
                 else:
                     new_temp[proxy] = new_rating
+                    self.log.info(f"📈 {proxy} остаётся в текучке (теперь: {new_rating})")
             else:
                 new_rating = rating - 5
+                self.log.warning(f"❌ Прокси {proxy} НЕ РАБОТАЕТ! -5 баллов (было: {rating}, стало: {new_rating})")
+                
                 if new_rating <= -25:
                     self.quarantine[proxy] = datetime.now().isoformat()
-                    self.log.warning(f"⛔ {proxy} в карантине до {datetime.now() + timedelta(days=3)}")
+                    self.log.warning(f"⛔ {proxy} ОТПРАВЛЕН В КАРАНТИН на 3 дня (рейтинг: {new_rating})")
                 else:
                     new_temp[proxy] = new_rating
+                    self.log.warning(f"📉 {proxy} остаётся в текучке (теперь: {new_rating})")
 
+        # 4. Проверяем RESERVE
+        self.log.info("📋 Проверка RESERVE...")
         for proxy, rating in self.reserve.items():
             if await self.check_proxy(proxy):
                 new_rating = rating + 2
                 if new_rating >= 100:
                     new_reserve[proxy] = new_rating
+                    self.log.info(f"✅ {proxy} остаётся в резерве (рейтинг: {new_rating})")
                 else:
                     new_temp[proxy] = 85
                     self.log.warning(f"⬇️ {proxy} вылетел из резерва в текучку (85)")
@@ -123,7 +156,10 @@ class ProxyManager:
                     self.log.warning(f"⬇️ {proxy} вылетел из резерва в текучку (85)")
                 else:
                     new_reserve[proxy] = new_rating
+                    self.log.warning(f"📉 {proxy} потерял 5 баллов в резерве (теперь: {new_rating})")
 
+        # 5. КАРАНТИН
+        self.log.info("📋 Проверка КАРАНТИНА...")
         current_time = datetime.now()
         for proxy, date_str in list(self.quarantine.items()):
             try:
@@ -132,22 +168,29 @@ class ProxyManager:
                     new_temp[proxy] = -10
                     del self.quarantine[proxy]
                     self.log.info(f"🔄 {proxy} вышел из карантина с рейтингом -10")
-            except Exception:
-                pass
+                else:
+                    days_left = (quarantine_date + timedelta(days=3) - current_time).days
+                    self.log.info(f"⏳ {proxy} ещё в карантине (осталось {days_left} дн.)")
+            except Exception as e:
+                self.log.error(f"❌ Ошибка обработки карантина для {proxy}: {e}")
 
+        # 6. ЧЁРНЫЙ СПИСОК
+        self.log.info("📋 Проверка ЧЁРНОГО СПИСКА...")
         for proxy in list(new_temp.keys()):
             if proxy in self.blacklist:
                 del new_temp[proxy]
                 self.log.warning(f"🚫 {proxy} в чёрном списке — удалён из текучки")
 
+        # Обновляем списки
         self.whitelist = new_whitelist
         self.suspicious = new_suspicious
         self.temp = new_temp
         self.reserve = new_reserve
         self.save_all()
+        
         self.log.info("✅ Обновление завершено, списки сохранены")
+        self.log.info(f"📊 Итог: WHITELIST={len(self.whitelist)}, SUSPICIOUS={len(self.suspicious)}, TEMP={len(self.temp)}, RESERVE={len(self.reserve)}")
 
-    # ========== ПОЛНОСТЬЮ ПЕРЕПИСАННЫЙ МЕТОД ==========
     def fetch_fresh_proxies(self):
         self.log.info("🌐 Парсинг новых прокси с GitHub...")
         try:
@@ -157,29 +200,22 @@ class ProxyManager:
                 self.log.warning(f"❌ Ошибка HTTP: {response.status_code}")
                 return
 
-            # Разбиваем текст на строки
             lines = response.text.strip().splitlines()
-            self.log.info(f"📥 Получено {len(lines)} строк")
-            
             added = 0
             for line in lines:
                 line = line.strip()
-                if not line:
+                if not line or ":" not in line:
                     continue
-                # Проверяем, что это похоже на прокси (ip:port)
-                if ":" in line and not line.startswith("http"):
-                    # Добавляем префикс socks5:// если его нет
-                    if not line.startswith("socks5://"):
-                        proxy = f"socks5://{line}"
-                    else:
-                        proxy = line
-                    
-                    # Проверяем, что прокси ещё не в списках
-                    if proxy not in self.blacklist and proxy not in self.temp:
-                        self.temp[proxy] = 0
-                        added += 1
-                        if added >= 10:  # Ограничиваем до 10 новых прокси
-                            break
+                if not line.startswith("socks5://"):
+                    proxy = f"socks5://{line}"
+                else:
+                    proxy = line
+                if proxy not in self.blacklist and proxy not in self.temp:
+                    self.temp[proxy] = 0
+                    added += 1
+                    self.log.info(f"➕ Добавлен новый прокси в текучку: {proxy} (старт: 0)")
+                    if added >= 10:
+                        break
             self.log.info(f"✅ Добавлено {added} новых прокси в текучку (старт: 0)")
             self.save_all()
         except Exception as e:
@@ -188,31 +224,43 @@ class ProxyManager:
     async def get_working_proxy(self):
         self.log.info("🔍 Подбор рабочего прокси для запуска...")
 
-        for proxy, rating in self.whitelist.items():
+        # Проверяем WHITELIST
+        self.log.info("📋 Проверка WHITELIST...")
+        for proxy in list(self.whitelist.keys()):
+            self.log.info(f"🔍 Проверяю белый прокси: {proxy} (рейтинг: {self.whitelist[proxy]})")
             if await self.check_proxy(proxy):
-                self.log.info(f"✅ Найден рабочий прокси в whitelist: {proxy} (рейтинг: {rating})")
+                self.log.info(f"✅ Найден рабочий прокси в whitelist: {proxy} (рейтинг: {self.whitelist[proxy]})")
                 return proxy
             else:
-                new_rating = rating - 10
-                self.whitelist[proxy] = new_rating
+                current_rating = self.whitelist.get(proxy, 100)
+                new_rating = current_rating - 10
+                self.log.warning(f"❌ {proxy} не работает. Снимаю 10 баллов (было: {current_rating}, стало: {new_rating})")
                 if new_rating < 70:
                     self.suspicious[proxy] = new_rating
                     del self.whitelist[proxy]
                     self.log.warning(f"🔶 {proxy} перемещён в сомнительные (рейтинг: {new_rating})")
+                else:
+                    self.whitelist[proxy] = new_rating
                 self.save_all()
 
+        # Проверяем RESERVE
+        self.log.info("📋 Проверка RESERVE...")
         if self.reserve:
-            best_proxy = max(self.reserve, key=self.reserve.get)
-            if await self.check_proxy(best_proxy):
-                self.log.info(f"✅ Найден рабочий прокси в резерве: {best_proxy} (рейтинг: {self.reserve[best_proxy]})")
-                return best_proxy
-            else:
-                self.reserve[best_proxy] -= 5
-                if self.reserve[best_proxy] < 100:
-                    self.temp[best_proxy] = 85
-                    del self.reserve[best_proxy]
-                    self.log.warning(f"⬇️ {best_proxy} вылетел из резерва в текучку (85)")
-                self.save_all()
+            for proxy in list(self.reserve.keys()):
+                self.log.info(f"🔍 Проверяю резервный прокси: {proxy} (рейтинг: {self.reserve[proxy]})")
+                if await self.check_proxy(proxy):
+                    self.log.info(f"✅ Найден рабочий прокси в резерве: {proxy} (рейтинг: {self.reserve[proxy]})")
+                    return proxy
+                else:
+                    new_rating = self.reserve[proxy] - 5
+                    self.log.warning(f"❌ {proxy} не работает. Снимаю 5 баллов (было: {self.reserve[proxy]}, стало: {new_rating})")
+                    if new_rating < 100:
+                        self.temp[proxy] = 85
+                        del self.reserve[proxy]
+                        self.log.warning(f"⬇️ {proxy} вылетел из резерва в текучку (85)")
+                    else:
+                        self.reserve[proxy] = new_rating
+                    self.save_all()
 
         self.log.error("💀 Все прокси мертвы! Запрашиваю новые...")
         self.fetch_fresh_proxies()
