@@ -1,0 +1,7 @@
+2026-07-26 02:18:17,836 - CRITICAL - __main__ - Непредвиденная ошибка при запуске: Token is invalid! It must be 'str' type instead of <class 'NoneType'> type.
+2026-07-26 02:30:27,675 - INFO - __main__ - 🤖 Бот запущен!
+2026-07-26 02:30:27,685 - INFO - __main__ - 🚀 Запуск polling...
+2026-07-26 02:30:27,687 - INFO - aiogram.dispatcher - Start polling
+2026-07-26 02:30:55,739 - INFO - aiogram.dispatcher - Polling stopped
+2026-07-26 02:30:55,999 - CRITICAL - __main__ - ❌ Критическая ошибка при работе бота: HTTP Client says - ClientConnectorError: Cannot connect to host api.telegram.org:443 ssl:default [Превышен таймаут семафора]
+2026-07-26 02:30:56,002 - INFO - __main__ - 👋 Бот остановлен.
