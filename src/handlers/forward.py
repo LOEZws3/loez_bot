@@ -3,60 +3,76 @@ from aiogram import Router, F
 from aiogram.types import Message
 from config import ADMIN_GROUP_ID, GENERAL_CHAT_ID
 from utils.admin_utils import is_admin
+from proxy_manager import proxy_manager
+from .keyboards import load_forward_settings
 
 logger = logging.getLogger(__name__)
 router = Router()
 
+
 @router.message(F.chat.type == "private")
 async def forward_to_admin_group(message: Message):
-    """Пересылка сообщений от пользователей в админ-группу"""
+    """Пересылка сообщений от пользователей в админ-группу (с учётом настроек)"""
     user_id = message.from_user.id
     
-    # Если это админ — не пересылаем
+    # Получаем настройки
+    settings = load_forward_settings()
+    forward_enabled = settings.get("forward_enabled", True)
+    anonymous_mode = settings.get("anonymous_mode", False)
+    
+    # Если пересылка отключена
+    if not forward_enabled:
+        await message.answer("ℹ️ Пересылка сообщений временно отключена администрацией.")
+        logger.info(f"ℹ️ Пересылка отключена, сообщение от {user_id} не переслано")
+        return
+    
+    # Если это админ — логируем
     if is_admin(user_id):
         logger.info(f"👤 Админ {user_id} пишет боту — пересылка отключена")
         return
     
     # Пропускаем команды
     if message.text and message.text.startswith('/'):
-        logger.info(f"ℹ️ Команда {message.text} от {user_id} — не пересылаем")
+        logger.info(f"ℹ️ Команда от {user_id} — не пересылаем")
         return
     
     # Пропускаем пустые сообщения
     if not message.text or message.text.strip() == "":
-        logger.info(f"ℹ️ Пустое сообщение от {user_id} — не пересылаем")
         return
     
-    # Пропускаем служебные сообщения с эмодзи-префиксами
-    if message.text.startswith(('✅', '❌', '📝', '⚠️', 'ℹ️', '⏳', '🔒', '🔓')):
-        logger.info(f"ℹ️ Служебное сообщение от {user_id} — не пересылаем")
+    # Пропускаем служебные сообщения
+    if message.text and message.text.startswith(('✅', '❌', '📝', '⚠️', 'ℹ️', '⏳', '🔒', '🔓')):
         return
     
-    # Пропускаем ответы на сообщения бота
-    bot_id = (await message.bot.get_me()).id
-    if message.reply_to_message and message.reply_to_message.from_user.id == bot_id:
-        logger.info(f"ℹ️ Ответ на сообщение бота от {user_id} — не пересылаем")
-        return
+    # Отправляем уведомление пользователю
+    await message.answer("📨 Ваше сообщение отправлено администраторам!")
     
     try:
-        await message.forward(chat_id=ADMIN_GROUP_ID)
-        await message.answer("✅ Ваше сообщение отправлено администраторам!")
-        logger.info(f"📨 Сообщение от {user_id} переслано в админ-группу")
-    except Exception as e:
-        logger.error(f"❌ Ошибка пересылки сообщения от {user_id}: {e}")
+        # Формируем текст для пересылки
+        forward_text = f"📩 <b>Сообщение от игрока:</b>\n\n{message.text}"
         
-        if "Chat not found" in str(e):
-            try:
-                await message.answer(
-                    "❌ К сожалению, администраторы временно недоступны.\n"
-                    "Попробуйте позже или свяжитесь с @Sedrikai_bot"
-                )
-            except Exception as inner_e:
-                logger.error(f"❌ Не удалось уведомить о проблеме: {inner_e}")
+        # Если включён анонимный режим — не показываем ID
+        if anonymous_mode:
+            forward_text += f"\n\n🕵️ <i>Анонимное сообщение</i>"
         else:
-            await message.answer("❌ Произошла ошибка при отправке сообщения. Попробуйте позже.")
+            user = message.from_user
+            forward_text += f"\n\n👤 <b>От:</b> {user.full_name} (@{user.username if user.username else 'без юзернейма'})"
+            forward_text += f"\n🆔 <b>ID:</b> <code>{user.id}</code>"
+        
+        # Пересылаем в админ-группу
+        await message.bot.send_message(
+            chat_id=ADMIN_GROUP_ID,
+            text=forward_text,
+            parse_mode="HTML"
+        )
+        
+        logger.info(f"📨 Сообщение от {user_id} переслано в админ-группу (анонимно: {anonymous_mode})")
+        
+    except Exception as e:
+        logger.error(f"❌ Ошибка пересылки: {e}")
+        await message.answer("❌ Произошла ошибка. Попробуйте позже.")
 
-# Исправленный синтаксис для групп
+
 @router.message(F.chat.type.in_({"group", "supergroup"}))
 async def handle_group_messages(message: Message):
     """Логирование сообщений в группах"""
