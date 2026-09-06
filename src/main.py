@@ -12,6 +12,30 @@ from database import db
 from handlers import routers
 from proxy_manager import proxy_manager
 
+# ═══════════════════════════════════════════════════════════════════
+# ⚠️  ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ О СИСТЕМЕ ПОДКЛЮЧЕНИЯ
+# ═══════════════════════════════════════════════════════════════════
+# 
+#  Данная система подключения (AiohttpSession(proxy=proxy_url))
+#  является РАБОЧЕЙ и СТАБИЛЬНОЙ.
+# 
+#  ЗАПРЕЩАЕТСЯ:
+#  1. Добавлять connector, ssl_context или другие параметры в AiohttpSession
+#  2. Использовать aiohttp.ClientSession для подмены сессии
+#  3. Менять способ создания сессии на любой другой
+# 
+#  Причина: все попытки "улучшить" подключение приводили к ошибкам:
+#  - BaseSession.__init__() got an unexpected keyword argument
+#  - SSL: CERTIFICATE_VERIFY_FAILED
+#  - ProxyConnectionError
+# 
+#  ЕСЛИ ВАМ КАЖЕТСЯ, ЧТО НУЖНО ЧТО-ТО ИЗМЕНИТЬ — 
+#  СНАЧАЛА ПРОВЕРЬТЕ РАБОТОСПОСОБНОСТЬ НА ТЕСТОВОМ БОТЕ!
+# 
+#  Рабочая версия: aiogram 2.25.1, aiohttp 3.8.5
+#  Дата проверки: 05.09.2026
+# ═══════════════════════════════════════════════════════════════════
+
 # Исправление кодировки для Windows
 if sys.platform == 'win32':
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
@@ -35,128 +59,77 @@ logger = logging.getLogger(__name__)
 # Глобальная переменная для бота
 bot = None
 RESTART_DELAY = 5
-# ✅ Храним уже использованные прокси, чтобы не возвращаться к ним
-used_proxies = set()
 
 
-def clean_proxy(proxy: str) -> str:
-    """Очищает прокси от лишних данных (дат, пробелов)"""
-    if not proxy:
-        return None
+async def create_bot_with_proxy() -> Bot:
+    """
+    Создаёт экземпляр бота с прокси.
     
-    proxy = proxy.strip()
-    
-    if '|' in proxy:
-        proxy = proxy.split('|')[0].strip()
-    
-    if ':' not in proxy:
-        return None
-    
-    parts = proxy.split(':')
-    if len(parts) >= 2:
-        try:
-            int(parts[-1])
-            return proxy
-        except ValueError:
-            return None
-    
-    return proxy
-
-
-async def create_bot_with_proxy(proxy: str = None) -> Bot:
-    """Создаёт экземпляр бота с прокси"""
-    global used_proxies
-    
+    ⚠️ НЕ МЕНЯТЬ СПОСОБ ПОДКЛЮЧЕНИЯ!
+    Используется только AiohttpSession(proxy=proxy_url).
+    Любые другие варианты (connector, ssl_context, ClientSession) — ЗАПРЕЩЕНЫ!
+    """
     if not USE_PROXY:
         logger.info("ℹ️ Прокси отключены в настройках")
         return Bot(token=BOT_TOKEN)
     
-    if proxy is None:
-        proxy_manager.proxy_dir = PROXY_DIR
-        count = proxy_manager.load_proxies()
-        
-        if count == 0:
-            logger.warning("⚠️ Нет доступных прокси, работаем без прокси")
-            return Bot(token=BOT_TOKEN)
-        
-        # ✅ Пропускаем уже использованные прокси
-        max_attempts = 20
-        attempts = 0
-        while attempts < max_attempts:
-            proxy = proxy_manager.get_next_proxy()
-            if not proxy:
-                break
-            clean = clean_proxy(proxy)
-            if clean and clean not in used_proxies:
-                break
-            attempts += 1
-            logger.info(f"⏭️ Пропускаем уже использованный прокси: {clean}")
-        
-        if not proxy:
-            logger.warning("⚠️ Не удалось найти новый прокси, работаем без прокси")
-            return Bot(token=BOT_TOKEN)
+    proxy_manager.proxy_dir = PROXY_DIR
+    count = proxy_manager.load_proxies()
     
-    clean = clean_proxy(proxy)
-    if not clean:
-        logger.warning(f"⚠️ Прокси {proxy} невалидный, пропускаем")
-        if proxy_manager.proxies:
-            proxy_manager.mark_proxy_bad(proxy)
-        return await create_bot_with_proxy()
+    if count == 0:
+        logger.warning("⚠️ Нет доступных прокси, работаем без прокси")
+        return Bot(token=BOT_TOKEN)
     
-    proxy_url = proxy_manager.format_proxy(clean)
-    logger.info(f"🌐 Используется прокси: {proxy_url}")
+    fastest_proxy = await proxy_manager.get_fastest_proxy()
     
+    if not fastest_proxy:
+        logger.warning("⚠️ Не удалось найти рабочий прокси, работаем без прокси")
+        return Bot(token=BOT_TOKEN)
+    
+    proxy_url = proxy_manager.format_proxy(fastest_proxy)
+    ping = proxy_manager.proxy_pings.get(fastest_proxy, 0)
+    logger.info(f"🌐 Используется прокси: {proxy_url} (пинг: {ping:.3f}с)")
+    
+    # ✅ ЕДИНСТВЕННОЕ РАБОЧЕЕ ПОДКЛЮЧЕНИЕ — НЕ ТРОГАТЬ!
     session = AiohttpSession(proxy=proxy_url)
     return Bot(token=BOT_TOKEN, session=session)
 
 
 async def switch_to_next_proxy():
-    """Переключается на следующий прокси"""
-    global bot, used_proxies
+    """
+    Переключается на следующий по пингу прокси.
+    
+    ⚠️ НЕ МЕНЯТЬ СПОСОБ ПОДКЛЮЧЕНИЯ!
+    """
+    global bot
     
     if not USE_PROXY:
         return False
     
     current = proxy_manager.get_current_proxy()
     if current:
-        clean = clean_proxy(current)
-        if clean:
-            used_proxies.add(clean)
-            logger.info(f"❌ Прокси {clean} добавлен в список использованных")
+        proxy_manager.mark_proxy_used(current)
         proxy_manager.mark_proxy_bad(current)
         logger.info(f"❌ Прокси {current} помечен как нерабочий")
     
-    # ✅ Пропускаем уже использованные прокси
-    max_attempts = 20
-    attempts = 0
-    next_proxy = None
-    while attempts < max_attempts:
-        next_proxy = proxy_manager.get_next_proxy()
-        if not next_proxy:
-            break
-        clean = clean_proxy(next_proxy)
-        if clean and clean not in used_proxies:
-            break
-        attempts += 1
-        logger.info(f"⏭️ Пропускаем уже использованный прокси: {clean}")
-        proxy_manager.mark_proxy_bad(next_proxy)
-    
+    next_proxy = proxy_manager.get_next_fastest_proxy()
     if not next_proxy:
-        logger.warning("⚠️ Нет доступных новых прокси, работаем без прокси")
+        logger.warning("⚠️ Нет доступных прокси, работаем без прокси")
         bot = Bot(token=BOT_TOKEN)
         return False
-    
-    clean = clean_proxy(next_proxy)
-    if not clean:
-        logger.warning(f"⚠️ Прокси {next_proxy} невалидный, пропускаем")
-        return await switch_to_next_proxy()
     
     try:
         if bot and bot.session:
             await bot.session.close()
         
-        bot = await create_bot_with_proxy(clean)
-        logger.info(f"✅ Переключено на прокси: {clean}")
+        proxy_url = proxy_manager.format_proxy(next_proxy)
+        ping = proxy_manager.proxy_pings.get(next_proxy, 0)
+        logger.info(f"🔄 Переключение на прокси: {proxy_url} (пинг: {ping:.3f}с)")
+        
+        # ✅ ЕДИНСТВЕННОЕ РАБОЧЕЕ ПОДКЛЮЧЕНИЕ — НЕ ТРОГАТЬ!
+        session = AiohttpSession(proxy=proxy_url)
+        bot = Bot(token=BOT_TOKEN, session=session)
+        logger.info(f"✅ Переключено на прокси: {next_proxy}")
         return True
         
     except Exception as e:
@@ -173,18 +146,18 @@ async def set_bot_commands():
         BotCommand(command="aboutme", description="Ваши данные"),
         BotCommand(command="members", description="Список участников"),
         BotCommand(command="roles", description="Список ролей"),
-        BotCommand(command="apply", description="Подать заявку"),
-        BotCommand(command="free", description="Освободить роль"),
-        BotCommand(command="rest", description="Подать заявку на рест"),
-        BotCommand(command="cancel_request", description="Отменить заявку"),
+        BotCommand(command="apply", description="Подать заявку (ТОЛЬКО В ЛС)"),
+        BotCommand(command="free", description="Освободить роль (ТОЛЬКО В ЛС)"),
+        BotCommand(command="rest", description="Подать заявку на рест (ТОЛЬКО В ЛС)"),
+        BotCommand(command="cancel_request", description="Отменить заявку (ТОЛЬКО В ЛС)"),
         BotCommand(command="regc", description="Подписаться на калы"),
         BotCommand(command="unregc", description="Отписаться от калов"),
+        BotCommand(command="update", description="Обновить данные / зарегистрироваться"),
     ]
     try:
         await bot.set_my_commands(commands)
         logger.info("📋 Команды бота установлены")
     except Exception as e:
-        # ✅ Игнорируем ошибку 400 Bad Request (команды уже установлены)
         if "400" in str(e):
             logger.info("📋 Команды уже установлены (пропускаем)")
         else:
@@ -221,21 +194,16 @@ async def check_rests_loop():
 
 async def run_bot():
     """Запускает бота с текущим прокси"""
-    global bot, used_proxies
+    global bot
     
-    # Создаём диспетчер один раз
     dp = Dispatcher()
     
-    # Регистрируем роутеры один раз
     for router in routers:
         dp.include_router(router)
     logger.info(f"✅ Зарегистрировано {len(routers)} роутеров")
     
     while True:
         try:
-            # ✅ Сбрасываем список использованных прокси при каждом запуске
-            used_proxies = set()
-            
             if bot is None:
                 bot = await create_bot_with_proxy()
             
@@ -244,17 +212,6 @@ async def run_bot():
             try:
                 logger.info("🔄 Начинаю поллинг...")
                 await dp.start_polling(bot, skip_updates=True)
-            except TelegramNetworkError as e:
-                logger.error(f"❌ Ошибка сети: {e}")
-                if USE_PROXY:
-                    logger.info("🔄 Пробую переключить прокси...")
-                    if await switch_to_next_proxy():
-                        logger.info("🔄 Перезапускаю поллинг...")
-                        continue
-                    else:
-                        raise
-                else:
-                    raise
             except Exception as e:
                 logger.error(f"❌ Критическая ошибка в поллинге: {e}")
                 error_msg = str(e).lower()
@@ -274,7 +231,6 @@ async def run_bot():
             logger.error(f"❌ Необработанная ошибка: {e}")
             logger.info(f"⏳ Перезапуск через {RESTART_DELAY} секунд...")
             await asyncio.sleep(RESTART_DELAY)
-            # При перезапуске создаём нового бота
             bot = None
             continue
 

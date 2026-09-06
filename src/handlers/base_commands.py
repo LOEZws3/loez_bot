@@ -5,7 +5,7 @@ from aiogram.filters import Command
 from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from config import GENERAL_CHAT_ID
 from utils.admin_utils import get_admin_rank, is_admin
-from utils.user_utils import load_users, get_users_count
+from utils.user_utils import load_users, get_users_count, get_user_by_id
 from utils.requests_utils import get_request_by_user_id, get_pending_count
 from utils.role_utils import get_taken_roles, count_taken_roles, get_user_role as get_user_role_from_roles, get_all_seasons, get_roles_by_season, load_roles_status
 from .keyboards import get_main_keyboard
@@ -22,6 +22,7 @@ ROLE_NAMES = {
     '4': 'Администрация',
     '5': 'Администрация в ресте'
 }
+
 
 @router.message(Command('start'))
 async def cmd_start(message: Message):
@@ -56,6 +57,7 @@ async def cmd_start(message: Message):
     else:
         await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
 
+
 @router.message(Command('help'))
 async def cmd_help(message: Message):
     user_id = message.from_user.id if message.from_user else None
@@ -74,12 +76,13 @@ async def cmd_help(message: Message):
         "/aboutme – ваши данные\n"
         "/members – список участников\n"
         "/roles – список ролей\n"
-        "/apply – подать заявку\n"
-        "/free – освободить роль\n"
-        "/cancel_request – отменить заявку\n"
+        "/apply – подать заявку (ТОЛЬКО В ЛС)\n"
+        "/free – освободить роль (ТОЛЬКО В ЛС)\n"
+        "/cancel_request – отменить заявку (ТОЛЬКО В ЛС)\n"
         "/unregc – отписаться от калов\n"
         "/regc – подписаться на калы\n"
-        "/rest – подать заявку на рест\n"
+        "/rest – подать заявку на рест (ТОЛЬКО В ЛС)\n"
+        "/update – обновить данные / зарегистрироваться\n"
     )
 
     if is_admin_user:
@@ -128,6 +131,7 @@ async def cmd_help(message: Message):
     else:
         await message.answer(help_text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
 
+
 @router.message(Command('about'))
 async def cmd_about(message: Message):
     user_id = message.from_user.id if message.from_user else None
@@ -148,13 +152,14 @@ async def cmd_about(message: Message):
         f"🔗 <b>Ссылка для просмотра инфо:</b>\n"
         f"👉 <a href='https://t.me/+p7g_-IQv-v5kYjgy'>Нажмите для просмотра</a>\n\n"
         f"📝 <b>Хотите вступить?</b>\n"
-        f"Подайте заявку через /apply"
+        f"Подайте заявку через /apply в личных сообщениях с ботом."
     )
 
     if message.chat.id == GENERAL_CHAT_ID:
         await message.answer(text, parse_mode="HTML", disable_web_page_preview=False)
     else:
         await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id), disable_web_page_preview=False)
+
 
 @router.message(Command('aboutme'))
 async def cmd_aboutme(message: Message):
@@ -200,9 +205,53 @@ async def cmd_aboutme(message: Message):
     else:
         await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user.id, message.chat.id))
 
+
+@router.message(Command('update'))
+async def cmd_update(message: Message):
+    """Обновить данные пользователя (перенаправляет в бота)"""
+    user = message.from_user
+    if user is None:
+        await message.answer("❌ Не удалось определить пользователя.")
+        return
+    
+    user_id = user.id
+    
+    # Проверяем, есть ли пользователь в базе
+    user_data = get_user_by_id(user_id)
+    
+    if user_data is None:
+        await message.answer(
+            "❌ Вы не зарегистрированы!\n\n"
+            "📌 Чтобы зарегистрироваться, перейдите в бота:\n"
+            f"👉 @REG_sf_BOT\n\n"
+            "И подайте заявку через команду /apply в личных сообщениях с ботом."
+        )
+        return
+    
+    user_role = get_user_role_from_roles(user_id)
+    
+    if user_role:
+        await message.answer(
+            f"👤 <b>Ваши данные:</b>\n\n"
+            f"📌 Имя: {html.escape(user_data['full_name'])}\n"
+            f"🎭 Персонаж: {html.escape(user_role)}\n\n"
+            f"✅ Вы зарегистрированы!\n"
+            f"📌 Чтобы обновить данные, перейдите в бота:\n"
+            f"👉 @REG_sf_BOT",
+            parse_mode="HTML"
+        )
+    else:
+        await message.answer(
+            f"👤 Вы зарегистрированы, но у вас нет роли!\n\n"
+            f"📌 Чтобы получить роль, перейдите в бота:\n"
+            f"👉 @REG_sf_BOT\n\n"
+            f"И подайте заявку через команду /apply в личных сообщениях с ботом.",
+            parse_mode="HTML"
+        )
+
+
 @router.message(Command('members'))
 async def cmd_members(message: Message):
-    """Показать список участников (админы — полный список, обычные — только количество)"""
     user_id = message.from_user.id if message.from_user else None
     if user_id is None:
         await message.answer("❌ Не удалось определить пользователя.")
@@ -215,13 +264,11 @@ async def cmd_members(message: Message):
 
     is_admin_user = is_admin(user_id)
 
-    # Если пользователь НЕ админ — показываем только количество
     if not is_admin_user:
         total_users = len(users)
         await message.answer(f"👥 Всего участников: {total_users}")
         return
 
-    # Для админов — полный список
     text = f"👥 <b>Список участников</b>\n"
     text += f"📅 {datetime.date.today().strftime('%d.%m.%Y')}\n"
     text += f"👥 Всего: {len(users)}\n\n"
@@ -244,6 +291,7 @@ async def cmd_members(message: Message):
             await message.answer(text, parse_mode="HTML")
         else:
             await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
+
 
 @router.message(Command('roster'))
 async def cmd_roster(message: Message):
@@ -284,6 +332,7 @@ async def cmd_roster(message: Message):
     else:
         await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
 
+
 @router.message(Command('stats'))
 async def cmd_stats(message: Message):
     user_id = message.from_user.id if message.from_user else None
@@ -308,6 +357,7 @@ async def cmd_stats(message: Message):
         await message.answer(text, parse_mode="HTML")
     else:
         await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
+
 
 @router.message(Command('roles'))
 async def cmd_roles(message: Message):
@@ -340,6 +390,7 @@ async def cmd_roles(message: Message):
         reply_markup=keyboard
     )
 
+
 @router.callback_query(F.data == "back_to_menu_from_roles")
 async def back_to_menu_from_roles(callback: CallbackQuery):
     await callback.answer()
@@ -349,6 +400,7 @@ async def back_to_menu_from_roles(callback: CallbackQuery):
         await callback.message.answer("🔙 Вы вернулись в главное меню.")
     else:
         await callback.message.answer("🔙 Вы вернулись в главное меню.", reply_markup=get_main_keyboard(user_id, callback.message.chat.id))
+
 
 @router.callback_query(F.data.startswith("roles_season_"))
 async def show_roles_by_season(callback: CallbackQuery):
@@ -397,6 +449,7 @@ async def show_roles_by_season(callback: CallbackQuery):
                 [InlineKeyboardButton(text="🔙 К сезонам", callback_data="back_to_roles_seasons")]
             ])
         )
+
 
 @router.callback_query(F.data == "back_to_roles_seasons")
 async def back_to_roles_seasons(callback: CallbackQuery):

@@ -17,7 +17,7 @@ import logging
 logger = logging.getLogger(__name__)
 router = Router()
 
-# ✅ Глобальная переменная для контроля набора (закрыт/открыт)
+# Глобальная переменная для контроля набора
 closed_mode = False
 
 
@@ -25,31 +25,39 @@ class FreeRoleStates(StatesGroup):
     waiting_confirmation = State()
 
 
+# ============================================================
+# ⚠️ КОМАНДЫ, НЕДОСТУПНЫЕ ВО ФЛУДЕ (проверка GENERAL_CHAT_ID)
+# ============================================================
+
 @router.message(Command('apply'))
 async def cmd_apply(message: Message):
-    """Подача заявки на роль"""
+    """Подача заявки на роль (НЕДОСТУПНА ВО ФЛУДЕ)"""
     global closed_mode
-
     user_id = message.from_user.id
-    user = message.from_user
-
+    
+    # ✅ Проверка: команда недоступна во флуд-чате
+    if message.chat.id == GENERAL_CHAT_ID:
+        await message.answer("⛔ Эта команда недоступна во флуд-чате. Используйте бота в личных сообщениях.")
+        logger.info(f"⛔ Команда /apply заблокирована во флуде от {user_id}")
+        return
+    
     # Проверяем, не закрыт ли набор
     if closed_mode:
         await message.answer("🔒 Набор на роли временно закрыт администрацией.")
         return
-
+    
     # Проверяем, есть ли уже активная заявка
     request = get_request_by_user_id(user_id)
     if request and request.get('status') == 'pending':
         await message.answer("⏳ У вас уже есть активная заявка. Дождитесь ответа администрации.")
         return
-
+    
     # Проверяем, не занята ли уже роль
     user_role = get_user_role_from_roles(user_id)
     if user_role:
         await message.answer(f"❌ У вас уже есть роль: <b>{html.escape(user_role)}</b>", parse_mode="HTML")
         return
-
+    
     await message.answer(
         "📝 <b>Подача заявки на роль</b>\n\n"
         "Чтобы подать заявку, напишите команду в формате:\n"
@@ -62,44 +70,52 @@ async def cmd_apply(message: Message):
 
 @router.message(Command('free'))
 async def cmd_free(message: Message, state: FSMContext):
-    """Освободить свою роль"""
+    """Освободить свою роль (НЕДОСТУПНА ВО ФЛУДЕ)"""
     user = message.from_user
+    user_id = message.from_user.id
+    
+    # ✅ Проверка: команда недоступна во флуд-чате
+    if message.chat.id == GENERAL_CHAT_ID:
+        await message.answer("⛔ Эта команда недоступна во флуд-чате. Используйте бота в личных сообщениях.")
+        logger.info(f"⛔ Команда /free заблокирована во флуде от {user_id}")
+        return
+    
     if user is None:
         await message.answer("❌ Не удалось определить пользователя.")
         return
-
+    
     user_role = get_user_role_from_roles(user.id)
     if not user_role:
         await message.answer("❌ У вас нет занятой или забронированной роли.")
         return
-
+    
     role_data = get_role_by_name(user_role)
     if not role_data:
         await message.answer("❌ Ошибка: роль не найдена.")
         return
-
+    
     status = role_data.get('status', '')
     if status not in ['занята', 'бронь']:
         await message.answer(f"❌ Роль '{html.escape(user_role)}' имеет статус '{status}'. Освобождение невозможно.")
         return
-
+    
     request = get_request_by_user_id(user.id)
     has_pending_request = request and request.get('status') == 'pending'
-
+    
     await state.update_data(role_to_free=user_role, has_pending_request=has_pending_request,
                             request_role=request.get('role') if has_pending_request else None)
     await state.set_state(FreeRoleStates.waiting_confirmation)
-
+    
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="✅ Да, освободить", callback_data="free_confirm_yes"),
          InlineKeyboardButton(text="❌ Отмена", callback_data="free_confirm_no")]
     ])
-
+    
     status_text = "забронирована" if status == 'бронь' else "занята"
     warning_text = ""
     if has_pending_request:
         warning_text = f"\n\n⚠️ <b>Внимание!</b> У вас есть активная заявка на роль '<b>{html.escape(request['role'])}</b>'.\nОна будет автоматически удалена при освобождении роли."
-
+    
     await message.answer(
         f"⚠️ <b>Вы уверены, что хотите освободить роль?</b>\n\n"
         f"📌 Роль: <b>{html.escape(user_role)}</b>\n"
@@ -117,32 +133,32 @@ async def free_confirm_yes(callback: CallbackQuery, state: FSMContext):
     data = await state.get_data()
     role_to_free = data.get('role_to_free')
     has_pending_request = data.get('has_pending_request', False)
-
+    
     if not role_to_free:
         await callback.message.edit_text("❌ Ошибка: роль не найдена. Попробуйте снова через /free.")
         await state.clear()
         return
-
+    
     current_role = get_user_role_from_roles(user_id)
     if current_role != role_to_free:
         await callback.message.edit_text(f"❌ Роль '{html.escape(role_to_free)}' уже была освобождена или изменена.",
                                          parse_mode="HTML")
         await state.clear()
         return
-
+    
     role_data = get_role_by_name(role_to_free)
     if not role_data:
         await callback.message.edit_text(f"❌ Роль '{html.escape(role_to_free)}' не найдена в системе.",
                                          parse_mode="HTML")
         await state.clear()
         return
-
+    
     status = role_data.get('status', '')
     if status not in ['занята', 'бронь']:
         await callback.message.edit_text(f"❌ Роль '{html.escape(role_to_free)}' уже свободна.", parse_mode="HTML")
         await state.clear()
         return
-
+    
     success = update_role_status(role_to_free, 'свободна', None, None, "")
     if success:
         if has_pending_request:
@@ -151,13 +167,13 @@ async def free_confirm_yes(callback: CallbackQuery, state: FSMContext):
             if len(new_requests) < len(requests):
                 save_requests(new_requests)
                 logger.info(f"🗑️ Удалена заявка пользователя {user_id} при освобождении роли")
-
+        
         try:
             await callback.bot.set_chat_member_tag(chat_id=GENERAL_CHAT_ID, user_id=user_id, tag="")
             logger.info(f"🏷️ Удалён тег у пользователя {user_id}")
         except Exception as e:
             logger.error(f"❌ Не удалось удалить тег: {e}")
-
+        
         await callback.message.edit_text(
             f"✅ <b>Роль успешно освобождена!</b>\n\n"
             f"📌 Освобожденная роль: <b>{html.escape(role_to_free)}</b>\n"
@@ -166,7 +182,7 @@ async def free_confirm_yes(callback: CallbackQuery, state: FSMContext):
             f"Теперь вы можете подать новую заявку через /apply.",
             parse_mode="HTML"
         )
-
+        
         if callback.message.chat.id == GENERAL_CHAT_ID:
             await callback.message.answer("🔙 Выберите действие:")
         else:
@@ -194,33 +210,41 @@ async def free_confirm_no(callback: CallbackQuery, state: FSMContext):
 
 @router.message(Command('cancel_request'))
 async def cmd_cancel_request(message: Message):
-    """Отмена заявки"""
+    """Отмена заявки (НЕДОСТУПНА ВО ФЛУДЕ)"""
     user = message.from_user
+    user_id = message.from_user.id
+    
+    # ✅ Проверка: команда недоступна во флуд-чате
+    if message.chat.id == GENERAL_CHAT_ID:
+        await message.answer("⛔ Эта команда недоступна во флуд-чате. Используйте бота в личных сообщениях.")
+        logger.info(f"⛔ Команда /cancel_request заблокирована во флуде от {user_id}")
+        return
+    
     if user is None:
         await message.answer("❌ Не удалось определить пользователя.")
         return
-
+    
     request = get_request_by_user_id(user.id)
     if not request:
         await message.answer("❌ У вас нет активных заявок.")
         return
-
+    
     if request.get('status') != 'pending':
         await message.answer(f"ℹ️ Ваша заявка уже {request.get('status')}.")
         return
-
+    
     role_name = request.get('role')
     if not role_name:
         await message.answer("❌ Ошибка: роль не указана в заявке.")
         return
-
+    
     role_data = get_role_by_name(role_name)
     if role_data and role_data.get('status') == 'бронь' and role_data.get('owner_id') == user.id:
         update_role_status(role_name, 'свободна', None, None, "")
         logger.info(f"🔓 Снята бронь с роли {role_name} для пользователя {user.id}")
     else:
         logger.info(f"ℹ️ Роль {role_name} уже не в брони или не принадлежит пользователю")
-
+    
     requests = load_requests()
     new_requests = [r for r in requests if not (r.get('user_id') == user.id and r.get('status') == 'pending')]
     if len(new_requests) < len(requests):

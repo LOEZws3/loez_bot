@@ -1,100 +1,100 @@
-from aiogram import Router
-from aiogram.types import ChatMemberUpdated
 import logging
-import datetime
+from aiogram import Router, F
+from aiogram.types import Message, ChatMemberUpdated
 from config import GENERAL_CHAT_ID
-from utils.user_history import save_user_history, load_user_history
-from utils.emoji_utils import get_user_emoji
-from utils.role_utils import get_user_role as get_role_from_roles
-from utils.user_utils import get_user_role as get_role_from_users
-from utils.sync_utils import sync_users_with_group
-import html
+from utils.user_utils import load_users, get_user_by_id
+from utils.role_utils import get_user_role as get_user_role_from_roles
 
 logger = logging.getLogger(__name__)
 router = Router()
 
-ROLE_NAMES = {
-    '0': 'Участник',
-    '1': 'Небезопасный клиент',
-    '2': 'Неприемлемый ник',
-    '3': 'Временный статус (рест/нью)',
-    '4': 'Администрация',
-    '5': 'Администрация в ресте'
-}
+# Словарь для хранения счётчика сообщений незарегистрированных пользователей
+user_message_counter = {}
 
 
-def get_current_datetime():
-    now = datetime.datetime.now()
-    return now.strftime("%d.%m.%Y %H:%M")
-
-
-def get_user_role_name(user_id):
-    """Получает название роли пользователя"""
-    role_index = get_role_from_roles(user_id) or get_role_from_users(user_id)
-    return ROLE_NAMES.get(role_index, 'Участник')
+@router.message(F.chat.id == GENERAL_CHAT_ID)
+async def check_user_registration(message: Message):
+    """
+    Проверяет, зарегистрирован ли пользователь.
+    Если нет — каждое 5-е сообщение напоминает о регистрации.
+    """
+    user = message.from_user
+    if user is None or user.is_bot:
+        return
+    
+    user_id = user.id
+    
+    # Проверяем, есть ли пользователь в базе
+    user_data = get_user_by_id(user_id)
+    user_role = get_user_role_from_roles(user_id)
+    
+    # Если пользователь зарегистрирован — сбрасываем счётчик и выходим
+    if user_data is not None:
+        # Если был в списке ожидания — удаляем
+        if user_id in user_message_counter:
+            del user_message_counter[user_id]
+        return
+    
+    # Увеличиваем счётчик сообщений
+    if user_id not in user_message_counter:
+        user_message_counter[user_id] = 0
+    
+    user_message_counter[user_id] += 1
+    
+    # Каждое 5-е сообщение — напоминаем
+    if user_message_counter[user_id] % 5 == 0:
+        # Проверяем, есть ли у пользователя роль (персонаж)
+        if user_role:
+            await message.answer(
+                f"👤 {user.full_name}, я вижу вас в системе, но ваши данные не обновлены!\n\n"
+                f"📌 Пожалуйста, обновите свои данные через бота:\n"
+                f"👉 @REG_sf_BOT\n\n"
+                f"Или зарегистрируйтесь через команду /apply в личных сообщениях с ботом.",
+                parse_mode="HTML"
+            )
+            logger.info(f"📨 Напоминание об обновлении данных отправлено {user_id} (сообщение #{user_message_counter[user_id]})")
+        else:
+            # Если пользователь вообще не зарегистрирован
+            await message.answer(
+                f"👋 {user.full_name}, я не вижу вас в базе участников!\n\n"
+                f"📌 Чтобы стать участником флуда, перейдите в бота:\n"
+                f"👉 @REG_sf_BOT\n\n"
+                f"И подайте заявку через команду /apply в личных сообщениях с ботом.",
+                parse_mode="HTML"
+            )
+            logger.info(f"📨 Напоминание о регистрации отправлено {user_id} (сообщение #{user_message_counter[user_id]})")
+        
+        # Сбрасываем счётчик, чтобы цикл повторялся
+        user_message_counter[user_id] = 0
 
 
 @router.chat_member()
-async def on_member_update(event: ChatMemberUpdated):
-    # Проверяем, что событие произошло в флуд-чате
+async def on_user_join(event: ChatMemberUpdated):
+    """
+    Когда пользователь заходит в чат — проверяем его регистрацию
+    """
     if event.chat.id != GENERAL_CHAT_ID:
         return
-
-    user = event.from_user
-    user_id = user.id
-    full_name = html.escape(user.full_name)
-    emoji = get_user_emoji(user_id)
-
-    # Получаем роль и персонажа
-    role_name = get_user_role_name(user_id)
-    character = get_role_from_roles(user_id) or "Неизвестно"
-
-    # ============================================================
-    # 📥 ВХОД УЧАСТНИКА
-    # ============================================================
-    if event.new_chat_member.status == 'member' and event.old_chat_member.status == 'left':
-        history = load_user_history(user_id)
-
-        # Формируем приветствие с ролью
-        if history and history.get('first_joined'):
-            # Возвращение старого участника
-            await event.bot.send_message(
-                chat_id=GENERAL_CHAT_ID,
-                text=f'<a href="tg://user?id={user_id}">{emoji}</a> Рад видеть вас снова, {full_name}! 👋\n📌 Роль: {role_name}\n📌 Персонаж: {character}',
-                parse_mode="HTML"
-            )
-        else:
-            # Новый участник
-            await event.bot.send_message(
-                chat_id=GENERAL_CHAT_ID,
-                text=f'<a href="tg://user?id={user_id}">{emoji}</a> Приветствуем, {full_name}! 🎉\n📌 Роль: {role_name}\n📌 Персонаж: {character}\n\nДобро пожаловать в наш флуд!',
-                parse_mode="HTML"
-            )
-
-        # Сохраняем историю
-        save_user_history(user_id, {
-            "first_joined": datetime.date.today().isoformat(),
-            "total_visits": history.get("total_visits", 0) + 1,
-            "emoji": emoji
-        })
-
-        # 🔄 Синхронизируем users.txt (добавляем пользователя, если его нет)
-        await sync_users_with_group(event.bot)
-
-    # ============================================================
-    # 📤 ВЫХОД УЧАСТНИКА
-    # ============================================================
-    elif event.new_chat_member.status == 'left':
-        reason = 'banned' if event.old_chat_member.status == 'kicked' else 'left'
-        save_user_history(user_id, {
-            "last_left": get_current_datetime(),
-            "left_reason": reason
-        })
-
-        if reason == 'banned':
-            logger.info(f"🚫 {full_name} забанен в {get_current_datetime()}")
-        else:
-            logger.info(f"👋 {full_name} вышел из группы")
-
-        # 🔄 Синхронизируем users.txt (удаляем пользователя, если его нет в группе)
-        await sync_users_with_group(event.bot)
+    
+    new_status = event.new_chat_member.status
+    user = event.new_chat_member.user
+    
+    # Если пользователь только что зашёл в чат
+    if new_status in ['member', 'administrator', 'creator'] and not user.is_bot:
+        # Проверяем, зарегистрирован ли он
+        user_data = get_user_by_id(user.id)
+        
+        if user_data is None:
+            # Отправляем приветственное сообщение
+            try:
+                await event.bot.send_message(
+                    user.id,
+                    f"👋 Добро пожаловать в флуд, {user.full_name}!\n\n"
+                    f"📌 Чтобы стать полноценным участником, пожалуйста, зарегистрируйтесь:\n"
+                    f"1. Перейдите в бота: @REG_sf_BOT\n"
+                    f"2. Подайте заявку через команду /apply в личных сообщениях с ботом.\n\n"
+                    f"После одобрения заявки вы получите роль и сможете полноценно участвовать в жизни флуда! 🎉"
+                )
+                logger.info(f"📨 Приветственное сообщение отправлено новому пользователю {user.id}")
+            except Exception as e:
+                logger.error(f"❌ Не удалось отправить приветствие {user.id}: {e}")
