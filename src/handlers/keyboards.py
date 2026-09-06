@@ -1,3 +1,14 @@
+# ============================================================
+# ⚠️ ВАЖНОЕ ПРАВИЛО ДЛЯ КЛАВИАТУРЫ
+# ============================================================
+# 
+# Во флуд-чате (GENERAL_CHAT_ID) клавиатура НЕ ПОКАЗЫВАЕТСЯ!
+# Все кнопки и меню должны быть доступны ТОЛЬКО в личных сообщениях с ботом.
+# 
+# Причина: во флуде бот должен отвечать только текстом,
+# без интерактивных элементов, чтобы не засорять чат.
+# ============================================================
+
 import os
 import json
 import logging
@@ -14,9 +25,17 @@ router = Router()
 
 
 def get_main_keyboard(user_id: int, chat_id: int = None):
-    """Главная клавиатура для бота"""
+    """
+    Главная клавиатура для бота.
+    
+    ⚠️ ВО ФЛУД-ЧАТЕ (GENERAL_CHAT_ID) ВОЗВРАЩАЕТ None
+    Клавиатура показывается ТОЛЬКО в личных сообщениях!
+    """
+    # ✅ Если это флуд-чат — НЕ ПОКАЗЫВАЕМ клавиатуру
+    if chat_id == GENERAL_CHAT_ID:
+        return None
+    
     admin = is_admin(user_id)
-    is_flood = (chat_id == GENERAL_CHAT_ID)
     
     buttons = []
     
@@ -70,11 +89,15 @@ def get_main_keyboard(user_id: int, chat_id: int = None):
 
 
 # ============================================================
-# ОБРАБОТЧИКИ ВСЕХ КНОПОК С ЛОГИРОВАНИЕМ
+# ОБРАБОТЧИКИ КНОПОК (ИГНОРИРУЮТСЯ ВО ФЛУДЕ)
 # ============================================================
 
 @router.message(F.text == "📋 Помощь (/help)")
 async def button_help(message: Message):
+    # ✅ Если во флуде — игнорируем
+    if message.chat.id == GENERAL_CHAT_ID:
+        return
+    
     user_id = message.from_user.id
     logger.info(f"🔄 [КНОПКА] Помощь от {user_id}")
     try:
@@ -88,6 +111,9 @@ async def button_help(message: Message):
 
 @router.message(F.text == "📝 Информация (/about)")
 async def button_about(message: Message):
+    if message.chat.id == GENERAL_CHAT_ID:
+        return
+    
     user_id = message.from_user.id
     logger.info(f"🔄 [КНОПКА] Информация от {user_id}")
     try:
@@ -101,6 +127,9 @@ async def button_about(message: Message):
 
 @router.message(F.text == "📌 Мои данные (/aboutme)")
 async def button_aboutme(message: Message):
+    if message.chat.id == GENERAL_CHAT_ID:
+        return
+    
     user_id = message.from_user.id
     logger.info(f"🔄 [КНОПКА] Мои данные от {user_id}")
     try:
@@ -114,6 +143,9 @@ async def button_aboutme(message: Message):
 
 @router.message(F.text == "📜 Список ролей (/roles)")
 async def button_roles(message: Message):
+    if message.chat.id == GENERAL_CHAT_ID:
+        return
+    
     user_id = message.from_user.id
     logger.info(f"🔄 [КНОПКА] Список ролей от {user_id}")
     try:
@@ -127,6 +159,9 @@ async def button_roles(message: Message):
 
 @router.message(F.text == "✅ Подать заявку (/apply)")
 async def button_apply(message: Message):
+    if message.chat.id == GENERAL_CHAT_ID:
+        return
+    
     user_id = message.from_user.id
     logger.info(f"🔄 [КНОПКА] Подать заявку от {user_id}")
     try:
@@ -140,6 +175,9 @@ async def button_apply(message: Message):
 
 @router.message(F.text == "🔓 Освободить роль (/free)")
 async def button_free(message: Message):
+    if message.chat.id == GENERAL_CHAT_ID:
+        return
+    
     user_id = message.from_user.id
     logger.info(f"🔄 [КНОПКА] Освободить роль от {user_id}")
     try:
@@ -153,6 +191,9 @@ async def button_free(message: Message):
 
 @router.message(F.text == "⏳ Рест (/rest)")
 async def button_rest(message: Message):
+    if message.chat.id == GENERAL_CHAT_ID:
+        return
+    
     user_id = message.from_user.id
     logger.info(f"🔄 [КНОПКА] Рест от {user_id}")
     try:
@@ -166,6 +207,9 @@ async def button_rest(message: Message):
 
 @router.message(F.text == "📋 Список участников (/members)")
 async def button_members(message: Message):
+    if message.chat.id == GENERAL_CHAT_ID:
+        return
+    
     user_id = message.from_user.id
     logger.info(f"🔄 [КНОПКА] Список участников от {user_id}")
     try:
@@ -179,6 +223,9 @@ async def button_members(message: Message):
 
 @router.message(F.text == "👥 Список админов (/admins)")
 async def button_admins(message: Message):
+    if message.chat.id == GENERAL_CHAT_ID:
+        return
+    
     user_id = message.from_user.id
     logger.info(f"🔄 [КНОПКА] Список админов от {user_id}")
     try:
@@ -192,6 +239,9 @@ async def button_admins(message: Message):
 
 @router.message(F.text == "👤 Список участников (/users)")
 async def button_users(message: Message):
+    if message.chat.id == GENERAL_CHAT_ID:
+        return
+    
     user_id = message.from_user.id
     logger.info(f"🔄 [КНОПКА] Список участников от {user_id}")
     try:
@@ -205,6 +255,9 @@ async def button_users(message: Message):
 
 @router.message(F.text == "📋 Заявки (/requests)")
 async def button_requests(message: Message):
+    if message.chat.id == GENERAL_CHAT_ID:
+        return
+    
     user_id = message.from_user.id
     logger.info(f"🔄 [КНОПКА] Заявки от {user_id}")
     try:
@@ -218,6 +271,9 @@ async def button_requests(message: Message):
 
 @router.message(F.text == "📊 Статистика (/stats)")
 async def button_stats(message: Message):
+    if message.chat.id == GENERAL_CHAT_ID:
+        return
+    
     user_id = message.from_user.id
     logger.info(f"🔄 [КНОПКА] Статистика от {user_id}")
     try:
@@ -231,6 +287,9 @@ async def button_stats(message: Message):
 
 @router.message(F.text == "📢 Кал (/call)")
 async def button_call(message: Message):
+    if message.chat.id == GENERAL_CHAT_ID:
+        return
+    
     user_id = message.from_user.id
     logger.info(f"🔄 [КНОПКА] Кал от {user_id}")
     try:
@@ -244,6 +303,9 @@ async def button_call(message: Message):
 
 @router.message(F.text == "🔊 Кал-фал (/callfal)")
 async def button_callfal(message: Message):
+    if message.chat.id == GENERAL_CHAT_ID:
+        return
+    
     user_id = message.from_user.id
     logger.info(f"🔄 [КНОПКА] Кал-фал от {user_id}")
     try:
@@ -257,6 +319,9 @@ async def button_callfal(message: Message):
 
 @router.message(F.text == "⏳ Список рестов (/restlist)")
 async def button_restlist(message: Message):
+    if message.chat.id == GENERAL_CHAT_ID:
+        return
+    
     user_id = message.from_user.id
     logger.info(f"🔄 [КНОПКА] Список рестов от {user_id}")
     try:
@@ -270,6 +335,9 @@ async def button_restlist(message: Message):
 
 @router.message(F.text == "🔕 Отписаться от калов (/unregc)")
 async def button_unregc(message: Message):
+    if message.chat.id == GENERAL_CHAT_ID:
+        return
+    
     user_id = message.from_user.id
     logger.info(f"🔄 [КНОПКА] Отписаться от калов от {user_id}")
     try:
@@ -283,6 +351,9 @@ async def button_unregc(message: Message):
 
 @router.message(F.text == "🔔 Подписаться на калы (/regc)")
 async def button_regc(message: Message):
+    if message.chat.id == GENERAL_CHAT_ID:
+        return
+    
     user_id = message.from_user.id
     logger.info(f"🔄 [КНОПКА] Подписаться на калы от {user_id}")
     try:

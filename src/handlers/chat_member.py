@@ -30,7 +30,6 @@ async def check_user_registration(message: Message):
     
     # Если пользователь зарегистрирован — сбрасываем счётчик и выходим
     if user_data is not None:
-        # Если был в списке ожидания — удаляем
         if user_id in user_message_counter:
             del user_message_counter[user_id]
         return
@@ -43,7 +42,6 @@ async def check_user_registration(message: Message):
     
     # Каждое 5-е сообщение — напоминаем
     if user_message_counter[user_id] % 5 == 0:
-        # Проверяем, есть ли у пользователя роль (персонаж)
         if user_role:
             await message.answer(
                 f"👤 {user.full_name}, я вижу вас в системе, но ваши данные не обновлены!\n\n"
@@ -54,7 +52,6 @@ async def check_user_registration(message: Message):
             )
             logger.info(f"📨 Напоминание об обновлении данных отправлено {user_id} (сообщение #{user_message_counter[user_id]})")
         else:
-            # Если пользователь вообще не зарегистрирован
             await message.answer(
                 f"👋 {user.full_name}, я не вижу вас в базе участников!\n\n"
                 f"📌 Чтобы стать участником флуда, перейдите в бота:\n"
@@ -79,13 +76,10 @@ async def on_user_join(event: ChatMemberUpdated):
     new_status = event.new_chat_member.status
     user = event.new_chat_member.user
     
-    # Если пользователь только что зашёл в чат
     if new_status in ['member', 'administrator', 'creator'] and not user.is_bot:
-        # Проверяем, зарегистрирован ли он
         user_data = get_user_by_id(user.id)
         
         if user_data is None:
-            # Отправляем приветственное сообщение
             try:
                 await event.bot.send_message(
                     user.id,
