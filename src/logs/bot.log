@@ -15701,3 +15701,462 @@ client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, i
 2026-09-06 18:26:02,622 - aiogram.event - INFO - Update id=352506430 is not handled. Duration 14 ms by bot id=8888839728
 2026-09-06 18:26:06,817 - aiogram.event - INFO - Update id=352506431 is not handled. Duration 8 ms by bot id=8888839728
 2026-09-06 18:26:07,210 - aiogram.event - INFO - Update id=352506432 is not handled. Duration 9 ms by bot id=8888839728
+2026-09-06 18:26:21,904 - aiogram.event - INFO - Update id=352506433 is not handled. Duration 14 ms by bot id=8888839728
+2026-09-06 18:26:29,381 - aiogram.event - INFO - Update id=352506434 is not handled. Duration 27 ms by bot id=8888839728
+2026-09-06 18:26:36,511 - aiogram.event - INFO - Update id=352506435 is not handled. Duration 10 ms by bot id=8888839728
+2026-09-06 18:26:52,170 - aiogram.event - INFO - Update id=352506436 is not handled. Duration 18 ms by bot id=8888839728
+2026-09-06 18:26:58,939 - aiogram.event - INFO - Update id=352506437 is not handled. Duration 234 ms by bot id=8888839728
+2026-09-06 18:27:05,073 - aiogram.event - INFO - Update id=352506438 is not handled. Duration 63 ms by bot id=8888839728
+2026-09-06 18:27:11,958 - aiogram.event - INFO - Update id=352506439 is not handled. Duration 2130 ms by bot id=8888839728
+2026-09-06 18:27:12,599 - aiogram.event - INFO - Update id=352506441 is not handled. Duration 674 ms by bot id=8888839728
+2026-09-06 18:27:12,601 - aiogram.event - INFO - Update id=352506440 is not handled. Duration 2375 ms by bot id=8888839728
+2026-09-06 18:27:19,986 - aiogram.event - INFO - Update id=352506442 is not handled. Duration 24 ms by bot id=8888839728
+2026-09-06 18:27:26,176 - aiogram.event - INFO - Update id=352506443 is not handled. Duration 71 ms by bot id=8888839728
+2026-09-06 18:27:28,337 - aiogram.event - INFO - Update id=352506444 is not handled. Duration 65 ms by bot id=8888839728
+2026-09-06 18:27:31,333 - aiogram.event - INFO - Update id=352506445 is not handled. Duration 20 ms by bot id=8888839728
+2026-09-06 18:27:31,772 - aiogram.event - INFO - Update id=352506446 is not handled. Duration 23 ms by bot id=8888839728
+2026-09-06 18:27:37,933 - aiogram.event - INFO - Update id=352506447 is not handled. Duration 10 ms by bot id=8888839728
+2026-09-06 18:27:46,820 - aiogram.event - INFO - Update id=352506448 is not handled. Duration 42 ms by bot id=8888839728
+2026-09-06 18:27:54,481 - aiogram.event - INFO - Update id=352506449 is not handled. Duration 39 ms by bot id=8888839728
+2026-09-06 18:27:55,502 - aiogram.event - INFO - Update id=352506450 is not handled. Duration 124 ms by bot id=8888839728
+2026-09-06 18:28:02,077 - aiogram.event - INFO - Update id=352506451 is not handled. Duration 15 ms by bot id=8888839728
+2026-09-06 18:28:04,641 - aiogram.event - INFO - Update id=352506452 is not handled. Duration 80 ms by bot id=8888839728
+2026-09-06 18:28:04,644 - aiogram.event - INFO - Update id=352506453 is not handled. Duration 81 ms by bot id=8888839728
+2026-09-06 18:28:05,822 - aiogram.event - INFO - Update id=352506454 is not handled. Duration 16 ms by bot id=8888839728
+2026-09-06 18:28:16,186 - aiogram.event - INFO - Update id=352506455 is not handled. Duration 60 ms by bot id=8888839728
+2026-09-06 18:28:19,467 - aiogram.event - INFO - Update id=352506456 is not handled. Duration 31 ms by bot id=8888839728
+2026-09-06 18:28:20,687 - aiogram.event - INFO - Update id=352506457 is not handled. Duration 47 ms by bot id=8888839728
+2026-09-06 18:28:26,287 - aiogram.event - INFO - Update id=352506458 is not handled. Duration 35 ms by bot id=8888839728
+2026-09-06 18:28:36,079 - aiogram.event - INFO - Update id=352506459 is not handled. Duration 18 ms by bot id=8888839728
+2026-09-06 18:28:47,961 - aiogram.event - INFO - Update id=352506460 is not handled. Duration 10 ms by bot id=8888839728
+2026-09-06 18:28:50,218 - aiogram.event - INFO - Update id=352506461 is not handled. Duration 45 ms by bot id=8888839728
+2026-09-06 18:28:59,534 - aiogram.event - INFO - Update id=352506462 is not handled. Duration 12 ms by bot id=8888839728
+2026-09-06 18:29:10,408 - aiogram.event - INFO - Update id=352506463 is not handled. Duration 10 ms by bot id=8888839728
+2026-09-06 18:29:30,717 - aiogram.event - INFO - Update id=352506464 is not handled. Duration 10 ms by bot id=8888839728
+2026-09-06 18:29:31,956 - aiogram.event - INFO - Update id=352506465 is not handled. Duration 20 ms by bot id=8888839728
+2026-09-06 18:29:36,839 - aiogram.event - INFO - Update id=352506466 is not handled. Duration 8 ms by bot id=8888839728
+2026-09-06 18:29:40,602 - aiogram.event - INFO - Update id=352506467 is not handled. Duration 24 ms by bot id=8888839728
+2026-09-06 18:30:03,294 - aiogram.event - INFO - Update id=352506468 is not handled. Duration 12 ms by bot id=8888839728
+2026-09-06 18:30:03,806 - aiogram.event - INFO - Update id=352506469 is not handled. Duration 8 ms by bot id=8888839728
+2026-09-06 18:30:07,200 - aiogram.event - INFO - Update id=352506470 is not handled. Duration 9 ms by bot id=8888839728
+2026-09-06 18:30:08,276 - aiogram.event - INFO - Update id=352506471 is not handled. Duration 8 ms by bot id=8888839728
+2026-09-06 18:30:11,101 - aiogram.event - INFO - Update id=352506472 is not handled. Duration 9 ms by bot id=8888839728
+2026-09-06 18:30:29,522 - aiogram.event - INFO - Update id=352506473 is not handled. Duration 29 ms by bot id=8888839728
+2026-09-06 18:30:36,647 - aiogram.event - INFO - Update id=352506474 is not handled. Duration 9 ms by bot id=8888839728
+2026-09-06 18:30:37,173 - aiogram.event - INFO - Update id=352506475 is not handled. Duration 11 ms by bot id=8888839728
+2026-09-06 18:30:47,960 - aiogram.event - INFO - Update id=352506476 is not handled. Duration 9 ms by bot id=8888839728
+2026-09-06 18:30:48,359 - aiogram.event - INFO - Update id=352506477 is not handled. Duration 9 ms by bot id=8888839728
+2026-09-06 18:31:07,245 - aiogram.event - INFO - Update id=352506478 is not handled. Duration 8 ms by bot id=8888839728
+2026-09-06 18:31:09,943 - aiogram.event - INFO - Update id=352506479 is not handled. Duration 14 ms by bot id=8888839728
+2026-09-06 18:31:15,266 - aiogram.event - INFO - Update id=352506480 is not handled. Duration 9 ms by bot id=8888839728
+2026-09-06 18:33:57,161 - aiogram.event - INFO - Update id=352506481 is not handled. Duration 32 ms by bot id=8888839728
+2026-09-06 18:34:29,060 - aiogram.event - INFO - Update id=352506482 is not handled. Duration 27 ms by bot id=8888839728
+2026-09-06 18:34:35,575 - aiogram.event - INFO - Update id=352506483 is not handled. Duration 11 ms by bot id=8888839728
+2026-09-06 18:35:01,175 - aiogram.event - INFO - Update id=352506484 is not handled. Duration 332 ms by bot id=8888839728
+2026-09-06 18:36:11,663 - aiogram.event - INFO - Update id=352506485 is not handled. Duration 101 ms by bot id=8888839728
+2026-09-06 18:36:21,735 - aiogram.event - INFO - Update id=352506486 is not handled. Duration 112 ms by bot id=8888839728
+2026-09-06 18:37:17,072 - aiogram.event - INFO - Update id=352506487 is not handled. Duration 8 ms by bot id=8888839728
+2026-09-06 18:37:22,111 - aiogram.event - INFO - Update id=352506488 is not handled. Duration 9 ms by bot id=8888839728
+2026-09-06 18:40:14,276 - aiogram.event - INFO - Update id=352506489 is not handled. Duration 7 ms by bot id=8888839728
+2026-09-06 18:40:30,143 - aiogram.event - INFO - Update id=352506490 is not handled. Duration 8 ms by bot id=8888839728
+2026-09-06 18:40:33,004 - aiogram.event - INFO - Update id=352506491 is not handled. Duration 8 ms by bot id=8888839728
+2026-09-06 20:09:14,631 - __main__ - INFO - ✅ Зарегистрировано 11 роутеров
+2026-09-06 20:09:14,729 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-06 20:09:14,787 - proxy_manager - INFO - 🔄 Кэш устарел, обновляем...
+2026-09-06 20:09:14,787 - proxy_manager - INFO - 🏓 Пингую 1808 прокси через Telegram API...
+2026-09-06 20:09:29,854 - proxy_manager - INFO - 📊 Прогресс: 50/1808 (прошло 15 сек)
+2026-09-06 20:09:33,543 - proxy_manager - INFO - 📊 Прогресс: 100/1808 (прошло 18 сек)
+2026-09-06 20:09:37,301 - proxy_manager - INFO - 📊 Прогресс: 150/1808 (прошло 22 сек)
+2026-09-06 20:09:41,162 - proxy_manager - INFO - 📊 Прогресс: 200/1808 (прошло 26 сек)
+2026-09-06 20:09:45,193 - proxy_manager - INFO - 📊 Прогресс: 250/1808 (прошло 30 сек)
+2026-09-06 20:09:47,683 - proxy_manager - INFO - 📊 Прогресс: 300/1808 (прошло 32 сек)
+2026-09-06 20:09:54,010 - proxy_manager - INFO - 📊 Прогресс: 350/1808 (прошло 39 сек)
+2026-09-06 20:09:58,285 - proxy_manager - INFO - 📊 Прогресс: 400/1808 (прошло 43 сек)
+2026-09-06 20:09:59,925 - asyncio - ERROR - Unclosed connection
+client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None)>
+2026-09-06 20:10:04,695 - proxy_manager - INFO - 📊 Прогресс: 450/1808 (прошло 49 сек)
+2026-09-06 20:10:12,633 - proxy_manager - INFO - 📊 Прогресс: 500/1808 (прошло 57 сек)
+2026-09-06 20:10:19,518 - proxy_manager - INFO - 📊 Прогресс: 550/1808 (прошло 64 сек)
+2026-09-06 20:10:23,818 - proxy_manager - INFO - 📊 Прогресс: 600/1808 (прошло 69 сек)
+2026-09-06 20:10:30,088 - proxy_manager - INFO - 📊 Прогресс: 650/1808 (прошло 75 сек)
+2026-09-06 20:10:36,593 - proxy_manager - INFO - 📊 Прогресс: 700/1808 (прошло 81 сек)
+2026-09-06 20:10:43,144 - proxy_manager - INFO - 📊 Прогресс: 750/1808 (прошло 88 сек)
+2026-09-06 20:10:49,443 - proxy_manager - INFO - 📊 Прогресс: 800/1808 (прошло 94 сек)
+2026-09-06 20:10:52,372 - proxy_manager - INFO - 📊 Прогресс: 850/1808 (прошло 97 сек)
+2026-09-06 20:10:56,179 - proxy_manager - INFO - 📊 Прогресс: 900/1808 (прошло 101 сек)
+2026-09-06 20:11:01,168 - proxy_manager - INFO - 📊 Прогресс: 950/1808 (прошло 106 сек)
+2026-09-06 20:11:06,543 - proxy_manager - INFO - 📊 Прогресс: 1000/1808 (прошло 111 сек)
+2026-09-06 20:11:11,746 - proxy_manager - INFO - 📊 Прогресс: 1050/1808 (прошло 116 сек)
+2026-09-06 20:11:12,988 - asyncio - ERROR - Unclosed connection
+client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None)>
+2026-09-06 20:11:18,587 - proxy_manager - INFO - 📊 Прогресс: 1100/1808 (прошло 123 сек)
+2026-09-06 20:11:26,111 - proxy_manager - INFO - 📊 Прогресс: 1150/1808 (прошло 131 сек)
+2026-09-06 20:11:33,844 - proxy_manager - INFO - 📊 Прогресс: 1200/1808 (прошло 139 сек)
+2026-09-06 20:11:39,463 - proxy_manager - INFO - 📊 Прогресс: 1250/1808 (прошло 144 сек)
+2026-09-06 20:11:44,300 - proxy_manager - INFO - 📊 Прогресс: 1300/1808 (прошло 149 сек)
+2026-09-06 20:11:49,005 - proxy_manager - INFO - 📊 Прогресс: 1350/1808 (прошло 154 сек)
+2026-09-06 20:11:55,281 - proxy_manager - INFO - 📊 Прогресс: 1400/1808 (прошло 160 сек)
+2026-09-06 20:12:01,176 - proxy_manager - INFO - 📊 Прогресс: 1450/1808 (прошло 166 сек)
+2026-09-06 20:12:05,019 - proxy_manager - INFO - 📊 Прогресс: 1500/1808 (прошло 170 сек)
+2026-09-06 20:12:08,750 - proxy_manager - INFO - 📊 Прогресс: 1550/1808 (прошло 173 сек)
+2026-09-06 20:12:09,468 - asyncio - ERROR - Unclosed connection
+client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None)>
+2026-09-06 20:12:14,201 - proxy_manager - INFO - 📊 Прогресс: 1600/1808 (прошло 179 сек)
+2026-09-06 20:12:21,293 - proxy_manager - INFO - 📊 Прогресс: 1650/1808 (прошло 186 сек)
+2026-09-06 20:12:26,482 - proxy_manager - INFO - 📊 Прогресс: 1700/1808 (прошло 191 сек)
+2026-09-06 20:12:27,052 - proxy_manager - INFO - 📊 Прогресс: 1750/1808 (прошло 192 сек)
+2026-09-06 20:12:30,874 - proxy_manager - INFO - 📊 Прогресс: 1800/1808 (прошло 196 сек)
+2026-09-06 20:12:32,878 - proxy_manager - INFO - 📊 Прогресс: 1808/1808 (прошло 198 сек)
+2026-09-06 20:12:32,928 - proxy_manager - INFO - ✅ Из 1808 прокси работают 0 (за 198 сек)
+2026-09-06 20:12:33,051 - proxy_manager - INFO - 💾 Кэш пингов сохранён (0 прокси)
+2026-09-06 20:12:33,109 - proxy_manager - WARNING - ⚠️ Нет рабочих прокси
+2026-09-06 20:12:33,112 - __main__ - WARNING - ⚠️ Не удалось найти рабочий прокси, работаем без прокси
+2026-09-06 20:12:35,699 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-06 20:12:36,599 - database - INFO - ✅ Таблицы БД созданы
+2026-09-06 20:12:36,617 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-06 20:12:36,619 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-06 20:12:57,736 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientConnectorError: Cannot connect to host api.telegram.org:443 ssl:default [Превышен таймаут семафора]
+2026-09-06 20:12:57,737 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-06 20:12:57,738 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-06 20:12:57,739 - aiogram.dispatcher - INFO - Start polling
+2026-09-06 20:13:18,788 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-06 20:13:19,054 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientConnectorError: Cannot connect to host api.telegram.org:443 ssl:default [Превышен таймаут семафора]
+2026-09-06 20:13:19,054 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-06 20:13:19,056 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientConnectorError: Cannot connect to host api.telegram.org:443 ssl:default [Превышен таймаут семафора]
+2026-09-06 20:13:19,059 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-06 20:13:24,068 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-06 20:13:24,081 - proxy_manager - INFO - 🏓 Пингую 1808 прокси через Telegram API...
+2026-09-06 20:13:33,416 - proxy_manager - INFO - 📊 Прогресс: 50/1808 (прошло 9 сек)
+2026-09-06 20:13:37,093 - proxy_manager - INFO - 📊 Прогресс: 100/1808 (прошло 13 сек)
+2026-09-06 20:13:39,698 - proxy_manager - INFO - 📊 Прогресс: 150/1808 (прошло 15 сек)
+2026-09-06 20:13:42,797 - asyncio - ERROR - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2026-09-06 20:13:44,236 - proxy_manager - INFO - 📊 Прогресс: 200/1808 (прошло 20 сек)
+2026-09-06 20:13:47,197 - proxy_manager - INFO - 📊 Прогресс: 250/1808 (прошло 23 сек)
+2026-09-06 20:13:50,682 - proxy_manager - INFO - 📊 Прогресс: 300/1808 (прошло 26 сек)
+2026-09-06 20:13:54,887 - proxy_manager - INFO - 📊 Прогресс: 350/1808 (прошло 30 сек)
+2026-09-06 20:13:59,110 - proxy_manager - INFO - 📊 Прогресс: 400/1808 (прошло 35 сек)
+2026-09-06 20:14:01,239 - proxy_manager - INFO - 📊 Прогресс: 450/1808 (прошло 37 сек)
+2026-09-06 20:14:05,493 - proxy_manager - INFO - 📊 Прогресс: 500/1808 (прошло 41 сек)
+2026-09-06 20:14:09,851 - proxy_manager - INFO - 📊 Прогресс: 550/1808 (прошло 45 сек)
+2026-09-06 20:14:19,549 - proxy_manager - INFO - 📊 Прогресс: 600/1808 (прошло 55 сек)
+2026-09-06 20:14:21,671 - proxy_manager - INFO - 📊 Прогресс: 650/1808 (прошло 57 сек)
+2026-09-06 20:14:27,664 - proxy_manager - INFO - 📊 Прогресс: 700/1808 (прошло 63 сек)
+2026-09-06 20:14:34,398 - proxy_manager - INFO - 📊 Прогресс: 750/1808 (прошло 70 сек)
+2026-09-06 20:14:40,009 - proxy_manager - INFO - 📊 Прогресс: 800/1808 (прошло 75 сек)
+2026-09-06 20:14:44,792 - proxy_manager - INFO - 📊 Прогресс: 850/1808 (прошло 80 сек)
+2026-09-06 20:14:48,533 - proxy_manager - INFO - 📊 Прогресс: 900/1808 (прошло 84 сек)
+2026-09-06 20:14:52,729 - proxy_manager - INFO - 📊 Прогресс: 950/1808 (прошло 88 сек)
+2026-09-06 20:14:58,413 - proxy_manager - INFO - 📊 Прогресс: 1000/1808 (прошло 94 сек)
+2026-09-06 20:15:02,363 - proxy_manager - INFO - 📊 Прогресс: 1050/1808 (прошло 98 сек)
+2026-09-06 20:15:06,399 - proxy_manager - INFO - 📊 Прогресс: 1100/1808 (прошло 102 сек)
+2026-09-06 20:15:10,053 - proxy_manager - INFO - 📊 Прогресс: 1150/1808 (прошло 105 сек)
+2026-09-06 20:15:13,692 - proxy_manager - INFO - 📊 Прогресс: 1200/1808 (прошло 109 сек)
+2026-09-06 20:15:16,951 - proxy_manager - INFO - 📊 Прогресс: 1250/1808 (прошло 112 сек)
+2026-09-06 20:15:21,058 - proxy_manager - INFO - 📊 Прогресс: 1300/1808 (прошло 116 сек)
+2026-09-06 20:15:24,055 - proxy_manager - INFO - 📊 Прогресс: 1350/1808 (прошло 119 сек)
+2026-09-06 20:15:28,493 - proxy_manager - INFO - 📊 Прогресс: 1400/1808 (прошло 124 сек)
+2026-09-06 20:15:32,145 - proxy_manager - INFO - 📊 Прогресс: 1450/1808 (прошло 128 сек)
+2026-09-06 20:15:36,245 - proxy_manager - INFO - 📊 Прогресс: 1500/1808 (прошло 132 сек)
+2026-09-06 20:15:39,569 - proxy_manager - INFO - 📊 Прогресс: 1550/1808 (прошло 135 сек)
+2026-09-06 20:15:41,780 - asyncio - ERROR - Unclosed connection
+client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None)>
+2026-09-06 20:15:43,659 - proxy_manager - INFO - 📊 Прогресс: 1600/1808 (прошло 139 сек)
+2026-09-06 20:15:47,604 - proxy_manager - INFO - 📊 Прогресс: 1650/1808 (прошло 143 сек)
+2026-09-06 20:15:51,270 - proxy_manager - INFO - 📊 Прогресс: 1700/1808 (прошло 147 сек)
+2026-09-06 20:15:51,878 - proxy_manager - INFO - 📊 Прогресс: 1750/1808 (прошло 147 сек)
+2026-09-06 20:15:55,887 - proxy_manager - INFO - 📊 Прогресс: 1800/1808 (прошло 151 сек)
+2026-09-06 20:15:56,883 - proxy_manager - INFO - 📊 Прогресс: 1808/1808 (прошло 152 сек)
+2026-09-06 20:15:56,885 - proxy_manager - INFO - ✅ Из 1808 прокси работают 9 (за 152 сек)
+2026-09-06 20:15:56,887 - proxy_manager - INFO - 💾 Кэш пингов сохранён (9 прокси)
+2026-09-06 20:15:56,889 - proxy_manager - INFO - 🏆 Самый быстрый прокси: 116.202.172.187:11000 (1.444с)
+2026-09-06 20:15:56,891 - proxy_manager - INFO -    • 116.202.172.187:11000: 1.444с
+2026-09-06 20:15:56,891 - proxy_manager - INFO -    • 118.179.136.153:81: 2.092с
+2026-09-06 20:15:56,892 - proxy_manager - INFO -    • 95.211.174.135:3128: 3.850с
+2026-09-06 20:15:56,893 - proxy_manager - INFO -    • 103.167.61.168:3128: 3.904с
+2026-09-06 20:15:56,894 - proxy_manager - INFO -    • 65.1.240.131:3001: 5.792с
+2026-09-06 20:15:56,895 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 116.202.172.187:11000 (1.444с)
+2026-09-06 20:15:56,896 - __main__ - INFO - 🌐 Используется прокси: http://116.202.172.187:11000 (пинг: 1.444с)
+2026-09-06 20:15:58,634 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-06 20:15:58,643 - database - INFO - ✅ Таблицы БД созданы
+2026-09-06 20:15:58,645 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-06 20:15:58,645 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-06 20:15:59,108 - __main__ - INFO - 📋 Команды бота установлены
+2026-09-06 20:15:59,108 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-06 20:15:59,110 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-06 20:15:59,113 - aiogram.dispatcher - INFO - Start polling
+2026-09-06 20:15:59,203 - aiogram.dispatcher - INFO - Run polling for bot @REG_sf_BOT id=8888839728 - 'REG_ℿλɑɱᴙ Иɕκ℘℩_flood'
+2026-09-06 20:17:09,879 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - Request timeout error
+2026-09-06 20:17:09,880 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-06 20:17:11,921 - aiogram.dispatcher - INFO - Connection established (tryings = 1, bot id = 8888839728)
+2026-09-06 20:17:12,326 - aiogram.event - INFO - Update id=352506495 is not handled. Duration 250 ms by bot id=8888839728
+2026-09-06 20:17:12,330 - aiogram.event - INFO - Update id=352506498 is not handled. Duration 241 ms by bot id=8888839728
+2026-09-06 20:17:12,340 - aiogram.event - INFO - Update id=352506503 is not handled. Duration 228 ms by bot id=8888839728
+2026-09-06 20:17:12,341 - aiogram.event - INFO - Update id=352506504 is not handled. Duration 233 ms by bot id=8888839728
+2026-09-06 20:17:12,342 - aiogram.event - INFO - Update id=352506502 is not handled. Duration 239 ms by bot id=8888839728
+2026-09-06 20:17:12,343 - aiogram.event - INFO - Update id=352506500 is not handled. Duration 251 ms by bot id=8888839728
+2026-09-06 20:17:12,345 - aiogram.event - INFO - Update id=352506499 is not handled. Duration 254 ms by bot id=8888839728
+2026-09-06 20:17:12,346 - aiogram.event - INFO - Update id=352506494 is not handled. Duration 272 ms by bot id=8888839728
+2026-09-06 20:17:12,349 - aiogram.event - INFO - Update id=352506496 is not handled. Duration 271 ms by bot id=8888839728
+2026-09-06 20:17:12,355 - aiogram.event - INFO - Update id=352506507 is not handled. Duration 241 ms by bot id=8888839728
+2026-09-06 20:17:12,360 - aiogram.event - INFO - Update id=352506492 is not handled. Duration 434 ms by bot id=8888839728
+2026-09-06 20:17:12,362 - aiogram.event - INFO - Update id=352506508 is not handled. Duration 232 ms by bot id=8888839728
+2026-09-06 20:17:12,364 - aiogram.event - INFO - Update id=352506506 is not handled. Duration 252 ms by bot id=8888839728
+2026-09-06 20:17:12,369 - aiogram.event - INFO - Update id=352506501 is not handled. Duration 271 ms by bot id=8888839728
+2026-09-06 20:17:12,379 - aiogram.event - INFO - Update id=352506511 is not handled. Duration 233 ms by bot id=8888839728
+2026-09-06 20:17:12,381 - aiogram.event - INFO - Update id=352506509 is not handled. Duration 249 ms by bot id=8888839728
+2026-09-06 20:17:12,381 - aiogram.event - INFO - Update id=352506505 is not handled. Duration 271 ms by bot id=8888839728
+2026-09-06 20:17:12,579 - aiogram.event - INFO - Update id=352506497 is handled. Duration 499 ms by bot id=8888839728
+2026-09-06 20:17:12,646 - aiogram.event - INFO - Update id=352506510 is handled. Duration 511 ms by bot id=8888839728
+2026-09-06 20:17:12,687 - aiogram.event - INFO - Update id=352506493 is handled. Duration 758 ms by bot id=8888839728
+2026-09-06 20:17:12,834 - aiogram.event - INFO - Update id=352506512 is handled. Duration 684 ms by bot id=8888839728
+2026-09-06 20:17:31,191 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ClientOSError: [WinError 121] Превышен таймаут семафора
+2026-09-06 20:17:31,191 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-06 20:17:32,600 - aiogram.dispatcher - INFO - Connection established (tryings = 1, bot id = 8888839728)
+2026-09-06 20:17:32,639 - aiogram.event - INFO - Update id=352506514 is not handled. Duration 29 ms by bot id=8888839728
+2026-09-06 20:17:32,639 - aiogram.event - INFO - Update id=352506513 is not handled. Duration 34 ms by bot id=8888839728
+2026-09-06 20:19:43,873 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - Request timeout error
+2026-09-06 20:19:43,873 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-06 20:19:45,255 - aiogram.dispatcher - INFO - Connection established (tryings = 1, bot id = 8888839728)
+2026-09-06 20:19:45,312 - aiogram.event - INFO - Update id=352506516 is not handled. Duration 39 ms by bot id=8888839728
+2026-09-06 20:19:45,312 - aiogram.event - INFO - Update id=352506515 is not handled. Duration 49 ms by bot id=8888839728
+2026-09-06 20:21:15,410 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ClientOSError: [WinError 121] Превышен таймаут семафора
+2026-09-06 20:21:15,598 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-06 20:21:26,994 - aiogram.dispatcher - INFO - Connection established (tryings = 1, bot id = 8888839728)
+2026-09-06 20:22:23,526 - aiogram.event - INFO - Update id=352506517 is not handled. Duration 18 ms by bot id=8888839728
+2026-09-06 20:22:29,156 - aiogram.event - INFO - Update id=352506518 is not handled. Duration 53 ms by bot id=8888839728
+2026-09-06 20:22:48,660 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ClientOSError: [WinError 121] Превышен таймаут семафора
+2026-09-06 20:22:48,662 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-06 20:22:50,047 - aiogram.dispatcher - INFO - Connection established (tryings = 1, bot id = 8888839728)
+2026-09-06 20:22:59,972 - aiogram.event - INFO - Update id=352506520 is not handled. Duration 42 ms by bot id=8888839728
+2026-09-06 20:30:52,163 - __main__ - INFO - ✅ Зарегистрировано 11 роутеров
+2026-09-06 20:30:52,183 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-06 20:30:52,215 - proxy_manager - INFO - 🔄 Кэш устарел, обновляем...
+2026-09-06 20:30:52,215 - proxy_manager - INFO - 🏓 Пингую 1808 прокси через Telegram API...
+2026-09-06 20:31:02,738 - proxy_manager - INFO - 📊 Прогресс: 50/1808 (прошло 10 сек)
+2026-09-06 20:31:05,788 - proxy_manager - INFO - 📊 Прогресс: 100/1808 (прошло 13 сек)
+2026-09-06 20:31:08,794 - proxy_manager - INFO - 📊 Прогресс: 150/1808 (прошло 16 сек)
+2026-09-06 20:31:13,441 - proxy_manager - INFO - 📊 Прогресс: 200/1808 (прошло 21 сек)
+2026-09-06 20:31:15,246 - proxy_manager - INFO - 📊 Прогресс: 250/1808 (прошло 23 сек)
+2026-09-06 20:31:19,020 - proxy_manager - INFO - 📊 Прогресс: 300/1808 (прошло 26 сек)
+2026-09-06 20:31:22,110 - proxy_manager - INFO - 📊 Прогресс: 350/1808 (прошло 29 сек)
+2026-09-06 20:31:25,912 - proxy_manager - INFO - 📊 Прогресс: 400/1808 (прошло 33 сек)
+2026-09-06 20:31:29,026 - proxy_manager - INFO - 📊 Прогресс: 450/1808 (прошло 36 сек)
+2026-09-06 20:31:33,515 - proxy_manager - INFO - 📊 Прогресс: 500/1808 (прошло 41 сек)
+2026-09-06 20:31:36,328 - proxy_manager - INFO - 📊 Прогресс: 550/1808 (прошло 44 сек)
+2026-09-06 20:31:39,689 - proxy_manager - INFO - 📊 Прогресс: 600/1808 (прошло 47 сек)
+2026-09-06 20:31:43,432 - proxy_manager - INFO - 📊 Прогресс: 650/1808 (прошло 51 сек)
+2026-09-06 20:31:46,580 - asyncio - ERROR - Unclosed connection
+client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None)>
+2026-09-06 20:31:47,570 - proxy_manager - INFO - 📊 Прогресс: 700/1808 (прошло 55 сек)
+2026-09-06 20:31:50,790 - proxy_manager - INFO - 📊 Прогресс: 750/1808 (прошло 58 сек)
+2026-09-06 20:31:54,296 - proxy_manager - INFO - 📊 Прогресс: 800/1808 (прошло 62 сек)
+2026-09-06 20:31:58,125 - proxy_manager - INFO - 📊 Прогресс: 850/1808 (прошло 65 сек)
+2026-09-06 20:32:01,763 - proxy_manager - INFO - 📊 Прогресс: 900/1808 (прошло 69 сек)
+2026-09-06 20:32:05,044 - proxy_manager - INFO - 📊 Прогресс: 950/1808 (прошло 72 сек)
+2026-09-06 20:32:08,665 - proxy_manager - INFO - 📊 Прогресс: 1000/1808 (прошло 76 сек)
+2026-09-06 20:32:11,619 - proxy_manager - INFO - 📊 Прогресс: 1050/1808 (прошло 79 сек)
+2026-09-06 20:32:14,715 - proxy_manager - INFO - 📊 Прогресс: 1100/1808 (прошло 82 сек)
+2026-09-06 20:32:18,840 - proxy_manager - INFO - 📊 Прогресс: 1150/1808 (прошло 86 сек)
+2026-09-06 20:32:21,990 - proxy_manager - INFO - 📊 Прогресс: 1200/1808 (прошло 89 сек)
+2026-09-06 20:32:26,288 - proxy_manager - INFO - 📊 Прогресс: 1250/1808 (прошло 94 сек)
+2026-09-06 20:32:29,341 - proxy_manager - INFO - 📊 Прогресс: 1300/1808 (прошло 97 сек)
+2026-09-06 20:32:32,915 - proxy_manager - INFO - 📊 Прогресс: 1350/1808 (прошло 100 сек)
+2026-09-06 20:32:36,055 - proxy_manager - INFO - 📊 Прогресс: 1400/1808 (прошло 103 сек)
+2026-09-06 20:32:40,191 - proxy_manager - INFO - 📊 Прогресс: 1450/1808 (прошло 107 сек)
+2026-09-06 20:32:43,042 - proxy_manager - INFO - 📊 Прогресс: 1500/1808 (прошло 110 сек)
+2026-09-06 20:32:47,320 - proxy_manager - INFO - 📊 Прогресс: 1550/1808 (прошло 115 сек)
+2026-09-06 20:32:50,602 - proxy_manager - INFO - 📊 Прогресс: 1600/1808 (прошло 118 сек)
+2026-09-06 20:32:54,922 - proxy_manager - INFO - 📊 Прогресс: 1650/1808 (прошло 122 сек)
+2026-09-06 20:32:58,484 - proxy_manager - INFO - 📊 Прогресс: 1700/1808 (прошло 126 сек)
+2026-09-06 20:32:59,884 - proxy_manager - INFO - 📊 Прогресс: 1750/1808 (прошло 127 сек)
+2026-09-06 20:33:03,870 - proxy_manager - INFO - 📊 Прогресс: 1800/1808 (прошло 131 сек)
+2026-09-06 20:33:03,871 - proxy_manager - INFO - 📊 Прогресс: 1808/1808 (прошло 131 сек)
+2026-09-06 20:33:03,875 - proxy_manager - INFO - ✅ Из 1808 прокси работают 8 (за 131 сек)
+2026-09-06 20:33:03,880 - proxy_manager - INFO - 💾 Кэш пингов сохранён (8 прокси)
+2026-09-06 20:33:03,883 - proxy_manager - INFO - 🏆 Самый быстрый прокси: 138.124.118.235:8080 (4.140с)
+2026-09-06 20:33:03,885 - proxy_manager - INFO -    • 138.124.118.235:8080: 4.140с
+2026-09-06 20:33:03,886 - proxy_manager - INFO -    • 130.110.103.245:3128: 4.571с
+2026-09-06 20:33:03,887 - proxy_manager - INFO -    • 14.251.13.20:8080: 4.854с
+2026-09-06 20:33:03,888 - proxy_manager - INFO -    • 13.203.138.32:3001: 5.061с
+2026-09-06 20:33:03,889 - proxy_manager - INFO -    • 8.215.25.3:2081: 5.127с
+2026-09-06 20:33:03,890 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 138.124.118.235:8080 (4.140с)
+2026-09-06 20:33:03,890 - __main__ - INFO - 🌐 Используется прокси: http://138.124.118.235:8080 (пинг: 4.140с)
+2026-09-06 20:33:05,113 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-06 20:33:05,151 - database - INFO - ✅ Таблицы БД созданы
+2026-09-06 20:33:05,155 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-06 20:33:05,157 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-06 20:33:05,977 - __main__ - INFO - 📋 Команды бота установлены
+2026-09-06 20:33:05,977 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-06 20:33:05,979 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-06 20:33:05,980 - aiogram.dispatcher - INFO - Start polling
+2026-09-06 20:33:06,164 - aiogram.dispatcher - INFO - Run polling for bot @REG_sf_BOT id=8888839728 - 'REG_ℿλɑɱᴙ Иɕκ℘℩_flood'
+2026-09-06 20:33:06,345 - aiogram.event - INFO - Update id=352506521 is handled. Duration 44 ms by bot id=8888839728
+2026-09-06 20:33:53,836 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-09-06 20:33:53,836 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-06 20:34:00,350 - aiogram.dispatcher - INFO - Connection established (tryings = 1, bot id = 8888839728)
+2026-09-06 20:34:00,359 - aiogram.event - INFO - Update id=352506522 is handled. Duration 7 ms by bot id=8888839728
+2026-09-06 20:34:03,678 - aiogram.event - INFO - Update id=352506523 is handled. Duration 6 ms by bot id=8888839728
+2026-09-06 20:34:07,057 - aiogram.event - INFO - Update id=352506524 is handled. Duration 7 ms by bot id=8888839728
+2026-09-06 20:34:34,283 - aiogram.event - INFO - Update id=352506525 is handled. Duration 8 ms by bot id=8888839728
+2026-09-06 20:34:47,582 - aiogram.event - INFO - Update id=352506526 is handled. Duration 9 ms by bot id=8888839728
+2026-09-06 20:34:55,044 - aiogram.event - INFO - Update id=352506527 is handled. Duration 7 ms by bot id=8888839728
+2026-09-06 20:35:06,182 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-09-06 20:35:06,182 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-06 20:35:09,638 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 138.124.118.235:8080 [Удаленный компьютер отклонил это сетевое подключение]
+2026-09-06 20:35:09,640 - aiogram.dispatcher - WARNING - Sleep for 1.387879 seconds and try again... (tryings = 1, bot id = 8888839728)
+2026-09-06 20:35:23,009 - aiogram.dispatcher - INFO - Connection established (tryings = 2, bot id = 8888839728)
+2026-09-06 20:36:03,410 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-09-06 20:36:03,411 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-06 20:36:16,467 - aiogram.dispatcher - INFO - Connection established (tryings = 1, bot id = 8888839728)
+2026-09-06 20:37:07,289 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-09-06 20:37:07,290 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-06 20:37:10,725 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 138.124.118.235:8080 [Удаленный компьютер отклонил это сетевое подключение]
+2026-09-06 20:37:10,725 - aiogram.dispatcher - WARNING - Sleep for 1.428290 seconds and try again... (tryings = 1, bot id = 8888839728)
+2026-09-06 20:37:23,568 - aiogram.dispatcher - INFO - Connection established (tryings = 2, bot id = 8888839728)
+2026-09-06 20:37:45,619 - handlers.chat_member - INFO - 📨 Напоминание об обновлении данных отправлено 6036991812 (сообщение #5)
+2026-09-06 20:37:45,620 - aiogram.event - INFO - Update id=352506528 is handled. Duration 999 ms by bot id=8888839728
+2026-09-06 20:38:05,112 - aiogram.event - INFO - Update id=352506529 is not handled. Duration 39 ms by bot id=8888839728
+2026-09-06 20:38:21,472 - aiogram.event - INFO - Update id=352506530 is handled. Duration 248 ms by bot id=8888839728
+2026-09-06 20:38:31,347 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-09-06 20:38:31,348 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-06 20:38:34,314 - aiogram.dispatcher - INFO - Connection established (tryings = 1, bot id = 8888839728)
+2026-09-06 20:38:34,324 - aiogram.event - INFO - Update id=352506531 is not handled. Duration 8 ms by bot id=8888839728
+2026-09-06 20:39:40,813 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-09-06 20:39:40,813 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-06 20:39:44,267 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 138.124.118.235:8080 [Удаленный компьютер отклонил это сетевое подключение]
+2026-09-06 20:39:44,268 - aiogram.dispatcher - WARNING - Sleep for 1.258551 seconds and try again... (tryings = 1, bot id = 8888839728)
+2026-09-06 20:39:57,529 - aiogram.dispatcher - INFO - Connection established (tryings = 2, bot id = 8888839728)
+2026-09-06 20:40:19,499 - aiogram.event - INFO - Update id=352506532 is handled. Duration 6 ms by bot id=8888839728
+2026-09-06 20:40:34,494 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-09-06 20:40:34,495 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-06 20:41:32,852 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-09-06 20:41:32,852 - aiogram.dispatcher - WARNING - Sleep for 1.329955 seconds and try again... (tryings = 1, bot id = 8888839728)
+2026-09-06 20:41:36,814 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 138.124.118.235:8080 [Удаленный компьютер отклонил это сетевое подключение]
+2026-09-06 20:41:36,818 - aiogram.dispatcher - WARNING - Sleep for 1.799485 seconds and try again... (tryings = 2, bot id = 8888839728)
+2026-09-06 20:41:39,422 - aiogram.dispatcher - INFO - Connection established (tryings = 3, bot id = 8888839728)
+2026-09-06 20:41:39,525 - handlers.keyboards - INFO - 🔄 [КНОПКА] Помощь от 8076284478
+2026-09-06 20:41:40,312 - handlers.chat_member - INFO - 📨 Напоминание об обновлении данных отправлено 8076284478 (сообщение #5)
+2026-09-06 20:41:40,313 - aiogram.event - INFO - Update id=352506533 is handled. Duration 887 ms by bot id=8888839728
+2026-09-06 20:41:40,394 - handlers.keyboards - INFO - ✅ [КНОПКА] Помощь выполнена для 8076284478
+2026-09-06 20:41:40,394 - aiogram.event - INFO - Update id=352506534 is handled. Duration 966 ms by bot id=8888839728
+2026-09-06 20:41:56,692 - aiogram.event - INFO - Update id=352506535 is handled. Duration 166 ms by bot id=8888839728
+2026-09-06 20:42:52,480 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-09-06 20:42:52,481 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-06 20:42:57,213 - aiogram.dispatcher - INFO - Connection established (tryings = 1, bot id = 8888839728)
+2026-09-06 20:42:57,224 - aiogram.event - INFO - Update id=352506536 is not handled. Duration 8 ms by bot id=8888839728
+2026-09-06 20:43:00,612 - aiogram.event - INFO - Update id=352506537 is not handled. Duration 15 ms by bot id=8888839728
+2026-09-06 20:43:09,906 - aiogram.event - INFO - Update id=352506538 is not handled. Duration 8 ms by bot id=8888839728
+2026-09-06 20:44:16,807 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-09-06 20:44:16,807 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-06 20:44:20,228 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 138.124.118.235:8080 [Удаленный компьютер отклонил это сетевое подключение]
+2026-09-06 20:44:20,229 - aiogram.dispatcher - WARNING - Sleep for 1.349161 seconds and try again... (tryings = 1, bot id = 8888839728)
+2026-09-06 20:44:33,600 - aiogram.dispatcher - INFO - Connection established (tryings = 2, bot id = 8888839728)
+2026-09-06 20:45:34,529 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-09-06 20:45:34,529 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-06 20:45:46,895 - aiogram.dispatcher - INFO - Connection established (tryings = 1, bot id = 8888839728)
+2026-09-06 20:46:27,445 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-09-06 20:46:27,446 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-06 20:46:31,037 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 138.124.118.235:8080 [Удаленный компьютер отклонил это сетевое подключение]
+2026-09-06 20:46:31,037 - aiogram.dispatcher - WARNING - Sleep for 1.212342 seconds and try again... (tryings = 1, bot id = 8888839728)
+2026-09-06 20:46:43,920 - aiogram.dispatcher - INFO - Connection established (tryings = 2, bot id = 8888839728)
+2026-09-06 20:47:28,081 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-09-06 20:47:28,081 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-06 20:47:40,539 - aiogram.dispatcher - INFO - Connection established (tryings = 1, bot id = 8888839728)
+2026-09-06 20:48:32,385 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-09-06 20:48:32,387 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-06 20:48:35,840 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 138.124.118.235:8080 [Удаленный компьютер отклонил это сетевое подключение]
+2026-09-06 20:48:35,841 - aiogram.dispatcher - WARNING - Sleep for 1.225764 seconds and try again... (tryings = 1, bot id = 8888839728)
+2026-09-06 20:48:48,980 - aiogram.dispatcher - INFO - Connection established (tryings = 2, bot id = 8888839728)
+2026-09-06 20:49:10,859 - __main__ - INFO - ✅ Зарегистрировано 11 роутеров
+2026-09-06 20:49:10,864 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-06 20:49:10,926 - proxy_manager - INFO - 🔄 Кэш устарел, обновляем...
+2026-09-06 20:49:10,926 - proxy_manager - INFO - 🏓 Пингую 1808 прокси через Telegram API...
+2026-09-06 20:49:22,144 - proxy_manager - INFO - 📊 Прогресс: 50/1808 (прошло 11 сек)
+2026-09-06 20:49:26,149 - proxy_manager - INFO - 📊 Прогресс: 100/1808 (прошло 15 сек)
+2026-09-06 20:49:30,178 - proxy_manager - INFO - 📊 Прогресс: 150/1808 (прошло 19 сек)
+2026-09-06 20:49:32,356 - proxy_manager - INFO - 📊 Прогресс: 200/1808 (прошло 21 сек)
+2026-09-06 20:49:36,420 - proxy_manager - INFO - 📊 Прогресс: 250/1808 (прошло 25 сек)
+2026-09-06 20:49:39,471 - asyncio - ERROR - Unclosed connection
+client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None)>
+2026-09-06 20:49:41,057 - proxy_manager - INFO - 📊 Прогресс: 300/1808 (прошло 30 сек)
+2026-09-06 20:49:43,779 - proxy_manager - INFO - 📊 Прогресс: 350/1808 (прошло 32 сек)
+2026-09-06 20:49:47,882 - proxy_manager - INFO - 📊 Прогресс: 400/1808 (прошло 36 сек)
+2026-09-06 20:49:52,267 - proxy_manager - INFO - 📊 Прогресс: 450/1808 (прошло 41 сек)
+2026-09-06 20:49:54,929 - proxy_manager - INFO - 📊 Прогресс: 500/1808 (прошло 44 сек)
+2026-09-06 20:49:58,600 - proxy_manager - INFO - 📊 Прогресс: 550/1808 (прошло 47 сек)
+2026-09-06 20:50:02,295 - proxy_manager - INFO - 📊 Прогресс: 600/1808 (прошло 51 сек)
+2026-09-06 20:50:04,515 - asyncio - ERROR - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2026-09-06 20:50:06,573 - proxy_manager - INFO - 📊 Прогресс: 650/1808 (прошло 55 сек)
+2026-09-06 20:50:10,795 - proxy_manager - INFO - 📊 Прогресс: 700/1808 (прошло 59 сек)
+2026-09-06 20:50:13,866 - proxy_manager - INFO - 📊 Прогресс: 750/1808 (прошло 62 сек)
+2026-09-06 20:50:17,836 - proxy_manager - INFO - 📊 Прогресс: 800/1808 (прошло 66 сек)
+2026-09-06 20:50:21,501 - proxy_manager - INFO - 📊 Прогресс: 850/1808 (прошло 70 сек)
+2026-09-06 20:50:25,373 - proxy_manager - INFO - 📊 Прогресс: 900/1808 (прошло 74 сек)
+2026-09-06 20:50:28,698 - proxy_manager - INFO - 📊 Прогресс: 950/1808 (прошло 77 сек)
+2026-09-06 20:50:31,819 - proxy_manager - INFO - 📊 Прогресс: 1000/1808 (прошло 80 сек)
+2026-09-06 20:50:35,823 - proxy_manager - INFO - 📊 Прогресс: 1050/1808 (прошло 84 сек)
+2026-09-06 20:50:40,690 - proxy_manager - INFO - 📊 Прогресс: 1100/1808 (прошло 89 сек)
+2026-09-06 20:50:45,276 - proxy_manager - INFO - 📊 Прогресс: 1150/1808 (прошло 94 сек)
+2026-09-06 20:50:47,307 - asyncio - ERROR - Unclosed connection
+client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None)>
+2026-09-06 20:50:52,151 - proxy_manager - INFO - 📊 Прогресс: 1200/1808 (прошло 101 сек)
+2026-09-06 20:50:58,894 - proxy_manager - INFO - 📊 Прогресс: 1250/1808 (прошло 107 сек)
+2026-09-06 20:51:05,882 - proxy_manager - INFO - 📊 Прогресс: 1300/1808 (прошло 114 сек)
+2026-09-06 20:51:09,622 - proxy_manager - INFO - 📊 Прогресс: 1350/1808 (прошло 118 сек)
+2026-09-06 20:51:12,817 - proxy_manager - INFO - 📊 Прогресс: 1400/1808 (прошло 121 сек)
+2026-09-06 20:51:17,908 - proxy_manager - INFO - 📊 Прогресс: 1450/1808 (прошло 126 сек)
+2026-09-06 20:51:21,510 - proxy_manager - INFO - 📊 Прогресс: 1500/1808 (прошло 130 сек)
+2026-09-06 20:51:25,132 - proxy_manager - INFO - 📊 Прогресс: 1550/1808 (прошло 134 сек)
+2026-09-06 20:51:29,225 - proxy_manager - INFO - 📊 Прогресс: 1600/1808 (прошло 138 сек)
+2026-09-06 20:51:32,970 - proxy_manager - INFO - 📊 Прогресс: 1650/1808 (прошло 142 сек)
+2026-09-06 20:51:36,509 - proxy_manager - INFO - 📊 Прогресс: 1700/1808 (прошло 145 сек)
+2026-09-06 20:51:36,899 - proxy_manager - INFO - 📊 Прогресс: 1750/1808 (прошло 145 сек)
+2026-09-06 20:51:41,540 - proxy_manager - INFO - 📊 Прогресс: 1800/1808 (прошло 150 сек)
+2026-09-06 20:51:41,876 - proxy_manager - INFO - 📊 Прогресс: 1808/1808 (прошло 150 сек)
+2026-09-06 20:51:41,877 - proxy_manager - INFO - ✅ Из 1808 прокси работают 8 (за 150 сек)
+2026-09-06 20:51:41,880 - proxy_manager - INFO - 💾 Кэш пингов сохранён (8 прокси)
+2026-09-06 20:51:41,882 - proxy_manager - INFO - 🏆 Самый быстрый прокси: 176.111.37.5:39811 (3.809с)
+2026-09-06 20:51:41,883 - proxy_manager - INFO -    • 176.111.37.5:39811: 3.809с
+2026-09-06 20:51:41,891 - proxy_manager - INFO -    • 47.250.11.111:1337: 5.612с
+2026-09-06 20:51:41,893 - proxy_manager - INFO -    • 47.250.155.254:9080: 5.625с
+2026-09-06 20:51:41,894 - proxy_manager - INFO -    • 47.250.155.254:8003: 5.626с
+2026-09-06 20:51:41,896 - proxy_manager - INFO -    • 47.250.11.111:8080: 5.630с
+2026-09-06 20:51:41,898 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 176.111.37.5:39811 (3.809с)
+2026-09-06 20:51:41,898 - __main__ - INFO - 🌐 Используется прокси: http://176.111.37.5:39811 (пинг: 3.809с)
+2026-09-06 20:51:43,053 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-06 20:51:43,064 - database - INFO - ✅ Таблицы БД созданы
+2026-09-06 20:51:43,066 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-06 20:51:43,067 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-06 20:51:43,663 - __main__ - INFO - 📋 Команды бота установлены
+2026-09-06 20:51:43,666 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-06 20:51:43,667 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-06 20:51:43,668 - aiogram.dispatcher - INFO - Start polling
+2026-09-06 20:51:43,806 - aiogram.dispatcher - INFO - Run polling for bot @REG_sf_BOT id=8888839728 - 'REG_ℿλɑɱᴙ Иɕκ℘℩_flood'
+2026-09-06 20:51:44,820 - handlers.chat_member - ERROR - ❌ Не удалось отправить приветствие 7461695159: Telegram server says - Forbidden: bot can't initiate conversation with a user
+2026-09-06 20:51:44,821 - aiogram.event - INFO - Update id=352506540 is handled. Duration 727 ms by bot id=8888839728
+2026-09-06 20:51:44,929 - aiogram.event - INFO - Update id=352506539 is handled. Duration 838 ms by bot id=8888839728
+2026-09-06 20:52:21,625 - handlers.keyboards - INFO - 🔄 [КНОПКА] Помощь от 8076284478
+2026-09-06 20:52:21,797 - handlers.keyboards - INFO - ✅ [КНОПКА] Помощь выполнена для 8076284478
+2026-09-06 20:52:21,802 - aiogram.event - INFO - Update id=352506541 is handled. Duration 192 ms by bot id=8888839728
+2026-09-06 20:52:31,477 - aiogram.event - INFO - Update id=352506542 is handled. Duration 230 ms by bot id=8888839728
+2026-09-06 20:52:36,637 - aiogram.event - INFO - Update id=352506543 is handled. Duration 188 ms by bot id=8888839728
+2026-09-06 20:55:26,611 - aiogram.event - INFO - Update id=352506544 is handled. Duration 6 ms by bot id=8888839728
+2026-09-06 20:55:34,951 - aiogram.event - INFO - Update id=352506545 is handled. Duration 7 ms by bot id=8888839728

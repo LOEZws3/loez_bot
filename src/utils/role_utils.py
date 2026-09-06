@@ -26,7 +26,6 @@ def get_all_seasons() -> list:
 
 def get_roles_by_season(season: str) -> list:
     """Возвращает список ролей из файла сезона"""
-    # ✅ ИСПРАВЛЕНО: используем os.path.join вместо /
     file_path = os.path.join(ROLES_DIR, f"{season}.txt")
     
     if not os.path.exists(file_path):
@@ -168,3 +167,20 @@ def clear_rest(role_name: str) -> bool:
         return False
     
     return update_role_status(role_name, 'занята', role.get('owner_id'), role.get('username'), "")
+
+
+# ============================================================
+# ГЛОБАЛЬНАЯ ПЕРЕМЕННАЯ ДЛЯ НАБОРА (ДОБАВЛЯЕМ)
+# ============================================================
+
+closed_mode = False
+
+def get_closed_mode() -> bool:
+    """Возвращает статус набора (закрыт/открыт)"""
+    return closed_mode
+
+def set_closed_mode(value: bool):
+    """Устанавливает статус набора"""
+    global closed_mode
+    closed_mode = value
+    logger.info(f"🔒 Набор ролей: {'закрыт' if value else 'открыт'}")
