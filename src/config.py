@@ -8,6 +8,7 @@ load_dotenv()
 # --- Базовые пути ---
 BASE_DIR = Path(__file__).parent.parent
 DATA_DIR = os.path.join(BASE_DIR, 'data')
+DATA_PATH = DATA_DIR  # Добавлено для совместимости с chat_member.py
 SRC_PATH = Path(__file__).parent
 
 # --- Токены и ID (из .env) ---
@@ -15,15 +16,15 @@ BOT_TOKEN = os.getenv('BOT_TOKEN')
 OWNER_ID = int(os.getenv('OWNER_ID', 0))
 GENERAL_CHAT_ID = int(os.getenv('GENERAL_CHAT_ID', 0))
 
-# --- ID чатов и ссылки (из .env или значения по умолчанию) ---
-ADMIN_GROUP_ID = int(os.getenv('ADMIN_GROUP_ID', 0))  # ID админ-группы
-CHAT_INVITE_LINK = os.getenv('CHAT_INVITE_LINK', 'https://t.me/joinchat/your_chat_link')  # Ссылка-приглашение
-ROLES_PER_PAGE = int(os.getenv('ROLES_PER_PAGE', 5))  # Количество ролей на страницу
+# --- ID чатов и ссылки (значения по умолчанию) ---
+ADMIN_GROUP_ID = int(os.getenv('ADMIN_GROUP_ID', 0))
+CHAT_INVITE_LINK = os.getenv('CHAT_INVITE_LINK', 'https://t.me/joinchat/your_chat_link')
+ROLES_PER_PAGE = int(os.getenv('ROLES_PER_PAGE', 5))
 
 # --- Настройки прокси ---
 USE_PROXY = os.getenv('USE_PROXY', 'false').lower() == 'true'
 PROXY_DIR = os.getenv('PROXY_DIR', os.path.join(SRC_PATH, 'proxies'))
-PROXY_ENABLED = USE_PROXY  # Для обратной совместимости
+PROXY_ENABLED = USE_PROXY
 
 # --- Остальные настройки ---
 DATABASE_PATH = os.getenv('DATABASE_PATH', os.path.join(SRC_PATH, 'bot.db'))
@@ -48,9 +49,6 @@ if not BOT_TOKEN:
 
 if not GENERAL_CHAT_ID:
     print("⚠️ ВНИМАНИЕ: GENERAL_CHAT_ID не задан в .env файле!")
-
-if not ADMIN_GROUP_ID:
-    print("⚠️ ВНИМАНИЕ: ADMIN_GROUP_ID не задан в .env файле!")
 
 # --- Создание папок ---
 def ensure_directories():
@@ -84,6 +82,7 @@ __all__ = [
     'PROXY_DIR',
     'PROXY_ENABLED',
     'DATA_DIR',
+    'DATA_PATH',  # Добавлено для chat_member.py
     'SRC_PATH',
     'DATABASE_PATH',
     'LOG_LEVEL',
