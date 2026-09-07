@@ -341,3 +341,181 @@ async def back_to_requests(callback: CallbackQuery):
         parse_mode="HTML",
         reply_markup=keyboard
     )
+    # ======================== ОБРАБОТКА РЕШЕНИЙ АДМИНОВ ========================
+
+@router.callback_query(F.data.startswith("approve_"))
+async def approve_request(callback: CallbackQuery):
+    """Одобрение заявки админом"""
+    await callback.answer()
+    
+    request_id = int(callback.data.replace("approve_", ""))
+    admin_id = callback.from_user.id
+    
+    # Проверяем, является ли пользователь админом
+    if not is_admin(admin_id):
+        await callback.message.edit_text("⛔ У вас нет прав для одобрения заявок.")
+        return
+    
+    # Получаем заявку
+    request = get_request(request_id)
+    if not request or request.get('status') != 'pending':
+        await callback.message.edit_text("❌ Заявка уже обработана или не существует.")
+        return
+    
+    # Обновляем статус заявки
+    update_request_status(request_id, "approved")
+    
+    # Обновляем статус роли
+    update_role_status(request['role'], request['season'], "occupied")
+    
+    # Добавляем пользователя в список участников
+    add_user_to_users(request['user_id'], request['role'])
+    
+    # Уведомляем пользователя
+    user_id = request['user_id']
+    try:
+        await callback.bot.send_message(
+            user_id,
+            f"✅ **Ваша заявка на роль «{request['role']}» в сезоне «{request['season']}» одобрена!**\n\n"
+            f"🎉 Поздравляем! Теперь вы участник {request['season']}.\n\n"
+            f"📌 Не забудьте проверить свои данные через /aboutme"
+        )
+    except Exception as e:
+        logger.error(f"Ошибка уведомления пользователя: {e}")
+    
+    # Обновляем сообщение для админа
+    await callback.message.edit_text(
+        f"✅ Заявка #{request_id} одобрена!\n\n"
+        f"👤 Пользователь: @{request.get('username', 'unknown')}\n"
+        f"🎭 Роль: {request['role']}\n"
+        f"📂 Сезон: {request['season']}"
+    )
+
+@router.callback_query(F.data.startswith("reject_"))
+async def reject_request(callback: CallbackQuery):
+    """Отклонение заявки админом"""
+    await callback.answer()
+    
+    request_id = int(callback.data.replace("reject_", ""))
+    admin_id = callback.from_user.id
+    
+    # Проверяем, является ли пользователь админом
+    if not is_admin(admin_id):
+        await callback.message.edit_text("⛔ У вас нет прав для отклонения заявок.")
+        return
+    
+    # Получаем заявку
+    request = get_request(request_id)
+    if not request or request.get('status') != 'pending':
+        await callback.message.edit_text("❌ Заявка уже обработана или не существует.")
+        return
+    
+    # Обновляем статус заявки
+    update_request_status(request_id, "rejected")
+    
+    # Возвращаем статус роли
+    update_role_status(request['role'], request['season'], "free")
+    
+    # Уведомляем пользователя
+    user_id = request['user_id']
+    try:
+        await callback.bot.send_message(
+            user_id,
+            f"❌ **Ваша заявка на роль «{request['role']}» в сезоне «{request['season']}» отклонена.**\n\n"
+            f"К сожалению, администратор отклонил вашу заявку.\n\n"
+            f"📌 Вы можете подать новую заявку через /apply"
+        )
+    except Exception as e:
+        logger.error(f"Ошибка уведомления пользователя: {e}")
+    
+    # Обновляем сообщение для админа
+    await callback.message.edit_text(
+        f"❌ Заявка #{request_id} отклонена.\n\n"
+        f"👤 Пользователь: @{request.get('username', 'unknown')}\n"
+        f"🎭 Роль: {request['role']}\n"
+        f"📂 Сезон: {request['season']}"
+    )
+
+# ======================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ДЛЯ ЗАЯВОК ========================
+
+def get_request(request_id: int) -> dict:
+    """Получает заявку по ID"""
+    try:
+        requests_file = os.path.join(DATA_DIR, 'system', 'requests.json')
+        if not os.path.exists(requests_file):
+            return None
+        
+        with open(requests_file, 'r', encoding='utf-8') as f:
+            requests = json.load(f)
+        
+        return requests.get(str(request_id))
+    except Exception as e:
+        logger.error(f"Ошибка получения заявки: {e}")
+        return None
+
+def update_request_status(request_id: int, status: str) -> bool:
+    """Обновляет статус заявки"""
+    try:
+        requests_file = os.path.join(DATA_DIR, 'system', 'requests.json')
+        if not os.path.exists(requests_file):
+            return False
+        
+        with open(requests_file, 'r', encoding='utf-8') as f:
+            requests = json.load(f)
+        
+        if str(request_id) in requests:
+            requests[str(request_id)]['status'] = status
+            requests[str(request_id)]['updated_at'] = datetime.now().isoformat()
+            
+            with open(requests_file, 'w', encoding='utf-8') as f:
+                json.dump(requests, f, ensure_ascii=False, indent=2)
+            
+            return True
+        
+        return False
+    except Exception as e:
+        logger.error(f"Ошибка обновления статуса заявки: {e}")
+        return False
+
+def add_user_to_users(user_id: int, role: str) -> bool:
+    """Добавляет пользователя в список участников"""
+    try:
+        users_file = os.path.join(DATA_DIR, 'users', 'users.txt')
+        if not os.path.exists(users_file):
+            with open(users_file, 'w', encoding='utf-8') as f:
+                pass
+        
+        # Проверяем, есть ли уже пользователь
+        with open(users_file, 'r', encoding='utf-8') as f:
+            for line in f:
+                if line.startswith(str(user_id) + '|'):
+                    return True
+        
+        # Получаем информацию о пользователе
+        user_info = get_user_info(user_id)
+        
+        # Добавляем пользователя
+        with open(users_file, 'a', encoding='utf-8') as f:
+            f.write(f"{user_id}|{user_info.get('username', '')}|{user_info.get('full_name', '')}|{role}|\n")
+        
+        logger.info(f"✅ Пользователь {user_id} добавлен в users.txt с ролью {role}")
+        return True
+    except Exception as e:
+        logger.error(f"Ошибка добавления пользователя: {e}")
+        return False
+
+def is_admin(user_id: int) -> bool:
+    """Проверяет, является ли пользователь администратором"""
+    try:
+        admins_file = os.path.join(DATA_DIR, 'admins', 'admins.txt')
+        if not os.path.exists(admins_file):
+            return False
+        
+        with open(admins_file, 'r', encoding='utf-8') as f:
+            for line in f:
+                if line.startswith(str(user_id) + '|'):
+                    return True
+        return False
+    except Exception as e:
+        logger.error(f"Ошибка проверки администратора: {e}")
+        return False

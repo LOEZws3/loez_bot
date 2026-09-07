@@ -1,259 +1,350 @@
-import html
-from aiogram import Router, F
-from aiogram.filters import Command
-from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
-from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import State, StatesGroup
-from config import GENERAL_CHAT_ID
-from utils.admin_utils import is_admin
-from utils.requests_utils import get_request_by_user_id, load_requests, save_requests
-from utils.role_utils import (
-    get_role_by_name, update_role_status, get_user_role as get_user_role_from_roles,
-    get_role_status, occupy_role, free_role, load_roles_status, save_roles_status
-)
-from .keyboards import get_main_keyboard
+import os
+import json
 import logging
+from datetime import datetime
+from aiogram import Router, types, F
+from aiogram.filters import Command
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
+
+from config import DATA_DIR
+from utils.role_utils import get_roles_by_season, get_seasons_list, is_role_free, update_role_status
+from utils.user_utils import get_user_info
+from handlers.keyboards import create_seasons_keyboard, create_roles_keyboard
 
 logger = logging.getLogger(__name__)
 router = Router()
 
-# Глобальная переменная для контроля набора
-closed_mode = False
-
-
-class FreeRoleStates(StatesGroup):
-    waiting_confirmation = State()
-
-
-# ============================================================
-# ⚠️ КОМАНДЫ, НЕДОСТУПНЫЕ ВО ФЛУДЕ (проверка GENERAL_CHAT_ID)
-# ============================================================
-
-@router.message(Command('apply'))
-async def cmd_apply(message: Message):
-    """Подача заявки на роль (НЕДОСТУПНА ВО ФЛУДЕ)"""
-    global closed_mode
+@router.message(Command("apply"))
+async def cmd_apply(message: types.Message):
+    """Команда /apply - открывает меню с сезонами"""
     user_id = message.from_user.id
     
-    # ✅ Проверка: команда недоступна во флуд-чате
-    if message.chat.id == GENERAL_CHAT_ID:
-        await message.answer("⛔ Эта команда недоступна во флуд-чате. Используйте бота в личных сообщениях.")
-        logger.info(f"⛔ Команда /apply заблокирована во флуде от {user_id}")
+    # Проверяем, есть ли пользователь в системе
+    if not is_user_registered(user_id):
+        await message.reply(
+            "❌ Вы не зарегистрированы в системе!\n\n"
+            "Пожалуйста, зарегистрируйтесь через команду /start."
+        )
         return
     
-    # Проверяем, не закрыт ли набор
-    if closed_mode:
-        await message.answer("🔒 Набор на роли временно закрыт администрацией.")
+    # Проверяем, есть ли у пользователя уже активная заявка
+    if has_active_request(user_id):
+        await message.reply(
+            "⏳ У вас уже есть активная заявка!\n\n"
+            "Пожалуйста, дождитесь решения администратора.\n"
+            "Если хотите отменить заявку - используйте /cancel_request."
+        )
         return
     
-    # Проверяем, есть ли уже активная заявка
-    request = get_request_by_user_id(user_id)
-    if request and request.get('status') == 'pending':
-        await message.answer("⏳ У вас уже есть активная заявка. Дождитесь ответа администрации.")
+    # Получаем список сезонов
+    seasons = get_seasons_list()
+    if not seasons:
+        await message.reply("❌ Нет доступных сезонов. Обратитесь к администратору.")
         return
     
-    # Проверяем, не занята ли уже роль
-    user_role = get_user_role_from_roles(user_id)
-    if user_role:
-        await message.answer(f"❌ У вас уже есть роль: <b>{html.escape(user_role)}</b>", parse_mode="HTML")
-        return
+    # Создаем клавиатуру с сезонами
+    keyboard = create_seasons_keyboard(seasons, "apply_season")
     
-    await message.answer(
-        "📝 <b>Подача заявки на роль</b>\n\n"
-        "Чтобы подать заявку, напишите команду в формате:\n"
-        "<code>/apply [название роли] [ваша должность]</code>\n\n"
-        "Пример: <code>/apply Ашра Повелительница теней</code>\n\n"
-        "📌 <b>Важно:</b> Убедитесь, что роль свободна. Проверить можно через /roles",
-        parse_mode="HTML"
+    await message.reply(
+        "🎭 **Выберите сезон для подачи заявки:**\n\n"
+        "📌 Доступные сезоны:",
+        reply_markup=keyboard,
+        parse_mode="Markdown"
     )
 
-
-@router.message(Command('free'))
-async def cmd_free(message: Message, state: FSMContext):
-    """Освободить свою роль (НЕДОСТУПНА ВО ФЛУДЕ)"""
-    user = message.from_user
-    user_id = message.from_user.id
-    
-    # ✅ Проверка: команда недоступна во флуд-чате
-    if message.chat.id == GENERAL_CHAT_ID:
-        await message.answer("⛔ Эта команда недоступна во флуд-чате. Используйте бота в личных сообщениях.")
-        logger.info(f"⛔ Команда /free заблокирована во флуде от {user_id}")
-        return
-    
-    if user is None:
-        await message.answer("❌ Не удалось определить пользователя.")
-        return
-    
-    user_role = get_user_role_from_roles(user.id)
-    if not user_role:
-        await message.answer("❌ У вас нет занятой или забронированной роли.")
-        return
-    
-    role_data = get_role_by_name(user_role)
-    if not role_data:
-        await message.answer("❌ Ошибка: роль не найдена.")
-        return
-    
-    status = role_data.get('status', '')
-    if status not in ['занята', 'бронь']:
-        await message.answer(f"❌ Роль '{html.escape(user_role)}' имеет статус '{status}'. Освобождение невозможно.")
-        return
-    
-    request = get_request_by_user_id(user.id)
-    has_pending_request = request and request.get('status') == 'pending'
-    
-    await state.update_data(role_to_free=user_role, has_pending_request=has_pending_request,
-                            request_role=request.get('role') if has_pending_request else None)
-    await state.set_state(FreeRoleStates.waiting_confirmation)
-    
-    keyboard = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="✅ Да, освободить", callback_data="free_confirm_yes"),
-         InlineKeyboardButton(text="❌ Отмена", callback_data="free_confirm_no")]
-    ])
-    
-    status_text = "забронирована" if status == 'бронь' else "занята"
-    warning_text = ""
-    if has_pending_request:
-        warning_text = f"\n\n⚠️ <b>Внимание!</b> У вас есть активная заявка на роль '<b>{html.escape(request['role'])}</b>'.\nОна будет автоматически удалена при освобождении роли."
-    
-    await message.answer(
-        f"⚠️ <b>Вы уверены, что хотите освободить роль?</b>\n\n"
-        f"📌 Роль: <b>{html.escape(user_role)}</b>\n"
-        f"📊 Статус: <b>{status_text}</b>{warning_text}\n\n"
-        f"После освобождения вы сможете подать новую заявку через /apply.",
-        parse_mode="HTML",
-        reply_markup=keyboard
-    )
-
-
-@router.callback_query(F.data == "free_confirm_yes")
-async def free_confirm_yes(callback: CallbackQuery, state: FSMContext):
+@router.callback_query(F.data.startswith("apply_season_"))
+async def process_season_selection(callback: CallbackQuery):
+    """Обработка выбора сезона"""
     await callback.answer()
-    user_id = callback.from_user.id
-    data = await state.get_data()
-    role_to_free = data.get('role_to_free')
-    has_pending_request = data.get('has_pending_request', False)
     
-    if not role_to_free:
-        await callback.message.edit_text("❌ Ошибка: роль не найдена. Попробуйте снова через /free.")
-        await state.clear()
-        return
+    season = callback.data.replace("apply_season_", "")
     
-    current_role = get_user_role_from_roles(user_id)
-    if current_role != role_to_free:
-        await callback.message.edit_text(f"❌ Роль '{html.escape(role_to_free)}' уже была освобождена или изменена.",
-                                         parse_mode="HTML")
-        await state.clear()
-        return
+    # Получаем роли для выбранного сезона
+    roles = get_roles_by_season(season)
     
-    role_data = get_role_by_name(role_to_free)
-    if not role_data:
-        await callback.message.edit_text(f"❌ Роль '{html.escape(role_to_free)}' не найдена в системе.",
-                                         parse_mode="HTML")
-        await state.clear()
-        return
-    
-    status = role_data.get('status', '')
-    if status not in ['занята', 'бронь']:
-        await callback.message.edit_text(f"❌ Роль '{html.escape(role_to_free)}' уже свободна.", parse_mode="HTML")
-        await state.clear()
-        return
-    
-    success = update_role_status(role_to_free, 'свободна', None, None, "")
-    if success:
-        if has_pending_request:
-            requests = load_requests()
-            new_requests = [r for r in requests if not (r.get('user_id') == user_id and r.get('status') == 'pending')]
-            if len(new_requests) < len(requests):
-                save_requests(new_requests)
-                logger.info(f"🗑️ Удалена заявка пользователя {user_id} при освобождении роли")
-        
-        try:
-            await callback.bot.set_chat_member_tag(chat_id=GENERAL_CHAT_ID, user_id=user_id, tag="")
-            logger.info(f"🏷️ Удалён тег у пользователя {user_id}")
-        except Exception as e:
-            logger.error(f"❌ Не удалось удалить тег: {e}")
-        
+    if not roles:
         await callback.message.edit_text(
-            f"✅ <b>Роль успешно освобождена!</b>\n\n"
-            f"📌 Освобожденная роль: <b>{html.escape(role_to_free)}</b>\n"
-            f"📊 Статус до освобождения: <b>{'забронирована' if status == 'бронь' else 'занята'}</b>\n"
-            f"{'🗑️ Активная заявка удалена.\n' if has_pending_request else ''}\n"
-            f"Теперь вы можете подать новую заявку через /apply.",
-            parse_mode="HTML"
+            f"❌ В сезоне **{season}** нет доступных ролей.\n\n"
+            "Пожалуйста, выберите другой сезон.",
+            reply_markup=create_seasons_keyboard(get_seasons_list(), "apply_season"),
+            parse_mode="Markdown"
+        )
+        return
+    
+    # Создаем клавиатуру с ролями
+    keyboard = create_roles_keyboard(roles, season, "apply_role")
+    
+    await callback.message.edit_text(
+        f"🎭 **Сезон: {season}**\n\n"
+        "📌 **Доступные роли:**\n"
+        "✅ — свободна\n"
+        "❌ — занята\n"
+        "⏳ — ожидает заявку\n\n"
+        "Выберите роль для подачи заявки:",
+        reply_markup=keyboard,
+        parse_mode="Markdown"
+    )
+
+@router.callback_query(F.data.startswith("apply_role_"))
+async def process_role_selection(callback: CallbackQuery):
+    """Обработка выбора роли"""
+    await callback.answer()
+    
+    try:
+        # Разбираем данные: apply_role_сезон_роль
+        data_parts = callback.data.replace("apply_role_", "").split("_", 1)
+        if len(data_parts) != 2:
+            await callback.message.edit_text("❌ Ошибка в данных. Попробуйте еще раз.")
+            return
+        
+        season, role_name = data_parts
+        user_id = callback.from_user.id
+        
+        # Проверяем, свободна ли роль
+        if not is_role_free(role_name, season):
+            await callback.message.edit_text(
+                f"❌ Роль **{role_name}** уже занята или находится в обработке.\n\n"
+                "Пожалуйста, выберите другую роль.",
+                reply_markup=create_roles_keyboard(get_roles_by_season(season), season, "apply_role"),
+                parse_mode="Markdown"
+            )
+            return
+        
+        # Создаем заявку
+        request_id = create_request(user_id, role_name, season)
+        
+        if request_id:
+            # Уведомляем админов
+            await notify_admins(callback.bot, user_id, role_name, season, request_id)
+            
+            # Обновляем статус роли
+            update_role_status(role_name, season, "pending")
+            
+            # Ответ пользователю
+            await callback.message.edit_text(
+                f"✅ **Заявка на роль «{role_name}» в сезоне «{season}» отправлена!**\n\n"
+                f"📌 Номер заявки: #{request_id}\n\n"
+                f"⏳ Пожалуйста, дождитесь решения администратора.\n"
+                f"Вы получите уведомление, когда ваша заявка будет рассмотрена.\n\n"
+                f"🗑️ Чтобы отменить заявку, используйте команду /cancel_request.",
+                parse_mode="Markdown"
+            )
+        else:
+            await callback.message.edit_text(
+                "❌ Произошла ошибка при создании заявки.\n"
+                "Пожалуйста, попробуйте позже или обратитесь к администратору."
+            )
+            
+    except Exception as e:
+        logger.error(f"Ошибка при обработке выбора роли: {e}")
+        await callback.message.edit_text(
+            "❌ Произошла ошибка. Попробуйте снова через /apply"
+        )
+
+@router.message(Command("cancel_request"))
+async def cmd_cancel_request(message: types.Message):
+    """Команда для отмены заявки"""
+    user_id = message.from_user.id
+    
+    # Проверяем, есть ли активная заявка
+    request = get_active_request(user_id)
+    if not request:
+        await message.reply(
+            "❌ У вас нет активных заявок.\n\n"
+            "Чтобы подать новую заявку, используйте /apply"
+        )
+        return
+    
+    # Отменяем заявку
+    if cancel_request(request['id']):
+        # Возвращаем статус роли
+        update_role_status(request['role'], request['season'], "free")
+        
+        await message.reply(
+            f"✅ Заявка #{request['id']} на роль «{request['role']}» отменена.\n\n"
+            "Вы можете подать новую заявку через /apply"
+        )
+    else:
+        await message.reply(
+            "❌ Ошибка при отмене заявки.\n"
+            "Пожалуйста, попробуйте позже или обратитесь к администратору."
+        )
+
+# ======================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ (используют ВАШИ данные) ========================
+
+def is_user_registered(user_id: int) -> bool:
+    """Проверяет, зарегистрирован ли пользователь"""
+    try:
+        users_file = os.path.join(DATA_DIR, 'users', 'users.txt')
+        if not os.path.exists(users_file):
+            return False
+        
+        with open(users_file, 'r', encoding='utf-8') as f:
+            for line in f:
+                if line.startswith(str(user_id) + '|'):
+                    return True
+        return False
+    except Exception as e:
+        logger.error(f"Ошибка проверки регистрации: {e}")
+        return False
+
+def has_active_request(user_id: int) -> bool:
+    """Проверяет, есть ли у пользователя активная заявка"""
+    try:
+        requests_file = os.path.join(DATA_DIR, 'system', 'requests.json')
+        if not os.path.exists(requests_file):
+            return False
+        
+        with open(requests_file, 'r', encoding='utf-8') as f:
+            requests = json.load(f)
+        
+        for req_id, req_data in requests.items():
+            if req_data.get('user_id') == user_id and req_data.get('status') == 'pending':
+                return True
+        return False
+    except Exception as e:
+        logger.error(f"Ошибка проверки заявок: {e}")
+        return False
+
+def get_active_request(user_id: int):
+    """Получает активную заявку пользователя"""
+    try:
+        requests_file = os.path.join(DATA_DIR, 'system', 'requests.json')
+        if not os.path.exists(requests_file):
+            return None
+        
+        with open(requests_file, 'r', encoding='utf-8') as f:
+            requests = json.load(f)
+        
+        for req_id, req_data in requests.items():
+            if req_data.get('user_id') == user_id and req_data.get('status') == 'pending':
+                req_data['id'] = req_id
+                return req_data
+        return None
+    except Exception as e:
+        logger.error(f"Ошибка получения заявки: {e}")
+        return None
+
+def create_request(user_id: int, role_name: str, season: str) -> int:
+    """Создает новую заявку"""
+    try:
+        requests_file = os.path.join(DATA_DIR, 'system', 'requests.json')
+        
+        # Загружаем существующие заявки
+        if os.path.exists(requests_file):
+            with open(requests_file, 'r', encoding='utf-8') as f:
+                requests = json.load(f)
+        else:
+            requests = {}
+        
+        # Генерируем ID заявки
+        request_id = max([int(r) for r in requests.keys()], default=0) + 1
+        
+        # Получаем информацию о пользователе
+        user_info = get_user_info(user_id)
+        
+        # Создаем заявку
+        requests[str(request_id)] = {
+            'user_id': user_id,
+            'username': user_info.get('username', ''),
+            'full_name': user_info.get('full_name', ''),
+            'role': role_name,
+            'season': season,
+            'status': 'pending',
+            'created_at': datetime.now().isoformat(),
+            'updated_at': datetime.now().isoformat()
+        }
+        
+        # Сохраняем
+        with open(requests_file, 'w', encoding='utf-8') as f:
+            json.dump(requests, f, ensure_ascii=False, indent=2)
+        
+        logger.info(f"✅ Создана заявка #{request_id} от {user_id} на роль {role_name} в {season}")
+        return request_id
+        
+    except Exception as e:
+        logger.error(f"Ошибка создания заявки: {e}")
+        return None
+
+def cancel_request(request_id: int) -> bool:
+    """Отменяет заявку"""
+    try:
+        requests_file = os.path.join(DATA_DIR, 'system', 'requests.json')
+        if not os.path.exists(requests_file):
+            return False
+        
+        with open(requests_file, 'r', encoding='utf-8') as f:
+            requests = json.load(f)
+        
+        if str(request_id) in requests:
+            requests[str(request_id)]['status'] = 'canceled'
+            requests[str(request_id)]['updated_at'] = datetime.now().isoformat()
+            
+            with open(requests_file, 'w', encoding='utf-8') as f:
+                json.dump(requests, f, ensure_ascii=False, indent=2)
+            
+            logger.info(f"✅ Заявка #{request_id} отменена")
+            return True
+        
+        return False
+    except Exception as e:
+        logger.error(f"Ошибка отмены заявки: {e}")
+        return False
+
+async def notify_admins(bot, user_id: int, role_name: str, season: str, request_id: int):
+    """Уведомляет администраторов о новой заявке"""
+    try:
+        # Получаем список администраторов
+        admins_file = os.path.join(DATA_DIR, 'admins', 'admins.txt')
+        if not os.path.exists(admins_file):
+            logger.warning("Файл с админами не найден")
+            return
+        
+        admins = []
+        with open(admins_file, 'r', encoding='utf-8') as f:
+            for line in f:
+                parts = line.strip().split('|')
+                if len(parts) >= 1:
+                    admins.append(int(parts[0]))
+        
+        if not admins:
+            logger.warning("Нет администраторов для уведомления")
+            return
+        
+        # Получаем информацию о пользователе
+        user_info = get_user_info(user_id)
+        user_mention = f"@{user_info['username']}" if user_info['username'] else f"[{user_info['full_name']}](tg://user?id={user_id})"
+        
+        # Создаем сообщение для админов
+        text = (
+            f"📨 **Новая заявка!**\n\n"
+            f"👤 **Пользователь:** {user_mention}\n"
+            f"🎭 **Роль:** {role_name}\n"
+            f"📂 **Сезон:** {season}\n"
+            f"🆔 **ID заявки:** #{request_id}\n\n"
+            f"⏳ Ожидает решения."
         )
         
-        if callback.message.chat.id == GENERAL_CHAT_ID:
-            await callback.message.answer("🔙 Выберите действие:")
-        else:
-            await callback.message.answer("🔙 Выберите действие:",
-                                          reply_markup=get_main_keyboard(user_id, callback.message.chat.id))
-        logger.info(f"👤 Пользователь {user_id} освободил роль {role_to_free} (была {status})")
-    else:
-        await callback.message.edit_text("❌ Ошибка при освобождении роли. Попробуйте позже.")
-    await state.clear()
-
-
-@router.callback_query(F.data == "free_confirm_no")
-async def free_confirm_no(callback: CallbackQuery, state: FSMContext):
-    await callback.answer()
-    await state.clear()
-    user_id = callback.from_user.id
-    await callback.message.edit_text("🔒 Освобождение роли отменено.", parse_mode="HTML")
-    if callback.message.chat.id == GENERAL_CHAT_ID:
-        await callback.message.answer("🔙 Выберите действие:")
-    else:
-        await callback.message.answer("🔙 Выберите действие:",
-                                      reply_markup=get_main_keyboard(user_id, callback.message.chat.id))
-    logger.info(f"👤 Пользователь {user_id} отменил освобождение роли")
-
-
-@router.message(Command('cancel_request'))
-async def cmd_cancel_request(message: Message):
-    """Отмена заявки (НЕДОСТУПНА ВО ФЛУДЕ)"""
-    user = message.from_user
-    user_id = message.from_user.id
-    
-    # ✅ Проверка: команда недоступна во флуд-чате
-    if message.chat.id == GENERAL_CHAT_ID:
-        await message.answer("⛔ Эта команда недоступна во флуд-чате. Используйте бота в личных сообщениях.")
-        logger.info(f"⛔ Команда /cancel_request заблокирована во флуде от {user_id}")
-        return
-    
-    if user is None:
-        await message.answer("❌ Не удалось определить пользователя.")
-        return
-    
-    request = get_request_by_user_id(user.id)
-    if not request:
-        await message.answer("❌ У вас нет активных заявок.")
-        return
-    
-    if request.get('status') != 'pending':
-        await message.answer(f"ℹ️ Ваша заявка уже {request.get('status')}.")
-        return
-    
-    role_name = request.get('role')
-    if not role_name:
-        await message.answer("❌ Ошибка: роль не указана в заявке.")
-        return
-    
-    role_data = get_role_by_name(role_name)
-    if role_data and role_data.get('status') == 'бронь' and role_data.get('owner_id') == user.id:
-        update_role_status(role_name, 'свободна', None, None, "")
-        logger.info(f"🔓 Снята бронь с роли {role_name} для пользователя {user.id}")
-    else:
-        logger.info(f"ℹ️ Роль {role_name} уже не в брони или не принадлежит пользователю")
-    
-    requests = load_requests()
-    new_requests = [r for r in requests if not (r.get('user_id') == user.id and r.get('status') == 'pending')]
-    if len(new_requests) < len(requests):
-        save_requests(new_requests)
-        text = f"✅ Заявка на роль '<b>{html.escape(role_name)}</b>' отменена.\n\nРоль освобождена и снова доступна для других пользователей."
-        if message.chat.id == GENERAL_CHAT_ID:
-            await message.answer(text, parse_mode="HTML")
-        else:
-            await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user.id, message.chat.id))
-        logger.info(f"👤 Пользователь {user.id} отменил заявку на роль {role_name}")
-    else:
-        await message.answer("❌ Ошибка при отмене заявки. Попробуйте позже.")
+        # Кнопки для админов
+        keyboard = InlineKeyboardMarkup(inline_keyboard=[
+            [
+                InlineKeyboardButton(text="✅ Одобрить", callback_data=f"approve_{request_id}"),
+                InlineKeyboardButton(text="❌ Отказать", callback_data=f"reject_{request_id}")
+            ]
+        ])
+        
+        # Отправляем каждому админу
+        for admin_id in admins:
+            try:
+                await bot.send_message(
+                    admin_id,
+                    text,
+                    parse_mode="Markdown",
+                    reply_markup=keyboard
+                )
+                logger.info(f"📨 Уведомление о заявке #{request_id} отправлено админу {admin_id}")
+            except Exception as e:
+                logger.error(f"Ошибка отправки админу {admin_id}: {e}")
+        
+    except Exception as e:
+        logger.error(f"Ошибка уведомления админов: {e}")

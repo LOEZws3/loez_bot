@@ -1,186 +1,453 @@
 import os
 import json
 import logging
-from config import ROLES_DIR, ROLES_STATUS_FILE
+from config import DATA_DIR
 
 logger = logging.getLogger(__name__)
 
-
-def ensure_roles_dir():
-    """Создаёт папку для ролей, если её нет"""
-    if not os.path.exists(ROLES_DIR):
-        os.makedirs(ROLES_DIR)
-        logger.info(f"📁 Создана папка ролей: {ROLES_DIR}")
-
-
-def get_all_seasons() -> list:
-    """Возвращает список всех сезонов (названия файлов без расширения)"""
-    ensure_roles_dir()
-    
-    seasons = []
-    for file in os.listdir(ROLES_DIR):
-        if file.endswith('.txt'):
-            seasons.append(file[:-4])  # Убираем .txt
-    return sorted(seasons)
-
+def get_seasons_list() -> list:
+    """
+    Возвращает список всех сезонов из roles_status.json
+    """
+    try:
+        status_file = os.path.join(DATA_DIR, 'roles_status.json')
+        if not os.path.exists(status_file):
+            logger.error(f"Файл {status_file} не найден")
+            return []
+        
+        with open(status_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        seasons = []
+        for season_data in data:
+            if season_data.get('season'):
+                seasons.append(season_data.get('season'))
+        
+        logger.debug(f"Загружены сезоны: {seasons}")
+        return seasons
+    except Exception as e:
+        logger.error(f"Ошибка получения списка сезонов: {e}")
+        return []
 
 def get_roles_by_season(season: str) -> list:
-    """Возвращает список ролей из файла сезона"""
-    file_path = os.path.join(ROLES_DIR, f"{season}.txt")
-    
-    if not os.path.exists(file_path):
-        logger.warning(f"⚠️ Файл сезона не найден: {file_path}")
-        return []
-    
+    """
+    Возвращает список ролей для указанного сезона
+    """
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
-            roles = [line.strip() for line in f if line.strip()]
-        return roles
+        status_file = os.path.join(DATA_DIR, 'roles_status.json')
+        if not os.path.exists(status_file):
+            logger.error(f"Файл {status_file} не найден")
+            return []
+        
+        with open(status_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        for season_data in data:
+            if season_data.get('season') == season:
+                roles = season_data.get('roles', [])
+                logger.debug(f"Загружены роли для {season}: {len(roles)}")
+                return roles
+        
+        logger.warning(f"Сезон {season} не найден")
+        return []
     except Exception as e:
-        logger.error(f"❌ Ошибка чтения {file_path}: {e}")
+        logger.error(f"Ошибка получения ролей для {season}: {e}")
         return []
 
-
-def load_roles_status() -> dict:
-    """Загружает статусы ролей из JSON"""
-    if not os.path.exists(ROLES_STATUS_FILE):
-        return {}
-    
+def is_role_free(role_name: str, season: str) -> bool:
+    """
+    Проверяет, свободна ли роль
+    """
     try:
-        with open(ROLES_STATUS_FILE, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except (json.JSONDecodeError, FileNotFoundError):
+        roles = get_roles_by_season(season)
+        for role in roles:
+            if role.get('name') == role_name:
+                status = role.get('status', 'occupied')
+                is_free = status == 'free'
+                logger.debug(f"Роль {role_name} в {season}: статус {status}, свободна: {is_free}")
+                return is_free
+        
+        logger.warning(f"Роль {role_name} не найдена в {season}")
+        return False
+    except Exception as e:
+        logger.error(f"Ошибка проверки статуса роли {role_name} в {season}: {e}")
+        return False
+
+def update_role_status(role_name: str, season: str, status: str):
+    """
+    Обновляет статус роли (free/pending/occupied)
+    """
+    try:
+        status_file = os.path.join(DATA_DIR, 'roles_status.json')
+        if not os.path.exists(status_file):
+            logger.error(f"Файл {status_file} не найден")
+            return False
+        
+        # Читаем текущие данные
+        with open(status_file, 'r', encoding='utf-8') as f:
+            roles_data = json.load(f)
+        
+        # Обновляем статус роли
+        role_found = False
+        for season_data in roles_data:
+            if season_data.get('season') == season:
+                for role in season_data.get('roles', []):
+                    if role.get('name') == role_name:
+                        old_status = role.get('status', 'unknown')
+                        role['status'] = status
+                        role_found = True
+                        logger.info(f"Статус роли {role_name} в {season} изменен: {old_status} -> {status}")
+                        break
+                break
+        
+        if not role_found:
+            logger.warning(f"Роль {role_name} не найдена в {season} для обновления статуса")
+            return False
+        
+        # Сохраняем обновленные данные
+        with open(status_file, 'w', encoding='utf-8') as f:
+            json.dump(roles_data, f, ensure_ascii=False, indent=2)
+        
+        logger.info(f"✅ Статус роли {role_name} в {season} обновлен на {status}")
+        return True
+        
+    except Exception as e:
+        logger.error(f"Ошибка обновления статуса роли {role_name} в {season}: {e}")
+        return False
+
+def get_role_info(role_name: str, season: str) -> dict:
+    """
+    Получает полную информацию о роли
+    """
+    try:
+        roles = get_roles_by_season(season)
+        for role in roles:
+            if role.get('name') == role_name:
+                logger.debug(f"Найдена роль {role_name} в {season}: {role}")
+                return role
+        
+        logger.warning(f"Роль {role_name} не найдена в {season}")
+        return None
+    except Exception as e:
+        logger.error(f"Ошибка получения информации о роли {role_name} в {season}: {e}")
+        return None
+
+def get_all_roles() -> dict:
+    """
+    Возвращает все роли из всех сезонов в виде словаря {сезон: [роли]}
+    """
+    try:
+        status_file = os.path.join(DATA_DIR, 'roles_status.json')
+        if not os.path.exists(status_file):
+            logger.error(f"Файл {status_file} не найден")
+            return {}
+        
+        with open(status_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        result = {}
+        for season_data in data:
+            season = season_data.get('season')
+            roles = season_data.get('roles', [])
+            if season:
+                result[season] = roles
+        
+        logger.debug(f"Загружены все роли: {len(result)} сезонов")
+        return result
+    except Exception as e:
+        logger.error(f"Ошибка получения всех ролей: {e}")
         return {}
 
+def get_role_status(role_name: str, season: str) -> str:
+    """
+    Возвращает статус роли (free/pending/occupied)
+    """
+    try:
+        role_info = get_role_info(role_name, season)
+        if role_info:
+            return role_info.get('status', 'unknown')
+        return 'unknown'
+    except Exception as e:
+        logger.error(f"Ошибка получения статуса роли {role_name} в {season}: {e}")
+        return 'unknown'
 
-def save_roles_status(status: dict):
-    """Сохраняет статусы ролей в JSON"""
-    os.makedirs(os.path.dirname(ROLES_STATUS_FILE), exist_ok=True)
-    with open(ROLES_STATUS_FILE, 'w', encoding='utf-8') as f:
-        json.dump(status, f, indent=4, ensure_ascii=False)
+def get_free_roles_by_season(season: str) -> list:
+    """
+    Возвращает список свободных ролей в сезоне
+    """
+    try:
+        roles = get_roles_by_season(season)
+        free_roles = [role for role in roles if role.get('status') == 'free']
+        logger.debug(f"Свободные роли в {season}: {len(free_roles)}")
+        return free_roles
+    except Exception as e:
+        logger.error(f"Ошибка получения свободных ролей в {season}: {e}")
+        return []
 
+def get_occupied_roles_by_season(season: str) -> list:
+    """
+    Возвращает список занятых ролей в сезоне
+    """
+    try:
+        roles = get_roles_by_season(season)
+        occupied_roles = [role for role in roles if role.get('status') == 'occupied']
+        logger.debug(f"Занятые роли в {season}: {len(occupied_roles)}")
+        return occupied_roles
+    except Exception as e:
+        logger.error(f"Ошибка получения занятых ролей в {season}: {e}")
+        return []
 
-def get_role_status(role_name: str) -> dict:
-    """Возвращает статус конкретной роли"""
-    status = load_roles_status()
-    return status.get(role_name, {})
+def get_pending_roles_by_season(season: str) -> list:
+    """
+    Возвращает список ролей в ожидании в сезоне
+    """
+    try:
+        roles = get_roles_by_season(season)
+        pending_roles = [role for role in roles if role.get('status') == 'pending']
+        logger.debug(f"Роли в ожидании в {season}: {len(pending_roles)}")
+        return pending_roles
+    except Exception as e:
+        logger.error(f"Ошибка получения ролей в ожидании в {season}: {e}")
+        return []
 
+def get_role_description(role_name: str, season: str) -> str:
+    """
+    Возвращает описание роли
+    """
+    try:
+        role_info = get_role_info(role_name, season)
+        if role_info:
+            return role_info.get('description', 'Описание отсутствует')
+        return 'Описание отсутствует'
+    except Exception as e:
+        logger.error(f"Ошибка получения описания роли {role_name} в {season}: {e}")
+        return 'Описание отсутствует'
 
-def get_role_by_name(role_name: str) -> dict:
-    """Возвращает данные роли по имени"""
-    status = load_roles_status()
-    return status.get(role_name, {})
+def get_role_requirements(role_name: str, season: str) -> list:
+    """
+    Возвращает требования к роли
+    """
+    try:
+        role_info = get_role_info(role_name, season)
+        if role_info:
+            return role_info.get('requirements', [])
+        return []
+    except Exception as e:
+        logger.error(f"Ошибка получения требований роли {role_name} в {season}: {e}")
+        return []
 
+def count_roles_by_season(season: str) -> int:
+    """
+    Возвращает количество ролей в сезоне
+    """
+    try:
+        roles = get_roles_by_season(season)
+        return len(roles)
+    except Exception as e:
+        logger.error(f"Ошибка подсчета ролей в {season}: {e}")
+        return 0
 
-def update_role_status(role_name: str, status: str, owner_id: int = None, username: str = None, extra: str = "") -> bool:
-    """Обновляет статус роли"""
-    roles = load_roles_status()
-    
-    if role_name not in roles:
-        roles[role_name] = {}
-    
-    roles[role_name]['status'] = status
-    roles[role_name]['owner_id'] = owner_id
-    roles[role_name]['username'] = username
-    roles[role_name]['extra'] = extra or ""
-    
-    save_roles_status(roles)
-    return True
+def count_free_roles_by_season(season: str) -> int:
+    """
+    Возвращает количество свободных ролей в сезоне
+    """
+    try:
+        free_roles = get_free_roles_by_season(season)
+        return len(free_roles)
+    except Exception as e:
+        logger.error(f"Ошибка подсчета свободных ролей в {season}: {e}")
+        return 0
 
+def count_occupied_roles_by_season(season: str) -> int:
+    """
+    Возвращает количество занятых ролей в сезоне
+    """
+    try:
+        occupied_roles = get_occupied_roles_by_season(season)
+        return len(occupied_roles)
+    except Exception as e:
+        logger.error(f"Ошибка подсчета занятых ролей в {season}: {e}")
+        return 0
 
-def get_user_role(user_id: int) -> str:
-    """Возвращает имя роли, которую занимает пользователь"""
-    roles = load_roles_status()
-    for role_name, data in roles.items():
-        if data.get('owner_id') == user_id:
-            return role_name
-    return None
+def count_pending_roles_by_season(season: str) -> int:
+    """
+    Возвращает количество ролей в ожидании в сезоне
+    """
+    try:
+        pending_roles = get_pending_roles_by_season(season)
+        return len(pending_roles)
+    except Exception as e:
+        logger.error(f"Ошибка подсчета ролей в ожидании в {season}: {e}")
+        return 0
 
+def get_season_stats(season: str) -> dict:
+    """
+    Возвращает статистику по сезону
+    """
+    try:
+        total = count_roles_by_season(season)
+        free = count_free_roles_by_season(season)
+        occupied = count_occupied_roles_by_season(season)
+        pending = count_pending_roles_by_season(season)
+        
+        stats = {
+            'season': season,
+            'total': total,
+            'free': free,
+            'occupied': occupied,
+            'pending': pending,
+            'free_percent': round((free / total * 100) if total > 0 else 0, 1)
+        }
+        
+        logger.debug(f"Статистика по {season}: {stats}")
+        return stats
+    except Exception as e:
+        logger.error(f"Ошибка получения статистики по {season}: {e}")
+        return {
+            'season': season,
+            'total': 0,
+            'free': 0,
+            'occupied': 0,
+            'pending': 0,
+            'free_percent': 0
+        }
 
-def get_taken_roles() -> list:
-    """Возвращает список занятых ролей"""
-    roles = load_roles_status()
-    taken = []
-    for role_name, data in roles.items():
-        if data.get('status') in ['занята', 'бронь'] and data.get('owner_id'):
-            taken.append(role_name)
-    return taken
+def get_all_seasons_stats() -> dict:
+    """
+    Возвращает статистику по всем сезонам
+    """
+    try:
+        seasons = get_seasons_list()
+        stats = {}
+        for season in seasons:
+            stats[season] = get_season_stats(season)
+        
+        logger.debug(f"Статистика по всем сезонам: {len(stats)} сезонов")
+        return stats
+    except Exception as e:
+        logger.error(f"Ошибка получения статистики по всем сезонам: {e}")
+        return {}
 
-
-def get_role_stats() -> dict:
-    """Возвращает статистику по ролям (словарь {статус: количество})"""
-    roles = load_roles_status()
-    stats = {
-        'свободна': 0,
-        'занята': 0,
-        'бронь': 0,
-        'рест': 0
-    }
-    for data in roles.values():
-        status = data.get('status', 'свободна')
-        if status in stats:
-            stats[status] += 1
-        else:
-            stats['свободна'] += 1
-    return stats
-
-
-def count_taken_roles() -> int:
-    """Возвращает количество занятых ролей"""
-    return len(get_taken_roles())
-
-
-def occupy_role(role_name: str, user_id: int, username: str) -> bool:
-    """Занимает роль пользователем"""
-    role = get_role_by_name(role_name)
-    if not role or role.get('status') != 'свободна':
+def validate_role_status(role_name: str, season: str) -> bool:
+    """
+    Проверяет, валидный ли статус у роли
+    """
+    try:
+        valid_statuses = ['free', 'occupied', 'pending']
+        status = get_role_status(role_name, season)
+        return status in valid_statuses
+    except Exception as e:
+        logger.error(f"Ошибка проверки статуса роли {role_name} в {season}: {e}")
         return False
-    
-    return update_role_status(role_name, 'занята', user_id, username, "")
+# ======================== ДОБАВЛЕННЫЕ ФУНКЦИИ ДЛЯ НОВОГО ИНТЕРФЕЙСА ========================
 
+def get_seasons_list() -> list:
+    """
+    Возвращает список всех сезонов из roles_status.json
+    """
+    try:
+        status_file = os.path.join(DATA_DIR, 'roles_status.json')
+        if not os.path.exists(status_file):
+            logger.error(f"Файл {status_file} не найден")
+            return []
+        
+        with open(status_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        seasons = []
+        for season_data in data:
+            if season_data.get('season'):
+                seasons.append(season_data.get('season'))
+        
+        logger.debug(f"Загружены сезоны: {seasons}")
+        return seasons
+    except Exception as e:
+        logger.error(f"Ошибка получения списка сезонов: {e}")
+        return []
 
-def free_role(user_id: int) -> str:
-    """Освобождает роль пользователя"""
-    role_name = get_user_role(user_id)
-    if not role_name:
-        return None
-    
-    update_role_status(role_name, 'свободна', None, None, "")
-    return role_name
+def get_roles_by_season(season: str) -> list:
+    """
+    Возвращает список ролей для указанного сезона
+    """
+    try:
+        status_file = os.path.join(DATA_DIR, 'roles_status.json')
+        if not os.path.exists(status_file):
+            logger.error(f"Файл {status_file} не найден")
+            return []
+        
+        with open(status_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        for season_data in data:
+            if season_data.get('season') == season:
+                roles = season_data.get('roles', [])
+                logger.debug(f"Загружены роли для {season}: {len(roles)}")
+                return roles
+        
+        logger.warning(f"Сезон {season} не найден")
+        return []
+    except Exception as e:
+        logger.error(f"Ошибка получения ролей для {season}: {e}")
+        return []
 
-
-def set_rest(role_name: str, days: int) -> bool:
-    """Устанавливает рест для роли"""
-    role = get_role_by_name(role_name)
-    if not role or role.get('status') != 'занята':
+def is_role_free(role_name: str, season: str) -> bool:
+    """
+    Проверяет, свободна ли роль
+    """
+    try:
+        roles = get_roles_by_season(season)
+        for role in roles:
+            if role.get('name') == role_name:
+                status = role.get('status', 'occupied')
+                is_free = status == 'free'
+                logger.debug(f"Роль {role_name} в {season}: статус {status}, свободна: {is_free}")
+                return is_free
+        
+        logger.warning(f"Роль {role_name} не найдена в {season}")
         return False
-    
-    from datetime import datetime, timedelta
-    rest_until = (datetime.now() + timedelta(days=days)).strftime("%Y-%m-%d")
-    return update_role_status(role_name, 'рест', role.get('owner_id'), role.get('username'), rest_until)
-
-
-def clear_rest(role_name: str) -> bool:
-    """Снимает рест с роли"""
-    role = get_role_by_name(role_name)
-    if not role or role.get('status') != 'рест':
+    except Exception as e:
+        logger.error(f"Ошибка проверки статуса роли {role_name} в {season}: {e}")
         return False
+
+def update_role_status(role_name: str, season: str, status: str) -> bool:
+    """
+    Обновляет статус роли (free/pending/occupied)
+    """
+    try:
+        status_file = os.path.join(DATA_DIR, 'roles_status.json')
+        if not os.path.exists(status_file):
+            logger.error(f"Файл {status_file} не найден")
+            return False
+        
+        # Читаем текущие данные
+        with open(status_file, 'r', encoding='utf-8') as f:
+            roles_data = json.load(f)
+        
+        # Обновляем статус роли
+        role_found = False
+        for season_data in roles_data:
+            if season_data.get('season') == season:
+                for role in season_data.get('roles', []):
+                    if role.get('name') == role_name:
+                        old_status = role.get('status', 'unknown')
+                        role['status'] = status
+                        role_found = True
+                        logger.info(f"Статус роли {role_name} в {season} изменен: {old_status} -> {status}")
+                        break
+                break
+        
+        if not role_found:
+            logger.warning(f"Роль {role_name} не найдена в {season} для обновления статуса")
+            return False
+        
+        # Сохраняем обновленные данные
+        with open(status_file, 'w', encoding='utf-8') as f:
+            json.dump(roles_data, f, ensure_ascii=False, indent=2)
+        
+        logger.info(f"✅ Статус роли {role_name} в {season} обновлен на {status}")
+        return True
+        
+    except Exception as e:
+        logger.error(f"Ошибка обновления статуса роли {role_name} в {season}: {e}")
+        return False    
     
-    return update_role_status(role_name, 'занята', role.get('owner_id'), role.get('username'), "")
-
-
-# ============================================================
-# ГЛОБАЛЬНАЯ ПЕРЕМЕННАЯ ДЛЯ НАБОРА (ДОБАВЛЯЕМ)
-# ============================================================
-
-closed_mode = False
-
-def get_closed_mode() -> bool:
-    """Возвращает статус набора (закрыт/открыт)"""
-    return closed_mode
-
-def set_closed_mode(value: bool):
-    """Устанавливает статус набора"""
-    global closed_mode
-    closed_mode = value
-    logger.info(f"🔒 Набор ролей: {'закрыт' if value else 'открыт'}")

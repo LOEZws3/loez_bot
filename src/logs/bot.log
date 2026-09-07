@@ -18667,3 +18667,1489 @@ Original description: Too Many Requests: retry after 3
 2026-09-07 14:37:08,097 - aiogram.event - INFO - Update id=352508249 is handled. Duration 7 ms by bot id=8888839728
 2026-09-07 14:37:58,514 - aiogram.event - INFO - Update id=352508250 is handled. Duration 138 ms by bot id=8888839728
 2026-09-07 14:38:03,565 - aiogram.event - INFO - Update id=352508251 is handled. Duration 216 ms by bot id=8888839728
+2026-09-07 14:53:56,117 - __main__ - INFO - ✅ Зарегистрировано 11 роутеров
+2026-09-07 14:53:56,699 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:53:56,701 - proxy_manager - INFO - 🔄 Кэш устарел, обновляем...
+2026-09-07 14:53:56,703 - proxy_manager - INFO - 🏓 Пингую 1808 прокси через Telegram API...
+2026-09-07 14:54:01,485 - asyncio - ERROR - Unclosed connection
+client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None)>
+2026-09-07 14:54:46,333 - __main__ - INFO - ✅ Зарегистрировано 11 роутеров
+2026-09-07 14:55:02,025 - __main__ - INFO - ✅ Зарегистрировано 11 роутеров
+2026-09-07 14:55:02,030 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:55:02,031 - proxy_manager - INFO - 🔄 Кэш устарел, обновляем...
+2026-09-07 14:55:02,032 - proxy_manager - INFO - 🏓 Пингую 1808 прокси через Telegram API...
+2026-09-07 14:55:10,091 - proxy_manager - INFO - 📊 Прогресс: 50/1808 (прошло 8 сек)
+2026-09-07 14:55:12,741 - proxy_manager - INFO - 📊 Прогресс: 100/1808 (прошло 10 сек)
+2026-09-07 14:55:15,968 - proxy_manager - INFO - 📊 Прогресс: 150/1808 (прошло 13 сек)
+2026-09-07 14:55:18,244 - proxy_manager - INFO - 📊 Прогресс: 200/1808 (прошло 16 сек)
+2026-09-07 14:55:20,874 - proxy_manager - INFO - 📊 Прогресс: 250/1808 (прошло 18 сек)
+2026-09-07 14:55:23,663 - proxy_manager - INFO - 📊 Прогресс: 300/1808 (прошло 21 сек)
+2026-09-07 14:55:27,034 - proxy_manager - INFO - 📊 Прогресс: 350/1808 (прошло 25 сек)
+2026-09-07 14:55:28,939 - proxy_manager - INFO - 📊 Прогресс: 400/1808 (прошло 26 сек)
+2026-09-07 14:55:31,626 - proxy_manager - INFO - 📊 Прогресс: 450/1808 (прошло 29 сек)
+2026-09-07 14:55:35,048 - proxy_manager - INFO - 📊 Прогресс: 500/1808 (прошло 33 сек)
+2026-09-07 14:55:37,250 - proxy_manager - INFO - 📊 Прогресс: 550/1808 (прошло 35 сек)
+2026-09-07 14:55:40,565 - proxy_manager - INFO - 📊 Прогресс: 600/1808 (прошло 38 сек)
+2026-09-07 14:55:40,651 - asyncio - ERROR - Unclosed connection
+client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None)>
+2026-09-07 14:55:43,156 - proxy_manager - INFO - 📊 Прогресс: 650/1808 (прошло 41 сек)
+2026-09-07 14:55:44,647 - asyncio - ERROR - Unclosed connection
+client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None)>
+2026-09-07 14:55:45,717 - proxy_manager - INFO - 📊 Прогресс: 700/1808 (прошло 43 сек)
+2026-09-07 14:55:45,938 - asyncio - ERROR - Unclosed connection
+client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None)>
+2026-09-07 14:55:48,754 - proxy_manager - INFO - 📊 Прогресс: 750/1808 (прошло 46 сек)
+2026-09-07 14:55:51,385 - asyncio - ERROR - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2026-09-07 14:55:52,306 - proxy_manager - INFO - 📊 Прогресс: 800/1808 (прошло 50 сек)
+2026-09-07 14:55:54,830 - proxy_manager - INFO - 📊 Прогресс: 850/1808 (прошло 52 сек)
+2026-09-07 14:55:58,201 - proxy_manager - INFO - 📊 Прогресс: 900/1808 (прошло 56 сек)
+2026-09-07 14:56:01,042 - proxy_manager - INFO - 📊 Прогресс: 950/1808 (прошло 59 сек)
+2026-09-07 14:56:04,069 - proxy_manager - INFO - 📊 Прогресс: 1000/1808 (прошло 62 сек)
+2026-09-07 14:56:06,984 - proxy_manager - INFO - 📊 Прогресс: 1050/1808 (прошло 64 сек)
+2026-09-07 14:56:10,256 - proxy_manager - INFO - 📊 Прогресс: 1100/1808 (прошло 68 сек)
+2026-09-07 14:56:13,167 - proxy_manager - INFO - 📊 Прогресс: 1150/1808 (прошло 71 сек)
+2026-09-07 14:56:16,116 - proxy_manager - INFO - 📊 Прогресс: 1200/1808 (прошло 74 сек)
+2026-09-07 14:56:19,488 - proxy_manager - INFO - 📊 Прогресс: 1250/1808 (прошло 77 сек)
+2026-09-07 14:56:22,299 - proxy_manager - INFO - 📊 Прогресс: 1300/1808 (прошло 80 сек)
+2026-09-07 14:56:25,248 - proxy_manager - INFO - 📊 Прогресс: 1350/1808 (прошло 83 сек)
+2026-09-07 14:56:28,566 - proxy_manager - INFO - 📊 Прогресс: 1400/1808 (прошло 86 сек)
+2026-09-07 14:56:31,458 - proxy_manager - INFO - 📊 Прогресс: 1450/1808 (прошло 89 сек)
+2026-09-07 14:56:35,167 - proxy_manager - INFO - 📊 Прогресс: 1500/1808 (прошло 93 сек)
+2026-09-07 14:56:37,405 - proxy_manager - INFO - 📊 Прогресс: 1550/1808 (прошло 95 сек)
+2026-09-07 14:56:40,464 - proxy_manager - INFO - 📊 Прогресс: 1600/1808 (прошло 98 сек)
+2026-09-07 14:56:43,840 - proxy_manager - INFO - 📊 Прогресс: 1650/1808 (прошло 101 сек)
+2026-09-07 14:56:46,737 - proxy_manager - INFO - 📊 Прогресс: 1700/1808 (прошло 104 сек)
+2026-09-07 14:56:49,059 - proxy_manager - INFO - 📊 Прогресс: 1750/1808 (прошло 107 сек)
+2026-09-07 14:56:52,064 - proxy_manager - INFO - 📊 Прогресс: 1800/1808 (прошло 110 сек)
+2026-09-07 14:56:53,054 - proxy_manager - INFO - 📊 Прогресс: 1808/1808 (прошло 111 сек)
+2026-09-07 14:56:53,060 - proxy_manager - INFO - ✅ Из 1808 прокси работают 35 (за 111 сек)
+2026-09-07 14:56:53,064 - proxy_manager - INFO - 💾 Кэш пингов сохранён (35 прокси)
+2026-09-07 14:56:53,067 - proxy_manager - INFO - 🏆 Самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:56:53,070 - proxy_manager - INFO -    • 3.10.170.234:3128: 1.615с
+2026-09-07 14:56:53,073 - proxy_manager - INFO -    • 130.110.103.245:3128: 2.067с
+2026-09-07 14:56:53,074 - proxy_manager - INFO -    • 13.125.44.24:80: 2.345с
+2026-09-07 14:56:53,075 - proxy_manager - INFO -    • 199.7.149.96:3128: 2.767с
+2026-09-07 14:56:53,077 - proxy_manager - INFO -    • 197.164.101.14:1976: 2.861с
+2026-09-07 14:56:53,079 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:56:53,080 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:56:53,970 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:56:53,980 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:56:53,982 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:56:53,982 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:56:54,263 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:56:54,264 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:56:54,269 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:56:54,273 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:56:54,589 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:56:54,855 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:56:54,857 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:56:54,862 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:56:54,864 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:56:59,884 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:56:59,918 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:56:59,918 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:56:59,919 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:57:00,674 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:57:00,683 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:57:00,685 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:57:00,685 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:57:00,959 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:00,960 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:57:00,966 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:57:00,969 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:57:01,237 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:57:01,491 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:01,493 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:57:01,498 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:01,499 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:57:06,522 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:57:06,526 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:57:06,528 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:57:06,530 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:57:07,232 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:57:07,240 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:57:07,242 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:57:07,242 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:57:07,511 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:07,513 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:57:07,518 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:57:07,521 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:57:07,779 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:57:08,045 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:08,047 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:57:08,052 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:08,054 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:57:13,073 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:57:13,076 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:57:13,080 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:57:13,084 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:57:13,773 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:57:13,781 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:57:13,782 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:57:13,783 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:57:14,044 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:14,046 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:57:14,050 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:57:14,053 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:57:14,311 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:57:14,569 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:14,571 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:57:14,577 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:14,579 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:57:19,604 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:57:19,607 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:57:19,610 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:57:19,614 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:57:20,303 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:57:20,312 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:57:20,313 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:57:20,313 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:57:20,576 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:20,578 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:57:20,583 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:57:20,586 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:57:20,857 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:57:21,124 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:21,127 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:57:21,131 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:21,133 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:57:26,148 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:57:26,152 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:57:26,155 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:57:26,157 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:57:26,858 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:57:26,866 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:57:26,868 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:57:26,868 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:57:27,132 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:27,134 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:57:27,139 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:57:27,141 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:57:27,415 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:57:27,675 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:27,677 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:57:27,682 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:27,684 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:57:32,710 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:57:32,713 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:57:32,714 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:57:32,717 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:57:33,406 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:57:33,414 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:57:33,416 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:57:33,416 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:57:33,681 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:33,683 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:57:33,688 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:57:33,691 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:57:33,959 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:57:34,218 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:34,220 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:57:34,225 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:34,226 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:57:39,243 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:57:39,247 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:57:39,248 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:57:39,249 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:57:39,930 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:57:39,939 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:57:39,941 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:57:39,942 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:57:40,211 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:40,217 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:57:40,220 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:57:40,222 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:57:40,483 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:57:40,748 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:40,749 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:57:40,751 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:40,752 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:57:45,766 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:57:45,769 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:57:45,771 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:57:45,774 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:57:46,478 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:57:46,486 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:57:46,488 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:57:46,490 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:57:46,754 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:46,756 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:57:46,761 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:57:46,763 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:57:47,036 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:57:47,291 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:47,292 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:57:47,295 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:47,298 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:57:52,318 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:57:52,321 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:57:52,323 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:57:52,324 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:57:53,004 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:57:53,013 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:57:53,014 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:57:53,015 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:57:54,791 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:54,793 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:57:54,799 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:57:54,801 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:57:57,247 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:57:57,500 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:57,502 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:57:57,507 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:57:57,509 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:58:04,828 - __main__ - INFO - ✅ Зарегистрировано 11 роутеров
+2026-09-07 14:58:04,831 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:58:04,832 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:58:04,832 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:58:04,833 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:58:05,614 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:58:05,621 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:58:05,622 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:58:05,622 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:58:05,972 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:05,973 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:58:05,974 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:58:05,976 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:58:06,601 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:58:06,865 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:06,868 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:58:06,869 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:06,870 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:58:11,886 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:58:11,887 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:58:11,888 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:58:11,890 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:58:12,856 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:58:12,865 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:58:12,867 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:58:12,868 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:58:13,277 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:13,278 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:58:13,280 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:58:13,281 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:58:13,535 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:58:13,792 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:13,793 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:58:13,794 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:13,795 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:58:18,811 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:58:18,813 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:58:18,816 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:58:18,819 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:58:19,534 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:58:19,541 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:58:19,543 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:58:19,543 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:58:19,821 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:19,822 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:58:19,827 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:58:19,829 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:58:20,090 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:58:20,344 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:20,346 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:58:20,350 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:20,351 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:58:25,376 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:58:25,379 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:58:25,382 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:58:25,382 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:58:26,092 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:58:26,101 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:58:26,102 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:58:26,103 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:58:26,374 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:26,375 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:58:26,381 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:58:26,385 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:58:26,653 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:58:26,917 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:26,918 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:58:26,924 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:26,927 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:58:31,944 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:58:31,947 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:58:31,950 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:58:31,951 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:58:32,645 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:58:32,653 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:58:32,654 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:58:32,654 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:58:32,931 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:32,932 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:58:32,937 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:58:32,939 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:58:33,249 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:58:33,514 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:33,515 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:58:33,520 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:33,521 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:58:38,533 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:58:38,536 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:58:38,539 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:58:38,540 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:58:39,311 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:58:39,319 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:58:39,320 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:58:39,321 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:58:39,618 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:39,621 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:58:39,629 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:58:39,634 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:58:39,910 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:58:40,168 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:40,169 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:58:40,173 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:40,175 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:58:45,193 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:58:45,200 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:58:45,203 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:58:45,206 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:58:45,899 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:58:45,907 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:58:45,908 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:58:45,909 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:58:46,178 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:46,179 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:58:46,185 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:58:46,187 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:58:46,458 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:58:46,719 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:46,720 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:58:46,724 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:46,726 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:58:51,742 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:58:51,745 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:58:51,747 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:58:51,749 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:58:52,449 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:58:52,456 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:58:52,458 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:58:52,458 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:58:52,732 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:52,734 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:58:52,738 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:58:52,741 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:58:53,005 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:58:53,269 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:53,269 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:58:53,271 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:53,274 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:58:58,289 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:58:58,290 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:58:58,291 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:58:58,294 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:58:58,975 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:58:58,982 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:58:58,984 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:58:58,984 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:58:59,249 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:59,251 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:58:59,252 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:58:59,254 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:58:59,514 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:58:59,772 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:59,774 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:58:59,779 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:58:59,779 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:59:04,794 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:59:04,797 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:59:04,800 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:59:04,803 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:59:05,506 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:59:05,513 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:59:05,514 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:59:05,514 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:59:05,777 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:05,778 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:59:05,783 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:59:05,785 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:59:06,053 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:59:06,307 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:06,309 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:59:06,313 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:06,314 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:59:11,333 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:59:11,337 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:59:11,338 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:59:11,340 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:59:12,030 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:59:12,038 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:59:12,040 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:59:12,040 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:59:12,308 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:12,310 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:59:12,314 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:59:12,316 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:59:12,584 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:59:12,843 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:12,844 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:59:12,848 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:12,850 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:59:17,866 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:59:17,869 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:59:17,872 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:59:17,874 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:59:18,570 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:59:18,578 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:59:18,579 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:59:18,580 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:59:18,842 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:18,844 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:59:18,848 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:59:18,850 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:59:19,151 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:59:19,418 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:19,419 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:59:19,424 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:19,425 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:59:24,441 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:59:24,444 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:59:24,447 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:59:24,448 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:59:25,149 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:59:25,156 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:59:25,159 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:59:25,159 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:59:25,519 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:25,521 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:59:25,526 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:59:25,527 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:59:25,852 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:59:26,119 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:26,122 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:59:26,124 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:26,126 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:59:31,138 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:59:31,140 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:59:31,143 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:59:31,146 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:59:31,842 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:59:31,849 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:59:31,850 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:59:31,851 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:59:32,182 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:32,188 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:59:32,189 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:59:32,195 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:59:32,469 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:59:32,726 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:32,727 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:59:32,732 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:32,733 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:59:37,756 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:59:37,759 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:59:37,762 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:59:37,765 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:59:38,453 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:59:38,460 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:59:38,461 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:59:38,462 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:59:38,818 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:38,820 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:59:38,824 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:59:38,825 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:59:39,143 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:59:39,394 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:39,394 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:59:39,396 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:39,397 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:59:44,420 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:59:44,423 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:59:44,425 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:59:44,427 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:59:45,127 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:59:45,134 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:59:45,135 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:59:45,136 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:59:45,461 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:45,463 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:59:45,467 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:59:45,469 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:59:45,740 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:59:46,006 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:46,008 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:59:46,012 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:46,014 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:59:51,030 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:59:51,033 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:59:51,035 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:59:51,037 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:59:51,727 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:59:51,735 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:59:51,737 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:59:51,737 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:59:52,006 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:52,008 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:59:52,013 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:59:52,016 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:59:52,280 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:59:52,542 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:52,547 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:59:52,550 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:52,551 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 14:59:57,575 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 14:59:57,578 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 14:59:57,580 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 14:59:57,583 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 14:59:58,281 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 14:59:58,289 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 14:59:58,290 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 14:59:58,291 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 14:59:58,552 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:58,554 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 14:59:58,559 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 14:59:58,560 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 14:59:58,824 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 14:59:59,085 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:59,086 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 14:59:59,090 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 14:59:59,092 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 15:00:04,112 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 15:00:04,116 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 15:00:04,118 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 15:00:04,119 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 15:00:04,835 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 15:00:04,842 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 15:00:04,843 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 15:00:04,843 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 15:03:11,706 - __main__ - INFO - ✅ Зарегистрировано 11 роутеров
+2026-09-07 15:03:11,712 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 15:03:11,714 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 15:03:11,714 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 15:03:11,715 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 15:03:12,905 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 15:03:12,915 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 15:03:12,916 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 15:03:12,917 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 15:03:13,183 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 15:03:13,184 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 15:03:13,185 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 15:03:13,185 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 15:03:13,463 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 15:03:13,719 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 15:03:13,720 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 15:03:13,723 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 15:03:13,724 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 15:03:18,733 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 15:03:18,737 - proxy_manager - INFO - ✅ Загружено 35 прокси из кэша
+2026-09-07 15:03:18,738 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (1.615с)
+2026-09-07 15:03:18,740 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 1.615с)
+2026-09-07 15:03:19,818 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 15:03:19,829 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 15:03:19,830 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 15:03:19,831 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 15:03:20,090 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 15:03:20,090 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 15:03:20,092 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 15:03:20,093 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 15:03:20,354 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-07 15:03:20,614 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 15:03:20,615 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-07 15:03:20,618 - __main__ - ERROR - ❌ Необработанная ошибка: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-07 15:03:20,619 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-07 15:03:25,640 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 15:05:03,782 - __main__ - INFO - ✅ Зарегистрировано 11 роутеров
+2026-09-07 15:05:03,785 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-07 15:05:03,788 - proxy_manager - INFO - 🏓 Пингую 1808 прокси через Telegram API...
+2026-09-07 15:05:15,434 - proxy_manager - INFO - 📊 Прогресс: 50/1808 (прошло 11 сек)
+2026-09-07 15:05:17,769 - proxy_manager - INFO - 📊 Прогресс: 100/1808 (прошло 13 сек)
+2026-09-07 15:05:23,845 - proxy_manager - INFO - 📊 Прогресс: 150/1808 (прошло 20 сек)
+2026-09-07 15:05:28,368 - proxy_manager - INFO - 📊 Прогресс: 200/1808 (прошло 24 сек)
+2026-09-07 15:05:31,564 - proxy_manager - INFO - 📊 Прогресс: 250/1808 (прошло 27 сек)
+2026-09-07 15:05:35,515 - proxy_manager - INFO - 📊 Прогресс: 300/1808 (прошло 31 сек)
+2026-09-07 15:05:38,878 - proxy_manager - INFO - 📊 Прогресс: 350/1808 (прошло 35 сек)
+2026-09-07 15:05:43,525 - proxy_manager - INFO - 📊 Прогресс: 400/1808 (прошло 39 сек)
+2026-09-07 15:05:47,153 - proxy_manager - INFO - 📊 Прогресс: 450/1808 (прошло 43 сек)
+2026-09-07 15:05:55,720 - proxy_manager - INFO - 📊 Прогресс: 500/1808 (прошло 51 сек)
+2026-09-07 15:06:04,037 - proxy_manager - INFO - 📊 Прогресс: 550/1808 (прошло 60 сек)
+2026-09-07 15:06:07,401 - proxy_manager - INFO - 📊 Прогресс: 600/1808 (прошло 63 сек)
+2026-09-07 15:06:18,205 - proxy_manager - INFO - 📊 Прогресс: 650/1808 (прошло 74 сек)
+2026-09-07 15:06:28,837 - proxy_manager - INFO - 📊 Прогресс: 700/1808 (прошло 85 сек)
+2026-09-07 15:06:37,816 - proxy_manager - INFO - 📊 Прогресс: 750/1808 (прошло 94 сек)
+2026-09-07 15:06:42,846 - proxy_manager - INFO - 📊 Прогресс: 800/1808 (прошло 99 сек)
+2026-09-07 15:06:42,938 - asyncio - ERROR - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2026-09-07 15:06:50,876 - proxy_manager - INFO - 📊 Прогресс: 850/1808 (прошло 107 сек)
+2026-09-07 15:07:01,719 - proxy_manager - INFO - 📊 Прогресс: 900/1808 (прошло 117 сек)
+2026-09-07 15:07:01,726 - asyncio - ERROR - Unclosed connection
+client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None)>
+2026-09-07 15:07:01,730 - asyncio - ERROR - Unclosed connection
+client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None)>
+2026-09-07 15:07:08,961 - proxy_manager - INFO - 📊 Прогресс: 950/1808 (прошло 125 сек)
+2026-09-07 15:07:19,018 - proxy_manager - INFO - 📊 Прогресс: 1000/1808 (прошло 135 сек)
+2026-09-07 15:07:24,859 - proxy_manager - INFO - 📊 Прогресс: 1050/1808 (прошло 141 сек)
+2026-09-07 15:07:31,771 - proxy_manager - INFO - 📊 Прогресс: 1100/1808 (прошло 147 сек)
+2026-09-07 15:07:40,203 - proxy_manager - INFO - 📊 Прогресс: 1150/1808 (прошло 156 сек)
+2026-09-07 15:07:46,075 - proxy_manager - INFO - 📊 Прогресс: 1200/1808 (прошло 162 сек)
+2026-09-07 15:07:50,936 - proxy_manager - INFO - 📊 Прогресс: 1250/1808 (прошло 167 сек)
+2026-09-07 15:07:53,756 - proxy_manager - INFO - 📊 Прогресс: 1300/1808 (прошло 169 сек)
+2026-09-07 15:07:57,594 - proxy_manager - INFO - 📊 Прогресс: 1350/1808 (прошло 173 сек)
+2026-09-07 15:08:01,454 - proxy_manager - INFO - 📊 Прогресс: 1400/1808 (прошло 177 сек)
+2026-09-07 15:08:04,763 - proxy_manager - INFO - 📊 Прогресс: 1450/1808 (прошло 180 сек)
+2026-09-07 15:08:08,414 - proxy_manager - INFO - 📊 Прогресс: 1500/1808 (прошло 184 сек)
+2026-09-07 15:08:10,460 - asyncio - ERROR - Unclosed connection
+client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None)>
+2026-09-07 15:08:11,580 - proxy_manager - INFO - 📊 Прогресс: 1550/1808 (прошло 187 сек)
+2026-09-07 15:08:14,722 - proxy_manager - INFO - 📊 Прогресс: 1600/1808 (прошло 190 сек)
+2026-09-07 15:08:18,207 - proxy_manager - INFO - 📊 Прогресс: 1650/1808 (прошло 194 сек)
+2026-09-07 15:08:20,088 - asyncio - ERROR - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2026-09-07 15:08:22,039 - proxy_manager - INFO - 📊 Прогресс: 1700/1808 (прошло 198 сек)
+2026-09-07 15:08:23,051 - proxy_manager - INFO - 📊 Прогресс: 1750/1808 (прошло 199 сек)
+2026-09-07 15:08:27,062 - proxy_manager - INFO - 📊 Прогресс: 1800/1808 (прошло 203 сек)
+2026-09-07 15:08:27,063 - proxy_manager - INFO - 📊 Прогресс: 1808/1808 (прошло 203 сек)
+2026-09-07 15:08:27,066 - proxy_manager - INFO - ✅ Из 1808 прокси работают 2 (за 203 сек)
+2026-09-07 15:08:27,105 - proxy_manager - INFO - 💾 Кэш пингов сохранён (2 прокси)
+2026-09-07 15:08:27,107 - proxy_manager - INFO - 🏆 Самый быстрый прокси: 174.138.162.35:8254 (3.340с)
+2026-09-07 15:08:27,108 - proxy_manager - INFO -    • 174.138.162.35:8254: 3.340с
+2026-09-07 15:08:27,109 - proxy_manager - INFO -    • 45.43.60.220:8080: 3.830с
+2026-09-07 15:08:27,110 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 174.138.162.35:8254 (3.340с)
+2026-09-07 15:08:27,111 - __main__ - INFO - 🌐 Используется прокси: http://174.138.162.35:8254 (пинг: 3.340с)
+2026-09-07 15:08:28,100 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-07 15:08:28,111 - database - INFO - ✅ Таблицы БД созданы
+2026-09-07 15:08:28,113 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-07 15:08:28,113 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-07 15:09:06,296 - __main__ - INFO - 📋 Команды бота установлены
+2026-09-07 15:09:06,297 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-07 15:09:06,300 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-07 15:09:06,302 - aiogram.dispatcher - INFO - Start polling
+2026-09-07 15:09:06,750 - aiogram.dispatcher - INFO - Run polling for bot @REG_sf_BOT id=8888839728 - 'REG_ℿλɑɱᴙ Иɕκ℘℩_flood'
+2026-09-07 15:09:08,085 - handlers.base_commands - INFO - 👤 𝓩𝓚𝓔𝓷𝓰3 нажал /start
+2026-09-07 15:09:08,115 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,124 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:09:08,125 - aiogram.event - INFO - Update id=352508253 is handled. Duration 98 ms by bot id=8888839728
+2026-09-07 15:09:08,126 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,127 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:09:08,128 - aiogram.event - INFO - Update id=352508254 is handled. Duration 99 ms by bot id=8888839728
+2026-09-07 15:09:08,129 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,130 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:09:08,131 - aiogram.event - INFO - Update id=352508256 is handled. Duration 98 ms by bot id=8888839728
+2026-09-07 15:09:08,132 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,133 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:09:08,134 - aiogram.event - INFO - Update id=352508252 is handled. Duration 112 ms by bot id=8888839728
+2026-09-07 15:09:08,137 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,138 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:09:08,139 - aiogram.event - INFO - Update id=352508260 is handled. Duration 100 ms by bot id=8888839728
+2026-09-07 15:09:08,140 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,141 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:09:08,142 - aiogram.event - INFO - Update id=352508266 is handled. Duration 94 ms by bot id=8888839728
+2026-09-07 15:09:08,147 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,149 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:09:08,150 - aiogram.event - INFO - Update id=352508255 is handled. Duration 118 ms by bot id=8888839728
+2026-09-07 15:09:08,151 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,152 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:09:08,155 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,156 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:09:08,157 - aiogram.event - INFO - Update id=352508259 is handled. Duration 119 ms by bot id=8888839728
+2026-09-07 15:09:08,158 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,159 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:09:08,159 - aiogram.event - INFO - Update id=352508258 is handled. Duration 122 ms by bot id=8888839728
+2026-09-07 15:09:08,160 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,161 - handlers.chat_member - INFO - ✅ Пользователь 8365616736 найден в файле
+2026-09-07 15:09:08,162 - aiogram.event - INFO - Update id=352508261 is handled. Duration 120 ms by bot id=8888839728
+2026-09-07 15:09:08,162 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,163 - handlers.chat_member - INFO - ✅ Пользователь 8365616736 найден в файле
+2026-09-07 15:09:08,164 - aiogram.event - INFO - Update id=352508262 is handled. Duration 121 ms by bot id=8888839728
+2026-09-07 15:09:08,165 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,166 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:09:08,167 - aiogram.event - INFO - Update id=352508263 is handled. Duration 122 ms by bot id=8888839728
+2026-09-07 15:09:08,167 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,168 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:09:08,169 - aiogram.event - INFO - Update id=352508264 is handled. Duration 124 ms by bot id=8888839728
+2026-09-07 15:09:08,170 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,171 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:09:08,172 - aiogram.event - INFO - Update id=352508265 is handled. Duration 125 ms by bot id=8888839728
+2026-09-07 15:09:08,173 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,174 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:09:08,175 - aiogram.event - INFO - Update id=352508267 is handled. Duration 124 ms by bot id=8888839728
+2026-09-07 15:09:08,175 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,176 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:09:08,177 - aiogram.event - INFO - Update id=352508272 is handled. Duration 121 ms by bot id=8888839728
+2026-09-07 15:09:08,178 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,179 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:09:08,179 - aiogram.event - INFO - Update id=352508273 is handled. Duration 123 ms by bot id=8888839728
+2026-09-07 15:09:08,180 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,181 - handlers.chat_member - INFO - ✅ Пользователь 8365616736 найден в файле
+2026-09-07 15:09:08,182 - aiogram.event - INFO - Update id=352508268 is handled. Duration 131 ms by bot id=8888839728
+2026-09-07 15:09:08,183 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,184 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:09:08,186 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,188 - handlers.chat_member - INFO - ❌ Пользователь 5365691888 НЕ найден в файле
+2026-09-07 15:09:08,188 - aiogram.event - INFO - Update id=352508269 is handled. Duration 136 ms by bot id=8888839728
+2026-09-07 15:09:08,189 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,190 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:09:08,191 - aiogram.event - INFO - Update id=352508271 is handled. Duration 136 ms by bot id=8888839728
+2026-09-07 15:09:08,192 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,193 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:09:08,193 - aiogram.event - INFO - Update id=352508276 is handled. Duration 104 ms by bot id=8888839728
+2026-09-07 15:09:08,194 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,195 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:09:08,196 - aiogram.event - INFO - Update id=352508278 is handled. Duration 104 ms by bot id=8888839728
+2026-09-07 15:09:08,197 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,198 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:09:08,198 - aiogram.event - INFO - Update id=352508270 is handled. Duration 145 ms by bot id=8888839728
+2026-09-07 15:09:08,199 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,200 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:09:08,201 - aiogram.event - INFO - Update id=352508282 is handled. Duration 104 ms by bot id=8888839728
+2026-09-07 15:09:08,202 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,203 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:09:08,205 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,206 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:09:08,207 - aiogram.event - INFO - Update id=352508284 is handled. Duration 108 ms by bot id=8888839728
+2026-09-07 15:09:08,207 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,208 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:09:08,211 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,212 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:09:08,214 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,215 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:09:08,216 - aiogram.event - INFO - Update id=352508285 is handled. Duration 116 ms by bot id=8888839728
+2026-09-07 15:09:08,217 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,218 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:09:08,219 - aiogram.event - INFO - Update id=352508286 is handled. Duration 118 ms by bot id=8888839728
+2026-09-07 15:09:08,220 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,221 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:09:08,222 - aiogram.event - INFO - Update id=352508287 is handled. Duration 120 ms by bot id=8888839728
+2026-09-07 15:09:08,223 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,224 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:09:08,224 - aiogram.event - INFO - Update id=352508288 is handled. Duration 121 ms by bot id=8888839728
+2026-09-07 15:09:08,225 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:09:08,226 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:09:08,227 - aiogram.event - INFO - Update id=352508280 is handled. Duration 133 ms by bot id=8888839728
+2026-09-07 15:09:16,024 - handlers.chat_member - INFO - 📨 Напоминание отправлено пользователю 7461695159 (сообщение #5)
+2026-09-07 15:09:16,026 - aiogram.event - INFO - Update id=352508283 is handled. Duration 7929 ms by bot id=8888839728
+2026-09-07 15:09:29,110 - aiogram.event - INFO - Update id=352508274 is not handled. Duration 21052 ms by bot id=8888839728
+2026-09-07 15:09:29,111 - aiogram.event - ERROR - Cause exception while process update id=352508274 by bot id=8888839728
+ProxyConnectionError: [Errno 22] Couldn't connect to proxy 174.138.162.35:8254 [Превышен таймаут семафора]
+Traceback (most recent call last):
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\python_socks\async_\asyncio\v2\_proxy.py", line 97, in _connect
+    stream = await connect_tcp(
+             ^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\python_socks\async_\asyncio\v2\_connect.py", line 16, in connect_tcp
+    reader, writer = await asyncio.open_connection(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\streams.py", line 48, in open_connection
+    transport, _ = await loop.create_connection(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        lambda: protocol, host, port, **kwds)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\base_events.py", line 1168, in create_connection
+    raise exceptions[0]
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\base_events.py", line 1143, in create_connection
+    sock = await self._connect_sock(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+        exceptions, addrinfo, laddr_infos)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\base_events.py", line 1042, in _connect_sock
+    await self.sock_connect(sock, address)
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\proactor_events.py", line 728, in sock_connect
+    return await self._proactor.connect(sock, address)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\windows_events.py", line 804, in _poll
+    value = callback(transferred, key, ov)
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\windows_events.py", line 600, in finish_connect
+    ov.getresult()
+    ~~~~~~~~~~~~^^
+OSError: [WinError 121] Превышен таймаут семафора
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp_socks\connector.py", line 72, in _wrap_create_connection
+    return await self._connect_via_proxy(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp_socks\connector.py", line 135, in _connect_via_proxy
+    stream = await proxy.connect(
+             ^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\python_socks\async_\asyncio\v2\_proxy.py", line 79, in connect
+    return await self._connect(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\python_socks\async_\asyncio\v2\_proxy.py", line 104, in _connect
+    raise ProxyConnectionError(
+    ...<3 lines>...
+    ) from e
+python_socks._errors.ProxyConnectionError: [Errno 22] Couldn't connect to proxy 174.138.162.35:8254 [Превышен таймаут семафора]
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 309, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 158, in feed_update
+    response = await self.update.wrap_outer_middleware(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\middlewares\error.py", line 25, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\middlewares\user_context.py", line 56, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\fsm\middleware.py", line 42, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 43, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 276, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 141, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        observer=observer, update_type=update_type, event=telegram_event, **data
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 174, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 141, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        observer=observer, update_type=update_type, event=telegram_event, **data
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 166, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 43, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\src\handlers\base_commands.py", line 190, in cmd_about
+    await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id), disable_web_page_preview=False)
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\methods\base.py", line 84, in emit
+    return await bot(self)
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\client\bot.py", line 498, in __call__
+    return await self.session(self, method, timeout=request_timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\client\session\base.py", line 254, in __call__
+    return cast(TelegramType, await middleware(bot, method))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\client\session\aiohttp.py", line 181, in make_request
+    async with session.post(
+               ~~~~~~~~~~~~^
+        url, data=form, timeout=self.timeout if timeout is None else timeout
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ) as resp:
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp\client.py", line 1521, in __aenter__
+    self._resp: _RetType = await self._coro
+                           ^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp\client.py", line 788, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp\client.py", line 742, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        req, traces=traces, timeout=real_timeout
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp\connector.py", line 672, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp\connector.py", line 1251, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp\connector.py", line 1592, in _create_direct_connection
+    transp, proto = await self._wrap_create_connection(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp_socks\connector.py", line 79, in _wrap_create_connection
+    raise ProxyConnectionError(str(e)) from e
+aiohttp_socks._errors.ProxyConnectionError: [Errno 22] Couldn't connect to proxy 174.138.162.35:8254 [Превышен таймаут семафора]
+2026-09-07 15:09:29,469 - aiogram.event - INFO - Update id=352508275 is not handled. Duration 21384 ms by bot id=8888839728
+2026-09-07 15:09:29,470 - aiogram.event - ERROR - Cause exception while process update id=352508275 by bot id=8888839728
+ProxyConnectionError: [Errno 22] Couldn't connect to proxy 174.138.162.35:8254 [Превышен таймаут семафора]
+Traceback (most recent call last):
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\python_socks\async_\asyncio\v2\_proxy.py", line 97, in _connect
+    stream = await connect_tcp(
+             ^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\python_socks\async_\asyncio\v2\_connect.py", line 16, in connect_tcp
+    reader, writer = await asyncio.open_connection(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\streams.py", line 48, in open_connection
+    transport, _ = await loop.create_connection(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        lambda: protocol, host, port, **kwds)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\base_events.py", line 1168, in create_connection
+    raise exceptions[0]
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\base_events.py", line 1143, in create_connection
+    sock = await self._connect_sock(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+        exceptions, addrinfo, laddr_infos)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\base_events.py", line 1042, in _connect_sock
+    await self.sock_connect(sock, address)
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\proactor_events.py", line 728, in sock_connect
+    return await self._proactor.connect(sock, address)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\windows_events.py", line 804, in _poll
+    value = callback(transferred, key, ov)
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\windows_events.py", line 600, in finish_connect
+    ov.getresult()
+    ~~~~~~~~~~~~^^
+OSError: [WinError 121] Превышен таймаут семафора
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp_socks\connector.py", line 72, in _wrap_create_connection
+    return await self._connect_via_proxy(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp_socks\connector.py", line 135, in _connect_via_proxy
+    stream = await proxy.connect(
+             ^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\python_socks\async_\asyncio\v2\_proxy.py", line 79, in connect
+    return await self._connect(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\python_socks\async_\asyncio\v2\_proxy.py", line 104, in _connect
+    raise ProxyConnectionError(
+    ...<3 lines>...
+    ) from e
+python_socks._errors.ProxyConnectionError: [Errno 22] Couldn't connect to proxy 174.138.162.35:8254 [Превышен таймаут семафора]
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 309, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 158, in feed_update
+    response = await self.update.wrap_outer_middleware(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\middlewares\error.py", line 25, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\middlewares\user_context.py", line 56, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\fsm\middleware.py", line 42, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 43, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 276, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 141, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        observer=observer, update_type=update_type, event=telegram_event, **data
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 174, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 141, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        observer=observer, update_type=update_type, event=telegram_event, **data
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 166, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 43, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\src\handlers\base_commands.py", line 79, in cmd_start
+    await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\methods\base.py", line 84, in emit
+    return await bot(self)
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\client\bot.py", line 498, in __call__
+    return await self.session(self, method, timeout=request_timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\client\session\base.py", line 254, in __call__
+    return cast(TelegramType, await middleware(bot, method))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\client\session\aiohttp.py", line 181, in make_request
+    async with session.post(
+               ~~~~~~~~~~~~^
+        url, data=form, timeout=self.timeout if timeout is None else timeout
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ) as resp:
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp\client.py", line 1521, in __aenter__
+    self._resp: _RetType = await self._coro
+                           ^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp\client.py", line 788, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp\client.py", line 742, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        req, traces=traces, timeout=real_timeout
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp\connector.py", line 672, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp\connector.py", line 1251, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp\connector.py", line 1592, in _create_direct_connection
+    transp, proto = await self._wrap_create_connection(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp_socks\connector.py", line 79, in _wrap_create_connection
+    raise ProxyConnectionError(str(e)) from e
+aiohttp_socks._errors.ProxyConnectionError: [Errno 22] Couldn't connect to proxy 174.138.162.35:8254 [Превышен таймаут семафора]
+2026-09-07 15:09:29,487 - handlers.chat_member - ERROR - Ошибка отправки напоминания: [Errno 22] Couldn't connect to proxy 174.138.162.35:8254 [Превышен таймаут семафора]
+2026-09-07 15:09:29,488 - aiogram.event - INFO - Update id=352508277 is handled. Duration 21397 ms by bot id=8888839728
+2026-09-07 15:09:29,489 - handlers.chat_member - ERROR - Ошибка отправки напоминания: [Errno 22] Couldn't connect to proxy 174.138.162.35:8254 [Превышен таймаут семафора]
+2026-09-07 15:09:29,489 - aiogram.event - INFO - Update id=352508279 is handled. Duration 21397 ms by bot id=8888839728
+2026-09-07 15:10:08,168 - handlers.chat_member - ERROR - Ошибка отправки напоминания: Proxy connection timed out: 60
+2026-09-07 15:10:08,170 - aiogram.event - INFO - Update id=352508257 is handled. Duration 60134 ms by bot id=8888839728
+2026-09-07 15:10:08,214 - handlers.chat_member - ERROR - Ошибка отправки напоминания: Proxy connection timed out: 60
+2026-09-07 15:10:08,216 - aiogram.event - INFO - Update id=352508281 is handled. Duration 60121 ms by bot id=8888839728
+2026-09-07 15:12:34,242 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:12:34,244 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-07 15:12:34,245 - aiogram.event - INFO - Update id=352508289 is handled. Duration 6 ms by bot id=8888839728
+2026-09-07 15:12:42,489 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:12:42,490 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-07 15:12:42,491 - aiogram.event - INFO - Update id=352508290 is handled. Duration 7 ms by bot id=8888839728
+2026-09-07 15:12:49,072 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:12:49,074 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-07 15:12:49,074 - aiogram.event - INFO - Update id=352508291 is handled. Duration 6 ms by bot id=8888839728
+2026-09-07 15:12:53,392 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:12:53,393 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:12:53,393 - aiogram.event - INFO - Update id=352508292 is handled. Duration 4 ms by bot id=8888839728
+2026-09-07 15:12:54,785 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:12:54,786 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:12:55,417 - handlers.chat_member - INFO - 📨 Напоминание отправлено пользователю 7461695159 (сообщение #10)
+2026-09-07 15:12:55,418 - aiogram.event - INFO - Update id=352508293 is handled. Duration 635 ms by bot id=8888839728
+2026-09-07 15:12:57,771 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:12:57,773 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:12:57,773 - aiogram.event - INFO - Update id=352508294 is handled. Duration 8 ms by bot id=8888839728
+2026-09-07 15:12:59,792 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:12:59,796 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:12:59,797 - aiogram.event - INFO - Update id=352508295 is handled. Duration 15 ms by bot id=8888839728
+2026-09-07 15:13:00,683 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:13:00,687 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:13:00,688 - aiogram.event - INFO - Update id=352508296 is handled. Duration 13 ms by bot id=8888839728
+2026-09-07 15:13:08,789 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:13:08,790 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:13:08,791 - aiogram.event - INFO - Update id=352508297 is handled. Duration 6 ms by bot id=8888839728
+2026-09-07 15:13:11,489 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:13:11,505 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:13:11,512 - aiogram.event - INFO - Update id=352508298 is handled. Duration 25 ms by bot id=8888839728
+2026-09-07 15:13:15,108 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:13:15,109 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:13:15,614 - handlers.chat_member - INFO - 📨 Напоминание отправлено пользователю 7355654086 (сообщение #15)
+2026-09-07 15:13:15,614 - aiogram.event - INFO - Update id=352508299 is handled. Duration 509 ms by bot id=8888839728
+2026-09-07 15:13:19,952 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:13:19,953 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:13:20,521 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:13:20,522 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:13:20,522 - aiogram.event - INFO - Update id=352508301 is handled. Duration 4 ms by bot id=8888839728
+2026-09-07 15:13:20,795 - handlers.chat_member - INFO - 📨 Напоминание отправлено пользователю 7461695159 (сообщение #15)
+2026-09-07 15:13:20,796 - aiogram.event - INFO - Update id=352508300 is handled. Duration 847 ms by bot id=8888839728
+2026-09-07 15:13:25,063 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:13:25,064 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:13:25,065 - aiogram.event - INFO - Update id=352508302 is handled. Duration 7 ms by bot id=8888839728
+2026-09-07 15:13:28,841 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:13:28,843 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:13:28,844 - aiogram.event - INFO - Update id=352508303 is handled. Duration 6 ms by bot id=8888839728
+2026-09-07 15:13:29,285 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:13:29,287 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:13:29,288 - aiogram.event - INFO - Update id=352508304 is handled. Duration 9 ms by bot id=8888839728
+2026-09-07 15:13:36,110 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:13:36,112 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:13:36,113 - aiogram.event - INFO - Update id=352508305 is handled. Duration 11 ms by bot id=8888839728
+2026-09-07 15:13:37,165 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:13:37,168 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:13:37,170 - aiogram.event - INFO - Update id=352508306 is handled. Duration 12 ms by bot id=8888839728
+2026-09-07 15:13:45,769 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:13:45,772 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:13:45,774 - aiogram.event - INFO - Update id=352508307 is handled. Duration 14 ms by bot id=8888839728
+2026-09-07 15:13:47,476 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:13:47,478 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-07 15:13:47,480 - aiogram.event - INFO - Update id=352508308 is handled. Duration 14 ms by bot id=8888839728
+2026-09-07 15:13:55,687 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:13:55,690 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-07 15:13:55,691 - aiogram.event - INFO - Update id=352508309 is handled. Duration 12 ms by bot id=8888839728
+2026-09-07 15:13:56,141 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:13:56,144 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:13:56,654 - handlers.chat_member - INFO - 📨 Напоминание отправлено пользователю 7461695159 (сообщение #20)
+2026-09-07 15:13:56,655 - aiogram.event - INFO - Update id=352508310 is handled. Duration 522 ms by bot id=8888839728
+2026-09-07 15:14:00,272 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:14:00,276 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:14:00,277 - aiogram.event - INFO - Update id=352508311 is handled. Duration 12 ms by bot id=8888839728
+2026-09-07 15:14:04,519 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:14:04,521 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:14:04,521 - aiogram.event - INFO - Update id=352508312 is handled. Duration 6 ms by bot id=8888839728
+2026-09-07 15:14:07,323 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:14:07,326 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:14:08,111 - handlers.chat_member - INFO - 📨 Напоминание отправлено пользователю 7355654086 (сообщение #20)
+2026-09-07 15:14:08,113 - aiogram.event - INFO - Update id=352508313 is handled. Duration 794 ms by bot id=8888839728
+2026-09-07 15:14:08,618 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:14:08,620 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-07 15:14:08,622 - aiogram.event - INFO - Update id=352508314 is handled. Duration 12 ms by bot id=8888839728
+2026-09-07 15:14:09,055 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:14:09,058 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:14:09,060 - aiogram.event - INFO - Update id=352508315 is handled. Duration 12 ms by bot id=8888839728
+2026-09-07 15:14:09,502 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:14:09,505 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:14:09,506 - aiogram.event - INFO - Update id=352508316 is handled. Duration 12 ms by bot id=8888839728
+2026-09-07 15:14:10,944 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:14:10,947 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:14:10,948 - aiogram.event - INFO - Update id=352508317 is handled. Duration 12 ms by bot id=8888839728
+2026-09-07 15:14:13,423 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:14:13,426 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:14:13,427 - aiogram.event - INFO - Update id=352508318 is handled. Duration 12 ms by bot id=8888839728
+2026-09-07 15:14:13,921 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:14:13,926 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-07 15:14:13,927 - aiogram.event - INFO - Update id=352508319 is handled. Duration 15 ms by bot id=8888839728
+2026-09-07 15:14:15,078 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:14:15,081 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:14:15,083 - aiogram.event - INFO - Update id=352508320 is handled. Duration 14 ms by bot id=8888839728
+2026-09-07 15:14:21,946 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:14:21,949 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:14:21,950 - aiogram.event - INFO - Update id=352508321 is handled. Duration 12 ms by bot id=8888839728
+2026-09-07 15:14:28,150 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:14:28,153 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:14:28,154 - aiogram.event - INFO - Update id=352508322 is handled. Duration 19 ms by bot id=8888839728
+2026-09-07 15:14:28,157 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:14:28,160 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:14:28,675 - handlers.chat_member - INFO - 📨 Напоминание отправлено пользователю 7461695159 (сообщение #25)
+2026-09-07 15:14:28,676 - aiogram.event - INFO - Update id=352508323 is handled. Duration 537 ms by bot id=8888839728
+2026-09-07 15:14:33,393 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:14:33,408 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:14:33,408 - aiogram.event - INFO - Update id=352508324 is handled. Duration 27 ms by bot id=8888839728
+2026-09-07 15:14:36,201 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:14:36,202 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-07 15:14:36,203 - aiogram.event - INFO - Update id=352508325 is handled. Duration 4 ms by bot id=8888839728
+2026-09-07 15:14:37,243 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:14:37,244 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:14:37,246 - aiogram.event - INFO - Update id=352508326 is handled. Duration 6 ms by bot id=8888839728
+2026-09-07 15:14:47,698 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:14:47,702 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:14:48,213 - handlers.chat_member - INFO - 📨 Напоминание отправлено пользователю 7355654086 (сообщение #25)
+2026-09-07 15:14:48,214 - aiogram.event - INFO - Update id=352508327 is handled. Duration 523 ms by bot id=8888839728
+2026-09-07 15:14:51,059 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:14:51,063 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:14:51,063 - aiogram.event - INFO - Update id=352508328 is handled. Duration 17 ms by bot id=8888839728
+2026-09-07 15:15:04,048 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:15:04,049 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:15:04,050 - aiogram.event - INFO - Update id=352508329 is handled. Duration 5 ms by bot id=8888839728
+2026-09-07 15:15:08,114 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:15:08,116 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:15:08,118 - aiogram.event - INFO - Update id=352508330 is handled. Duration 12 ms by bot id=8888839728
+2026-09-07 15:15:13,058 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:15:13,060 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:15:13,063 - aiogram.event - INFO - Update id=352508331 is handled. Duration 12 ms by bot id=8888839728
+2026-09-07 15:15:34,401 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:15:34,402 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-07 15:15:34,403 - aiogram.event - INFO - Update id=352508332 is handled. Duration 5 ms by bot id=8888839728
+2026-09-07 15:15:43,665 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:15:43,666 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-07 15:15:43,667 - aiogram.event - INFO - Update id=352508333 is handled. Duration 4 ms by bot id=8888839728
+2026-09-07 15:16:50,993 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:16:50,994 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в файле
+2026-09-07 15:16:50,994 - aiogram.event - INFO - Update id=352508334 is handled. Duration 4 ms by bot id=8888839728
+2026-09-07 15:16:56,167 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:16:56,168 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в файле
+2026-09-07 15:16:56,168 - aiogram.event - INFO - Update id=352508335 is handled. Duration 4 ms by bot id=8888839728
+2026-09-07 15:17:06,501 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:17:06,502 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-07 15:17:06,504 - aiogram.event - INFO - Update id=352508336 is handled. Duration 5 ms by bot id=8888839728
+2026-09-07 15:17:10,230 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:17:10,232 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в файле
+2026-09-07 15:17:10,236 - aiogram.event - INFO - Update id=352508337 is handled. Duration 14 ms by bot id=8888839728
+2026-09-07 15:18:02,063 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:18:02,064 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-07 15:18:02,065 - aiogram.event - INFO - Update id=352508338 is handled. Duration 5 ms by bot id=8888839728
+2026-09-07 15:18:38,221 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:18:38,222 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-07 15:18:38,229 - aiogram.event - INFO - Update id=352508339 is handled. Duration 13 ms by bot id=8888839728
+2026-09-07 15:18:47,370 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:18:47,385 - handlers.chat_member - INFO - ✅ Пользователь 8365616736 найден в файле
+2026-09-07 15:18:47,386 - aiogram.event - INFO - Update id=352508340 is handled. Duration 25 ms by bot id=8888839728
+2026-09-07 15:18:54,569 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:18:54,571 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-07 15:18:54,572 - aiogram.event - INFO - Update id=352508341 is handled. Duration 10 ms by bot id=8888839728
+2026-09-07 15:19:17,387 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:19:17,617 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в файле
+2026-09-07 15:19:17,839 - aiogram.event - INFO - Update id=352508342 is handled. Duration 458 ms by bot id=8888839728
+2026-09-07 15:19:59,674 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:19:59,686 - handlers.chat_member - INFO - ✅ Пользователь 8365616736 найден в файле
+2026-09-07 15:19:59,688 - aiogram.event - INFO - Update id=352508343 is handled. Duration 23 ms by bot id=8888839728
+2026-09-07 15:20:05,999 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:20:06,026 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:20:06,027 - aiogram.event - INFO - Update id=352508344 is handled. Duration 31 ms by bot id=8888839728
+2026-09-07 15:20:15,091 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:20:15,266 - handlers.chat_member - INFO - ✅ Пользователь 8365616736 найден в файле
+2026-09-07 15:20:15,487 - aiogram.event - INFO - Update id=352508345 is handled. Duration 400 ms by bot id=8888839728
+2026-09-07 15:20:22,477 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:20:22,480 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:20:22,482 - aiogram.event - INFO - Update id=352508346 is handled. Duration 7 ms by bot id=8888839728
+2026-09-07 15:20:27,017 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:20:27,019 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-07 15:20:27,020 - aiogram.event - INFO - Update id=352508347 is handled. Duration 8 ms by bot id=8888839728
+2026-09-07 15:20:28,340 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:20:28,346 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-07 15:20:28,348 - aiogram.event - INFO - Update id=352508348 is handled. Duration 65 ms by bot id=8888839728
+2026-09-07 15:20:32,854 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:20:32,855 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:20:33,392 - handlers.chat_member - INFO - 📨 Напоминание отправлено пользователю 7461695159 (сообщение #30)
+2026-09-07 15:20:33,394 - aiogram.event - INFO - Update id=352508349 is handled. Duration 542 ms by bot id=8888839728
+2026-09-07 15:20:36,249 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:20:36,269 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в файле
+2026-09-07 15:20:36,271 - aiogram.event - INFO - Update id=352508350 is handled. Duration 28 ms by bot id=8888839728
+2026-09-07 15:20:37,888 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:20:37,889 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:20:37,889 - aiogram.event - INFO - Update id=352508351 is handled. Duration 5 ms by bot id=8888839728
+2026-09-07 15:20:38,892 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:20:38,894 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-07 15:20:38,898 - aiogram.event - INFO - Update id=352508352 is handled. Duration 13 ms by bot id=8888839728
+2026-09-07 15:20:47,143 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:20:47,144 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:20:47,145 - aiogram.event - INFO - Update id=352508353 is handled. Duration 6 ms by bot id=8888839728
+2026-09-07 15:20:50,789 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:20:50,790 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:20:51,265 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:20:51,267 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:20:51,269 - aiogram.event - INFO - Update id=352508355 is handled. Duration 7 ms by bot id=8888839728
+2026-09-07 15:20:51,643 - handlers.chat_member - INFO - 📨 Напоминание отправлено пользователю 7355654086 (сообщение #30)
+2026-09-07 15:20:51,644 - aiogram.event - INFO - Update id=352508354 is handled. Duration 858 ms by bot id=8888839728
+2026-09-07 15:20:51,723 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:20:51,728 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-07 15:20:51,732 - aiogram.event - INFO - Update id=352508356 is handled. Duration 16 ms by bot id=8888839728
+2026-09-07 15:20:58,828 - handlers.base_commands - INFO - 👤 —͞ ɱ𐔖ѕʠυꪻʈσ ׅ ִֶ࿐ нажал /start
+2026-09-07 15:20:59,912 - aiogram.event - INFO - Update id=352508357 is handled. Duration 1084 ms by bot id=8888839728
+2026-09-07 15:21:02,596 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:21:02,598 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:21:02,599 - aiogram.event - INFO - Update id=352508358 is handled. Duration 6 ms by bot id=8888839728
+2026-09-07 15:21:04,772 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:21:04,775 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-07 15:21:04,776 - aiogram.event - INFO - Update id=352508359 is handled. Duration 7 ms by bot id=8888839728
+2026-09-07 15:21:05,697 - aiogram.event - INFO - Update id=352508360 is handled. Duration 475 ms by bot id=8888839728
+2026-09-07 15:21:06,261 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:21:06,265 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:21:06,266 - aiogram.event - INFO - Update id=352508361 is handled. Duration 10 ms by bot id=8888839728
+2026-09-07 15:21:15,377 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:21:15,379 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:21:15,380 - aiogram.event - INFO - Update id=352508362 is handled. Duration 7 ms by bot id=8888839728
+2026-09-07 15:21:16,946 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:21:16,948 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:21:16,948 - aiogram.event - INFO - Update id=352508363 is handled. Duration 4 ms by bot id=8888839728
+2026-09-07 15:21:18,721 - aiogram.event - INFO - Update id=352508364 is handled. Duration 490 ms by bot id=8888839728
+2026-09-07 15:21:26,336 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:21:26,338 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-07 15:21:26,340 - aiogram.event - INFO - Update id=352508365 is handled. Duration 23 ms by bot id=8888839728
+2026-09-07 15:21:34,677 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:21:34,679 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:21:34,681 - aiogram.event - INFO - Update id=352508366 is handled. Duration 6 ms by bot id=8888839728
+2026-09-07 15:21:43,834 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:21:43,836 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-07 15:21:43,837 - aiogram.event - INFO - Update id=352508367 is handled. Duration 5 ms by bot id=8888839728
+2026-09-07 15:21:49,932 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:21:49,935 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в файле
+2026-09-07 15:21:49,936 - aiogram.event - INFO - Update id=352508368 is handled. Duration 6 ms by bot id=8888839728
+2026-09-07 15:22:03,955 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:22:03,957 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:22:04,460 - handlers.chat_member - INFO - 📨 Напоминание отправлено пользователю 7461695159 (сообщение #35)
+2026-09-07 15:22:04,462 - aiogram.event - INFO - Update id=352508369 is handled. Duration 512 ms by bot id=8888839728
+2026-09-07 15:22:09,185 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:22:09,188 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:22:09,190 - aiogram.event - INFO - Update id=352508370 is handled. Duration 13 ms by bot id=8888839728
+2026-09-07 15:22:09,636 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:22:09,639 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:22:09,641 - aiogram.event - INFO - Update id=352508371 is handled. Duration 14 ms by bot id=8888839728
+2026-09-07 15:22:10,638 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:22:10,639 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:22:10,640 - aiogram.event - INFO - Update id=352508372 is handled. Duration 8 ms by bot id=8888839728
+2026-09-07 15:22:12,128 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:22:12,130 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:22:12,131 - aiogram.event - INFO - Update id=352508373 is handled. Duration 5 ms by bot id=8888839728
+2026-09-07 15:22:13,295 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:22:13,297 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:22:13,300 - aiogram.event - INFO - Update id=352508374 is handled. Duration 13 ms by bot id=8888839728
+2026-09-07 15:22:18,489 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:22:18,491 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:22:19,012 - handlers.chat_member - INFO - 📨 Напоминание отправлено пользователю 7317240248 (сообщение #15)
+2026-09-07 15:22:19,014 - aiogram.event - INFO - Update id=352508375 is handled. Duration 531 ms by bot id=8888839728
+2026-09-07 15:22:24,134 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:22:24,135 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:22:24,136 - aiogram.event - INFO - Update id=352508376 is handled. Duration 9 ms by bot id=8888839728
+2026-09-07 15:22:31,879 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:22:31,925 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:22:31,946 - aiogram.event - INFO - Update id=352508377 is handled. Duration 72 ms by bot id=8888839728
+2026-09-07 15:22:34,697 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:22:34,701 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:22:34,702 - aiogram.event - INFO - Update id=352508378 is handled. Duration 7 ms by bot id=8888839728
+2026-09-07 15:22:36,467 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:22:36,473 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:22:36,474 - aiogram.event - INFO - Update id=352508379 is handled. Duration 15 ms by bot id=8888839728
+2026-09-07 15:22:44,285 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:22:44,591 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:22:44,592 - aiogram.event - INFO - Update id=352508380 is handled. Duration 373 ms by bot id=8888839728
+2026-09-07 15:22:47,398 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:22:47,454 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:22:47,469 - aiogram.event - INFO - Update id=352508381 is handled. Duration 159 ms by bot id=8888839728
+2026-09-07 15:22:48,413 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:22:48,501 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:22:48,660 - aiogram.event - INFO - Update id=352508382 is handled. Duration 250 ms by bot id=8888839728
+2026-09-07 15:22:52,351 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:22:52,352 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:22:52,913 - handlers.chat_member - INFO - 📨 Напоминание отправлено пользователю 7461695159 (сообщение #40)
+2026-09-07 15:22:52,914 - aiogram.event - INFO - Update id=352508383 is handled. Duration 570 ms by bot id=8888839728
+2026-09-07 15:22:55,796 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:22:55,798 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:22:55,799 - aiogram.event - INFO - Update id=352508384 is handled. Duration 5 ms by bot id=8888839728
+2026-09-07 15:22:57,257 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:22:57,267 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:22:57,268 - aiogram.event - INFO - Update id=352508385 is handled. Duration 17 ms by bot id=8888839728
+2026-09-07 15:23:00,499 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:23:00,502 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:23:00,503 - aiogram.event - INFO - Update id=352508387 is handled. Duration 10 ms by bot id=8888839728
+2026-09-07 15:23:00,504 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:23:00,506 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:23:01,340 - handlers.chat_member - INFO - 📨 Напоминание отправлено пользователю 7317240248 (сообщение #20)
+2026-09-07 15:23:01,343 - aiogram.event - INFO - Update id=352508386 is handled. Duration 854 ms by bot id=8888839728
+2026-09-07 15:23:05,403 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:23:05,404 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:23:05,406 - aiogram.event - INFO - Update id=352508388 is handled. Duration 13 ms by bot id=8888839728
+2026-09-07 15:23:10,054 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:23:10,055 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:23:10,056 - aiogram.event - INFO - Update id=352508389 is handled. Duration 5 ms by bot id=8888839728
+2026-09-07 15:23:13,164 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:23:13,170 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:23:13,687 - handlers.chat_member - INFO - 📨 Напоминание отправлено пользователю 7461695159 (сообщение #45)
+2026-09-07 15:23:13,689 - aiogram.event - INFO - Update id=352508390 is handled. Duration 528 ms by bot id=8888839728
+2026-09-07 15:23:18,791 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:23:18,792 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:23:18,792 - aiogram.event - INFO - Update id=352508391 is handled. Duration 5 ms by bot id=8888839728
+2026-09-07 15:23:19,621 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:23:19,622 - handlers.chat_member - INFO - ❌ Пользователь 7461695159 НЕ найден в файле
+2026-09-07 15:23:19,623 - aiogram.event - INFO - Update id=352508392 is handled. Duration 5 ms by bot id=8888839728
+2026-09-07 15:23:23,474 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:23:23,476 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:23:23,477 - aiogram.event - INFO - Update id=352508393 is handled. Duration 8 ms by bot id=8888839728
+2026-09-07 15:23:44,842 - aiogram.event - INFO - Update id=352508394 is handled. Duration 2 ms by bot id=8888839728
+2026-09-07 15:23:52,402 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:23:52,403 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в файле
+2026-09-07 15:23:52,404 - aiogram.event - INFO - Update id=352508395 is handled. Duration 4 ms by bot id=8888839728
+2026-09-07 15:23:52,957 - aiogram.event - INFO - Update id=352508396 is handled. Duration 2 ms by bot id=8888839728
+2026-09-07 15:23:58,529 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:23:58,532 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-07 15:23:58,534 - aiogram.event - INFO - Update id=352508397 is handled. Duration 13 ms by bot id=8888839728
+2026-09-07 15:24:01,638 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:24:01,640 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:24:02,092 - handlers.chat_member - ERROR - Ошибка отправки напоминания: Telegram server says - Bad Request: not enough rights to send text messages to the chat
+2026-09-07 15:24:02,093 - aiogram.event - INFO - Update id=352508398 is handled. Duration 458 ms by bot id=8888839728
+2026-09-07 15:24:07,224 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:24:07,225 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:24:07,226 - aiogram.event - INFO - Update id=352508399 is handled. Duration 7 ms by bot id=8888839728
+2026-09-07 15:24:15,587 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:24:15,590 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-07 15:24:15,591 - aiogram.event - INFO - Update id=352508400 is handled. Duration 12 ms by bot id=8888839728
+2026-09-07 15:24:20,850 - handlers.base_commands - INFO - 👤 . нажал /start
+2026-09-07 15:24:21,784 - aiogram.event - INFO - Update id=352508401 is handled. Duration 934 ms by bot id=8888839728
+2026-09-07 15:24:26,614 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:24:26,617 - handlers.chat_member - INFO - ❌ Пользователь 7317240248 НЕ найден в файле
+2026-09-07 15:24:27,143 - handlers.chat_member - INFO - 📨 Напоминание отправлено пользователю 7317240248 (сообщение #25)
+2026-09-07 15:24:27,144 - aiogram.event - INFO - Update id=352508402 is handled. Duration 539 ms by bot id=8888839728
+2026-09-07 15:24:39,643 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-07 15:24:39,646 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в файле
+2026-09-07 15:24:39,647 - aiogram.event - INFO - Update id=352508403 is handled. Duration 11 ms by bot id=8888839728
+2026-09-07 15:25:03,642 - aiogram.event - INFO - Update id=352508404 is handled. Duration 944 ms by bot id=8888839728

@@ -23,6 +23,77 @@ from utils.user_utils import get_user_by_id
 logger = logging.getLogger(__name__)
 router = Router()
 
+def create_seasons_keyboard(seasons: list, callback_prefix: str = "apply_season") -> InlineKeyboardMarkup:
+    """Создает клавиатуру с сезонами"""
+    keyboard = []
+    row = []
+    
+    for i, season in enumerate(seasons):
+        row.append(InlineKeyboardButton(text=f"📂 {season}", callback_data=f"{callback_prefix}_{season}"))
+        if len(row) == 2:
+            keyboard.append(row)
+            row = []
+    
+    if row:
+        keyboard.append(row)
+    
+    # Кнопка "Назад" или "Отмена"
+    keyboard.append([
+        InlineKeyboardButton(text="❌ Отменить", callback_data="apply_cancel")
+    ])
+    
+    return InlineKeyboardMarkup(inline_keyboard=keyboard)
+
+def create_roles_keyboard(roles: list, season: str, callback_prefix: str = "apply_role") -> InlineKeyboardMarkup:
+    """Создает клавиатуру с ролями для выбранного сезона"""
+    keyboard = []
+    
+    for role in roles:
+        status_emoji = "✅" if role.get('status') == 'free' else "❌" if role.get('status') == 'occupied' else "⏳"
+        button_text = f"{status_emoji} {role['name']}"
+        
+        if role.get('status') == 'free':
+            keyboard.append([
+                InlineKeyboardButton(
+                    text=button_text,
+                    callback_data=f"{callback_prefix}_{season}_{role['name']}"
+                )
+            ])
+        else:
+            # Занятые роли показываем, но они неактивны
+            keyboard.append([
+                InlineKeyboardButton(
+                    text=f"{button_text} 🔒",
+                    callback_data="role_occupied"
+                )
+            ])
+    
+    # Кнопка "Назад"
+    keyboard.append([
+        InlineKeyboardButton(text="🔙 Назад к сезонам", callback_data="apply_back_to_seasons")
+    ])
+    
+    return InlineKeyboardMarkup(inline_keyboard=keyboard)
+
+@router.callback_query(F.data == "apply_cancel")
+async def cancel_apply(callback: CallbackQuery):
+    """Отмена подачи заявки"""
+    await callback.answer()
+    await callback.message.edit_text(
+        "❌ Подача заявки отменена.\n\n"
+        "Вы можете подать новую заявку через /apply"
+    )
+
+@router.callback_query(F.data == "apply_back_to_seasons")
+async def back_to_seasons(callback: CallbackQuery):
+    """Возврат к списку сезонов"""
+    await callback.answer()
+    await cmd_apply(callback.message)
+
+@router.callback_query(F.data == "role_occupied")
+async def role_occupied(callback: CallbackQuery):
+    """Ответ на нажатие занятой роли"""
+    await callback.answer("❌ Эта роль уже занята или находится в обработке", show_alert=True)
 
 def get_main_keyboard(user_id: int, chat_id: int = None):
     """
