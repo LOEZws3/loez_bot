@@ -228,3 +228,33 @@ def sync_unsubscribed_with_users(users_ids):
         logger.info(f"🔄 Синхронизация отписок: удалено {removed_count} записей несуществующих пользователей")
 
     return removed_count
+# ======================== ДОБАВЛЕННАЯ ФУНКЦИЯ ДЛЯ role_commands.py ========================
+
+def get_user_info(user_id: int) -> dict:
+    """
+    Возвращает информацию о пользователе по его ID
+    Возвращает словарь с ключами: user_id, username, full_name, role
+    """
+    try:
+        user = get_user_by_id(user_id)
+        if user:
+            return {
+                'user_id': user.get('user_id'),
+                'username': user.get('username', ''),
+                'full_name': user.get('full_name', ''),
+                'role': user.get('role', '')
+            }
+        return {
+            'user_id': user_id,
+            'username': '',
+            'full_name': '',
+            'role': ''
+        }
+    except Exception as e:
+        logger.error(f"Ошибка получения информации о пользователе {user_id}: {e}")
+        return {
+            'user_id': user_id,
+            'username': '',
+            'full_name': '',
+            'role': ''
+        }
