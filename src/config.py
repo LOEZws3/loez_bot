@@ -1,89 +1,102 @@
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
+# Загружаем переменные из .env
 load_dotenv()
 
-# ============================================================
-# ТОКЕН БОТА
-# ============================================================
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+# --- Базовые пути ---
+BASE_DIR = Path(__file__).parent.parent
+DATA_DIR = os.path.join(BASE_DIR, 'data')
+SRC_PATH = Path(__file__).parent
 
-# ============================================================
-# ID ВЛАДЕЛЬЦА (ВАШ)
-# ============================================================
-OWNER_ID = 8076284478
+# --- Токены и ID (из .env) ---
+BOT_TOKEN = os.getenv('BOT_TOKEN')
+OWNER_ID = int(os.getenv('OWNER_ID', 0))
+GENERAL_CHAT_ID = int(os.getenv('GENERAL_CHAT_ID', 0))
 
-# ============================================================
-# ID ЧАТОВ
-# ============================================================
-GENERAL_CHAT_ID = int(os.getenv("GENERAL_CHAT_ID", -1001234567890))
-ADMIN_GROUP_ID = int(os.getenv("ADMIN_GROUP_ID", -1001234567890))
+# --- ID чатов и ссылки (из .env или значения по умолчанию) ---
+ADMIN_GROUP_ID = int(os.getenv('ADMIN_GROUP_ID', 0))  # ID админ-группы
+CHAT_INVITE_LINK = os.getenv('CHAT_INVITE_LINK', 'https://t.me/joinchat/your_chat_link')  # Ссылка-приглашение
+ROLES_PER_PAGE = int(os.getenv('ROLES_PER_PAGE', 5))  # Количество ролей на страницу
 
-# ============================================================
-# ПАРОЛИ
-# ============================================================
-ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")
-USER_PASSWORD = os.getenv("USER_PASSWORD", "user123")
+# --- Настройки прокси ---
+USE_PROXY = os.getenv('USE_PROXY', 'false').lower() == 'true'
+PROXY_DIR = os.getenv('PROXY_DIR', os.path.join(SRC_PATH, 'proxies'))
+PROXY_ENABLED = USE_PROXY  # Для обратной совместимости
 
-# ============================================================
-# ССЫЛКИ
-# ============================================================
-CHAT_INVITE_LINK = os.getenv("CHAT_INVITE_LINK", "https://t.me/your_chat")
-MODERATOR_LINK = os.getenv("MODERATOR_LINK", "https://t.me/mod")
-ADMIN_LINK = os.getenv("ADMIN_LINK", "https://t.me/admin")
+# --- Остальные настройки ---
+DATABASE_PATH = os.getenv('DATABASE_PATH', os.path.join(SRC_PATH, 'bot.db'))
+LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')
+LOG_FILE_PATH = os.getenv('LOG_FILE_PATH', os.path.join(SRC_PATH, 'logs', 'bot.log'))
+LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 
-# ============================================================
-# БАЗОВЫЕ ПУТИ
-# ============================================================
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA_DIR = os.path.join(BASE_DIR, "data")
+# --- Пути к файлам данных ---
+ADMINS_FILE = os.path.join(DATA_DIR, 'admins', 'admins.txt')
+USERS_FILE = os.path.join(DATA_DIR, 'users', 'users.txt')
+CREATION_FILE = os.path.join(DATA_DIR, 'system', 'creation_date.txt')
+FORWARD_FILE = os.path.join(DATA_DIR, 'system', 'forward_map.json')
+REQUESTS_FILE = os.path.join(DATA_DIR, 'system', 'requests.json')
+ROLES_STATUS_FILE = os.path.join(DATA_DIR, 'roles_status.json')
+SYSTEM_SETTINGS_FILE = os.path.join(DATA_DIR, 'system_settings.json')
+ROLES_DIR = os.path.join(DATA_DIR, 'roles')
+USERS_HISTORY_DIR = os.path.join(DATA_DIR, 'users_history')
 
-# ============================================================
-# ПУТИ К ФАЙЛАМ (ВСЕ)
-# ============================================================
+# --- Проверка обязательных переменных ---
+if not BOT_TOKEN:
+    raise ValueError("❌ BOT_TOKEN не найден в .env файле!")
 
-# --- Администраторы ---
-ADMINS_FILE = os.path.join(DATA_DIR, "admins", "admins.txt")
+if not GENERAL_CHAT_ID:
+    print("⚠️ ВНИМАНИЕ: GENERAL_CHAT_ID не задан в .env файле!")
 
-# --- Пользователи ---
-USERS_FILE = os.path.join(DATA_DIR, "users", "users.txt")
-UNSUBSCRIBED_FILE = os.path.join(DATA_DIR, "users", "unsubscribed_calls.txt")
+if not ADMIN_GROUP_ID:
+    print("⚠️ ВНИМАНИЕ: ADMIN_GROUP_ID не задан в .env файле!")
 
-# --- Система ---
-CREATION_FILE = os.path.join(DATA_DIR, "system", "creation_date.txt")
-FORWARD_FILE = os.path.join(DATA_DIR, "system", "forward.txt")
-REQUESTS_FILE = os.path.join(DATA_DIR, "system", "requests.json")
-SYSTEM_SETTINGS_FILE = os.path.join(DATA_DIR, "system_settings.json")
+# --- Создание папок ---
+def ensure_directories():
+    directories = [
+        DATA_DIR,
+        os.path.join(DATA_DIR, 'users'),
+        os.path.join(DATA_DIR, 'admins'),
+        os.path.join(DATA_DIR, 'roles'),
+        os.path.join(DATA_DIR, 'system'),
+        os.path.join(DATA_DIR, 'users_history'),
+        os.path.join(SRC_PATH, 'logs'),
+        PROXY_DIR,
+    ]
+    
+    for directory in directories:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+            print(f"📁 Создана папка: {directory}")
 
-# --- Роли (ВАЖНО!) ---
-ROLES_DIR = os.path.join(DATA_DIR, "roles")                # <-- Папка с файлами ролей
-ROLES_FILE = os.path.join(DATA_DIR, "roles_status.json")   # <-- Основной файл статусов
-ROLES_STATUS_FILE = ROLES_FILE                             # <-- Алиас для обратной совместимости
+ensure_directories()
 
-# --- Заявки на рест ---
-REST_REQUESTS_FILE = os.path.join(DATA_DIR, "requests", "rest_requests.json")
-
-# --- История пользователей ---
-USERS_HISTORY_DIR = os.path.join(DATA_DIR, "users_history")
-
-# ============================================================
-# НАСТРОЙКИ ПРОКСИ
-# ============================================================
-USE_PROXY = os.getenv("USE_PROXY", "True").lower() == "true"
-PROXY_DIR = os.getenv("PROXY_DIR", "../proxy_manadger")
-# ============================================================
-# НАСТРОЙКИ ИНТЕРФЕЙСА
-# ============================================================
-ROLES_PER_PAGE = 10  # Количество ролей на одной странице
-# ============================================================
-# РЕЗЕРВНЫЙ СПИСОК ПРОВЕРЕННЫХ ПРОКСИ (РАБОТАЮТ С TELEGRAM)
-# ============================================================
-# Эти прокси проверены вручную и работают с Telegram API.
-# Используются как резерв, если good_proxies.txt пуст или недоступен.
-# Формат: ip:port или socks5://ip:port
-
-BACKUP_PROXIES = [
-   " 103.135.189.193:83"
-    # Добавляйте новые проверенные прокси сюда
-    # "ip:port",
+# --- Экспорт для других модулей ---
+__all__ = [
+    'BOT_TOKEN',
+    'OWNER_ID',
+    'GENERAL_CHAT_ID',
+    'ADMIN_GROUP_ID',
+    'CHAT_INVITE_LINK',
+    'ROLES_PER_PAGE',
+    'USE_PROXY',
+    'PROXY_DIR',
+    'PROXY_ENABLED',
+    'DATA_DIR',
+    'SRC_PATH',
+    'DATABASE_PATH',
+    'LOG_LEVEL',
+    'LOG_FILE_PATH',
+    'LOG_FORMAT',
+    'ADMINS_FILE',
+    'USERS_FILE',
+    'CREATION_FILE',
+    'FORWARD_FILE',
+    'REQUESTS_FILE',
+    'ROLES_STATUS_FILE',
+    'SYSTEM_SETTINGS_FILE',
+    'ROLES_DIR',
+    'USERS_HISTORY_DIR',
+    'ensure_directories',
 ]

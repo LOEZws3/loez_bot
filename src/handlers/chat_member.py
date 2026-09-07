@@ -1,94 +1,96 @@
+import os
 import logging
-from aiogram import Router, F
-from aiogram.types import Message, ChatMemberUpdated
-from config import GENERAL_CHAT_ID
-from utils.user_utils import load_users, get_user_by_id
-from utils.role_utils import get_user_role as get_user_role_from_roles
+from aiogram import Router, types
+from aiogram.filters import Command
+from aiogram.types import ChatMemberUpdated
+
+from config import DATA_PATH, GENERAL_CHAT_ID
 
 logger = logging.getLogger(__name__)
 router = Router()
 
-# Словарь для хранения счётчика сообщений незарегистрированных пользователей
-user_message_counter = {}
+# Счетчик сообщений для незарегистрированных пользователей
+message_counter = {}
 
+def get_message_count(user_id: int) -> int:
+    return message_counter.get(user_id, 0)
 
-@router.message(F.chat.id == GENERAL_CHAT_ID)
-async def check_user_registration(message: Message):
-    """
-    Проверяет, зарегистрирован ли пользователь.
-    Если нет — каждое 5-е сообщение напоминает о регистрации.
-    """
-    user = message.from_user
-    if user is None or user.is_bot:
+def set_message_count(user_id: int, count: int):
+    message_counter[user_id] = count
+
+def check_user_registration(user_id: int) -> bool:
+    """Проверяет, есть ли пользователь в data/users/users.txt"""
+    try:
+        users_file = os.path.join(DATA_PATH, 'users', 'users.txt')
+        if not os.path.exists(users_file):
+            logger.error(f"Файл {users_file} не найден!")
+            return False
+        
+        with open(users_file, 'r', encoding='utf-8') as f:
+            for line in f:
+                if str(user_id) in line:
+                    return True
+        return False
+    except Exception as e:
+        logger.error(f"Ошибка при проверке пользователя {user_id}: {e}")
+        return False
+
+@router.message()
+async def handle_message(message: types.Message):
+    """Обработчик всех сообщений"""
+    if message.chat.type in ['group', 'supergroup']:
+        if message.chat.id != GENERAL_CHAT_ID:
+            return
+    
+    user_id = message.from_user.id
+    
+    if not check_user_registration(user_id):
+        count = get_message_count(user_id) + 1
+        set_message_count(user_id, count)
+        
+        if count % 5 == 0:
+            try:
+                await message.reply(
+                    "👤 Chedrik SSL, я вижу вас в системе, но ваши данные не обновлены!\n\n"
+                    "📌 Пожалуйста, обновите свои данные через бота:\n"
+                    "👉 @REG_sf_BOT\n\n"
+                    "Или зарегистрируйтесь через команду /apply в личных сообщениях с ботом.",
+                    disable_notification=True
+                )
+                logger.info(f"📨 Напоминание отправлено пользователю {user_id}")
+            except Exception as e:
+                logger.error(f"Ошибка отправки: {e}")
+    else:
+        if user_id in message_counter:
+            message_counter[user_id] = 0
+
+@router.my_chat_member()
+async def on_user_join(update: ChatMemberUpdated):
+    """Приветствие новых пользователей"""
+    if update.chat.id != GENERAL_CHAT_ID:
         return
     
+    if update.new_chat_member.status not in ['member', 'administrator', 'creator']:
+        return
+    
+    if update.old_chat_member.status in ['member', 'administrator', 'creator']:
+        return
+    
+    user = update.new_chat_member.user
     user_id = user.id
     
-    # Проверяем, есть ли пользователь в базе
-    user_data = get_user_by_id(user_id)
-    user_role = get_user_role_from_roles(user_id)
-    
-    # Если пользователь зарегистрирован — сбрасываем счётчик и выходим
-    if user_data is not None:
-        if user_id in user_message_counter:
-            del user_message_counter[user_id]
-        return
-    
-    # Увеличиваем счётчик сообщений
-    if user_id not in user_message_counter:
-        user_message_counter[user_id] = 0
-    
-    user_message_counter[user_id] += 1
-    
-    # Каждое 5-е сообщение — напоминаем
-    if user_message_counter[user_id] % 5 == 0:
-        if user_role:
-            await message.answer(
-                f"👤 {user.full_name}, я вижу вас в системе, но ваши данные не обновлены!\n\n"
-                f"📌 Пожалуйста, обновите свои данные через бота:\n"
-                f"👉 @REG_sf_BOT\n\n"
-                f"Или зарегистрируйтесь через команду /apply в личных сообщениях с ботом.",
-                parse_mode="HTML"
+    if not check_user_registration(user_id):
+        try:
+            await update.bot.send_message(
+                chat_id=update.chat.id,
+                text=f"👋 Привет, {user.first_name}!\n\n"
+                     f"❗ Для полного доступа зарегистрируйтесь:\n"
+                     f"1. Напишите @loez_bot в личку\n"
+                     f"2. Используйте команду /apply",
+                disable_notification=True
             )
-            logger.info(f"📨 Напоминание об обновлении данных отправлено {user_id} (сообщение #{user_message_counter[user_id]})")
-        else:
-            await message.answer(
-                f"👋 {user.full_name}, я не вижу вас в базе участников!\n\n"
-                f"📌 Чтобы стать участником флуда, перейдите в бота:\n"
-                f"👉 @REG_sf_BOT\n\n"
-                f"И подайте заявку через команду /apply в личных сообщениях с ботом.",
-                parse_mode="HTML"
-            )
-            logger.info(f"📨 Напоминание о регистрации отправлено {user_id} (сообщение #{user_message_counter[user_id]})")
-        
-        # Сбрасываем счётчик, чтобы цикл повторялся
-        user_message_counter[user_id] = 0
+            logger.info(f"📨 Приветствие отправлено {user_id}")
+        except Exception as e:
+            logger.error(f"Ошибка приветствия: {e}")
 
-
-@router.chat_member()
-async def on_user_join(event: ChatMemberUpdated):
-    """
-    Когда пользователь заходит в чат — проверяем его регистрацию
-    """
-    if event.chat.id != GENERAL_CHAT_ID:
-        return
-    
-    new_status = event.new_chat_member.status
-    user = event.new_chat_member.user
-    
-    if new_status in ['member', 'administrator', 'creator'] and not user.is_bot:
-        user_data = get_user_by_id(user.id)
-        
-        if user_data is None:
-            try:
-                await event.bot.send_message(
-                    user.id,
-                    f"👋 Добро пожаловать в флуд, {user.full_name}!\n\n"
-                    f"📌 Чтобы стать полноценным участником, пожалуйста, зарегистрируйтесь:\n"
-                    f"1. Перейдите в бота: @REG_sf_BOT\n"
-                    f"2. Подайте заявку через команду /apply в личных сообщениях с ботом.\n\n"
-                    f"После одобрения заявки вы получите роль и сможете полноценно участвовать в жизни флуда! 🎉"
-                )
-                logger.info(f"📨 Приветственное сообщение отправлено новому пользователю {user.id}")
-            except Exception as e:
-                logger.error(f"❌ Не удалось отправить приветствие {user.id}: {e}")
+__all__ = ['router']
