@@ -604,3 +604,84 @@ async def back_to_roles_seasons(callback: CallbackQuery):
         parse_mode="HTML",
         reply_markup=keyboard
     )
+# ======================== ОБРАБОТЧИКИ REPLY-КНОПОК ========================
+# Reply-кнопки отправляют текст как сообщение, поэтому нужны явные обработчики
+
+@router.message(F.text == "📋 Помощь (/help)")
+async def btn_help(message: types.Message):
+    await cmd_help(message)
+
+@router.message(F.text == "ℹ️ Информация (/about)")
+async def btn_about(message: types.Message):
+    await cmd_about(message)
+
+@router.message(F.text == "📝 Мои данные (/aboutme)")
+async def btn_aboutme(message: types.Message):
+    await cmd_aboutme(message)
+
+@router.message(F.text == "🎭 Список ролей (/roles)")
+async def btn_roles(message: types.Message):
+    await cmd_roles(message)
+
+@router.message(F.text == "✅ Подать заявку (/apply)")
+async def btn_apply(message: types.Message):
+    from .role_commands import cmd_apply
+    await cmd_apply(message)
+
+@router.message(F.text == "🔓 Освободить роль (/free)")
+async def btn_free(message: types.Message):
+    from .role_commands import cmd_free
+    await cmd_free(message)
+
+@router.message(F.text == "⏳ Рест (/rest)")
+async def btn_rest(message: types.Message):
+    from .rest_commands import cmd_rest
+    await cmd_rest(message)
+
+@router.message(F.text == "👥 Список участников (/members)")
+async def btn_members(message: types.Message):
+    await cmd_members(message)
+
+@router.message(F.text == "👥 Список админов (/admins)")
+async def btn_admins(message: types.Message):
+    from .admin_commands import cmd_admins
+    await cmd_admins(message)
+
+@router.message(F.text == "👤 Список участников (/users)")
+async def btn_users(message: types.Message):
+    from .admin_commands import cmd_users
+    await cmd_users(message)
+
+@router.message(F.text == "📋 Заявки (/requests)")
+async def btn_requests(message: types.Message):
+    from .request_commands import cmd_requests
+    await cmd_requests(message)
+
+@router.message(F.text == "📊 Статистика (/stats)")
+async def btn_stats(message: types.Message):
+    await cmd_stats(message)
+
+@router.message(F.text == "📢 Кал (/call)")
+async def btn_call(message: types.Message):
+    from .call_commands import cmd_call
+    await cmd_call(message)
+
+@router.message(F.text == "📣 Кал-фал (/callfal)")
+async def btn_callfal(message: types.Message):
+    from .call_commands import cmd_callfal
+    await cmd_callfal(message)
+
+@router.message(F.text == "⏳ Список рестов (/restlist)")
+async def btn_restlist(message: types.Message):
+    from .rest_commands import cmd_restlist
+    await cmd_restlist(message)
+
+@router.message(F.text == "🔔 Подписаться на калы (/regc)")
+async def btn_regc(message: types.Message):
+    from .call_commands import cmd_regc
+    await cmd_regc(message)
+
+@router.message(F.text == "🔕 Отписаться от калов (/unregc)")
+async def btn_unregc(message: types.Message):
+    from .call_commands import cmd_unregc
+    await cmd_unregc(message)

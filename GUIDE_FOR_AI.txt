@@ -498,3 +498,152 @@ data/admins/admins.txt
 📅 Версия: 6.1.0
 📅 Дата обновления: 07.09.2026
 ═══════════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════════
+📡 АКТУАЛЬНЫЙ КОД — ВСЕГДА В GIT
+═══════════════════════════════════════════════════════════════════
+
+🔗 ДЕРЕВО РЕПОЗИТОРИЯ (ВСЕ ФАЙЛЫ):
+https://api.github.com/repos/LOEZws3/loez_bot/git/trees/main?recursive=1
+
+📌 ПРАВИЛО: 
+Файлы в репозитории ВСЕГДА АКТУАЛЬНЫ. Если нужно посмотреть код файла:
+1. Открой ссылку на дерево репозитория
+2. Найди нужный файл в списке
+3. Перейди по его `url` (типа https://api.github.com/repos/.../blobs/...)
+4. Прочитай содержимое
+
+⛔ НЕ ПИШИ КОД ВСЛЕПУЮ! Сначала прочитай актуальную версию файла через GitHub.
+
+═══════════════════════════════════════════════════════════════════
+🗑️ ПРАВИЛА УДАЛЕНИЯ КОДА
+═══════════════════════════════════════════════════════════════════
+
+⚠️ УДАЛЯТЬ КОД РАЗРЕШЕНО ТОЛЬКО В КРАЙНИХ СЛУЧАЯХ!
+
+📌 ЕСЛИ НУЖНО ЧТО-ТО УДАЛИТЬ — ОБЯЗАТЕЛЬНО:
+1. ПРЕДУПРЕДИТЬ пользователя о том, что собираешься удалить
+2. ОПИСАТЬ, ЧТО именно удаляешь (имя функции, строки, файл)
+3. ОБЪЯСНИТЬ, ПОЧЕМУ это нужно удалить
+4. УКАЗАТЬ, что будет взамен (если что-то добавляется)
+5. ДОЖДАТЬСЯ явного подтверждения пользователя
+
+📄 ПРИМЕР ПРАВИЛЬНОГО ПРЕДУПРЕЖДЕНИЯ:
+"Я собираюсь удалить функцию `old_function()` из `utils/role_utils.py`, 
+потому что она дублирует `new_function()`. Взамен ничего не добавляю.
+Подтвердите удаление."
+
+❌ НЕЛЬЗЯ:
+- Молча удалять функции, классы, переменные
+- Удалять большие блоки кода без объяснения
+- Удалять комментарии и логирование
+- Удалять импорты, если они используются
+
+═══════════════════════════════════════════════════════════════════
+📋 ВСЕ ФУНКЦИИ БОТА (СПРАВОЧНИК)
+═══════════════════════════════════════════════════════════════════
+
+📂 handlers/base_commands.py:
+- cmd_start, cmd_help, cmd_about, cmd_aboutme
+- cmd_members, cmd_roles, cmd_stats, cmd_roster
+- cmd_update, cmd_hide, cmd_menu
+
+📂 handlers/role_commands.py:
+- cmd_apply, cmd_free, cmd_cancel_request
+- process_season_selection, process_role_selection
+
+📂 handlers/admin_commands.py:
+- cmd_admins, cmd_users, cmd_adduser, cmd_removeuser
+- cmd_resetuser, cmd_find, cmd_finduser, cmd_refresh
+
+📂 handlers/admin_management.py:
+- cmd_promote, cmd_demote, cmd_setrank
+
+📂 handlers/request_commands.py:
+- cmd_requests, cmd_approve, cmd_reject
+- approve_request, reject_request
+
+📂 handlers/call_commands.py:
+- cmd_call, cmd_callfal, cmd_regc, cmd_unregc
+
+📂 handlers/rest_commands.py:
+- cmd_rest, cmd_unrest, cmd_restextend, cmd_restlist
+
+📂 handlers/settings_commands.py:
+- cmd_settings, cmd_diag, cmd_check_chats
+- cmd_close, cmd_open
+
+📂 handlers/chat_member.py:
+- handle_message, on_user_join, check_user_registration
+
+📂 utils/role_utils.py:
+- load_roles_status, save_roles_status
+- get_seasons_list, get_all_seasons, get_roles_by_season
+- get_role_by_name, get_role_info, get_role_status
+- is_role_free, update_role_status, free_role
+- get_user_role, get_taken_roles, count_taken_roles
+- get_all_roles, get_season_stats, get_all_seasons_stats
+- get_free_roles_by_season, get_occupied_roles_by_season
+- get_system_settings, save_system_settings
+- get_closed_mode, set_closed_mode
+
+📂 utils/user_utils.py:
+- load_users, save_users, get_user_by_id, get_user_by_username
+- get_all_users, add_user, remove_user, update_user
+- is_user_registered, get_user_role, count_users, get_users_by_role
+- get_user_info
+
+📂 utils/admin_utils.py:
+- get_admin_rank, is_admin, load_admins, save_admins
+
+═══════════════════════════════════════════════════════════════════
+🎯 РЕАЛЬНАЯ СТРУКТУРА roles_status.json
+═══════════════════════════════════════════════════════════════════
+
+📌 ФОРМАТ (ВАЖНО!):
+{
+  "Имя персонажа": {
+    "status": "свободна" | "занята",
+    "owner_id": null | <user_id>,
+    "username": null | "<username>",
+    "season": "Название сезона",
+    "extra": ""
+  },
+  ...
+}
+
+📌 КЛЮЧЕВЫЕ МОМЕНТЫ:
+- Это СЛОВАРЬ, а не список! Ключ — имя персонажа.
+- Статусы на РУССКОМ: "свободна" / "занята"
+- Сезон лежит ВНУТРИ каждого персонажа, не отдельно.
+- Список сезонов получается через перебор всех персонажей.
+
+📌 ТИПИЧНАЯ ОШИБКА:
+`'str' object has no attribute 'get'` — возникает, если код ожидает список,
+а получает словарь. Например: `for season_data in data: season_data.get('season')`
+работает для списка, но НЕ для словаря. Для словаря нужно:
+`for role_name, role_info in data.items(): role_info.get('season')`
+
+═══════════════════════════════════════════════════════════════════
+🔘 REPLY-КНОПКИ vs INLINE-КНОПКИ
+═══════════════════════════════════════════════════════════════════
+
+📌 REPLY-КНОПКИ (внизу экрана):
+- Отправляют текст как обычное сообщение
+- Требуют обработчиков `@router.message(F.text == "текст кнопки")`
+- Пример: "📋 Помощь (/help)" — при нажатии отправляется это сообщение
+- Если обработчика нет — бот молча игнорирует
+
+📌 INLINE-КНОПКИ (под сообщением):
+- Отправляют callback_data
+- Требуют обработчиков `@router.callback_query(F.data == "...")`
+- Не отправляют текст в чат
+
+📌 ВАЖНО:
+Когда добавляешь новую Reply-кнопку в keyboards.py — 
+ОБЯЗАТЕЛЬНО добавь обработчик `F.text == "..."` в тот же или другой файл!
+
+═══════════════════════════════════════════════════════════════════
+📅 Версия: 6.2.0
+📅 Дата обновления: 12.09.2026
+═══════════════════════════════════════════════════════════════════
