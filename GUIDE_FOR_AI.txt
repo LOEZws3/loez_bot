@@ -1,6 +1,6 @@
 ═══════════════════════════════════════════════════════════════════
                     🤖 LoezF_Bot — ГАЙД ДЛЯ РАЗРАБОТЧИКОВ
-                    (ОБНОВЛЕН 12.09.2026, ВЕРСИЯ 6.3.0)
+                    (ОБНОВЛЕН 13.09.2026, ВЕРСИЯ 7.0.0)
 ═══════════════════════════════════════════════════════════════════
 
 ═══════════════════════════════════════════════════════════════════
@@ -31,7 +31,7 @@ LoezF_Bot — Telegram-бот для управления приёмом нов�
 
 🔹 ТЕХНОЛОГИИ:
 🐍 Python 3.14
-🤖 Aiogram 2.25.1
+🤖 aiogram 3.17+ (установлено 3.29.0)
 🗄️ SQLite (bot.db)
 📁 JSON-файлы для данных
 
@@ -41,10 +41,224 @@ utils/ — вспомогательные функции
 data/ — хранение данных
 config.py — настройки
 main.py — точка входа
-📌 ГЛАВНОЕ ПРАВИЛО ЧТЕНИЯ ФАЙЛОВ (ДЛЯ AI)
-- По умолчанию AI читает файлы через Raw-ссылки из GFA
-- Не только по запросу "прочитай X.py", а всегда, когда нужно прочитать
-- Если пользователь явно не сказал "не читай"
+
+═══════════════════════════════════════════════════════════════════
+🚨 ГЛАВНОЕ ПРАВИЛО: ВСЕГДА ЧИТАЙ RAW-ССЫЛКИ ИЗ GFA
+═══════════════════════════════════════════════════════════════════
+
+📌 ПО УМОЛЧАНИЮ — ЧИТАЙ ФАЙЛЫ ЧЕРЕЗ RAW-ССЫЛКИ ИЗ GFA!
+
+1. Если AI НУЖНО прочитать файл (по ЛЮБОЙ причине, не только 
+   по запросу "прочитай X.py") — он ОБЯЗАН использовать 
+   Raw-ссылку из раздела "RAW-ССЫЛКИ" в конце GFA.
+2. Если Raw-ссылка не работает — API-ссылка из дерева репозитория.
+3. Только если оба не работают — web-ссылка github.com/.../blob/...
+4. ЕСЛИ пользователь ЯВНО сказал "не читай" — можно отвечать без чтения.
+
+📌 ЦЕЛЬ: экономия контекста чата + чтение актуального кода.
+
+📌 ПРИМЕРЫ:
+❌ НЕПРАВИЛЬНО: "Я предполагаю, что в файле X есть функция Y..."
+✅ ПРАВИЛЬНО: [читает Raw-ссылку] → "В файле X я вижу функцию Y, она..."
+
+═══════════════════════════════════════════════════════════════════
+⚠️ КРИТИЧЕСКИЕ ПРАВИЛА AIOGRAM 3.x
+═══════════════════════════════════════════════════════════════════
+
+❌ InlineKeyboardButton("текст", callback_data="...") — НЕ РАБОТАЕТ!
+✅ InlineKeyboardButton(text="текст", callback_data="...") — правильно
+
+❌ @router.message(F.text == "/apply") — не работает для команд!
+✅ @router.message(Command("apply")) — правильно
+
+❌ InlineKeyboardButton(callback_data="...") без text= — упадёт с ошибкой:
+   "BaseModel.__init__() takes 1 positional argument but 2 were given"
+✅ Всегда передавать text= именованным аргументом
+
+📌 Причина: в aiogram 3.x InlineKeyboardButton — Pydantic BaseModel,
+   который принимает ТОЛЬКО именованные аргументы.
+
+📌 Примеры правильного кода:
+
+    from aiogram.filters import Command
+    from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
+    @router.message(Command("apply"))
+    async def cmd_apply(message: types.Message):
+        ...
+
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="✅ Одобрить", callback_data="approve_1")],
+        [InlineKeyboardButton(text="❌ Отклонить", callback_data="reject_1")],
+    ])
+
+═══════════════════════════════════════════════════════════════════
+📝 ФОРМАТ requests.json (ТОЛЬКО СЛОВАРЬ!)
+═══════════════════════════════════════════════════════════════════
+
+📌 СТРУКТУРА (ВАЖНО!):
+
+    {
+      "1": {
+        "user_id": 123456789,
+        "username": "user",
+        "full_name": "Иван Иванов",
+        "role": "Ашра",
+        "season": "Голос времени",
+        "position": "moder",
+        "position_name": "Модератор",
+        "status": "pending",
+        "created_at": "2026-09-13T17:00:00",
+        "updated_at": "2026-09-13T17:00:00"
+      },
+      "2": { ... }
+    }
+
+📌 КЛЮЧЕВЫЕ МОМЕНТЫ:
+- Ключ — ID заявки (строка)
+- Значение — словарь с данными заявки
+- status: "pending" | "approved" | "rejected" | "canceled"
+- position: "admin" | "moder" | "member"
+- position_name: "Администратор" | "Модератор" | "Участник"
+
+⛔ НЕЛЬЗЯ использовать [] (список) — только {} (словарь)!
+⛔ Пустой файл должен быть {} (2 байта), а не []
+
+📌 ТИПИЧНАЯ ОШИБКА:
+'list' object has no attribute 'items' — возникает, если файл содержит [].
+Исправить: заменить содержимое на {}
+
+═══════════════════════════════════════════════════════════════════
+📂 ПУТИ И ЛОГИ (АБСОЛЮТНЫЕ)
+═══════════════════════════════════════════════════════════════════
+
+📌 ВСЕ ПУТИ — АБСОЛЮТНЫЕ (через .resolve()):
+
+    BASE_DIR = Path(__file__).parent.parent.resolve()
+    SRC_PATH = Path(__file__).parent.resolve()
+    DATA_DIR = str(BASE_DIR / 'data')
+
+📌 ЛОГИ:
+- Расположение: data/logs/bot.log
+- Задаётся в config.py → LOG_FILE_PATH
+- НЕ создавать log_dir = "logs" в main.py (устаревший подход)
+- main.py импортирует LOG_FILE_PATH из config
+
+📌 Причина: относительные пути зависят от рабочей директории
+   (при запуске из PyCharm vs из start.bat — разные пути).
+
+📌 Пример правильного логирования:
+
+    from config import DATA_DIR, LOG_FILE_PATH, LOG_LEVEL, LOG_FORMAT, ensure_directories
+
+    ensure_directories()
+
+    logging.basicConfig(
+        level=getattr(logging, LOG_LEVEL.upper(), logging.INFO),
+        format=LOG_FORMAT,
+        handlers=[
+            logging.FileHandler(LOG_FILE_PATH, encoding='utf-8'),
+            logging.StreamHandler(sys.stdout)
+        ]
+    )
+
+═══════════════════════════════════════════════════════════════════
+⭐ СИСТЕМА РАНГОВ ПРИ ОДОБРЕНИИ ЗАЯВОК
+═══════════════════════════════════════════════════════════════════
+
+При одобрении заявки (approve_req_<id>):
+1. Роль становится "занята"
+2. Пользователь добавляется в users.txt
+3. В зависимости от должности:
+   - Администратор (position="admin") → admins.txt, ранг = 2
+   - Модератор (position="moder") → admins.txt, ранг = 3
+   - Участник (position="member") → только users.txt (без admins.txt)
+
+📌 Формат admins.txt: user_id|username|full_name|rank
+📌 Формат users.txt: user_id|username|full_name|role|
+
+📌 TODO: интеграция с ИРИС (@iris_moon_bot)
+   Пока заглушка _send_to_iris() — логирует, но не отправляет.
+
+═══════════════════════════════════════════════════════════════════
+🗑️ УДАЛЁННЫЕ ФАЙЛЫ (не искать, не восстанавливать)
+═══════════════════════════════════════════════════════════════════
+
+❌ role_commands.py — удалён
+   Функции перенесены в apply_handlers.py:
+   - /apply → apply_handlers.cmd_apply
+   - /free → apply_handlers.cmd_free
+   - /cancel_request → apply_handlers.cmd_cancel_request
+
+═══════════════════════════════════════════════════════════════════
+🔧 ИЗМЕНЁННЫЕ ФАЙЛЫ (по сравнению с версией 6.x)
+═══════════════════════════════════════════════════════════════════
+
+📄 config.py
+   - BASE_DIR и SRC_PATH — через .resolve() (абсолютные)
+   - LOG_FILE_PATH = data/logs/bot.log
+   - ensure_directories() создаёт data/logs
+
+📄 main.py
+   - Импортирует DATA_DIR, LOG_FILE_PATH из config
+   - Не создаёт log_dir = "logs"
+   - Использует LOG_FILE_PATH для FileHandler
+
+📄 utils/requests_utils.py
+   - Все функции работают со словарём {} вместо списка []
+   - load_requests() возвращает dict
+   - get_pending_requests() возвращает [(id, request), ...]
+
+📄 handlers/request_commands.py
+   - Один набор обработчиков: view_req_<id>, approve_req_<id>, reject_req_<id>
+   - Логика рангов: Админ → 2, Модератор → 3
+   - Заглушка _send_to_iris
+   - Убраны дубли: get_request, update_request_status, add_user_to_users
+
+📄 handlers/apply_handlers.py
+   - InlineKeyboardButton(text=...) везде
+   - Command("apply") вместо F.text == "/apply"
+   - Работа со словарём requests.json
+   - /free и /cancel_request перенесены сюда
+
+📄 handlers/base_commands.py
+   - cmd_roles: role — dict, берём role.get('name') и role.get('status')
+   - show_roles_by_season: то же самое
+   - Убран блок Reply-обработчиков
+
+📄 handlers/__init__.py
+   - Убран импорт role_commands_router
+
+═══════════════════════════════════════════════════════════════════
+🐛 ИЗВЕСТНЫЕ БАГИ И ИХ РЕШЕНИЯ
+═══════════════════════════════════════════════════════════════════
+
+1. BaseModel.__init__() takes 1 positional argument but 2 were given:
+   → InlineKeyboardButton("текст", ...) без text=
+   → Исправить: InlineKeyboardButton(text="текст", ...)
+
+2. 'list' object has no attribute 'items':
+   → requests.json содержит [] вместо {}
+   → Исправить: заменить на {}
+
+3. cannot use 'dict' as a dict key:
+   → role — это dict (из get_roles_by_season), а используется как строка
+   → Исправить: role.get('name') и role.get('status')
+
+4. ImportError: cannot import name 'cmd_free' from 'handlers.role_commands':
+   → Файл role_commands.py удалён
+   → Исправить: импортировать из apply_handlers
+
+5. Напоминалка не работает:
+   → Проверить, что chat_member_router добавлен в __init__.py
+   → Проверить, что check_user_registration обрабатывает сообщения
+
+6. Нет рабочих прокси:
+   → Система сама переключается при ошибках
+   → Если USE_PROXY=false в .env — работает без прокси
+
+7. NameError: name 'types' is not defined:
+   → Добавить в начало файла: from aiogram import Router, F, types
 
 ═══════════════════════════════════════════════════════════════════
 ⚠️ НИЧЕГО НЕ МЕНЯТЬ! (запрещённые действия)
@@ -61,6 +275,7 @@ main.py — точка входа
    users.txt — формат: id|username|full_name|role|extra
    admins.txt — формат: id|username|full_name|rank
    roles_status.json — строгая структура (см. ниже)
+   requests.json — СЛОВАРЬ {} (см. выше)
 
 ❌ НЕ МЕНЯТЬ ПРОВЕРКИ НА ФЛУД:
    Все команды (кроме разрешённых) должны проверять:
@@ -71,7 +286,7 @@ main.py — точка входа
    /call, /callfal, /hide, /menu
 
 ❌ НЕ ОТКЛЮЧАТЬ ЛОГИРОВАНИЕ:
-   Все действия логируются в logs/bot.log
+   Все действия логируются в data/logs/bot.log
 
 ❌ НЕ УДАЛЯТЬ chat_member_router:
    Отвечает за напоминалку. Без неё бот сломается.
@@ -88,44 +303,56 @@ main.py — точка входа
 LoEZF_Bot/
 ├── data/                          # Данные бота
 │   ├── admins/                    # Список администраторов
+│   │   └── admins.txt
 │   ├── roles/                     # Файлы с ролями по сезонам
 │   ├── system/                    # Системные файлы
+│   │   ├── creation_date.txt
+│   │   ├── forward_map.json
+│   │   └── requests.json
 │   ├── users/                     # Список пользователей
+│   │   ├── users.txt
+│   │   └── unsubscribed_calls.txt
 │   ├── users_history/             # История пользователей
-│   ├── roles_status.json          # Статусы ролей (занята/свободна)
+│   ├── logs/                      # Логи (bot.log)
+│   ├── roles_status.json          # Статусы ролей
 │   └── system_settings.json       # Настройки системы
-├── logs/                          # Логи бота
-│   └── bot.log
 ├── src/                           # Исходный код
 │   ├── handlers/                  # Обработчики команд
-│   │   ├── base_commands.py       # /start, /help, /about, /aboutme, /members, /roles, /stats, /roster, /update, /hide, /menu
-│   │   ├── role_commands.py       # /apply, /free, /cancel_request (НЕДОСТУПНЫ ВО ФЛУДЕ)
-│   │   ├── admin_commands.py      # /admins, /users, /adduser, /removeuser, /resetuser, /find, /finduser
-│   │   ├── admin_management.py    # /promote, /demote, /setrank
-│   │   ├── request_commands.py    # /requests, /approve, /reject
-│   │   ├── call_commands.py       # /call, /callfal, /regc, /unregc
-│   │   ├── rest_commands.py       # /rest, /unrest, /restextend, /restlist (НЕДОСТУПНЫ ВО ФЛУДЕ)
-│   │   ├── settings_commands.py   # /settings, /diag, /check_chats (только для владельца)
+│   │   ├── base_commands.py
+│   │   ├── role_commands.py       # УДАЛЁН
+│   │   ├── admin_commands.py
+│   │   ├── admin_management.py
+│   │   ├── request_commands.py
+│   │   ├── call_commands.py
+│   │   ├── rest_commands.py
+│   │   ├── settings_commands.py
 │   │   ├── chat_member.py         # НАПОМИНАЛКА (НЕ УДАЛЯТЬ!)
-│   │   ├── apply_handlers.py      # Обработка заявок (кнопки)
-│   │   ├── apply_states.py        # FSM состояния для заявок
-│   │   ├── keyboards.py           # Все кнопки клавиатуры с логированием
-│   │   └── utils.py               # Вспомогательные функции
+│   │   ├── apply_handlers.py      # /apply, /free, /cancel_request
+│   │   ├── apply_states.py
+│   │   ├── diagnostic_commands.py
+│   │   ├── keyboards.py
+│   │   └── utils.py
 │   ├── utils/                     # Утилиты
-│   │   ├── admin_utils.py         # Работа с администраторами (ранги)
-│   │   ├── user_utils.py          # Работа с пользователями
-│   │   ├── role_utils.py          # Работа с ролями (СОДЕРЖИТ ВСЕ ФУНКЦИИ)
-│   │   ├── requests_utils.py      # Работа с заявками
-│   │   ├── file_utils.py          # Работа с файлами
-│   │   └── ...
-│   ├── config.py                  # Конфигурация (пути, токен)
-│   ├── database.py                # Работа с SQLite
-│   ├── proxy_manager.py           # Управление прокси (пингование, переключение, кэш)
-│   ├── main.py                    # ТОЧКА ВХОДА (НЕ МЕНЯТЬ ПОДКЛЮЧЕНИЕ!)
-│   └── bot.db                     # База данных SQLite
-├── requirements.txt               # Зависимости
-├── start.bat                      # Запуск на Windows
-└── .env                           # Переменные окружения
+│   │   ├── admin_utils.py
+│   │   ├── user_utils.py
+│   │   ├── role_utils.py
+│   │   ├── requests_utils.py
+│   │   ├── emoji_utils.py
+│   │   ├── file_utils.py
+│   │   ├── sync_utils.py
+│   │   ├── system_utils.py
+│   │   └── user_history.py
+│   ├── config.py
+│   ├── database.py
+│   ├── proxy_manager.py
+│   ├── main.py
+│   └── bot.db
+├── requirements.txt
+├── CHANGELOG.md
+├── GUIDE_FOR_AI.txt
+├── start.bat
+└── .env
+
 ═══════════════════════════════════════════════════════════════════
 📋 СПИСОК КОМАНД И ИХ НАЗНАЧЕНИЕ
 ═══════════════════════════════════════════════════════════════════
@@ -142,7 +369,7 @@ LoEZF_Bot/
 
 ⚠️ КОМАНДЫ, ДОСТУПНЫЕ ТОЛЬКО В ЛИЧНЫХ СООБЩЕНИЯХ (НЕ ВО ФЛУДЕ):
 ───────────────────────────────────────────────────────────────────
-/apply          — Подать заявку на роль (НОВЫЙ ИНТЕРФЕЙС С МЕНЮ)
+/apply          — Подать заявку на роль (ВЫБОР СЕЗОНА → РОЛИ → ДОЛЖНОСТИ)
 /free           — Освободить свою роль
 /cancel_request — Отменить заявку
 /rest           — Подать заявку на рест
@@ -155,8 +382,6 @@ LoEZF_Bot/
 /roles          — Список ролей (во флуде — без кнопок)
 /call           — Сделать кал (только для админов)
 /callfal        — Непропускаемый кал (только для админов)
-/hide           — Скрыть клавиатуру (в ЛС)
-/menu           — Показать клавиатуру (в ЛС)
 
 🔐 АДМИНИСТРАТИВНЫЕ КОМАНДЫ:
 ───────────────────────────────────────────────────────────────────
@@ -355,281 +580,6 @@ data/admins/admins.txt
 
 9. ЛЮБЫЕ ИЗМЕНЕНИЯ — ТОЛЬКО ПО СОГЛАСОВАНИЮ!
    - Все изменения обсуждать с владельцем @Sedrik_loez
-═══════════════════════════════════════════════════════════════════
-🐛 ИЗВЕСТНЫЕ БАГИ И ИХ РЕШЕНИЯ
-═══════════════════════════════════════════════════════════════════
-
-1. Напоминалка не работает:
-   → Проверить, что chat_member_router добавлен в __init__.py
-   → Проверить, что функция check_user_registration обрабатывает сообщения в чате
-
-2. Команды работают во флуде:
-   → Добавлена проверка if message.chat.id == GENERAL_CHAT_ID
-   → Проверить, что проверка добавлена во все команды
-
-3. Кнопки не работают:
-   → Проверить, что все обработчики зарегистрированы в __init__.py
-   → Проверить, что текст кнопки точно совпадает с F.text
-   → Добавлено логирование для отладки
-
-4. Нет рабочих прокси:
-   → Запустить proxy_checker.py для обновления списка
-   → Или включить VPN и отключить USE_PROXY
-
-5. Ошибка 'str' object has no attribute 'get':
-   → Ошибка возникает при неверной структуре roles_status.json
-   → Файл — это СЛОВАРЬ {"Имя": {"status": ...}}, а не список
-   → Проверить функции в role_utils.py
-
-6. Ошибка NameError: name 'types' is not defined:
-   → В файле нет импорта types из aiogram
-   → Добавить в начало файла: from aiogram import Router, F, types
-
-═══════════════════════════════════════════════════════════════════
-📋 ИСТОРИЯ ИЗМЕНЕНИЙ
-═══════════════════════════════════════════════════════════════════
-
-Все изменения проекта фиксируются в файле CHANGELOG.md.
-
-Актуальная версия: 6.3.0
-Дата последнего обновления: 12.09.2026
-
-Список последних изменений:
-- [6.3.0] - Добавлены Raw-ссылки, правила чтения начала файлов, правило команд во флуде
-- [6.2.0] - Исправлен баг 'str' object has no attribute 'get', переписан role_utils.py
-- [6.1.0] - Добавлены правила удаления кода, справочник функций, Reply vs Inline кнопки
-- [5.5.0] - Управление админами, настройки, диагностика
-- [5.4.1] - Удалена пересылка из основного бота, чистка кода
-- [5.4.0] - Добавлена напоминалка, /update, управление пересылкой
-- [5.3.0] - Система прокси с пингованием, ускорение, переключение
-- [5.2.0] - Бот-пересыльщик
-- [5.1.0] - Рефакторинг, Proxy Manager
-- [5.0.0] - Первоначальная структура
-
-═══════════════════════════════════════════════════════════════════
-📞 КОНТАКТЫ
-═══════════════════════════════════════════════════════════════════
-
-Владелец: @Sedrik_loez
-Бот-пересыльщик: @Sedrikai_bot
-Основной бот: @REG_sf_BOT
-
-═══════════════════════════════════════════════════════════════════
-🚨 КРИТИЧЕСКИЕ ПРАВИЛА ДЛЯ AI/РАЗРАБОТЧИКОВ (ОБЯЗАТЕЛЬНЫ!)
-═══════════════════════════════════════════════════════════════════
-
-⛔ ЗАПРЕЩЕНО МЕНЯТЬ (НИКОГДА!):
-───────────────────────────────────────────────────────────────────
-1. .env файл — ТАМ ВСЕ НАСТРОЕНО, НЕ ТРОГАТЬ!
-2. proxy_manager.py — СИСТЕМА ПРОКСИ РАБОТАЕТ, НЕ ТРОГАТЬ!
-3. main.py — СИСТЕМА ПОДКЛЮЧЕНИЯ РАБОТАЕТ, НЕ ТРОГАТЬ!
-4. Структуру данных (data/) — ФОРМАТЫ ФАЙЛОВ НЕ МЕНЯТЬ!
-5. Форматы файлов (users.txt, admins.txt, roles_status.json) — НЕ МЕНЯТЬ!
-6. Существующие команды — НЕ ПЕРЕПИСЫВАТЬ, ТОЛЬКО ДОБАВЛЯТЬ!
-
-✅ ОБЯЗАТЕЛЬНЫЕ ДЕЙСТВИЯ ПЕРЕД ЛЮБЫМ ОТВЕТОМ:
-───────────────────────────────────────────────────────────────────
-1. ПРОЧИТАТЬ ЭТОТ ГАЙД ПОЛНОСТЬЮ!
-2. ПЕРЕЙТИ ПО ССЫЛКАМ НА ФАЙЛЫ (в дереве репозитория есть url)!
-3. УВИДЕТЬ РЕАЛЬНЫЙ КОД, А НЕ ПРЕДПОЛАГАТЬ!
-4. ПОНЯТЬ, ЧТО УЖЕ ЕСТЬ, ПРЕЖДЕ ЧЕМ ПРЕДЛАГАТЬ!
-
-🔴 ТИПИЧНЫЕ ОШИБКИ AI (НЕ ПОВТОРЯТЬ!):
-───────────────────────────────────────────────────────────────────
-❌ Ошибка 1: Не читать гайд перед ответом
-   → Всегда читать этот файл перед каждым ответом!
-
-❌ Ошибка 2: Игнорировать ссылки на файлы
-   → В дереве репозитория есть url для каждого файла — переходить по ним!
-
-❌ Ошибка 3: Предлагать менять .env
-   → .env НЕ ТРОГАТЬ! Там все уже настроено!
-
-❌ Ошибка 4: Предлагать менять систему прокси
-   → proxy_manager.py НЕ ТРОГАТЬ! Она работает!
-
-❌ Ошибка 5: Предлагать анкеты с ФИО
-   → Это не прием на работу! Заявка — это просто выбор роли!
-
-❌ Ошибка 6: Писать код вслепую
-   → Сначала прочитать существующий код, потом писать!
-
-❌ Ошибка 7: Переписывать существующие файлы
-   → Только ДОБАВЛЯТЬ новый код, НЕ переписывать старый!
-
-❌ Ошибка 8: Не использовать существующие функции
-   → Использовать готовые утилиты из utils/!
-
-❌ Ошибка 9: Удалять существующее содержимое гайда
-   → ТОЛЬКО ДОБАВЛЯТЬ новые разделы, НЕ УДАЛЯТЬ старые!
-
-❌ Ошибка 10: Не проверять наличие функций перед использованием
-   → Перед импортом функции проверить, что она существует в файле!
-
-❌ Ошибка 11: Не объяснять изменения перед их внесением
-   → Сначала объяснить ЧТО и ПОЧЕМУ меняется, получить согласие, потом менять!
-
-❌ Ошибка 12: Не читать начало файла перед правкой
-   → ВСЕГДА ЧИТАЙ НАЧАЛО ФАЙЛА (импорты, константы, комментарии)!
-   → Без этого будут NameError, ImportError и другие ошибки!
-
-✅ ПРАВИЛЬНЫЙ АЛГОРИТМ РАБОТЫ AI:
-───────────────────────────────────────────────────────────────────
-1. Прочитать этот гайд полностью
-2. Перейти по ссылкам на файлы и прочитать реальный код
-3. ПОНЯТЬ, какие функции уже есть
-4. ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ НАЧАЛО ФАЙЛА (импорты!)
-5. Понять, какие импорты нужны для нового кода
-6. Объяснить пользователю:
-   - В чем проблема
-   - Что нужно сделать
-   - Почему это нужно сделать
-   - Что именно будет изменено
-7. Дождаться согласия пользователя
-8. Только после согласия — дать код для добавления
-
-═══════════════════════════════════════════════════════════════════
-📡 АКТУАЛЬНЫЙ КОД — ВСЕГДА В GIT
-═══════════════════════════════════════════════════════════════════
-
-🔗 ДЕРЕВО РЕПОЗИТОРИЯ (ВСЕ ФАЙЛЫ):
-https://api.github.com/repos/LOEZws3/loez_bot/git/trees/main?recursive=1
-
-📌 ПРАВИЛО: 
-Файлы в репозитории ВСЕГДА АКТУАЛЬНЫ. Если нужно посмотреть код файла:
-1. Открой ссылку на дерево репозитория
-2. Найди нужный файл в списке
-3. Перейди по его url (типа https://api.github.com/repos/.../blobs/...)
-4. Прочитай содержимое
-
-⛔ НЕ ПИШИ КОД ВСЛЕПУЮ! Сначала прочитай актуальную версию файла через GitHub.
-
-═══════════════════════════════════════════════════════════════════
-🗑️ ПРАВИЛА УДАЛЕНИЯ КОДА
-═══════════════════════════════════════════════════════════════════
-
-⚠️ УДАЛЯТЬ КОД РАЗРЕШЕНО ТОЛЬКО В КРАЙНИХ СЛУЧАЯХ!
-
-📌 ЕСЛИ НУЖНО ЧТО-ТО УДАЛИТЬ — ОБЯЗАТЕЛЬНО:
-1. ПРЕДУПРЕДИТЬ пользователя о том, что собираешься удалить
-2. ОПИСАТЬ, ЧТО именно удаляешь (имя функции, строки, файл)
-3. ОБЪЯСНИТЬ, ПОЧЕМУ это нужно удалить
-4. УКАЗАТЬ, что будет взамен (если что-то добавляется)
-5. ДОЖДАТЬСЯ явного подтверждения пользователя
-
-📄 ПРИМЕР ПРАВИЛЬНОГО ПРЕДУПРЕЖДЕНИЯ:
-"Я собираюсь удалить функцию old_function() из utils/role_utils.py, 
-потому что она дублирует new_function(). Взамен ничего не добавляю.
-Подтвердите удаление."
-
-❌ НЕЛЬЗЯ:
-- Молча удалять функции, классы, переменные
-- Удалять большие блоки кода без объяснения
-- Удалять комментарии и логирование
-- Удалять импорты, если они используются
-
-═══════════════════════════════════════════════════════════════════
-📋 ВСЕ ФУНКЦИИ БОТА (СПРАВОЧНИК)
-═══════════════════════════════════════════════════════════════════
-
-📂 handlers/base_commands.py:
-- cmd_start, cmd_help, cmd_about, cmd_aboutme
-- cmd_members, cmd_roles, cmd_stats, cmd_roster
-- cmd_update, cmd_hide, cmd_menu
-
-📂 handlers/role_commands.py:
-- cmd_apply, cmd_free, cmd_cancel_request
-- process_season_selection, process_role_selection
-
-📂 handlers/admin_commands.py:
-- cmd_admins, cmd_users, cmd_adduser, cmd_removeuser
-- cmd_resetuser, cmd_find, cmd_finduser, cmd_refresh
-
-📂 handlers/admin_management.py:
-- cmd_promote, cmd_demote, cmd_setrank
-
-📂 handlers/request_commands.py:
-- cmd_requests, cmd_approve, cmd_reject
-- approve_request, reject_request
-
-📂 handlers/call_commands.py:
-- cmd_call, cmd_callfal, cmd_regc, cmd_unregc
-
-📂 handlers/rest_commands.py:
-- cmd_rest, cmd_unrest, cmd_restextend, cmd_restlist
-
-📂 handlers/settings_commands.py:
-- cmd_settings, cmd_diag, cmd_check_chats
-- cmd_close, cmd_open
-
-📂 handlers/chat_member.py:
-- handle_message, on_user_join, check_user_registration
-
-📂 utils/role_utils.py:
-- load_roles_status, save_roles_status
-- get_seasons_list, get_all_seasons, get_roles_by_season
-- get_role_by_name, get_role_info, get_role_status
-- is_role_free, update_role_status, free_role
-- get_user_role, get_taken_roles, count_taken_roles
-- get_all_roles, get_season_stats, get_all_seasons_stats
-- get_free_roles_by_season, get_occupied_roles_by_season
-- get_system_settings, save_system_settings
-- get_closed_mode, set_closed_mode
-
-📂 utils/user_utils.py:
-- load_users, save_users, get_user_by_id, get_user_by_username
-- get_all_users, add_user, remove_user, update_user
-- is_user_registered, get_user_role, count_users, get_users_by_role
-- get_user_info
-
-📂 utils/admin_utils.py:
-- get_admin_rank, is_admin, load_admins, save_admins
-═══════════════════════════════════════════════════════════════════
-🎯 РЕАЛЬНАЯ СТРУКТУРА roles_status.json
-═══════════════════════════════════════════════════════════════════
-
-📌 ФОРМАТ (ВАЖНО!):
-{
-  "Имя персонажа": {
-    "status": "свободна" | "занята",
-    "owner_id": null | <user_id>,
-    "username": null | "<username>",
-    "season": "Название сезона",
-    "extra": ""
-  },
-  ...
-}
-
-📌 КЛЮЧЕВЫЕ МОМЕНТЫ:
-- Это СЛОВАРЬ, а не список! Ключ — имя персонажа.
-- Статусы на РУССКОМ: "свободна" / "занята"
-- Сезон лежит ВНУТРИ каждого персонажа, не отдельно.
-- Список сезонов получается через перебор всех персонажей.
-
-📌 ТИПИЧНАЯ ОШИБКА:
-'str' object has no attribute 'get' — возникает, если код ожидает список,
-а получает словарь. Например: for season_data in data: season_data.get('season')
-работает для списка, но НЕ для словаря. Для словаря нужно:
-for role_name, role_info in data.items(): role_info.get('season')
-
-═══════════════════════════════════════════════════════════════════
-🔘 REPLY-КНОПКИ vs INLINE-КНОПКИ
-═══════════════════════════════════════════════════════════════════
-
-📌 REPLY-КНОПКИ (внизу экрана):
-- Отправляют текст как обычное сообщение
-- Требуют обработчиков @router.message(F.text == "текст кнопки")
-- Пример: "📋 Помощь (/help)" — при нажатии отправляется это сообщение
-- Если обработчика нет — бот молча игнорирует
-
-📌 INLINE-КНОПКИ (под сообщением):
-- Отправляют callback_data
-- Требуют обработчиков @router.callback_query(F.data == "...")
-- Не отправляют текст в чат
-
-📌 ВАЖНО:
-Когда добавляешь новую Reply-кнопку в keyboards.py — 
-ОБЯЗАТЕЛЬНО добавь обработчик F.text == "..." в тот же или другой файл!
 
 ═══════════════════════════════════════════════════════════════════
 ⚠️ ВАЖНОЕ ПРАВИЛО ДЛЯ КОМАНД ВО ФЛУДЕ
@@ -673,179 +623,247 @@ for role_name, role_info in data.items(): role_info.get('season')
         ...
 
 ═══════════════════════════════════════════════════════════════════
-🔗 RAW-ССЫЛКИ НА ФАЙЛЫ ПРОЕКТА (ДЛЯ ЧТЕНИЯ БЕЗ ТРАТЫ ЛИМИТА)
+🎯 РЕАЛЬНАЯ СТРУКТУРА roles_status.json
 ═══════════════════════════════════════════════════════════════════
 
-📌 ПРАВИЛО ДЛЯ AI:
-При необходимости прочитать файл — используй RAW-ссылку из списка ниже.
-RAW-ссылка возвращает ЧИСТЫЙ КОД без HTML-обёртки, что экономит контекст.
+📌 ФОРМАТ:
+
+    {
+      "Имя персонажа": {
+        "status": "свободна" | "занята" | "ожидает" | "рест" | "бронь",
+        "owner_id": null | <user_id>,
+        "username": null | "<username>",
+        "season": "Название сезона",
+        "extra": ""
+      },
+      ...
+    }
+
+📌 КЛЮЧЕВЫЕ МОМЕНТЫ:
+- Это СЛОВАРЬ, а не список! Ключ — имя персонажа.
+- Статусы на РУССКОМ: "свободна" / "занята" / "ожидает"
+- Сезон лежит ВНУТРИ каждого персонажа.
+
+📌 ТИПИЧНАЯ ОШИБКА:
+cannot use 'dict' as a dict key — возникает, если role (из get_roles_by_season)
+используется как строка. get_roles_by_season возвращает [{...}, ...],
+нужно брать role.get('name') и role.get('status').
+
+═══════════════════════════════════════════════════════════════════
+📌 ГЛАВНОЕ ПРАВИЛО РАБОТЫ AI
+═══════════════════════════════════════════════════════════════════
+
+✅ ПРАВИЛЬНЫЙ АЛГОРИТМ:
+1. Прочитать этот гайд полностью
+2. Перейти по Raw-ссылкам на файлы
+3. ПОНЯТЬ, какие функции уже есть
+4. ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ НАЧАЛО ФАЙЛА (импорты!)
+5. Понять, какие импорты нужны для нового кода
+6. Объяснить пользователю:
+   - В чем проблема
+   - Что нужно сделать
+   - Почему это нужно сделать
+   - Что именно будет изменено
+7. Дождаться согласия пользователя
+8. Только после согласия — дать код
+
+🔴 ТИПИЧНЫЕ ОШИБКИ AI (НЕ ПОВТОРЯТЬ!):
+❌ Не читать гайд перед ответом
+❌ Игнорировать ссылки на файлы
+❌ Предлагать менять .env
+❌ Предлагать менять систему прокси
+❌ Писать код вслепую
+❌ Переписывать существующие файлы без согласия
+❌ Не проверять наличие функций перед использованием
+❌ Не объяснять изменения перед внесением
+❌ Не читать начало файла перед правкой
+❌ Использовать InlineKeyboardButton без text=
+❌ Использовать F.text == "/команда" вместо Command("команда")
+
+═══════════════════════════════════════════════════════════════════
+🗑️ ПРАВИЛА УДАЛЕНИЯ КОДА
+═══════════════════════════════════════════════════════════════════
+
+⚠️ УДАЛЯТЬ КОД РАЗРЕШЕНО ТОЛЬКО В КРАЙНИХ СЛУЧАЯХ!
+
+📌 ЕСЛИ НУЖНО УДАЛИТЬ:
+1. ПРЕДУПРЕДИТЬ пользователя
+2. ОПИСАТЬ, ЧТО именно удаляешь
+3. ОБЪЯСНИТЬ, ПОЧЕМУ
+4. УКАЗАТЬ, что будет взамен
+5. ДОЖДАТЬСЯ подтверждения
+
+❌ НЕЛЬЗЯ:
+- Молча удалять функции, классы, переменные
+- Удалять комментарии и логирование
+- Удалять импорты, если они используются
+
+═══════════════════════════════════════════════════════════════════
+📋 ВСЕ ФУНКЦИИ БОТА (СПРАВОЧНИК)
+═══════════════════════════════════════════════════════════════════
+
+📂 handlers/base_commands.py:
+- cmd_start, cmd_help, cmd_about, cmd_aboutme
+- cmd_members, cmd_roles, cmd_update
+- cmd_hide, cmd_menu, cmd_call, cmd_callfal
+- back_to_menu_from_roles, show_roles_by_season, back_to_roles_seasons
+
+📂 handlers/apply_handlers.py:
+- cmd_apply, cmd_free, cmd_cancel_request
+- process_season, process_role, process_position, process_submit
+- apply_cancel, apply_none, apply_back_to_seasons, apply_back_to_roles
+- _load_requests, _save_requests, _has_active_request, _get_active_request
+- _is_user_registered, _notify_admins
+
+📂 handlers/request_commands.py:
+- cmd_requests, cmd_approve, cmd_reject
+- refresh_requests, view_request
+- approve_request_callback, reject_request_callback
+- _load_requests, _save_requests, _get_pending
+- _add_admin, _add_user, _send_to_iris
+
+📂 handlers/admin_commands.py:
+- cmd_admins, cmd_users, cmd_adduser, cmd_removeuser
+- cmd_resetuser, cmd_find, cmd_finduser, cmd_refresh
+
+📂 handlers/admin_management.py:
+- cmd_promote, cmd_demote, cmd_setrank
+
+📂 handlers/call_commands.py:
+- cmd_call, cmd_callfal, cmd_regc, cmd_unregc
+
+📂 handlers/rest_commands.py:
+- cmd_rest, cmd_unrest, cmd_restextend, cmd_restlist
+
+📂 handlers/settings_commands.py:
+- cmd_settings, cmd_diag, cmd_check_chats, cmd_close, cmd_open
+
+📂 handlers/diagnostic_commands.py:
+- диагностика
+
+📂 handlers/chat_member.py:
+- handle_message, on_user_join, check_user_registration
+
+📂 utils/role_utils.py:
+- load_roles_status, save_roles_status
+- get_seasons_list, get_all_seasons, get_roles_by_season
+- get_role_by_name, get_role_info, get_role_status
+- is_role_free, update_role_status, free_role
+- get_user_role, get_taken_roles, count_taken_roles
+- get_all_roles, get_season_stats, get_all_seasons_stats
+- get_free_roles_by_season, get_occupied_roles_by_season
+- get_system_settings, save_system_settings
+- get_closed_mode, set_closed_mode
+
+📂 utils/user_utils.py:
+- load_users, save_users, get_user_by_id, get_user_by_username
+- get_all_users, add_user, remove_user, update_user
+- is_user_registered, get_user_role, count_users
+- get_user_info
+
+📂 utils/admin_utils.py:
+- get_admin_rank, is_admin, load_admins, save_admins
+
+📂 utils/requests_utils.py:
+- load_requests (dict), save_requests (dict)
+- add_request, get_pending_requests, get_request_by_user_id
+- get_pending_count, get_requests_count
+
+═══════════════════════════════════════════════════════════════════
+📋 ИСТОРИЯ ИЗМЕНЕНИЙ
+═══════════════════════════════════════════════════════════════════
+
+Все изменения проекта фиксируются в файле CHANGELOG.md.
+
+Актуальная версия: 7.0.0
+Дата последнего обновления: 13.09.2026
+
+Список последних изменений:
+- [7.0.0] - Переход на aiogram 3.x, requests.json — словарь, логи в data/logs,
+            удаление role_commands.py, логика рангов при одобрении,
+            абсолютные пути через .resolve()
+- [6.2.0] - Исправлен баг 'str' object has no attribute 'get', переписан role_utils.py
+- [6.1.0] - Добавлены правила удаления кода, справочник функций
+- [5.5.0] - Управление админами, настройки, диагностика
+- [5.4.1] - Удалена пересылка из основного бота, чистка кода
+- [5.4.0] - Добавлена напоминалка, /update, управление пересылкой
+- [5.3.0] - Система прокси с пингованием, ускорение, переключение
+- [5.2.0] - Бот-пересыльщик
+- [5.1.0] - Рефакторинг, Proxy Manager
+- [5.0.0] - Первоначальная структура
+
+═══════════════════════════════════════════════════════════════════
+🔗 RAW-ССЫЛКИ НА ФАЙЛЫ (ДЛЯ ЧТЕНИЯ БЕЗ ТРАТЫ ЛИМИТА)
+═══════════════════════════════════════════════════════════════════
+
+📌 ПРАВИЛО: при чтении файла — используй Raw-ссылку из списка.
+RAW-ссылка возвращает ЧИСТЫЙ КОД без HTML-обёртки.
 
 ✅ ПРАВИЛЬНО: https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/role_utils.py
-❌ НЕПРАВИЛЬНО: https://github.com/LOEZws3/loez_bot/blob/main/src/utils/role_utils.py (HTML, много мусора)
+❌ НЕПРАВИЛЬНО: https://github.com/LOEZws3/loez_bot/blob/main/src/utils/role_utils.py
 
-🔗 АКТУАЛЬНОЕ ДЕРЕВО РЕПОЗИТОРИЯ (всегда свежее):
+🔗 АКТУАЛЬНОЕ ДЕРЕВО РЕПОЗИТОРИЯ:
 https://api.github.com/repos/LOEZws3/loez_bot/git/trees/main?recursive=1
 
-───────────────────────────────────────────────────────────────────
-📂 КОРНЕВЫЕ ФАЙЛЫ
-───────────────────────────────────────────────────────────────────
-
-📄 requirements.txt:
+📂 КОРНЕВЫЕ ФАЙЛЫ:
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/requirements.txt
-
-📄 CHANGELOG.md:
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/CHANGELOG.md
-
-📄 GUIDE_FOR_AI.txt:
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/GUIDE_FOR_AI.txt
-
-📄 start.bat:
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/start.bat
 
-───────────────────────────────────────────────────────────────────
-📂 src/ — ОСНОВНЫЕ МОДУЛИ
-───────────────────────────────────────────────────────────────────
-
-📄 src/main.py (ТОЧКА ВХОДА, НЕ ТРОГАТЬ ПОДКЛЮЧЕНИЕ):
+📂 src/:
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/main.py
-
-📄 src/config.py (КОНФИГ, .env НЕ ТРОГАТЬ):
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/config.py
-
-📄 src/database.py (SQLite):
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/database.py
-
-📄 src/proxy_manager.py (НЕ ТРОГАТЬ):
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/proxy_manager.py
-
-📄 src/test_connect.py:
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/test_connect.py
 
-───────────────────────────────────────────────────────────────────
-📂 src/handlers/ — ОБРАБОТЧИКИ КОМАНД
-───────────────────────────────────────────────────────────────────
-
-📄 src/handlers/__init__.py (СПИСОК РОУТЕРОВ):
+📂 src/handlers/:
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/__init__.py
-
-📄 src/handlers/base_commands.py (/start, /help, /about, /aboutme, /members, /roles, /stats, /roster, /update, /hide, /menu):
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/base_commands.py
-
-📄 src/handlers/role_commands.py (/apply, /free, /cancel_request):
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/role_commands.py
-
-📄 src/handlers/admin_commands.py (/admins, /users, /adduser, /removeuser, /resetuser, /find, /finduser):
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/admin_commands.py
-
-📄 src/handlers/admin_management.py (/promote, /demote, /setrank):
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/admin_management.py
-
-📄 src/handlers/request_commands.py (/requests, /approve, /reject):
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/request_commands.py
-
-📄 src/handlers/call_commands.py (/call, /callfal, /regc, /unregc):
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/call_commands.py
-
-📄 src/handlers/rest_commands.py (/rest, /unrest, /restextend, /restlist):
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/rest_commands.py
-
-📄 src/handlers/settings_commands.py (/settings, /diag, /check_chats, /close, /open):
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/settings_commands.py
-
-📄 src/handlers/diagnostic_commands.py (диагностика):
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/diagnostic_commands.py
-
-📄 src/handlers/chat_member.py (НАПОМИНАЛКА, НЕ УДАЛЯТЬ):
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/chat_member.py
-
-📄 src/handlers/apply_handlers.py (обработка заявок, кнопки):
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/apply_handlers.py
-
-📄 src/handlers/apply_states.py (FSM):
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/apply_states.py
-
-📄 src/handlers/keyboards.py (ВСЕ КНОПКИ):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/admin_commands.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/admin_management.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/request_commands.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/call_commands.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/rest_commands.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/settings_commands.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/diagnostic_commands.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/chat_member.py
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/keyboards.py
-
-📄 src/handlers/utils.py (вспомогательные функции хендлеров):
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/utils.py
 
-───────────────────────────────────────────────────────────────────
-📂 src/utils/ — УТИЛИТЫ
-───────────────────────────────────────────────────────────────────
-
-📄 src/utils/__init__.py:
+📂 src/utils/:
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/__init__.py
-
-📄 src/utils/role_utils.py (РОЛИ, СЕЗОНЫ, СТАТУСЫ):
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/role_utils.py
-
-📄 src/utils/user_utils.py (ПОЛЬЗОВАТЕЛИ):
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/user_utils.py
-
-📄 src/utils/admin_utils.py (АДМИНЫ, РАНГИ):
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/admin_utils.py
-
-📄 src/utils/emoji_utils.py (ЭМОДЗИ):
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/emoji_utils.py
-
-📄 src/utils/file_utils.py (РАБОТА С ФАЙЛАМИ):
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/file_utils.py
-
-📄 src/utils/requests_utils.py (ЗАЯВКИ):
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/requests_utils.py
-
-📄 src/utils/sync_utils.py (СИНХРОНИЗАЦИЯ):
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/sync_utils.py
-
-📄 src/utils/system_utils.py (СИСТЕМА):
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/system_utils.py
-
-📄 src/utils/user_history.py (ИСТОРИЯ):
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/user_history.py
 
-───────────────────────────────────────────────────────────────────
-📂 data/ — ФАЙЛЫ ДАННЫХ (НЕ МЕНЯТЬ ФОРМАТ!)
-───────────────────────────────────────────────────────────────────
-
-📄 data/roles_status.json (СТРУКТУРА: {"Имя": {"status": "свободна"/"занята", "season": "...", ...}}):
+📂 data/:
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/roles_status.json
-
-📄 data/admins/admins.txt (ФОРМАТ: id|username|full_name|rank):
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/admins/admins.txt
-
-📄 data/users/users.txt (ФОРМАТ: id|username|full_name|role|extra):
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/users/users.txt
-
-📄 data/system/requests.json (ЗАЯВКИ):
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/system/requests.json
-
-📄 data/system_settings.json (НАСТРОЙКИ):
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/system_settings.json
-
-📄 data/system/creation_date.txt:
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/system/creation_date.txt
-
-📄 data/system/forward_map.json:
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/system/forward_map.json
 
-───────────────────────────────────────────────────────────────────
-🎯 КАК ЧИТАТЬ ФАЙЛЫ (ИНСТРУКЦИЯ ДЛЯ AI)
-───────────────────────────────────────────────────────────────────
+═══════════════════════════════════════════════════════════════════
+📞 КОНТАКТЫ
+═══════════════════════════════════════════════════════════════════
 
-1. Если пользователь просит "прочитай X.py" — перейди по RAW-ссылке из списка выше.
-2. Если файла нет в списке — возьми ссылку из дерева репозитория:
-   https://api.github.com/repos/LOEZws3/loez_bot/git/trees/main?recursive=1
-3. Для дерева репозитория используй API-ссылку (она компактная).
-4. НЕ используй github.com/.../blob/... — там HTML-обёртка, это тратит контекст.
-5. ВСЕГДА ЧИТАЙ НАЧАЛО ФАЙЛА — импорты и комментарии!
-
-📌 ПРАВИЛО ЭКОНОМИИ:
-- Маленькие файлы (<1000 байт) — читать целиком.
-- Средние (1000-5000 байт) — читать целиком, если нужно.
-- Большие (>5000 байт) — читать только запрошенные функции + НАЧАЛО ФАЙЛА.
+Владелец: @Sedrik_loez
+Бот-пересыльщик: @Sedrikai_bot
+Основной бот: @REG_sf_BOT
 
 ═══════════════════════════════════════════════════════════════════
-📅 Версия: 6.3.0
-📅 Дата обновления: 12.09.2026
+📅 Версия: 7.0.0
+📅 Дата обновления: 13.09.2026
 ═══════════════════════════════════════════════════════════════════

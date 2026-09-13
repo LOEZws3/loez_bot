@@ -27454,3 +27454,808 @@ ImportError: cannot import name 'cmd_free' from 'handlers.role_commands' (C:\Use
 2026-09-13 15:42:06,546 - aiogram.dispatcher - WARNING - Sleep for 2.828907 seconds and try again... (tryings = 4, bot id = 8888839728)
 2026-09-13 15:42:30,426 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 95.211.174.135:3128 [Превышен таймаут семафора]
 2026-09-13 15:42:30,427 - aiogram.dispatcher - WARNING - Sleep for 3.767995 seconds and try again... (tryings = 5, bot id = 8888839728)
+2026-09-13 17:03:26,237 - __main__ - INFO - ✅ Зарегистрировано 10 роутеров
+2026-09-13 17:03:26,326 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-13 17:03:26,360 - proxy_manager - INFO - 🔄 Кэш устарел, обновляем...
+2026-09-13 17:03:26,361 - proxy_manager - INFO - 🏓 Пингую 1808 прокси через Telegram API...
+2026-09-13 17:03:35,586 - proxy_manager - INFO - 📊 Прогресс: 50/1808 (прошло 9 сек)
+2026-09-13 17:03:38,576 - proxy_manager - INFO - 📊 Прогресс: 100/1808 (прошло 12 сек)
+2026-09-13 17:03:41,398 - proxy_manager - INFO - 📊 Прогресс: 150/1808 (прошло 15 сек)
+2026-09-13 17:03:45,074 - proxy_manager - INFO - 📊 Прогресс: 200/1808 (прошло 18 сек)
+2026-09-13 17:03:48,269 - proxy_manager - INFO - 📊 Прогресс: 250/1808 (прошло 21 сек)
+2026-09-13 17:03:50,648 - proxy_manager - INFO - 📊 Прогресс: 300/1808 (прошло 24 сек)
+2026-09-13 17:03:54,526 - proxy_manager - INFO - 📊 Прогресс: 350/1808 (прошло 28 сек)
+2026-09-13 17:03:57,558 - proxy_manager - INFO - 📊 Прогресс: 400/1808 (прошло 31 сек)
+2026-09-13 17:03:58,667 - asyncio - ERROR - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2026-09-13 17:04:00,335 - proxy_manager - INFO - 📊 Прогресс: 450/1808 (прошло 33 сек)
+2026-09-13 17:04:04,429 - proxy_manager - INFO - 📊 Прогресс: 500/1808 (прошло 38 сек)
+2026-09-13 17:04:09,205 - proxy_manager - INFO - 📊 Прогресс: 550/1808 (прошло 42 сек)
+2026-09-13 17:04:12,956 - proxy_manager - INFO - 📊 Прогресс: 600/1808 (прошло 46 сек)
+2026-09-13 17:04:16,348 - proxy_manager - INFO - 📊 Прогресс: 650/1808 (прошло 49 сек)
+2026-09-13 17:04:21,401 - proxy_manager - INFO - 📊 Прогресс: 700/1808 (прошло 55 сек)
+2026-09-13 17:04:23,436 - proxy_manager - INFO - 📊 Прогресс: 750/1808 (прошло 57 сек)
+2026-09-13 17:04:28,321 - proxy_manager - INFO - 📊 Прогресс: 800/1808 (прошло 61 сек)
+2026-09-13 17:04:30,630 - proxy_manager - INFO - 📊 Прогресс: 850/1808 (прошло 64 сек)
+2026-09-13 17:04:34,211 - proxy_manager - INFO - 📊 Прогресс: 900/1808 (прошло 67 сек)
+2026-09-13 17:04:37,342 - proxy_manager - INFO - 📊 Прогресс: 950/1808 (прошло 70 сек)
+2026-09-13 17:04:39,364 - asyncio - ERROR - Unclosed connection
+client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None)>
+2026-09-13 17:04:40,949 - proxy_manager - INFO - 📊 Прогресс: 1000/1808 (прошло 74 сек)
+2026-09-13 17:04:43,567 - proxy_manager - INFO - 📊 Прогресс: 1050/1808 (прошло 77 сек)
+2026-09-13 17:04:47,028 - proxy_manager - INFO - 📊 Прогресс: 1100/1808 (прошло 80 сек)
+2026-09-13 17:04:49,982 - proxy_manager - INFO - 📊 Прогресс: 1150/1808 (прошло 83 сек)
+2026-09-13 17:04:54,081 - proxy_manager - INFO - 📊 Прогресс: 1200/1808 (прошло 87 сек)
+2026-09-13 17:04:56,896 - proxy_manager - INFO - 📊 Прогресс: 1250/1808 (прошло 90 сек)
+2026-09-13 17:05:00,571 - proxy_manager - INFO - 📊 Прогресс: 1300/1808 (прошло 94 сек)
+2026-09-13 17:05:03,402 - proxy_manager - INFO - 📊 Прогресс: 1350/1808 (прошло 97 сек)
+2026-09-13 17:05:06,302 - proxy_manager - INFO - 📊 Прогресс: 1400/1808 (прошло 99 сек)
+2026-09-13 17:05:10,624 - proxy_manager - INFO - 📊 Прогресс: 1450/1808 (прошло 104 сек)
+2026-09-13 17:05:13,480 - proxy_manager - INFO - 📊 Прогресс: 1500/1808 (прошло 107 сек)
+2026-09-13 17:05:16,465 - proxy_manager - INFO - 📊 Прогресс: 1550/1808 (прошло 110 сек)
+2026-09-13 17:05:19,607 - proxy_manager - INFO - 📊 Прогресс: 1600/1808 (прошло 113 сек)
+2026-09-13 17:05:23,796 - proxy_manager - INFO - 📊 Прогресс: 1650/1808 (прошло 117 сек)
+2026-09-13 17:05:26,531 - proxy_manager - INFO - 📊 Прогресс: 1700/1808 (прошло 120 сек)
+2026-09-13 17:05:28,136 - proxy_manager - INFO - 📊 Прогресс: 1750/1808 (прошло 121 сек)
+2026-09-13 17:05:31,124 - proxy_manager - INFO - 📊 Прогресс: 1800/1808 (прошло 124 сек)
+2026-09-13 17:05:32,118 - proxy_manager - INFO - 📊 Прогресс: 1808/1808 (прошло 125 сек)
+2026-09-13 17:05:32,120 - proxy_manager - INFO - ✅ Из 1808 прокси работают 15 (за 125 сек)
+2026-09-13 17:05:32,126 - proxy_manager - INFO - 💾 Кэш пингов сохранён (15 прокси)
+2026-09-13 17:05:32,130 - proxy_manager - INFO - 🏆 Самый быстрый прокси: 195.158.2.130:3128 (3.240с)
+2026-09-13 17:05:32,136 - proxy_manager - INFO -    • 195.158.2.130:3128: 3.240с
+2026-09-13 17:05:32,141 - proxy_manager - INFO -    • 13.125.44.24:80: 3.758с
+2026-09-13 17:05:32,144 - proxy_manager - INFO -    • 184.75.221.82:3118: 3.814с
+2026-09-13 17:05:32,146 - proxy_manager - INFO -    • 190.97.236.128:999: 3.836с
+2026-09-13 17:05:32,148 - proxy_manager - INFO -    • 130.110.103.245:3128: 4.026с
+2026-09-13 17:05:32,149 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 195.158.2.130:3128 (3.240с)
+2026-09-13 17:05:32,151 - __main__ - INFO - 🌐 Используется прокси: http://195.158.2.130:3128 (пинг: 3.240с)
+2026-09-13 17:05:33,424 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-13 17:05:33,436 - database - INFO - ✅ Таблицы БД созданы
+2026-09-13 17:05:33,439 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-13 17:05:33,439 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-13 17:05:33,732 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: Invalid proxy response
+2026-09-13 17:05:33,734 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-13 17:05:33,739 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-13 17:05:33,740 - aiogram.dispatcher - INFO - Start polling
+2026-09-13 17:05:33,945 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-13 17:05:34,212 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: Invalid proxy response
+2026-09-13 17:05:34,214 - __main__ - INFO - 🔄 Пробую переключить прокси...
+2026-09-13 17:05:34,221 - proxy_manager - INFO - 💾 Кэш пингов сохранён (14 прокси)
+2026-09-13 17:05:34,224 - __main__ - INFO - ❌ Прокси 195.158.2.130:3128 помечен как нерабочий
+2026-09-13 17:05:34,226 - proxy_manager - INFO - 🔄 Используется прокси: 13.125.44.24:80 (пинг: 3.758с)
+2026-09-13 17:05:34,228 - __main__ - INFO - 🔄 Переключение на прокси: http://13.125.44.24:80 (пинг: 3.758с)
+2026-09-13 17:05:35,404 - __main__ - INFO - ✅ Переключено на прокси: 13.125.44.24:80
+2026-09-13 17:05:35,405 - __main__ - INFO - 🔄 Перезапускаю поллинг...
+2026-09-13 17:05:35,408 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-13 17:05:35,412 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-13 17:05:35,419 - database - INFO - ✅ Таблицы БД созданы
+2026-09-13 17:05:35,421 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-13 17:05:35,421 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-13 17:05:36,269 - __main__ - WARNING - ⚠️ SSL-ошибка при установке команд: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-13 17:05:36,270 - __main__ - ERROR - ❌ SSL-ошибка: SSL error: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-13 17:05:36,277 - __main__ - INFO - 🗑️ Сбрасываю кэш прокси...
+2026-09-13 17:05:36,280 - proxy_manager - INFO - 🗑️ Кэш пингов прокси очищен: proxy_pings_cache.json
+2026-09-13 17:05:36,286 - __main__ - INFO - 🔄 Переключаюсь на следующий прокси...
+2026-09-13 17:05:36,301 - proxy_manager - INFO - 💾 Кэш пингов сохранён (13 прокси)
+2026-09-13 17:05:36,304 - __main__ - INFO - ❌ Прокси 13.125.44.24:80 помечен как нерабочий
+2026-09-13 17:05:36,306 - proxy_manager - INFO - 🔄 Используется прокси: 184.75.221.82:3118 (пинг: 3.814с)
+2026-09-13 17:05:36,573 - __main__ - INFO - 🔄 Переключение на прокси: http://184.75.221.82:3118 (пинг: 3.814с)
+2026-09-13 17:05:37,407 - __main__ - INFO - ✅ Переключено на прокси: 184.75.221.82:3118
+2026-09-13 17:05:37,407 - __main__ - INFO - 🔄 Перезапускаю бота...
+2026-09-13 17:05:39,413 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-13 17:05:39,433 - database - INFO - ✅ Таблицы БД созданы
+2026-09-13 17:05:39,438 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-13 17:05:39,439 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-13 17:05:40,507 - __main__ - INFO - 📋 Команды бота установлены
+2026-09-13 17:05:40,509 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-13 17:05:40,514 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-13 17:05:40,523 - aiogram.dispatcher - INFO - Start polling
+2026-09-13 17:05:40,851 - aiogram.dispatcher - INFO - Run polling for bot @REG_sf_BOT id=8888839728 - 'REG_ℿλɑɱᴙ Иɕκ℘℩_flood'
+2026-09-13 16:44:35,387 - __main__ - INFO - ✅ Зарегистрировано 10 роутеров
+2026-09-13 16:44:35,391 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-13 16:44:35,408 - proxy_manager - INFO - 🔄 Кэш устарел, обновляем...
+2026-09-13 16:44:35,408 - proxy_manager - INFO - 🏓 Пингую 1808 прокси через Telegram API...
+2026-09-13 16:44:44,086 - proxy_manager - INFO - 📊 Прогресс: 50/1808 (прошло 8 сек)
+2026-09-13 16:44:47,171 - proxy_manager - INFO - 📊 Прогресс: 100/1808 (прошло 11 сек)
+2026-09-13 16:44:50,190 - proxy_manager - INFO - 📊 Прогресс: 150/1808 (прошло 14 сек)
+2026-09-13 16:44:53,511 - proxy_manager - INFO - 📊 Прогресс: 200/1808 (прошло 18 сек)
+2026-09-13 16:44:56,544 - proxy_manager - INFO - 📊 Прогресс: 250/1808 (прошло 21 сек)
+2026-09-13 16:44:59,201 - proxy_manager - INFO - 📊 Прогресс: 300/1808 (прошло 23 сек)
+2026-09-13 16:45:02,048 - proxy_manager - INFO - 📊 Прогресс: 350/1808 (прошло 26 сек)
+2026-09-13 16:45:05,231 - proxy_manager - INFO - 📊 Прогресс: 400/1808 (прошло 29 сек)
+2026-09-13 16:45:08,747 - proxy_manager - INFO - 📊 Прогресс: 450/1808 (прошло 33 сек)
+2026-09-13 16:45:11,584 - proxy_manager - INFO - 📊 Прогресс: 500/1808 (прошло 36 сек)
+2026-09-13 16:45:15,252 - proxy_manager - INFO - 📊 Прогресс: 550/1808 (прошло 39 сек)
+2026-09-13 16:45:17,738 - proxy_manager - INFO - 📊 Прогресс: 600/1808 (прошло 42 сек)
+2026-09-13 16:45:21,117 - proxy_manager - INFO - 📊 Прогресс: 650/1808 (прошло 45 сек)
+2026-09-13 16:45:23,881 - proxy_manager - INFO - 📊 Прогресс: 700/1808 (прошло 48 сек)
+2026-09-13 16:45:28,590 - proxy_manager - INFO - 📊 Прогресс: 750/1808 (прошло 53 сек)
+2026-09-13 16:45:32,627 - proxy_manager - INFO - 📊 Прогресс: 800/1808 (прошло 57 сек)
+2026-09-13 16:45:36,360 - proxy_manager - INFO - 📊 Прогресс: 850/1808 (прошло 60 сек)
+2026-09-13 16:45:40,802 - proxy_manager - INFO - 📊 Прогресс: 900/1808 (прошло 65 сек)
+2026-09-13 16:45:44,038 - proxy_manager - INFO - 📊 Прогресс: 950/1808 (прошло 68 сек)
+2026-09-13 16:45:48,377 - proxy_manager - INFO - 📊 Прогресс: 1000/1808 (прошло 72 сек)
+2026-09-13 16:45:52,808 - proxy_manager - INFO - 📊 Прогресс: 1050/1808 (прошло 77 сек)
+2026-09-13 16:45:55,824 - proxy_manager - INFO - 📊 Прогресс: 1100/1808 (прошло 80 сек)
+2026-09-13 16:45:59,533 - proxy_manager - INFO - 📊 Прогресс: 1150/1808 (прошло 84 сек)
+2026-09-13 16:46:02,138 - proxy_manager - INFO - 📊 Прогресс: 1200/1808 (прошло 86 сек)
+2026-09-13 16:46:07,097 - proxy_manager - INFO - 📊 Прогресс: 1250/1808 (прошло 91 сек)
+2026-09-13 16:46:09,466 - proxy_manager - INFO - 📊 Прогресс: 1300/1808 (прошло 94 сек)
+2026-09-13 16:46:12,974 - proxy_manager - INFO - 📊 Прогресс: 1350/1808 (прошло 97 сек)
+2026-09-13 16:46:17,201 - proxy_manager - INFO - 📊 Прогресс: 1400/1808 (прошло 101 сек)
+2026-09-13 16:46:19,318 - proxy_manager - INFO - 📊 Прогресс: 1450/1808 (прошло 103 сек)
+2026-09-13 16:46:23,249 - proxy_manager - INFO - 📊 Прогресс: 1500/1808 (прошло 107 сек)
+2026-09-13 16:46:26,069 - proxy_manager - INFO - 📊 Прогресс: 1550/1808 (прошло 110 сек)
+2026-09-13 16:46:27,433 - asyncio - ERROR - Unclosed connection
+client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None)>
+2026-09-13 16:46:30,084 - proxy_manager - INFO - 📊 Прогресс: 1600/1808 (прошло 114 сек)
+2026-09-13 16:46:33,092 - proxy_manager - INFO - 📊 Прогресс: 1650/1808 (прошло 117 сек)
+2026-09-13 16:46:35,968 - proxy_manager - INFO - 📊 Прогресс: 1700/1808 (прошло 120 сек)
+2026-09-13 16:46:37,136 - proxy_manager - INFO - 📊 Прогресс: 1750/1808 (прошло 121 сек)
+2026-09-13 16:46:41,109 - proxy_manager - INFO - 📊 Прогресс: 1800/1808 (прошло 125 сек)
+2026-09-13 16:46:42,117 - proxy_manager - INFO - 📊 Прогресс: 1808/1808 (прошло 126 сек)
+2026-09-13 16:46:42,119 - proxy_manager - INFO - ✅ Из 1808 прокси работают 20 (за 126 сек)
+2026-09-13 16:46:42,122 - proxy_manager - INFO - 💾 Кэш пингов сохранён (20 прокси)
+2026-09-13 16:46:42,124 - proxy_manager - INFO - 🏆 Самый быстрый прокси: 45.61.133.104:7777 (2.007с)
+2026-09-13 16:46:42,125 - proxy_manager - INFO -    • 45.61.133.104:7777: 2.007с
+2026-09-13 16:46:42,127 - proxy_manager - INFO -    • 173.212.234.174:3128: 2.750с
+2026-09-13 16:46:42,127 - proxy_manager - INFO -    • 181.78.23.187:999: 3.676с
+2026-09-13 16:46:42,128 - proxy_manager - INFO -    • 189.51.168.164:999: 3.844с
+2026-09-13 16:46:42,129 - proxy_manager - INFO -    • 181.78.74.253:999: 3.896с
+2026-09-13 16:46:42,131 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 45.61.133.104:7777 (2.007с)
+2026-09-13 16:46:42,132 - __main__ - INFO - 🌐 Используется прокси: http://45.61.133.104:7777 (пинг: 2.007с)
+2026-09-13 16:46:43,270 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-13 16:46:43,292 - database - INFO - ✅ Таблицы БД созданы
+2026-09-13 16:46:43,294 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-13 16:46:43,294 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-13 16:47:03,312 - __main__ - INFO - 📋 Команды бота установлены
+2026-09-13 16:47:03,314 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-13 16:47:03,319 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-13 16:47:03,323 - aiogram.dispatcher - INFO - Start polling
+2026-09-13 16:47:04,144 - aiogram.dispatcher - INFO - Run polling for bot @REG_sf_BOT id=8888839728 - 'REG_ℿλɑɱᴙ Иɕκ℘℩_flood'
+2026-09-13 16:51:44,409 - utils.role_utils - INFO - ✅ Данные roles_status.json сохранены
+2026-09-13 16:52:02,240 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 16:52:02,241 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 16:52:02,243 - aiogram.event - INFO - Update id=352508540 is handled. Duration 7 ms by bot id=8888839728
+2026-09-13 16:52:03,139 - aiogram.event - INFO - Update id=352508538 is handled. Duration 18781 ms by bot id=8888839728
+2026-09-13 16:52:06,036 - aiogram.event - INFO - Update id=352508539 is not handled. Duration 7161 ms by bot id=8888839728
+2026-09-13 16:52:06,036 - aiogram.event - ERROR - Cause exception while process update id=352508539 by bot id=8888839728
+TelegramNetworkError: HTTP Client says - ClientOSError: [WinError 64] Указанное сетевое имя более недоступно
+Traceback (most recent call last):
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\windows_events.py", line 463, in finish_socket_func
+    return ov.getresult()
+           ~~~~~~~~~~~~^^
+OSError: [WinError 64] Указанное сетевое имя более недоступно
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp\client.py", line 788, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp\client.py", line 742, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        req, traces=traces, timeout=real_timeout
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp\connector.py", line 672, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp\connector.py", line 1251, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp\connector.py", line 1592, in _create_direct_connection
+    transp, proto = await self._wrap_create_connection(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp_socks\connector.py", line 72, in _wrap_create_connection
+    return await self._connect_via_proxy(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp_socks\connector.py", line 135, in _connect_via_proxy
+    stream = await proxy.connect(
+             ^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\python_socks\async_\asyncio\v2\_proxy.py", line 79, in connect
+    return await self._connect(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\python_socks\async_\asyncio\v2\_proxy.py", line 130, in _connect
+    await connector.connect(
+    ...<3 lines>...
+    )
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\python_socks\_connectors\http_async.py", line 36, in connect
+    data = await stream.read()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\python_socks\async_\asyncio\v2\_stream.py", line 29, in read
+    return await self._reader.read(max_bytes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\streams.py", line 730, in read
+    await self._wait_for_data('read')
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\streams.py", line 539, in _wait_for_data
+    await self._waiter
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\proactor_events.py", line 286, in _loop_reading
+    length = fut.result()
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\windows_events.py", line 804, in _poll
+    value = callback(transferred, key, ov)
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\windows_events.py", line 467, in finish_socket_func
+    raise ConnectionResetError(*exc.args)
+ConnectionResetError: [WinError 64] Указанное сетевое имя более недоступно
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\client\session\aiohttp.py", line 181, in make_request
+    async with session.post(
+               ~~~~~~~~~~~~^
+        url, data=form, timeout=self.timeout if timeout is None else timeout
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ) as resp:
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp\client.py", line 1521, in __aenter__
+    self._resp: _RetType = await self._coro
+                           ^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiohttp\client.py", line 807, in _request
+    raise ClientOSError(*exc.args) from exc
+aiohttp.client_exceptions.ClientOSError: [WinError 64] Указанное сетевое имя более недоступно
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 309, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 158, in feed_update
+    response = await self.update.wrap_outer_middleware(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\middlewares\error.py", line 25, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\middlewares\user_context.py", line 56, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\fsm\middleware.py", line 42, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 43, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 276, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 141, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        observer=observer, update_type=update_type, event=telegram_event, **data
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 174, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 141, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        observer=observer, update_type=update_type, event=telegram_event, **data
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 166, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 43, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\src\handlers\apply_handlers.py", line 350, in cmd_free
+    await message.answer("❌ У вас нет активной роли.")
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\methods\base.py", line 84, in emit
+    return await bot(self)
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\client\bot.py", line 498, in __call__
+    return await self.session(self, method, timeout=request_timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\client\session\base.py", line 254, in __call__
+    return cast(TelegramType, await middleware(bot, method))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\client\session\aiohttp.py", line 188, in make_request
+    raise TelegramNetworkError(method=method, message=f"{type(e).__name__}: {e}")
+aiogram.exceptions.TelegramNetworkError: HTTP Client says - ClientOSError: [WinError 64] Указанное сетевое имя более недоступно
+2026-09-13 17:09:16,107 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 17:09:16,143 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 17:09:16,143 - aiogram.event - INFO - Update id=352508541 is handled. Duration 85 ms by bot id=8888839728
+2026-09-13 20:11:03,928 - handlers.base_commands - INFO - 👤 Chedrik SSL нажал /start
+2026-09-13 20:11:05,256 - aiogram.event - INFO - Update id=352508542 is handled. Duration 1342 ms by bot id=8888839728
+2026-09-13 20:13:43,011 - aiogram.event - INFO - Update id=352508543 is handled. Duration 720 ms by bot id=8888839728
+2026-09-13 20:14:33,051 - aiogram.event - INFO - Update id=352508544 is handled. Duration 363 ms by bot id=8888839728
+2026-09-13 20:15:02,556 - aiogram.event - INFO - Update id=352508545 is handled. Duration 307 ms by bot id=8888839728
+2026-09-13 20:15:52,563 - aiogram.event - INFO - Update id=352508546 is handled. Duration 1089 ms by bot id=8888839728
+2026-09-13 20:16:12,905 - handlers.base_commands - INFO - 👤 Пользователь 8076284478 скрыл клавиатуру
+2026-09-13 20:16:12,906 - aiogram.event - INFO - Update id=352508547 is handled. Duration 337 ms by bot id=8888839728
+2026-09-13 20:16:16,906 - handlers.base_commands - INFO - 👤 Пользователь 8076284478 показал клавиатуру
+2026-09-13 20:16:16,907 - aiogram.event - INFO - Update id=352508548 is handled. Duration 541 ms by bot id=8888839728
+2026-09-13 20:16:57,822 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:16:57,824 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 20:16:57,825 - aiogram.event - INFO - Update id=352508549 is handled. Duration 11 ms by bot id=8888839728
+2026-09-13 20:17:01,458 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:17:01,460 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 20:17:01,462 - aiogram.event - INFO - Update id=352508550 is handled. Duration 7 ms by bot id=8888839728
+2026-09-13 20:17:08,312 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:17:08,313 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 20:17:08,316 - aiogram.event - INFO - Update id=352508551 is handled. Duration 9 ms by bot id=8888839728
+2026-09-13 20:17:09,083 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:17:09,105 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 20:17:09,106 - aiogram.event - INFO - Update id=352508552 is handled. Duration 114 ms by bot id=8888839728
+2026-09-13 20:17:09,663 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:17:09,665 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 20:17:09,666 - aiogram.event - INFO - Update id=352508553 is handled. Duration 7 ms by bot id=8888839728
+2026-09-13 20:17:10,086 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:17:10,093 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 20:17:10,094 - aiogram.event - INFO - Update id=352508554 is handled. Duration 48 ms by bot id=8888839728
+2026-09-13 20:17:10,922 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:17:10,924 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 20:17:10,925 - aiogram.event - INFO - Update id=352508555 is handled. Duration 11 ms by bot id=8888839728
+2026-09-13 20:17:11,409 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:17:11,411 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 20:17:11,411 - aiogram.event - INFO - Update id=352508556 is handled. Duration 4 ms by bot id=8888839728
+2026-09-13 20:17:15,527 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:17:15,528 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 20:17:15,530 - aiogram.event - INFO - Update id=352508557 is handled. Duration 6 ms by bot id=8888839728
+2026-09-13 20:17:16,153 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:17:16,153 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 20:17:16,154 - aiogram.event - INFO - Update id=352508558 is handled. Duration 4 ms by bot id=8888839728
+2026-09-13 20:17:16,727 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:17:16,728 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 20:17:16,729 - aiogram.event - INFO - Update id=352508559 is handled. Duration 5 ms by bot id=8888839728
+2026-09-13 20:17:17,231 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:17:17,233 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 20:17:17,235 - aiogram.event - INFO - Update id=352508560 is handled. Duration 6 ms by bot id=8888839728
+2026-09-13 20:17:18,783 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:17:18,784 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 20:17:18,785 - aiogram.event - INFO - Update id=352508561 is handled. Duration 5 ms by bot id=8888839728
+2026-09-13 20:17:19,784 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:17:19,786 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 20:17:19,788 - aiogram.event - INFO - Update id=352508562 is handled. Duration 7 ms by bot id=8888839728
+2026-09-13 20:17:20,058 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:17:20,060 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 20:17:20,061 - aiogram.event - INFO - Update id=352508563 is handled. Duration 6 ms by bot id=8888839728
+2026-09-13 20:17:22,410 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:17:22,414 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 20:17:22,414 - aiogram.event - INFO - Update id=352508564 is handled. Duration 7 ms by bot id=8888839728
+2026-09-13 20:17:23,732 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:17:23,734 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 20:17:23,736 - aiogram.event - INFO - Update id=352508565 is handled. Duration 7 ms by bot id=8888839728
+2026-09-13 20:18:21,080 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:31:05,661 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 20:31:05,796 - aiogram.event - INFO - Update id=352508566 is handled. Duration 764683 ms by bot id=8888839728
+2026-09-13 20:31:05,801 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - Request timeout error
+2026-09-13 20:31:05,803 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-13 20:31:27,854 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 184.75.221.82:3118 [Превышен таймаут семафора]
+2026-09-13 20:31:27,898 - aiogram.dispatcher - WARNING - Sleep for 1.231983 seconds and try again... (tryings = 1, bot id = 8888839728)
+2026-09-13 20:31:37,494 - aiogram.dispatcher - INFO - Connection established (tryings = 2, bot id = 8888839728)
+2026-09-13 20:31:37,724 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:31:37,725 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 20:31:37,726 - aiogram.event - INFO - Update id=352508575 is handled. Duration 194 ms by bot id=8888839728
+2026-09-13 20:31:38,969 - aiogram.event - INFO - Update id=352508577 is handled. Duration 1431 ms by bot id=8888839728
+2026-09-13 20:31:39,014 - aiogram.event - INFO - Update id=352508574 is handled. Duration 1485 ms by bot id=8888839728
+2026-09-13 20:31:39,054 - aiogram.event - INFO - Update id=352508576 is handled. Duration 1520 ms by bot id=8888839728
+2026-09-13 20:31:39,387 - handlers.base_commands - INFO - ⛔ Команда /start заблокирована во флуде от 8076284478
+2026-09-13 20:31:39,387 - aiogram.event - INFO - Update id=352508571 is handled. Duration 1867 ms by bot id=8888839728
+2026-09-13 20:31:39,708 - aiogram.event - INFO - Update id=352508570 is handled. Duration 2194 ms by bot id=8888839728
+2026-09-13 20:31:39,746 - aiogram.event - INFO - Update id=352508569 is handled. Duration 2238 ms by bot id=8888839728
+2026-09-13 20:31:39,770 - aiogram.event - INFO - Update id=352508567 is handled. Duration 2270 ms by bot id=8888839728
+2026-09-13 20:31:40,134 - handlers.base_commands - INFO - ⛔ Команда /start заблокирована во флуде от 8076284478
+2026-09-13 20:31:40,136 - aiogram.event - INFO - Update id=352508572 is handled. Duration 2610 ms by bot id=8888839728
+2026-09-13 20:31:40,593 - aiogram.event - INFO - Update id=352508578 is handled. Duration 368 ms by bot id=8888839728
+2026-09-13 20:31:40,604 - aiogram.event - INFO - Update id=352508568 is handled. Duration 3100 ms by bot id=8888839728
+2026-09-13 20:31:41,060 - aiogram.event - INFO - Update id=352508573 is handled. Duration 3533 ms by bot id=8888839728
+2026-09-13 20:32:12,364 - aiogram.event - INFO - Update id=352508579 is handled. Duration 1933 ms by bot id=8888839728
+2026-09-13 20:32:24,720 - handlers.base_commands - INFO - 👤 Пользователь 8076284478 скрыл клавиатуру
+2026-09-13 20:32:24,722 - aiogram.event - INFO - Update id=352508580 is handled. Duration 620 ms by bot id=8888839728
+2026-09-13 20:32:26,163 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:32:26,191 - handlers.chat_member - INFO - ✅ Пользователь 5279300963 найден в файле
+2026-09-13 20:32:26,196 - aiogram.event - INFO - Update id=352508581 is handled. Duration 37 ms by bot id=8888839728
+2026-09-13 20:33:16,757 - aiogram.event - INFO - Update id=352508582 is handled. Duration 1010 ms by bot id=8888839728
+2026-09-13 20:33:34,306 - aiogram.event - INFO - Update id=352508583 is handled. Duration 376 ms by bot id=8888839728
+2026-09-13 20:33:42,198 - aiogram.event - INFO - Update id=352508584 is handled. Duration 320 ms by bot id=8888839728
+2026-09-13 20:34:34,067 - aiogram.event - INFO - Update id=352508585 is handled. Duration 580 ms by bot id=8888839728
+2026-09-13 20:34:47,538 - aiogram.event - INFO - Update id=352508586 is handled. Duration 997 ms by bot id=8888839728
+2026-09-13 20:35:07,916 - aiogram.event - INFO - Update id=352508587 is handled. Duration 571 ms by bot id=8888839728
+2026-09-13 20:35:21,010 - utils.role_utils - INFO - ✅ Данные roles_status.json сохранены
+2026-09-13 20:35:21,052 - utils.role_utils - INFO - ✅ Статус роли Сдерик: свободна -> ожидает
+2026-09-13 20:35:21,979 - aiogram.event - INFO - Update id=352508588 is handled. Duration 1284 ms by bot id=8888839728
+2026-09-13 20:35:54,225 - aiogram.event - INFO - Update id=352508589 is handled. Duration 4067 ms by bot id=8888839728
+2026-09-13 20:36:20,151 - aiogram.event - INFO - Update id=352508590 is handled. Duration 636 ms by bot id=8888839728
+2026-09-13 20:36:51,490 - utils.role_utils - INFO - ✅ Данные roles_status.json сохранены
+2026-09-13 20:36:51,508 - handlers.request_commands - INFO - 🔔 [ИРИС-ЗАГЛУШКА] Повысить 8076284478 до ранга 2 (Администратор)
+2026-09-13 20:36:52,112 - handlers.request_commands - INFO - Админ 8076284478 одобрил заявку #1
+2026-09-13 20:36:52,122 - aiogram.event - INFO - Update id=352508591 is handled. Duration 1111 ms by bot id=8888839728
+2026-09-13 20:44:16,687 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:44:16,689 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 20:44:16,690 - aiogram.event - INFO - Update id=352508592 is handled. Duration 6 ms by bot id=8888839728
+2026-09-13 20:44:22,824 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:44:22,827 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 20:44:22,828 - aiogram.event - INFO - Update id=352508593 is handled. Duration 12 ms by bot id=8888839728
+2026-09-13 20:44:55,935 - aiogram.event - INFO - Update id=352508594 is handled. Duration 1081 ms by bot id=8888839728
+2026-09-13 20:45:02,947 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:45:02,948 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 20:45:02,949 - aiogram.event - INFO - Update id=352508595 is handled. Duration 6 ms by bot id=8888839728
+2026-09-13 20:47:32,100 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 20:47:32,112 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 20:47:32,112 - aiogram.event - INFO - Update id=352508596 is handled. Duration 20 ms by bot id=8888839728
+2026-09-13 20:48:47,185 - aiogram.event - INFO - Update id=352508597 is handled. Duration 378 ms by bot id=8888839728
+2026-09-13 20:49:17,424 - aiogram.event - INFO - Update id=352508598 is handled. Duration 958 ms by bot id=8888839728
+2026-09-13 20:55:12,819 - __main__ - INFO - ✅ Зарегистрировано 10 роутеров
+2026-09-13 20:55:12,855 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-13 20:55:12,904 - proxy_manager - INFO - 🔄 Кэш устарел, обновляем...
+2026-09-13 20:55:12,905 - proxy_manager - INFO - 🏓 Пингую 1808 прокси через Telegram API...
+2026-09-13 20:55:19,106 - asyncio - ERROR - Unclosed connection
+client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None)>
+2026-09-13 20:55:22,357 - proxy_manager - INFO - 📊 Прогресс: 50/1808 (прошло 9 сек)
+2026-09-13 20:55:25,709 - proxy_manager - INFO - 📊 Прогресс: 100/1808 (прошло 12 сек)
+2026-09-13 20:55:29,705 - proxy_manager - INFO - 📊 Прогресс: 150/1808 (прошло 16 сек)
+2026-09-13 20:55:32,845 - proxy_manager - INFO - 📊 Прогресс: 200/1808 (прошло 19 сек)
+2026-09-13 20:55:39,915 - proxy_manager - INFO - 📊 Прогресс: 250/1808 (прошло 27 сек)
+2026-09-13 20:55:51,877 - proxy_manager - INFO - 📊 Прогресс: 300/1808 (прошло 38 сек)
+2026-09-13 20:56:00,011 - proxy_manager - INFO - 📊 Прогресс: 350/1808 (прошло 47 сек)
+2026-09-13 20:56:14,844 - proxy_manager - INFO - 📊 Прогресс: 400/1808 (прошло 61 сек)
+2026-09-13 20:56:26,677 - proxy_manager - INFO - 📊 Прогресс: 450/1808 (прошло 73 сек)
+2026-09-13 20:56:26,680 - proxy_manager - INFO - 📊 Прогресс: 500/1808 (прошло 73 сек)
+2026-09-13 20:56:31,614 - proxy_manager - INFO - 📊 Прогресс: 550/1808 (прошло 78 сек)
+2026-09-13 20:56:46,072 - proxy_manager - INFO - 📊 Прогресс: 600/1808 (прошло 93 сек)
+2026-09-13 20:56:51,151 - proxy_manager - INFO - 📊 Прогресс: 650/1808 (прошло 98 сек)
+2026-09-13 20:56:55,442 - proxy_manager - INFO - 📊 Прогресс: 700/1808 (прошло 102 сек)
+2026-09-13 20:57:03,167 - proxy_manager - INFO - 📊 Прогресс: 750/1808 (прошло 110 сек)
+2026-09-13 20:57:08,845 - proxy_manager - INFO - 📊 Прогресс: 800/1808 (прошло 115 сек)
+2026-09-13 20:57:12,523 - proxy_manager - INFO - 📊 Прогресс: 850/1808 (прошло 119 сек)
+2026-09-13 20:57:16,153 - proxy_manager - INFO - 📊 Прогресс: 900/1808 (прошло 123 сек)
+2026-09-13 20:57:19,875 - proxy_manager - INFO - 📊 Прогресс: 950/1808 (прошло 126 сек)
+2026-09-13 20:57:22,948 - proxy_manager - INFO - 📊 Прогресс: 1000/1808 (прошло 130 сек)
+2026-09-13 20:57:26,741 - proxy_manager - INFO - 📊 Прогресс: 1050/1808 (прошло 133 сек)
+2026-09-13 20:57:30,519 - proxy_manager - INFO - 📊 Прогресс: 1100/1808 (прошло 137 сек)
+2026-09-13 20:57:33,892 - proxy_manager - INFO - 📊 Прогресс: 1150/1808 (прошло 140 сек)
+2026-09-13 20:57:37,205 - proxy_manager - INFO - 📊 Прогресс: 1200/1808 (прошло 144 сек)
+2026-09-13 20:57:40,555 - proxy_manager - INFO - 📊 Прогресс: 1250/1808 (прошло 147 сек)
+2026-09-13 20:57:44,300 - proxy_manager - INFO - 📊 Прогресс: 1300/1808 (прошло 151 сек)
+2026-09-13 20:57:47,794 - proxy_manager - INFO - 📊 Прогресс: 1350/1808 (прошло 154 сек)
+2026-09-13 20:57:51,690 - proxy_manager - INFO - 📊 Прогресс: 1400/1808 (прошло 158 сек)
+2026-09-13 20:57:55,263 - proxy_manager - INFO - 📊 Прогресс: 1450/1808 (прошло 162 сек)
+2026-09-13 20:57:58,482 - proxy_manager - INFO - 📊 Прогресс: 1500/1808 (прошло 165 сек)
+2026-09-13 20:58:02,837 - proxy_manager - INFO - 📊 Прогресс: 1550/1808 (прошло 169 сек)
+2026-09-13 20:58:06,225 - proxy_manager - INFO - 📊 Прогресс: 1600/1808 (прошло 173 сек)
+2026-09-13 20:58:09,196 - proxy_manager - INFO - 📊 Прогресс: 1650/1808 (прошло 176 сек)
+2026-09-13 20:58:10,179 - asyncio - ERROR - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2026-09-13 20:58:13,002 - proxy_manager - INFO - 📊 Прогресс: 1700/1808 (прошло 180 сек)
+2026-09-13 20:58:13,667 - proxy_manager - INFO - 📊 Прогресс: 1750/1808 (прошло 180 сек)
+2026-09-13 20:58:17,667 - proxy_manager - INFO - 📊 Прогресс: 1800/1808 (прошло 184 сек)
+2026-09-13 20:58:18,654 - proxy_manager - INFO - 📊 Прогресс: 1808/1808 (прошло 185 сек)
+2026-09-13 20:58:18,657 - proxy_manager - INFO - ✅ Из 1808 прокси работают 6 (за 185 сек)
+2026-09-13 20:58:18,663 - proxy_manager - INFO - 💾 Кэш пингов сохранён (6 прокси)
+2026-09-13 20:58:18,666 - proxy_manager - INFO - 🏆 Самый быстрый прокси: 81.90.158.110:3128 (4.464с)
+2026-09-13 20:58:18,668 - proxy_manager - INFO -    • 81.90.158.110:3128: 4.464с
+2026-09-13 20:58:18,674 - proxy_manager - INFO -    • 43.109.48.180:9999: 4.481с
+2026-09-13 20:58:18,677 - proxy_manager - INFO -    • 163.181.207.227:9999: 4.988с
+2026-09-13 20:58:18,677 - proxy_manager - INFO -    • 163.181.207.226:9999: 5.248с
+2026-09-13 20:58:18,678 - proxy_manager - INFO -    • 163.181.207.213:9999: 5.713с
+2026-09-13 20:58:18,680 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 81.90.158.110:3128 (4.464с)
+2026-09-13 20:58:18,681 - __main__ - INFO - 🌐 Используется прокси: http://81.90.158.110:3128 (пинг: 4.464с)
+2026-09-13 20:58:20,452 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-13 20:58:20,465 - database - INFO - ✅ Таблицы БД созданы
+2026-09-13 20:58:20,468 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-13 20:58:20,468 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-13 20:58:23,777 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: [Errno 22] Couldn't connect to proxy 81.90.158.110:3128 [Удаленный компьютер отклонил это сетевое подключение]
+2026-09-13 20:58:23,779 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-13 20:58:23,780 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-13 20:58:23,782 - aiogram.dispatcher - INFO - Start polling
+2026-09-13 20:58:26,248 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-13 20:58:26,502 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: [Errno 22] Couldn't connect to proxy 81.90.158.110:3128 [Удаленный компьютер отклонил это сетевое подключение]
+2026-09-13 20:58:26,504 - __main__ - INFO - 🔄 Пробую переключить прокси...
+2026-09-13 20:58:26,512 - proxy_manager - INFO - 💾 Кэш пингов сохранён (5 прокси)
+2026-09-13 20:58:26,515 - __main__ - INFO - ❌ Прокси 81.90.158.110:3128 помечен как нерабочий
+2026-09-13 20:58:26,517 - proxy_manager - INFO - 🔄 Используется прокси: 43.109.48.180:9999 (пинг: 4.481с)
+2026-09-13 20:58:26,521 - __main__ - INFO - 🔄 Переключение на прокси: http://43.109.48.180:9999 (пинг: 4.481с)
+2026-09-13 20:58:27,365 - __main__ - INFO - ✅ Переключено на прокси: 43.109.48.180:9999
+2026-09-13 20:58:27,365 - __main__ - INFO - 🔄 Перезапускаю поллинг...
+2026-09-13 20:58:27,368 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-13 20:58:27,370 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-13 20:58:27,379 - database - INFO - ✅ Таблицы БД созданы
+2026-09-13 20:58:27,381 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-13 20:58:27,382 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-13 20:58:27,819 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: 500 Internal Server Error
+2026-09-13 20:58:27,821 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-13 20:58:27,823 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-13 20:58:27,824 - aiogram.dispatcher - INFO - Start polling
+2026-09-13 20:58:28,219 - aiogram.dispatcher - INFO - Polling stopped
+2026-09-13 20:58:28,483 - __main__ - ERROR - ❌ Критическая ошибка в поллинге: 500 Internal Server Error
+2026-09-13 20:58:28,485 - __main__ - INFO - 🛑 Бот остановлен
+2026-09-13 20:58:28,489 - __main__ - ERROR - ❌ Необработанная ошибка: 500 Internal Server Error
+2026-09-13 20:58:28,490 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-13 20:58:33,509 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-13 20:58:33,558 - proxy_manager - INFO - ✅ Загружено 5 прокси из кэша
+2026-09-13 20:58:33,559 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 43.109.48.180:9999 (4.481с)
+2026-09-13 20:58:33,561 - __main__ - INFO - 🌐 Используется прокси: http://43.109.48.180:9999 (пинг: 4.481с)
+2026-09-13 20:58:34,393 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-13 20:58:34,399 - database - INFO - ✅ Таблицы БД созданы
+2026-09-13 20:58:34,400 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-13 20:58:34,400 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-13 20:58:34,753 - __main__ - WARNING - ⚠️ Не удалось установить команды бота: 500 Internal Server Error
+2026-09-13 20:58:34,755 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-13 20:58:34,756 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-13 20:58:34,757 - aiogram.dispatcher - INFO - Start polling
+2026-09-13 20:58:36,546 - aiogram.dispatcher - INFO - Run polling for bot @REG_sf_BOT id=8888839728 - 'REG_ℿλɑɱᴙ Иɕκ℘℩_flood'
+2026-09-13 20:58:46,529 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-09-13 20:58:46,530 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-13 20:58:47,922 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 500 Internal Server Error
+2026-09-13 20:58:47,923 - aiogram.dispatcher - WARNING - Sleep for 1.162491 seconds and try again... (tryings = 1, bot id = 8888839728)
+2026-09-13 20:58:49,481 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 500 Internal Server Error
+2026-09-13 20:58:49,482 - aiogram.dispatcher - WARNING - Sleep for 1.585700 seconds and try again... (tryings = 2, bot id = 8888839728)
+2026-09-13 20:58:51,507 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 500 Internal Server Error
+2026-09-13 20:58:51,508 - aiogram.dispatcher - WARNING - Sleep for 2.197148 seconds and try again... (tryings = 3, bot id = 8888839728)
+2026-09-13 20:59:05,026 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-09-13 20:59:05,027 - aiogram.dispatcher - WARNING - Sleep for 2.966539 seconds and try again... (tryings = 4, bot id = 8888839728)
+2026-09-13 20:59:08,426 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 500 Internal Server Error
+2026-09-13 20:59:08,427 - aiogram.dispatcher - WARNING - Sleep for 3.967735 seconds and try again... (tryings = 5, bot id = 8888839728)
+2026-09-13 20:59:12,753 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 500 Internal Server Error
+2026-09-13 20:59:12,754 - aiogram.dispatcher - WARNING - Sleep for 4.990066 seconds and try again... (tryings = 6, bot id = 8888839728)
+2026-09-13 20:59:18,127 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 500 Internal Server Error
+2026-09-13 20:59:18,128 - aiogram.dispatcher - WARNING - Sleep for 5.008754 seconds and try again... (tryings = 7, bot id = 8888839728)
+2026-09-13 20:59:34,542 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-09-13 20:59:34,547 - aiogram.dispatcher - WARNING - Sleep for 5.008581 seconds and try again... (tryings = 8, bot id = 8888839728)
+2026-09-13 20:59:56,616 - __main__ - INFO - ✅ Зарегистрировано 10 роутеров
+2026-09-13 20:59:56,620 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-13 20:59:56,621 - proxy_manager - INFO - 🏓 Пингую 1808 прокси через Telegram API...
+2026-09-13 21:00:03,407 - asyncio - ERROR - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2026-09-13 21:00:06,995 - proxy_manager - INFO - 📊 Прогресс: 50/1808 (прошло 10 сек)
+2026-09-13 21:00:10,460 - proxy_manager - INFO - 📊 Прогресс: 100/1808 (прошло 13 сек)
+2026-09-13 21:00:13,464 - proxy_manager - INFO - 📊 Прогресс: 150/1808 (прошло 16 сек)
+2026-09-13 21:00:17,595 - proxy_manager - INFO - 📊 Прогресс: 200/1808 (прошло 20 сек)
+2026-09-13 21:00:20,456 - proxy_manager - INFO - 📊 Прогресс: 250/1808 (прошло 23 сек)
+2026-09-13 21:00:23,437 - proxy_manager - INFO - 📊 Прогресс: 300/1808 (прошло 26 сек)
+2026-09-13 21:00:26,895 - proxy_manager - INFO - 📊 Прогресс: 350/1808 (прошло 30 сек)
+2026-09-13 21:00:30,568 - proxy_manager - INFO - 📊 Прогресс: 400/1808 (прошло 33 сек)
+2026-09-13 21:00:33,877 - proxy_manager - INFO - 📊 Прогресс: 450/1808 (прошло 37 сек)
+2026-09-13 21:00:36,892 - proxy_manager - INFO - 📊 Прогресс: 500/1808 (прошло 40 сек)
+2026-09-13 21:00:39,179 - asyncio - ERROR - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2026-09-13 21:00:40,812 - proxy_manager - INFO - 📊 Прогресс: 550/1808 (прошло 44 сек)
+2026-09-13 21:00:44,410 - proxy_manager - INFO - 📊 Прогресс: 600/1808 (прошло 47 сек)
+2026-09-13 21:00:48,143 - proxy_manager - INFO - 📊 Прогресс: 650/1808 (прошло 51 сек)
+2026-09-13 21:00:50,580 - proxy_manager - INFO - 📊 Прогресс: 700/1808 (прошло 53 сек)
+2026-09-13 21:00:50,856 - asyncio - ERROR - Unclosed connection
+client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None)>
+2026-09-13 21:00:54,305 - proxy_manager - INFO - 📊 Прогресс: 750/1808 (прошло 57 сек)
+2026-09-13 21:00:58,620 - proxy_manager - INFO - 📊 Прогресс: 800/1808 (прошло 61 сек)
+2026-09-13 21:01:01,544 - proxy_manager - INFO - 📊 Прогресс: 850/1808 (прошло 64 сек)
+2026-09-13 21:01:06,733 - proxy_manager - INFO - 📊 Прогресс: 900/1808 (прошло 70 сек)
+2026-09-13 21:01:10,382 - proxy_manager - INFO - 📊 Прогресс: 950/1808 (прошло 73 сек)
+2026-09-13 21:01:14,649 - proxy_manager - INFO - 📊 Прогресс: 1000/1808 (прошло 78 сек)
+2026-09-13 21:01:18,229 - proxy_manager - INFO - 📊 Прогресс: 1050/1808 (прошло 81 сек)
+2026-09-13 21:01:22,871 - proxy_manager - INFO - 📊 Прогресс: 1100/1808 (прошло 86 сек)
+2026-09-13 21:01:26,947 - proxy_manager - INFO - 📊 Прогресс: 1150/1808 (прошло 90 сек)
+2026-09-13 21:01:31,770 - proxy_manager - INFO - 📊 Прогресс: 1200/1808 (прошло 95 сек)
+2026-09-13 21:01:34,798 - proxy_manager - INFO - 📊 Прогресс: 1250/1808 (прошло 98 сек)
+2026-09-13 21:01:38,995 - proxy_manager - INFO - 📊 Прогресс: 1300/1808 (прошло 102 сек)
+2026-09-13 21:01:42,732 - proxy_manager - INFO - 📊 Прогресс: 1350/1808 (прошло 106 сек)
+2026-09-13 21:01:45,018 - proxy_manager - INFO - 📊 Прогресс: 1400/1808 (прошло 108 сек)
+2026-09-13 21:01:48,870 - proxy_manager - INFO - 📊 Прогресс: 1450/1808 (прошло 112 сек)
+2026-09-13 21:01:52,577 - proxy_manager - INFO - 📊 Прогресс: 1500/1808 (прошло 115 сек)
+2026-09-13 21:01:55,674 - proxy_manager - INFO - 📊 Прогресс: 1550/1808 (прошло 119 сек)
+2026-09-13 21:01:59,609 - proxy_manager - INFO - 📊 Прогресс: 1600/1808 (прошло 122 сек)
+2026-09-13 21:02:02,711 - proxy_manager - INFO - 📊 Прогресс: 1650/1808 (прошло 126 сек)
+2026-09-13 21:02:05,772 - proxy_manager - INFO - 📊 Прогресс: 1700/1808 (прошло 129 сек)
+2026-09-13 21:02:06,656 - proxy_manager - INFO - 📊 Прогресс: 1750/1808 (прошло 130 сек)
+2026-09-13 21:02:10,682 - proxy_manager - INFO - 📊 Прогресс: 1800/1808 (прошло 134 сек)
+2026-09-13 21:02:11,650 - proxy_manager - INFO - 📊 Прогресс: 1808/1808 (прошло 135 сек)
+2026-09-13 21:02:11,652 - proxy_manager - INFO - ✅ Из 1808 прокси работают 6 (за 135 сек)
+2026-09-13 21:02:11,659 - proxy_manager - INFO - 💾 Кэш пингов сохранён (6 прокси)
+2026-09-13 21:02:11,662 - proxy_manager - INFO - 🏆 Самый быстрый прокси: 195.158.22.212:3128 (2.658с)
+2026-09-13 21:02:11,665 - proxy_manager - INFO -    • 195.158.22.212:3128: 2.658с
+2026-09-13 21:02:11,668 - proxy_manager - INFO -    • 118.172.125.214:8080: 3.775с
+2026-09-13 21:02:11,672 - proxy_manager - INFO -    • 3.10.170.234:3128: 5.501с
+2026-09-13 21:02:11,675 - proxy_manager - INFO -    • 5.129.254.5:8888: 5.693с
+2026-09-13 21:02:11,677 - proxy_manager - INFO -    • 202.28.194.139:31280: 5.755с
+2026-09-13 21:02:11,684 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 195.158.22.212:3128 (2.658с)
+2026-09-13 21:02:11,686 - __main__ - INFO - 🌐 Используется прокси: http://195.158.22.212:3128 (пинг: 2.658с)
+2026-09-13 21:02:12,921 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-13 21:02:12,932 - database - INFO - ✅ Таблицы БД созданы
+2026-09-13 21:02:12,934 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-13 21:02:12,934 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-13 21:02:17,171 - __main__ - INFO - 📋 Команды бота установлены
+2026-09-13 21:02:17,173 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-13 21:02:17,174 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-13 21:02:17,177 - aiogram.dispatcher - INFO - Start polling
+2026-09-13 21:02:17,550 - aiogram.dispatcher - INFO - Run polling for bot @REG_sf_BOT id=8888839728 - 'REG_ℿλɑɱᴙ Иɕκ℘℩_flood'
+2026-09-13 21:04:12,255 - aiogram.event - INFO - Update id=352508599 is handled. Duration 2695 ms by bot id=8888839728
+2026-09-13 21:04:18,256 - aiogram.event - INFO - Update id=352508600 is handled. Duration 1614 ms by bot id=8888839728
+2026-09-13 21:04:22,445 - aiogram.event - INFO - Update id=352508601 is handled. Duration 1771 ms by bot id=8888839728
+2026-09-13 21:04:38,518 - aiogram.event - INFO - Update id=352508602 is handled. Duration 277 ms by bot id=8888839728
+2026-09-13 21:04:42,995 - aiogram.event - INFO - Update id=352508603 is handled. Duration 345 ms by bot id=8888839728
+2026-09-13 21:04:46,756 - aiogram.event - INFO - Update id=352508604 is handled. Duration 956 ms by bot id=8888839728
+2026-09-13 21:04:48,130 - aiogram.event - INFO - Update id=352508605 is handled. Duration 881 ms by bot id=8888839728
+2026-09-13 21:04:50,506 - aiogram.event - INFO - Update id=352508606 is handled. Duration 1040 ms by bot id=8888839728
+2026-09-13 21:04:52,347 - aiogram.event - INFO - Update id=352508607 is handled. Duration 358 ms by bot id=8888839728
+2026-09-13 21:04:55,226 - aiogram.event - INFO - Update id=352508608 is handled. Duration 801 ms by bot id=8888839728
+2026-09-13 21:05:27,697 - aiogram.event - INFO - Update id=352508609 is handled. Duration 966 ms by bot id=8888839728
+2026-09-13 21:05:40,861 - aiogram.event - INFO - Update id=352508610 is handled. Duration 273 ms by bot id=8888839728
+2026-09-13 21:05:43,341 - aiogram.event - INFO - Update id=352508611 is handled. Duration 597 ms by bot id=8888839728
+2026-09-13 21:05:59,812 - aiogram.event - INFO - Update id=352508612 is handled. Duration 1012 ms by bot id=8888839728
+2026-09-13 21:06:03,862 - aiogram.event - INFO - Update id=352508613 is handled. Duration 317 ms by bot id=8888839728
+2026-09-13 21:06:09,755 - aiogram.event - INFO - Update id=352508614 is handled. Duration 479 ms by bot id=8888839728
+2026-09-13 21:06:13,697 - aiogram.event - INFO - Update id=352508615 is handled. Duration 523 ms by bot id=8888839728
+2026-09-13 21:06:41,449 - handlers.base_commands - INFO - 👤 𝓩𝓚𝓔𝓷𝓰3 нажал /start
+2026-09-13 21:06:41,768 - aiogram.event - INFO - Update id=352508616 is handled. Duration 319 ms by bot id=8888839728
+2026-09-13 21:06:50,138 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 21:06:50,147 - handlers.chat_member - INFO - ❌ Пользователь 5365691888 НЕ найден в файле
+2026-09-13 21:06:50,149 - aiogram.event - INFO - Update id=352508617 is handled. Duration 51 ms by bot id=8888839728
+2026-09-13 21:06:51,785 - aiogram.event - INFO - Update id=352508618 is handled. Duration 305 ms by bot id=8888839728
+2026-09-13 21:07:07,183 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 21:07:07,193 - handlers.chat_member - INFO - ❌ Пользователь 5365691888 НЕ найден в файле
+2026-09-13 21:07:07,194 - aiogram.event - INFO - Update id=352508619 is handled. Duration 15 ms by bot id=8888839728
+2026-09-13 21:07:46,820 - aiogram.event - INFO - Update id=352508620 is handled. Duration 285 ms by bot id=8888839728
+2026-09-13 21:12:13,068 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 21:14:26,412 - __main__ - INFO - ✅ Зарегистрировано 10 роутеров
+2026-09-13 21:14:26,418 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-13 21:14:26,419 - proxy_manager - INFO - 🔄 Кэш устарел, обновляем...
+2026-09-13 21:14:26,420 - proxy_manager - INFO - 🏓 Пингую 1808 прокси через Telegram API...
+2026-09-13 21:14:35,171 - asyncio - ERROR - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2026-09-13 21:14:35,181 - asyncio - ERROR - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2026-09-13 21:14:41,140 - proxy_manager - INFO - 📊 Прогресс: 50/1808 (прошло 14 сек)
+2026-09-13 21:14:43,828 - proxy_manager - INFO - 📊 Прогресс: 100/1808 (прошло 17 сек)
+2026-09-13 21:14:48,106 - proxy_manager - INFO - 📊 Прогресс: 150/1808 (прошло 21 сек)
+2026-09-13 21:14:52,526 - proxy_manager - INFO - 📊 Прогресс: 200/1808 (прошло 26 сек)
+2026-09-13 21:14:55,057 - proxy_manager - INFO - 📊 Прогресс: 250/1808 (прошло 28 сек)
+2026-09-13 21:15:00,347 - proxy_manager - INFO - 📊 Прогресс: 300/1808 (прошло 33 сек)
+2026-09-13 21:15:02,870 - proxy_manager - INFO - 📊 Прогресс: 350/1808 (прошло 36 сек)
+2026-09-13 21:15:07,052 - proxy_manager - INFO - 📊 Прогресс: 400/1808 (прошло 40 сек)
+2026-09-13 21:15:09,847 - proxy_manager - INFO - 📊 Прогресс: 450/1808 (прошло 43 сек)
+2026-09-13 21:15:13,069 - proxy_manager - INFO - 📊 Прогресс: 500/1808 (прошло 46 сек)
+2026-09-13 21:15:17,047 - proxy_manager - INFO - 📊 Прогресс: 550/1808 (прошло 50 сек)
+2026-09-13 21:15:20,222 - proxy_manager - INFO - 📊 Прогресс: 600/1808 (прошло 53 сек)
+2026-09-13 21:15:24,766 - proxy_manager - INFO - 📊 Прогресс: 650/1808 (прошло 58 сек)
+2026-09-13 21:15:26,973 - asyncio - ERROR - Unclosed connection
+client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None)>
+2026-09-13 21:15:26,974 - proxy_manager - INFO - 📊 Прогресс: 700/1808 (прошло 60 сек)
+2026-09-13 21:15:30,141 - proxy_manager - INFO - 📊 Прогресс: 750/1808 (прошло 63 сек)
+2026-09-13 21:15:33,932 - proxy_manager - INFO - 📊 Прогресс: 800/1808 (прошло 67 сек)
+2026-09-13 21:15:38,049 - proxy_manager - INFO - 📊 Прогресс: 850/1808 (прошло 71 сек)
+2026-09-13 21:15:41,037 - proxy_manager - INFO - 📊 Прогресс: 900/1808 (прошло 74 сек)
+2026-09-13 21:15:44,846 - proxy_manager - INFO - 📊 Прогресс: 950/1808 (прошло 78 сек)
+2026-09-13 21:15:48,407 - proxy_manager - INFO - 📊 Прогресс: 1000/1808 (прошло 81 сек)
+2026-09-13 21:15:51,599 - proxy_manager - INFO - 📊 Прогресс: 1050/1808 (прошло 85 сек)
+2026-09-13 21:15:54,572 - proxy_manager - INFO - 📊 Прогресс: 1100/1808 (прошло 88 сек)
+2026-09-13 21:15:58,442 - proxy_manager - INFO - 📊 Прогресс: 1150/1808 (прошло 92 сек)
+2026-09-13 21:16:01,313 - proxy_manager - INFO - 📊 Прогресс: 1200/1808 (прошло 94 сек)
+2026-09-13 21:16:05,897 - proxy_manager - INFO - 📊 Прогресс: 1250/1808 (прошло 99 сек)
+2026-09-13 21:16:06,005 - asyncio - ERROR - Unclosed connection
+client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None)>
+2026-09-13 21:16:10,456 - proxy_manager - INFO - 📊 Прогресс: 1300/1808 (прошло 104 сек)
+2026-09-13 21:16:13,194 - proxy_manager - INFO - 📊 Прогресс: 1350/1808 (прошло 106 сек)
+2026-09-13 21:16:17,733 - proxy_manager - INFO - 📊 Прогресс: 1400/1808 (прошло 111 сек)
+2026-09-13 21:16:20,882 - proxy_manager - INFO - 📊 Прогресс: 1450/1808 (прошло 114 сек)
+2026-09-13 21:16:26,104 - proxy_manager - INFO - 📊 Прогресс: 1500/1808 (прошло 119 сек)
+2026-09-13 21:16:29,080 - proxy_manager - INFO - 📊 Прогресс: 1550/1808 (прошло 122 сек)
+2026-09-13 21:16:33,947 - proxy_manager - INFO - 📊 Прогресс: 1600/1808 (прошло 127 сек)
+2026-09-13 21:16:38,573 - proxy_manager - INFO - 📊 Прогресс: 1650/1808 (прошло 132 сек)
+2026-09-13 21:16:42,194 - proxy_manager - INFO - 📊 Прогресс: 1700/1808 (прошло 135 сек)
+2026-09-13 21:16:42,673 - proxy_manager - INFO - 📊 Прогресс: 1750/1808 (прошло 136 сек)
+2026-09-13 21:16:46,682 - proxy_manager - INFO - 📊 Прогресс: 1800/1808 (прошло 140 сек)
+2026-09-13 21:16:47,669 - proxy_manager - INFO - 📊 Прогресс: 1808/1808 (прошло 141 сек)
+2026-09-13 21:16:47,678 - proxy_manager - INFO - ✅ Из 1808 прокси работают 4 (за 141 сек)
+2026-09-13 21:16:47,751 - proxy_manager - INFO - 💾 Кэш пингов сохранён (4 прокси)
+2026-09-13 21:16:47,759 - proxy_manager - INFO - 🏆 Самый быстрый прокси: 195.158.22.212:3128 (3.209с)
+2026-09-13 21:16:47,760 - proxy_manager - INFO -    • 195.158.22.212:3128: 3.209с
+2026-09-13 21:16:47,762 - proxy_manager - INFO -    • 195.158.2.130:3128: 4.117с
+2026-09-13 21:16:47,763 - proxy_manager - INFO -    • 118.172.125.214:8080: 4.353с
+2026-09-13 21:16:47,765 - proxy_manager - INFO -    • 47.237.138.184:3128: 5.431с
+2026-09-13 21:16:47,767 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 195.158.22.212:3128 (3.209с)
+2026-09-13 21:16:47,768 - __main__ - INFO - 🌐 Используется прокси: http://195.158.22.212:3128 (пинг: 3.209с)
+2026-09-13 21:16:49,797 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-13 21:16:49,818 - database - INFO - ✅ Таблицы БД созданы
+2026-09-13 21:16:49,820 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-13 21:16:49,822 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-13 21:16:53,986 - __main__ - INFO - 📋 Команды бота установлены
+2026-09-13 21:16:53,989 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-13 21:16:53,990 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-13 21:16:53,991 - aiogram.dispatcher - INFO - Start polling
+2026-09-13 21:16:54,244 - aiogram.dispatcher - INFO - Run polling for bot @REG_sf_BOT id=8888839728 - 'REG_ℿλɑɱᴙ Иɕκ℘℩_flood'
+2026-09-13 21:16:54,557 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 21:16:54,559 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 21:16:54,562 - aiogram.event - INFO - Update id=352508622 is handled. Duration 65 ms by bot id=8888839728
+2026-09-13 21:16:56,605 - aiogram.event - INFO - Update id=352508623 is handled. Duration 2064 ms by bot id=8888839728
+2026-09-13 21:16:56,836 - aiogram.event - INFO - Update id=352508625 is handled. Duration 2288 ms by bot id=8888839728
+2026-09-13 21:16:56,892 - aiogram.event - INFO - Update id=352508624 is handled. Duration 2349 ms by bot id=8888839728
+2026-09-13 21:17:12,997 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 21:17:13,007 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 21:17:13,009 - aiogram.event - INFO - Update id=352508626 is handled. Duration 70 ms by bot id=8888839728
+2026-09-13 21:17:39,814 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 21:17:39,817 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 21:17:39,817 - aiogram.event - INFO - Update id=352508627 is handled. Duration 12 ms by bot id=8888839728
+2026-09-13 21:25:42,994 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 21:25:42,996 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 21:25:42,997 - aiogram.event - INFO - Update id=352508628 is handled. Duration 6 ms by bot id=8888839728
+2026-09-13 21:25:43,259 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 21:25:43,260 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-13 21:25:43,260 - aiogram.event - INFO - Update id=352508629 is handled. Duration 4 ms by bot id=8888839728
+2026-09-13 21:25:53,176 - handlers.base_commands - INFO - 👤 Chedrik SSL нажал /start
+2026-09-13 21:25:53,537 - aiogram.event - INFO - Update id=352508630 is handled. Duration 361 ms by bot id=8888839728
+2026-09-13 21:25:58,193 - aiogram.event - INFO - Update id=352508631 is handled. Duration 1739 ms by bot id=8888839728
+2026-09-13 21:26:02,139 - aiogram.event - INFO - Update id=352508632 is handled. Duration 505 ms by bot id=8888839728
+2026-09-13 21:29:38,457 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-13 21:29:38,459 - handlers.chat_member - INFO - ❌ Пользователь 2002184576 НЕ найден в файле
+2026-09-13 21:29:38,460 - aiogram.event - INFO - Update id=352508633 is handled. Duration 5 ms by bot id=8888839728

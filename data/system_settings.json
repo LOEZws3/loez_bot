@@ -1,3 +1,4 @@
 {
-  "reminders_enabled": true
+  "reminders_enabled": true,
+  "closed_mode": false
 }
