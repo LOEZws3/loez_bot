@@ -13,6 +13,13 @@ from handlers import routers
 from proxy_manager import proxy_manager
 
 # ═══════════════════════════════════════════════════════════════════
+# КЛАСС ИСКЛЮЧЕНИЯ ДЛЯ SSL-ОШИБОК ПРОКСИ
+# ═══════════════════════════════════════════════════════════════════
+
+class ProxySSLException(Exception):
+    """Исключение для SSL-ошибок при работе через прокси"""
+    pass
+# ═══════════════════════════════════════════════════════════════════
 # ⚠️  ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ О СИСТЕМЕ ПОДКЛЮЧЕНИЯ
 # ═══════════════════════════════════════════════════════════════════
 # 
@@ -158,7 +165,20 @@ async def set_bot_commands():
         await bot.set_my_commands(commands)
         logger.info("📋 Команды бота установлены")
     except Exception as e:
-        if "400" in str(e):
+        error_str = str(e).lower()
+        
+        # ✅ SSL-ОШИБКА — ВЫБРАСЫВАЕМ ИСКЛЮЧЕНИЕ ДЛЯ ПЕРЕЗАПУСКА
+        is_ssl_error = (
+            'ssl' in error_str or
+            'certificate' in error_str or
+            'certificate_verify_failed' in error_str or
+            'clientoserror' in error_str
+        )
+        
+        if is_ssl_error:
+            logger.warning(f"⚠️ SSL-ошибка при установке команд: {e}")
+            raise ProxySSLException(f"SSL error: {e}")
+        elif "400" in str(e):
             logger.info("📋 Команды уже установлены (пропускаем)")
         else:
             logger.warning(f"⚠️ Не удалось установить команды бота: {e}")
@@ -195,23 +215,44 @@ async def check_rests_loop():
 async def run_bot():
     """Запускает бота с текущим прокси"""
     global bot
-    
+
     dp = Dispatcher()
-    
+
     for router in routers:
         dp.include_router(router)
     logger.info(f"✅ Зарегистрировано {len(routers)} роутеров")
-    
+
     while True:
         try:
             if bot is None:
                 bot = await create_bot_with_proxy()
-            
+
             await on_startup()
-            
+
             try:
                 logger.info("🔄 Начинаю поллинг...")
                 await dp.start_polling(bot, skip_updates=True)
+            except ProxySSLException as ssl_error:
+                # ✅ ОБРАБОТКА SSL-ОШИБКИ — СБРОС КЭША + ПЕРЕКЛЮЧЕНИЕ ПРОКСИ
+                logger.error(f"❌ SSL-ошибка прокси: {ssl_error}")
+                logger.info("🗑️ Сбрасываю кэш прокси...")
+                
+                try:
+                    from proxy_manager import clear_pings_cache
+                    clear_pings_cache()
+                except Exception as cache_error:
+                    logger.error(f"❌ Ошибка сброса кэша: {cache_error}")
+                
+                logger.info("🔄 Переключаюсь на следующий прокси...")
+                if await switch_to_next_proxy():
+                    logger.info("🔄 Перезапускаю бота с новым прокси...")
+                    await asyncio.sleep(2)
+                    continue
+                else:
+                    logger.warning("⚠️ Не удалось переключить прокси. Перезапуск через 5 сек...")
+                    await asyncio.sleep(RESTART_DELAY)
+                    bot = None
+                    continue
             except Exception as e:
                 logger.error(f"❌ Критическая ошибка в поллинге: {e}")
                 error_msg = str(e).lower()
@@ -226,7 +267,29 @@ async def run_bot():
                     await bot.session.close()
                 logger.info("🛑 Бот остановлен")
             break
-                
+
+        except ProxySSLException as ssl_error:
+            # ✅ ОБРАБОТКА SSL-ОШИБКИ НА УРОВНЕ RUN_BOT (если выброшена из on_startup)
+            logger.error(f"❌ SSL-ошибка: {ssl_error}")
+            logger.info("🗑️ Сбрасываю кэш прокси...")
+            
+            try:
+                from proxy_manager import clear_pings_cache
+                clear_pings_cache()
+            except Exception as cache_error:
+                logger.error(f"❌ Ошибка сброса кэша: {cache_error}")
+            
+            logger.info("🔄 Переключаюсь на следующий прокси...")
+            if await switch_to_next_proxy():
+                logger.info("🔄 Перезапускаю бота...")
+                await asyncio.sleep(2)
+                continue
+            else:
+                logger.warning("⚠️ Не удалось переключить прокси. Жду 5 сек...")
+                await asyncio.sleep(RESTART_DELAY)
+                bot = None
+                continue
+
         except Exception as e:
             logger.error(f"❌ Необработанная ошибка: {e}")
             logger.info(f"⏳ Перезапуск через {RESTART_DELAY} секунд...")

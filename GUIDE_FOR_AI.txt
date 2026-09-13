@@ -1,6 +1,6 @@
 ═══════════════════════════════════════════════════════════════════
                     🤖 LoezF_Bot — ГАЙД ДЛЯ РАЗРАБОТЧИКОВ
-                    (ОБНОВЛЕН 07.09.2026)
+                    (ОБНОВЛЕН 12.09.2026, ВЕРСИЯ 6.3.0)
 ═══════════════════════════════════════════════════════════════════
 
 ═══════════════════════════════════════════════════════════════════
@@ -41,6 +41,10 @@ utils/ — вспомогательные функции
 data/ — хранение данных
 config.py — настройки
 main.py — точка входа
+📌 ГЛАВНОЕ ПРАВИЛО ЧТЕНИЯ ФАЙЛОВ (ДЛЯ AI)
+- По умолчанию AI читает файлы через Raw-ссылки из GFA
+- Не только по запросу "прочитай X.py", а всегда, когда нужно прочитать
+- Если пользователь явно не сказал "не читай"
 
 ═══════════════════════════════════════════════════════════════════
 ⚠️ НИЧЕГО НЕ МЕНЯТЬ! (запрещённые действия)
@@ -56,14 +60,15 @@ main.py — точка входа
 ❌ НЕ МЕНЯТЬ ФОРМАТ ДАННЫХ:
    users.txt — формат: id|username|full_name|role|extra
    admins.txt — формат: id|username|full_name|rank
-   roles_status.json — строгая структура
+   roles_status.json — строгая структура (см. ниже)
 
 ❌ НЕ МЕНЯТЬ ПРОВЕРКИ НА ФЛУД:
    Все команды (кроме разрешённых) должны проверять:
    if message.chat.id == GENERAL_CHAT_ID: return
 
 ❌ НЕ МЕНЯТЬ КОМАНДЫ ВО ФЛУДЕ:
-   Разрешены только: /members (количество), /roles (без кнопок), /call, /callfal
+   Разрешены только: /members (количество), /roles (без кнопок), 
+   /call, /callfal, /hide, /menu
 
 ❌ НЕ ОТКЛЮЧАТЬ ЛОГИРОВАНИЕ:
    Все действия логируются в logs/bot.log
@@ -121,7 +126,6 @@ LoEZF_Bot/
 ├── requirements.txt               # Зависимости
 ├── start.bat                      # Запуск на Windows
 └── .env                           # Переменные окружения
-
 ═══════════════════════════════════════════════════════════════════
 📋 СПИСОК КОМАНД И ИХ НАЗНАЧЕНИЕ
 ═══════════════════════════════════════════════════════════════════
@@ -151,6 +155,8 @@ LoEZF_Bot/
 /roles          — Список ролей (во флуде — без кнопок)
 /call           — Сделать кал (только для админов)
 /callfal        — Непропускаемый кал (только для админов)
+/hide           — Скрыть клавиатуру (в ЛС)
+/menu           — Показать клавиатуру (в ЛС)
 
 🔐 АДМИНИСТРАТИВНЫЕ КОМАНДЫ:
 ───────────────────────────────────────────────────────────────────
@@ -349,7 +355,6 @@ data/admins/admins.txt
 
 9. ЛЮБЫЕ ИЗМЕНЕНИЯ — ТОЛЬКО ПО СОГЛАСОВАНИЮ!
    - Все изменения обсуждать с владельцем @Sedrik_loez
-
 ═══════════════════════════════════════════════════════════════════
 🐛 ИЗВЕСТНЫЕ БАГИ И ИХ РЕШЕНИЯ
 ═══════════════════════════════════════════════════════════════════
@@ -371,20 +376,28 @@ data/admins/admins.txt
    → Запустить proxy_checker.py для обновления списка
    → Или включить VPN и отключить USE_PROXY
 
-5. Ошибка импорта из utils.role_utils:
-   → В файл role_utils.py добавлены функции: get_seasons_list, get_roles_by_season, is_role_free, update_role_status
-   → Эти функции используются новым интерфейсом /apply
+5. Ошибка 'str' object has no attribute 'get':
+   → Ошибка возникает при неверной структуре roles_status.json
+   → Файл — это СЛОВАРЬ {"Имя": {"status": ...}}, а не список
+   → Проверить функции в role_utils.py
+
+6. Ошибка NameError: name 'types' is not defined:
+   → В файле нет импорта types из aiogram
+   → Добавить в начало файла: from aiogram import Router, F, types
 
 ═══════════════════════════════════════════════════════════════════
 📋 ИСТОРИЯ ИЗМЕНЕНИЙ
 ═══════════════════════════════════════════════════════════════════
 
-Все изменения проекта фиксируются в файле `CHANGELOG.md`.
+Все изменения проекта фиксируются в файле CHANGELOG.md.
 
-Актуальная версия: 5.5.0
-Дата последнего обновления: 06.09.2026
+Актуальная версия: 6.3.0
+Дата последнего обновления: 12.09.2026
 
 Список последних изменений:
+- [6.3.0] - Добавлены Raw-ссылки, правила чтения начала файлов, правило команд во флуде
+- [6.2.0] - Исправлен баг 'str' object has no attribute 'get', переписан role_utils.py
+- [6.1.0] - Добавлены правила удаления кода, справочник функций, Reply vs Inline кнопки
 - [5.5.0] - Управление админами, настройки, диагностика
 - [5.4.1] - Удалена пересылка из основного бота, чистка кода
 - [5.4.0] - Добавлена напоминалка, /update, управление пересылкой
@@ -405,7 +418,7 @@ data/admins/admins.txt
 🚨 КРИТИЧЕСКИЕ ПРАВИЛА ДЛЯ AI/РАЗРАБОТЧИКОВ (ОБЯЗАТЕЛЬНЫ!)
 ═══════════════════════════════════════════════════════════════════
 
-⛔ **ЗАПРЕЩЕНО МЕНЯТЬ (НИКОГДА!):**
+⛔ ЗАПРЕЩЕНО МЕНЯТЬ (НИКОГДА!):
 ───────────────────────────────────────────────────────────────────
 1. .env файл — ТАМ ВСЕ НАСТРОЕНО, НЕ ТРОГАТЬ!
 2. proxy_manager.py — СИСТЕМА ПРОКСИ РАБОТАЕТ, НЕ ТРОГАТЬ!
@@ -414,14 +427,14 @@ data/admins/admins.txt
 5. Форматы файлов (users.txt, admins.txt, roles_status.json) — НЕ МЕНЯТЬ!
 6. Существующие команды — НЕ ПЕРЕПИСЫВАТЬ, ТОЛЬКО ДОБАВЛЯТЬ!
 
-✅ **ОБЯЗАТЕЛЬНЫЕ ДЕЙСТВИЯ ПЕРЕД ЛЮБЫМ ОТВЕТОМ:**
+✅ ОБЯЗАТЕЛЬНЫЕ ДЕЙСТВИЯ ПЕРЕД ЛЮБЫМ ОТВЕТОМ:
 ───────────────────────────────────────────────────────────────────
 1. ПРОЧИТАТЬ ЭТОТ ГАЙД ПОЛНОСТЬЮ!
 2. ПЕРЕЙТИ ПО ССЫЛКАМ НА ФАЙЛЫ (в дереве репозитория есть url)!
 3. УВИДЕТЬ РЕАЛЬНЫЙ КОД, А НЕ ПРЕДПОЛАГАТЬ!
 4. ПОНЯТЬ, ЧТО УЖЕ ЕСТЬ, ПРЕЖДЕ ЧЕМ ПРЕДЛАГАТЬ!
 
-🔴 **ТИПИЧНЫЕ ОШИБКИ AI (НЕ ПОВТОРЯТЬ!):**
+🔴 ТИПИЧНЫЕ ОШИБКИ AI (НЕ ПОВТОРЯТЬ!):
 ───────────────────────────────────────────────────────────────────
 ❌ Ошибка 1: Не читать гайд перед ответом
    → Всегда читать этот файл перед каждым ответом!
@@ -456,48 +469,24 @@ data/admins/admins.txt
 ❌ Ошибка 11: Не объяснять изменения перед их внесением
    → Сначала объяснить ЧТО и ПОЧЕМУ меняется, получить согласие, потом менять!
 
-✅ **ПРАВИЛЬНЫЙ АЛГОРИТМ РАБОТЫ AI:**
+❌ Ошибка 12: Не читать начало файла перед правкой
+   → ВСЕГДА ЧИТАЙ НАЧАЛО ФАЙЛА (импорты, константы, комментарии)!
+   → Без этого будут NameError, ImportError и другие ошибки!
+
+✅ ПРАВИЛЬНЫЙ АЛГОРИТМ РАБОТЫ AI:
 ───────────────────────────────────────────────────────────────────
-1️⃣ Прочитать этот гайд полностью
-2️⃣ Перейти по ссылкам на файлы и прочитать реальный код
-3️⃣ Понять, какие функции уже есть
-4️⃣ Объяснить пользователю:
+1. Прочитать этот гайд полностью
+2. Перейти по ссылкам на файлы и прочитать реальный код
+3. ПОНЯТЬ, какие функции уже есть
+4. ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ НАЧАЛО ФАЙЛА (импорты!)
+5. Понять, какие импорты нужны для нового кода
+6. Объяснить пользователю:
    - В чем проблема
    - Что нужно сделать
    - Почему это нужно сделать
    - Что именно будет изменено
-5️⃣ Дождаться согласия пользователя
-6️⃣ Только после согласия — дать код для добавления
-
-📌 **ЧТО МЫ ДОБАВИЛИ В ПРОЕКТ (НОВЫЙ ИНТЕРФЕЙС):**
-───────────────────────────────────────────────────────────────────
-1. В `role_commands.py` — новый интерфейс для /apply с меню по сезонам
-2. В `keyboards.py` — новые клавиатуры для сезонов и ролей
-3. В `request_commands.py` — обработчики для кнопок "Одобрить/Отказать"
-4. В `role_utils.py` — новые функции:
-   - get_seasons_list()
-   - get_roles_by_season()
-   - is_role_free()
-   - update_role_status()
-
-📌 **КАК ЭТО РАБОТАЕТ:**
-1. Пользователь пишет /apply → видит меню с сезонами
-2. Выбирает сезон → видит список ролей со статусами (✅ свободна / ❌ занята)
-3. Выбирает свободную роль → заявка отправляется админам
-4. Админ получает уведомление с кнопками "Одобрить/Отказать"
-5. После решения — пользователь получает уведомление
-
-📌 **ЧТО НЕ ИЗМЕНЕНО:**
-- Все старые команды работают как раньше
-- Форматы файлов не изменены
-- Система прокси не тронута
-- .env не тронут
-- main.py не тронут
-
-═══════════════════════════════════════════════════════════════════
-📅 Версия: 6.1.0
-📅 Дата обновления: 07.09.2026
-═══════════════════════════════════════════════════════════════════
+7. Дождаться согласия пользователя
+8. Только после согласия — дать код для добавления
 
 ═══════════════════════════════════════════════════════════════════
 📡 АКТУАЛЬНЫЙ КОД — ВСЕГДА В GIT
@@ -510,7 +499,7 @@ https://api.github.com/repos/LOEZws3/loez_bot/git/trees/main?recursive=1
 Файлы в репозитории ВСЕГДА АКТУАЛЬНЫ. Если нужно посмотреть код файла:
 1. Открой ссылку на дерево репозитория
 2. Найди нужный файл в списке
-3. Перейди по его `url` (типа https://api.github.com/repos/.../blobs/...)
+3. Перейди по его url (типа https://api.github.com/repos/.../blobs/...)
 4. Прочитай содержимое
 
 ⛔ НЕ ПИШИ КОД ВСЛЕПУЮ! Сначала прочитай актуальную версию файла через GitHub.
@@ -529,8 +518,8 @@ https://api.github.com/repos/LOEZws3/loez_bot/git/trees/main?recursive=1
 5. ДОЖДАТЬСЯ явного подтверждения пользователя
 
 📄 ПРИМЕР ПРАВИЛЬНОГО ПРЕДУПРЕЖДЕНИЯ:
-"Я собираюсь удалить функцию `old_function()` из `utils/role_utils.py`, 
-потому что она дублирует `new_function()`. Взамен ничего не добавляю.
+"Я собираюсь удалить функцию old_function() из utils/role_utils.py, 
+потому что она дублирует new_function(). Взамен ничего не добавляю.
 Подтвердите удаление."
 
 ❌ НЕЛЬЗЯ:
@@ -595,7 +584,6 @@ https://api.github.com/repos/LOEZws3/loez_bot/git/trees/main?recursive=1
 
 📂 utils/admin_utils.py:
 - get_admin_rank, is_admin, load_admins, save_admins
-
 ═══════════════════════════════════════════════════════════════════
 🎯 РЕАЛЬНАЯ СТРУКТУРА roles_status.json
 ═══════════════════════════════════════════════════════════════════
@@ -619,10 +607,10 @@ https://api.github.com/repos/LOEZws3/loez_bot/git/trees/main?recursive=1
 - Список сезонов получается через перебор всех персонажей.
 
 📌 ТИПИЧНАЯ ОШИБКА:
-`'str' object has no attribute 'get'` — возникает, если код ожидает список,
-а получает словарь. Например: `for season_data in data: season_data.get('season')`
+'str' object has no attribute 'get' — возникает, если код ожидает список,
+а получает словарь. Например: for season_data in data: season_data.get('season')
 работает для списка, но НЕ для словаря. Для словаря нужно:
-`for role_name, role_info in data.items(): role_info.get('season')`
+for role_name, role_info in data.items(): role_info.get('season')
 
 ═══════════════════════════════════════════════════════════════════
 🔘 REPLY-КНОПКИ vs INLINE-КНОПКИ
@@ -630,20 +618,234 @@ https://api.github.com/repos/LOEZws3/loez_bot/git/trees/main?recursive=1
 
 📌 REPLY-КНОПКИ (внизу экрана):
 - Отправляют текст как обычное сообщение
-- Требуют обработчиков `@router.message(F.text == "текст кнопки")`
+- Требуют обработчиков @router.message(F.text == "текст кнопки")
 - Пример: "📋 Помощь (/help)" — при нажатии отправляется это сообщение
 - Если обработчика нет — бот молча игнорирует
 
 📌 INLINE-КНОПКИ (под сообщением):
 - Отправляют callback_data
-- Требуют обработчиков `@router.callback_query(F.data == "...")`
+- Требуют обработчиков @router.callback_query(F.data == "...")
 - Не отправляют текст в чат
 
 📌 ВАЖНО:
 Когда добавляешь новую Reply-кнопку в keyboards.py — 
-ОБЯЗАТЕЛЬНО добавь обработчик `F.text == "..."` в тот же или другой файл!
+ОБЯЗАТЕЛЬНО добавь обработчик F.text == "..." в тот же или другой файл!
 
 ═══════════════════════════════════════════════════════════════════
-📅 Версия: 6.2.0
+⚠️ ВАЖНОЕ ПРАВИЛО ДЛЯ КОМАНД ВО ФЛУДЕ
+═══════════════════════════════════════════════════════════════════
+
+# ============================================================
+# ⚠️ ВАЖНОЕ ПРАВИЛО ДЛЯ КОМАНД ВО ФЛУДЕ
+# ============================================================
+# 
+# Во флуд-чате (GENERAL_CHAT_ID) РАЗРЕШЕНЫ ТОЛЬКО:
+# - /members (только количество)
+# - /roles (только список, БЕЗ КНОПОК)
+# - /call, /callfal (для админов)
+# - /hide, /menu (управление клавиатурой)
+# 
+# ВСЕ ОСТАЛЬНЫЕ КОМАНДЫ — ЗАПРЕЩЕНЫ!
+# Они должны отвечать: "⛔ Эта команда недоступна во флуд-чате."
+# ============================================================
+
+📌 ПРОВЕРКА В КОДЕ:
+В начале каждой команды должна быть проверка:
+
+    if message.chat.id == GENERAL_CHAT_ID:
+        # Разрешённые команды
+        if message.text.startswith('/members') or ...:
+            # работаем
+        else:
+            await message.reply("⛔ Эта команда недоступна во флуд-чате.")
+            return
+
+📌 ПРИМЕР ПРАВИЛЬНОЙ ПРОВЕРКИ:
+
+    @router.message(Command("apply"))
+    async def cmd_apply(message: types.Message):
+        # Проверка на флуд-чат
+        if message.chat.id == GENERAL_CHAT_ID:
+            await message.reply("⛔ Эта команда недоступна во флуд-чате.")
+            return
+        
+        # Дальнейшая логика
+        ...
+
+═══════════════════════════════════════════════════════════════════
+🔗 RAW-ССЫЛКИ НА ФАЙЛЫ ПРОЕКТА (ДЛЯ ЧТЕНИЯ БЕЗ ТРАТЫ ЛИМИТА)
+═══════════════════════════════════════════════════════════════════
+
+📌 ПРАВИЛО ДЛЯ AI:
+При необходимости прочитать файл — используй RAW-ссылку из списка ниже.
+RAW-ссылка возвращает ЧИСТЫЙ КОД без HTML-обёртки, что экономит контекст.
+
+✅ ПРАВИЛЬНО: https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/role_utils.py
+❌ НЕПРАВИЛЬНО: https://github.com/LOEZws3/loez_bot/blob/main/src/utils/role_utils.py (HTML, много мусора)
+
+🔗 АКТУАЛЬНОЕ ДЕРЕВО РЕПОЗИТОРИЯ (всегда свежее):
+https://api.github.com/repos/LOEZws3/loez_bot/git/trees/main?recursive=1
+
+───────────────────────────────────────────────────────────────────
+📂 КОРНЕВЫЕ ФАЙЛЫ
+───────────────────────────────────────────────────────────────────
+
+📄 requirements.txt:
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/requirements.txt
+
+📄 CHANGELOG.md:
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/CHANGELOG.md
+
+📄 GUIDE_FOR_AI.txt:
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/GUIDE_FOR_AI.txt
+
+📄 start.bat:
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/start.bat
+
+───────────────────────────────────────────────────────────────────
+📂 src/ — ОСНОВНЫЕ МОДУЛИ
+───────────────────────────────────────────────────────────────────
+
+📄 src/main.py (ТОЧКА ВХОДА, НЕ ТРОГАТЬ ПОДКЛЮЧЕНИЕ):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/main.py
+
+📄 src/config.py (КОНФИГ, .env НЕ ТРОГАТЬ):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/config.py
+
+📄 src/database.py (SQLite):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/database.py
+
+📄 src/proxy_manager.py (НЕ ТРОГАТЬ):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/proxy_manager.py
+
+📄 src/test_connect.py:
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/test_connect.py
+
+───────────────────────────────────────────────────────────────────
+📂 src/handlers/ — ОБРАБОТЧИКИ КОМАНД
+───────────────────────────────────────────────────────────────────
+
+📄 src/handlers/__init__.py (СПИСОК РОУТЕРОВ):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/__init__.py
+
+📄 src/handlers/base_commands.py (/start, /help, /about, /aboutme, /members, /roles, /stats, /roster, /update, /hide, /menu):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/base_commands.py
+
+📄 src/handlers/role_commands.py (/apply, /free, /cancel_request):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/role_commands.py
+
+📄 src/handlers/admin_commands.py (/admins, /users, /adduser, /removeuser, /resetuser, /find, /finduser):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/admin_commands.py
+
+📄 src/handlers/admin_management.py (/promote, /demote, /setrank):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/admin_management.py
+
+📄 src/handlers/request_commands.py (/requests, /approve, /reject):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/request_commands.py
+
+📄 src/handlers/call_commands.py (/call, /callfal, /regc, /unregc):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/call_commands.py
+
+📄 src/handlers/rest_commands.py (/rest, /unrest, /restextend, /restlist):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/rest_commands.py
+
+📄 src/handlers/settings_commands.py (/settings, /diag, /check_chats, /close, /open):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/settings_commands.py
+
+📄 src/handlers/diagnostic_commands.py (диагностика):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/diagnostic_commands.py
+
+📄 src/handlers/chat_member.py (НАПОМИНАЛКА, НЕ УДАЛЯТЬ):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/chat_member.py
+
+📄 src/handlers/apply_handlers.py (обработка заявок, кнопки):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/apply_handlers.py
+
+📄 src/handlers/apply_states.py (FSM):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/apply_states.py
+
+📄 src/handlers/keyboards.py (ВСЕ КНОПКИ):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/keyboards.py
+
+📄 src/handlers/utils.py (вспомогательные функции хендлеров):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/utils.py
+
+───────────────────────────────────────────────────────────────────
+📂 src/utils/ — УТИЛИТЫ
+───────────────────────────────────────────────────────────────────
+
+📄 src/utils/__init__.py:
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/__init__.py
+
+📄 src/utils/role_utils.py (РОЛИ, СЕЗОНЫ, СТАТУСЫ):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/role_utils.py
+
+📄 src/utils/user_utils.py (ПОЛЬЗОВАТЕЛИ):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/user_utils.py
+
+📄 src/utils/admin_utils.py (АДМИНЫ, РАНГИ):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/admin_utils.py
+
+📄 src/utils/emoji_utils.py (ЭМОДЗИ):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/emoji_utils.py
+
+📄 src/utils/file_utils.py (РАБОТА С ФАЙЛАМИ):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/file_utils.py
+
+📄 src/utils/requests_utils.py (ЗАЯВКИ):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/requests_utils.py
+
+📄 src/utils/sync_utils.py (СИНХРОНИЗАЦИЯ):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/sync_utils.py
+
+📄 src/utils/system_utils.py (СИСТЕМА):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/system_utils.py
+
+📄 src/utils/user_history.py (ИСТОРИЯ):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/user_history.py
+
+───────────────────────────────────────────────────────────────────
+📂 data/ — ФАЙЛЫ ДАННЫХ (НЕ МЕНЯТЬ ФОРМАТ!)
+───────────────────────────────────────────────────────────────────
+
+📄 data/roles_status.json (СТРУКТУРА: {"Имя": {"status": "свободна"/"занята", "season": "...", ...}}):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/roles_status.json
+
+📄 data/admins/admins.txt (ФОРМАТ: id|username|full_name|rank):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/admins/admins.txt
+
+📄 data/users/users.txt (ФОРМАТ: id|username|full_name|role|extra):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/users/users.txt
+
+📄 data/system/requests.json (ЗАЯВКИ):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/system/requests.json
+
+📄 data/system_settings.json (НАСТРОЙКИ):
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/system_settings.json
+
+📄 data/system/creation_date.txt:
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/system/creation_date.txt
+
+📄 data/system/forward_map.json:
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/system/forward_map.json
+
+───────────────────────────────────────────────────────────────────
+🎯 КАК ЧИТАТЬ ФАЙЛЫ (ИНСТРУКЦИЯ ДЛЯ AI)
+───────────────────────────────────────────────────────────────────
+
+1. Если пользователь просит "прочитай X.py" — перейди по RAW-ссылке из списка выше.
+2. Если файла нет в списке — возьми ссылку из дерева репозитория:
+   https://api.github.com/repos/LOEZws3/loez_bot/git/trees/main?recursive=1
+3. Для дерева репозитория используй API-ссылку (она компактная).
+4. НЕ используй github.com/.../blob/... — там HTML-обёртка, это тратит контекст.
+5. ВСЕГДА ЧИТАЙ НАЧАЛО ФАЙЛА — импорты и комментарии!
+
+📌 ПРАВИЛО ЭКОНОМИИ:
+- Маленькие файлы (<1000 байт) — читать целиком.
+- Средние (1000-5000 байт) — читать целиком, если нужно.
+- Большие (>5000 байт) — читать только запрошенные функции + НАЧАЛО ФАЙЛА.
+
+═══════════════════════════════════════════════════════════════════
+📅 Версия: 6.3.0
 📅 Дата обновления: 12.09.2026
 ═══════════════════════════════════════════════════════════════════

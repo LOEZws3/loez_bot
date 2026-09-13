@@ -11,10 +11,10 @@
 # ВСЕ ОСТАЛЬНЫЕ КОМАНДЫ — ЗАПРЕЩЕНЫ!
 # Они должны отвечать: "⛔ Эта команда недоступна во флуд-чате."
 # ============================================================
-
+from aiogram import types
 import html
 import datetime
-from aiogram import Router, F
+from aiogram import Router, F, types
 from aiogram.filters import Command
 from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, ReplyKeyboardRemove
 from config import GENERAL_CHAT_ID

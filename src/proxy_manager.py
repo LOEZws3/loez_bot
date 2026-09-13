@@ -342,3 +342,27 @@ class ProxyManager:
 
 # Создаём глобальный экземпляр
 proxy_manager = ProxyManager()
+# ======================== ДОБАВЛЕННАЯ ФУНКЦИЯ ДЛЯ СБРОСА КЭША ========================
+
+def clear_pings_cache() -> bool:
+    """
+    Очищает кэш пингов прокси.
+    Удаляет файл proxy_pings_cache.json.
+    При следующем запуске бот заново пропингует все прокси.
+    
+    Returns:
+        True, если кэш успешно очищен (или файла не было)
+        False, если произошла ошибка
+    """
+    try:
+        cache_file = proxy_manager.cache_file
+        if os.path.exists(cache_file):
+            os.remove(cache_file)
+            logger.info(f"🗑️ Кэш пингов прокси очищен: {cache_file}")
+            return True
+        else:
+            logger.info(f"ℹ️ Файл кэша не найден: {cache_file}")
+            return True
+    except Exception as e:
+        logger.error(f"❌ Ошибка очистки кэша пингов: {e}")
+        return False
