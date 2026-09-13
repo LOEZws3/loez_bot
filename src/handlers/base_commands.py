@@ -11,19 +11,24 @@
 # ВСЕ ОСТАЛЬНЫЕ КОМАНДЫ — ЗАПРЕЩЕНЫ!
 # Они должны отвечать: "⛔ Эта команда недоступна во флуд-чате."
 # ============================================================
-from aiogram import types
+
 import html
 import datetime
+import logging
 from aiogram import Router, F, types
 from aiogram.filters import Command
 from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, ReplyKeyboardRemove
+
 from config import GENERAL_CHAT_ID
 from utils.admin_utils import get_admin_rank, is_admin
 from utils.user_utils import load_users, get_users_count, get_user_by_id
 from utils.requests_utils import get_request_by_user_id, get_pending_count
-from utils.role_utils import get_taken_roles, count_taken_roles, get_user_role as get_user_role_from_roles, get_all_seasons, get_roles_by_season, load_roles_status
+from utils.role_utils import (
+    get_taken_roles, count_taken_roles,
+    get_user_role as get_user_role_from_roles,
+    get_all_seasons, get_roles_by_season, load_roles_status
+)
 from .keyboards import get_main_keyboard
-import logging
 
 logger = logging.getLogger(__name__)
 router = Router()
@@ -49,7 +54,6 @@ async def cmd_start(message: Message):
         await message.answer("❌ Не удалось определить пользователя.")
         return
 
-    # ✅ ЗАПРЕЩАЕМ во флуде
     if message.chat.id == GENERAL_CHAT_ID:
         await message.answer("⛔ Эта команда недоступна во флуд-чате.")
         logger.info(f"⛔ Команда /start заблокирована во флуде от {user_id}")
@@ -60,11 +64,11 @@ async def cmd_start(message: Message):
     request = get_request_by_user_id(user_id)
     status_text = ""
     if request:
-        if request['status'] == 'pending':
+        if request.get('status') == 'pending':
             status_text = "\n\n📌 Ваша заявка рассматривается администрацией."
-        elif request['status'] == 'approved':
+        elif request.get('status') == 'approved':
             status_text = "\n\n✅ Ваша заявка одобрена!"
-        elif request['status'] == 'rejected':
+        elif request.get('status') == 'rejected':
             status_text = "\n\n❌ Ваша заявка отклонена. Попробуйте подать новую."
 
     safe_name = html.escape(message.from_user.full_name)
@@ -86,7 +90,6 @@ async def cmd_help(message: Message):
         await message.answer("❌ Не удалось определить пользователя.")
         return
 
-    # ✅ ЗАПРЕЩАЕМ во флуде
     if message.chat.id == GENERAL_CHAT_ID:
         await message.answer("⛔ Эта команда недоступна во флуд-чате.")
         logger.info(f"⛔ Команда /help заблокирована во флуде от {user_id}")
@@ -109,9 +112,9 @@ async def cmd_help(message: Message):
         "/unregc – отписаться от калов (ТОЛЬКО В ЛС)\n"
         "/regc – подписаться на калы (ТОЛЬКО В ЛС)\n"
         "/rest – подать заявку на рест (ТОЛЬКО В ЛС)\n"
-        "/update – обновить данные / зарегистрироваться (ТОЛЬКО В ЛС)\n"
-        "/hide – скрыть клавиатуру (убрать меню)\n"
-        "/menu – показать клавиатуру (вернуть меню)\n"
+        "/update – обновить данные (ТОЛЬКО В ЛС)\n"
+        "/hide – скрыть клавиатуру\n"
+        "/menu – показать клавиатуру\n"
     )
 
     if is_admin_user:
@@ -124,35 +127,31 @@ async def cmd_help(message: Message):
             "/resetuser – сбросить пользователя\n"
             "/refresh – обновить список участников\n"
             "/find – найти пользователя\n"
-            "/finduser – найти пользователя по юзернейму\n"
-            "/broadcast – рассылка всем участникам\n"
+            "/finduser – найти по юзернейму\n"
+            "/broadcast – рассылка\n"
             "/call – сделать кал (ДОСТУПНА ВО ФЛУДЕ)\n"
             "/callfal – непропускаемый кал (ДОСТУПНА ВО ФЛУДЕ)\n"
-            "/check_chats – диагностика чатов\n"
-            "/diag – диагностика команд (владелец)\n"
-            "/unregister_admin – удалить себя из админов\n"
-            "/unregister_user – удалить себя из участников\n\n"
-            "📝 <b>Управление заявками:</b>\n"
+            "/check_chats – диагностика\n"
+            "/diag – диагностика (владелец)\n\n"
+            "📝 <b>Заявки:</b>\n"
             "/requests – список заявок\n"
-            "/approve – одобрить заявку\n"
-            "/reject – отклонить заявку\n\n"
-            "📋 <b>Списки и статистика:</b>\n"
-            "/roster – полный список с индексами\n"
+            "/approve – одобрить\n"
+            "/reject – отклонить\n\n"
+            "📋 <b>Списки:</b>\n"
+            "/roster – полный список\n"
             "/stats – статистика по ролям\n"
-            "/restlist – список активных рестов\n\n"
+            "/restlist – активные ресты\n\n"
             "⏳ <b>Рест:</b>\n"
-            "/unrest – снять рест с роли\n"
+            "/unrest – снять рест\n"
             "/restextend – продлить рест\n\n"
             "👑 <b>Владелец:</b>\n"
             "/setrank – назначить ранг\n"
-            "/close – закрыть набор\n"
-            "/open – открыть набор\n"
+            "/close /open – закрыть/открыть набор\n"
         )
     else:
         help_text += (
             "\n💬 <b>Связь с администрацией:</b>\n"
-            "Если у вас есть вопросы – напишите <b>@Sedrikai_bot</b>\n"
-            "Ближайший администратор ответит вам, как только сможет."
+            "Если у вас есть вопросы – напишите <b>@Sedrikai_bot</b>"
         )
 
     await message.answer(help_text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
@@ -165,10 +164,8 @@ async def cmd_about(message: Message):
         await message.answer("❌ Не удалось определить пользователя.")
         return
 
-    # ✅ ЗАПРЕЩАЕМ во флуде
     if message.chat.id == GENERAL_CHAT_ID:
         await message.answer("⛔ Эта команда недоступна во флуд-чате.")
-        logger.info(f"⛔ Команда /about заблокирована во флуде от {user_id}")
         return
 
     users_count = count_taken_roles()
@@ -197,16 +194,12 @@ async def cmd_aboutme(message: Message):
         await message.answer("❌ Не удалось определить пользователя.")
         return
 
-    # ✅ ЗАПРЕЩАЕМ во флуде
     if message.chat.id == GENERAL_CHAT_ID:
         await message.answer("⛔ Эта команда недоступна во флуд-чате.")
-        logger.info(f"⛔ Команда /aboutme заблокирована во флуде от {user.id}")
         return
 
     rank = get_admin_rank(user.id)
     rank_name = {1: "👑 Владелец", 2: "🔐 Админ", 3: "🛡️ Модератор"}.get(rank, "👤 Нет")
-    user_role = get_user_role_from_roles(user.id)
-    role_name = ROLE_NAMES.get(user_role, "Не определена") if user_role else "Не определена"
     character = get_user_role_from_roles(user.id) or "Не указан"
 
     request = get_request_by_user_id(user.id)
@@ -217,10 +210,10 @@ async def cmd_aboutme(message: Message):
             'approved': '✅ Одобрена',
             'rejected': '❌ Отклонена'
         }
-        status_text = f"\n📝 Статус заявки: {status_map.get(request['status'], 'Неизвестно')} "
-        if request['status'] == 'pending':
+        status_text = f"\n📝 Статус заявки: {status_map.get(request.get('status'), 'Неизвестно')} "
+        if request.get('status') == 'pending':
             status_text += f"\n📌 Роль: {request.get('role', 'Не указана')} "
-            status_text += f"\n📌 Должность: {request.get('position', 'Не указана')} "
+            status_text += f"\n📌 Должность: {request.get('position_name', request.get('position', 'Не указана'))} "
 
     safe_name = html.escape(user.full_name)
     safe_username = html.escape(user.username if user.username else 'не указан')
@@ -231,7 +224,6 @@ async def cmd_aboutme(message: Message):
         f"🔖 Юзернейм: @{safe_username}\n"
         f"🆔 ID: <code>{user.id}</code>\n"
         f"⭐ Ранг: {rank_name}\n"
-        f"📌 Роль: {role_name}\n"
         f"🎭 Персонаж: {character}{status_text}"
     )
 
@@ -240,22 +232,18 @@ async def cmd_aboutme(message: Message):
 
 @router.message(Command('update'))
 async def cmd_update(message: Message):
-    """Обновить данные пользователя (перенаправляет в бота)"""
     user = message.from_user
     if user is None:
         await message.answer("❌ Не удалось определить пользователя.")
         return
-    
-    # ✅ ЗАПРЕЩАЕМ во флуде
+
     if message.chat.id == GENERAL_CHAT_ID:
         await message.answer("⛔ Эта команда недоступна во флуд-чате.")
-        logger.info(f"⛔ Команда /update заблокирована во флуде от {user.id}")
         return
-    
+
     user_id = user.id
-    
     user_data = get_user_by_id(user_id)
-    
+
     if user_data is None:
         await message.answer(
             "❌ Вы не зарегистрированы!\n\n"
@@ -264,9 +252,9 @@ async def cmd_update(message: Message):
             "И подайте заявку через команду /apply в личных сообщениях с ботом."
         )
         return
-    
+
     user_role = get_user_role_from_roles(user_id)
-    
+
     if user_role:
         await message.answer(
             f"👤 <b>Ваши данные:</b>\n\n"
@@ -289,89 +277,63 @@ async def cmd_update(message: Message):
 
 @router.message(Command('unregc'))
 async def cmd_unregc(message: Message):
-    """Отписаться от калов (ТОЛЬКО В ЛС)"""
     user_id = message.from_user.id
-    
-    # ✅ ЗАПРЕЩАЕМ во флуде
     if message.chat.id == GENERAL_CHAT_ID:
         await message.answer("⛔ Эта команда недоступна во флуд-чате.")
-        logger.info(f"⛔ Команда /unregc заблокирована во флуде от {user_id}")
         return
-    
-    # ... остальной код (из call_commands.py)
+    # TODO: реализовать
 
 
 @router.message(Command('regc'))
 async def cmd_regc(message: Message):
-    """Подписаться на калы (ТОЛЬКО В ЛС)"""
     user_id = message.from_user.id
-    
-    # ✅ ЗАПРЕЩАЕМ во флуде
     if message.chat.id == GENERAL_CHAT_ID:
         await message.answer("⛔ Эта команда недоступна во флуд-чате.")
-        logger.info(f"⛔ Команда /regc заблокирована во флуде от {user_id}")
         return
-    
-    # ... остальной код (из call_commands.py)
+    # TODO: реализовать
 
 
 # ============================================================
-# ⌨️ УПРАВЛЕНИЕ КЛАВИАТУРОЙ (ДОСТУПНО ВЕЗДЕ)
+# ⌨️ УПРАВЛЕНИЕ КЛАВИАТУРОЙ
 # ============================================================
 
 @router.message(Command('hide'))
 async def cmd_hide(message: Message):
-    """
-    Скрыть клавиатуру (убрать меню)
-    Доступна ВЕЗДЕ, включая флуд
-    """
     user_id = message.from_user.id if message.from_user else None
     if user_id is None:
         await message.answer("❌ Не удалось определить пользователя.")
         return
 
-    keyboard = ReplyKeyboardRemove()
-
     await message.answer(
         "🗑️ <b>Клавиатура скрыта!</b>\n\n"
-        "Чтобы вернуть меню, отправьте команду /menu",
+        "Чтобы вернуть меню, отправьте /menu",
         parse_mode="HTML",
-        reply_markup=keyboard
+        reply_markup=ReplyKeyboardRemove()
     )
-    
     logger.info(f"👤 Пользователь {user_id} скрыл клавиатуру")
 
 
 @router.message(Command('menu'))
 async def cmd_menu(message: Message):
-    """
-    Показать клавиатуру (вернуть меню)
-    Доступна ВЕЗДЕ, включая флуд
-    """
     user_id = message.from_user.id if message.from_user else None
     if user_id is None:
         await message.answer("❌ Не удалось определить пользователя.")
         return
 
-    # ✅ Во флуде — не показываем клавиатуру
     if message.chat.id == GENERAL_CHAT_ID:
         await message.answer("⛔ Во флуд-чате клавиатура недоступна.")
         return
 
-    keyboard = get_main_keyboard(user_id, message.chat.id)
-    
     await message.answer(
-        "⌨️ <b>Клавиатура восстановлена!</b>\n\n"
-        "Теперь вы снова можете пользоваться меню.",
+        "⌨️ <b>Клавиатура восстановлена!</b>",
         parse_mode="HTML",
-        reply_markup=keyboard
+        reply_markup=get_main_keyboard(user_id, message.chat.id)
     )
-    
     logger.info(f"👤 Пользователь {user_id} показал клавиатуру")
 
 
 # ============================================================
-# ✅ КОМАНДЫ, ДОСТУПНЫЕ ВО ФЛУДЕ (БЕЗ КНОПОК)
+# ✅ КОМАНДЫ, ДОСТУПНЫЕ ВО ФЛУДЕ
 # ============================================================
 
 @router.message(Command('members'))
@@ -386,23 +348,18 @@ async def cmd_members(message: Message):
         await message.answer("📭 В списке пока нет участников.")
         return
 
-    # ✅ Во флуде — только количество (без списка)
     if message.chat.id == GENERAL_CHAT_ID:
-        total_users = len(users)
-        await message.answer(f"👥 Всего участников: {total_users}")
+        await message.answer(f"👥 Всего участников: {len(users)}")
         return
 
-    # В ЛС — полный список для админов
     is_admin_user = is_admin(user_id)
     if not is_admin_user:
-        total_users = len(users)
-        await message.answer(f"👥 Всего участников: {total_users}")
+        await message.answer(f"👥 Всего участников: {len(users)}")
         return
 
     text = f"👥 <b>Список участников</b>\n"
     text += f"📅 {datetime.date.today().strftime('%d.%m.%Y')}\n"
     text += f"👥 Всего: {len(users)}\n\n"
-    text += "<b>Пользователи:</b>\n"
 
     for u in users:
         username = f"@{u['username']}" if u['username'] else "без юзернейма"
@@ -412,10 +369,8 @@ async def cmd_members(message: Message):
         text += f"• [{role_index}] {html.escape(u['full_name'])} ({username}) – {role_name} ({character}) (ID: <code>{u['id']}</code>)\n"
 
     if len(text) > 4000:
-        part1 = text[:3900]
-        part2 = "\n... продолжение ...\n" + text[3900:]
-        await message.answer(part1, parse_mode="HTML")
-        await message.answer(part2, parse_mode="HTML")
+        await message.answer(text[:3900], parse_mode="HTML")
+        await message.answer("\n... продолжение ...\n" + text[3900:], parse_mode="HTML")
     else:
         await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
 
@@ -426,35 +381,37 @@ async def cmd_roles(message: Message):
     if user_id is None:
         await message.answer("❌ Не удалось определить пользователя.")
         return
-    
+
     seasons = get_all_seasons()
     if not seasons:
         await message.answer("📭 Сезоны не найдены.")
         return
-    
-    # ✅ ВО ФЛУДЕ — БЕЗ КНОПОК (только текстовый список)
+
+    # ✅ ВО ФЛУДЕ — БЕЗ КНОПОК
     if message.chat.id == GENERAL_CHAT_ID:
         text = "📋 <b>Список ролей по сезонам</b>\n\n"
         for season in sorted(seasons):
             roles = get_roles_by_season(season)
-            status_data = load_roles_status()
             text += f"📂 <b>{season}</b> ({len(roles)} ролей):\n"
             for role in roles:
-                status = status_data.get(role, {}).get('status', 'свободна')
+                role_name = role.get('name', '?')
+                status = role.get('status', 'свободна')
                 if status == 'свободна':
                     status_text = "🟢 свободна"
                 elif status == 'бронь':
                     status_text = "🟡 забронирована"
                 elif status == 'рест':
-                    extra = status_data.get(role, {}).get('extra', '')
+                    extra = role.get('extra', '')
                     status_text = f"🔵 рест до {extra}" if extra else "🔵 рест"
+                elif status == 'ожидает':
+                    status_text = "⏳ ожидает"
                 else:
                     status_text = "🔴 занята"
-                text += f"  • {html.escape(role)} — {status_text}\n"
+                text += f"  • {html.escape(role_name)} — {status_text}\n"
             text += "\n"
         await message.answer(text, parse_mode="HTML")
         return
-    
+
     # В ЛС — с кнопками
     buttons = []
     for season in sorted(seasons):
@@ -467,94 +424,87 @@ async def cmd_roles(message: Message):
         text="🔙 Назад в меню",
         callback_data="back_to_menu_from_roles"
     )])
-    keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
-    
+
     await message.answer(
         "📋 <b>Список ролей по сезонам</b>\n\n"
-        "Выберите сезон для просмотра всех ролей с их статусами.\n"
-        "В скобках указано общее количество ролей в сезоне.\n\n"
-        "🟢 свободна | 🟡 забронирована | 🔴 занята | 🔵 рест",
+        "Выберите сезон для просмотра.\n\n"
+        "🟢 свободна | 🟡 забронирована | 🔴 занята | 🔵 рест | ⏳ ожидает",
         parse_mode="HTML",
-        reply_markup=keyboard
+        reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
     )
 
-
-# ============================================================
-# ADMIN КОМАНДЫ (ДОСТУПНЫ ВО ФЛУДЕ)
-# ============================================================
 
 @router.message(Command('call'))
 async def cmd_call(message: Message):
     """Кал (доступен во флуде для админов)"""
-    # Здесь код из call_commands.py
     pass
 
 
 @router.message(Command('callfal'))
 async def cmd_callfal(message: Message):
-    """Непропускаемый кал (доступен во флуде для админов)"""
-    # Здесь код из call_commands.py
+    """Непропускаемый кал"""
     pass
 
 
 # ============================================================
-# INLINE CALLBACK ОБРАБОТЧИКИ (ТОЛЬКО ДЛЯ ЛС)
+# INLINE CALLBACK
 # ============================================================
 
 @router.callback_query(F.data == "back_to_menu_from_roles")
 async def back_to_menu_from_roles(callback: CallbackQuery):
     await callback.answer()
-    # ✅ Во флуде — не показываем меню
     if callback.message.chat.id == GENERAL_CHAT_ID:
         await callback.message.delete()
         await callback.message.answer("🔙 Вы вернулись.")
         return
-    
+
     user_id = callback.from_user.id
     await callback.message.delete()
-    await callback.message.answer("🔙 Вы вернулись в главное меню.", reply_markup=get_main_keyboard(user_id, callback.message.chat.id))
+    await callback.message.answer(
+        "🔙 Вы вернулись в главное меню.",
+        reply_markup=get_main_keyboard(user_id, callback.message.chat.id)
+    )
 
 
 @router.callback_query(F.data.startswith("roles_season_"))
 async def show_roles_by_season(callback: CallbackQuery):
     await callback.answer()
-    
-    # ✅ Во флуде — игнорируем
+
     if callback.message.chat.id == GENERAL_CHAT_ID:
         await callback.answer("⛔ Во флуд-чате эта функция недоступна.")
         return
-    
+
     season = callback.data.replace("roles_season_", "")
     roles = get_roles_by_season(season)
-    status_data = load_roles_status()
-    
+
     if not roles:
         await callback.message.edit_text(
             f"📭 В сезоне <b>{html.escape(season)}</b> нет ролей.",
             parse_mode="HTML"
         )
         return
-    
+
     text = f"📋 <b>Сезон: {html.escape(season)}</b>\n\n"
     for role in roles:
-        status = status_data.get(role, {}).get('status', 'свободна')
+        role_name = role.get('name', '?')
+        status = role.get('status', 'свободна')
         if status == 'свободна':
             status_text = "🟢 свободна"
         elif status == 'бронь':
             status_text = "🟡 забронирована"
         elif status == 'рест':
-            extra = status_data.get(role, {}).get('extra', '')
+            extra = role.get('extra', '')
             status_text = f"🔵 рест до {extra}" if extra else "🔵 рест"
+        elif status == 'ожидает':
+            status_text = "⏳ ожидает"
         else:
             status_text = "🔴 занята"
-        text += f"  • {html.escape(role)} — {status_text}\n"
-    
+        text += f"  • {html.escape(role_name)} — {status_text}\n"
+
     if len(text) > 4000:
-        part1 = text[:3900]
-        part2 = "\n... продолжение ...\n" + text[3900:]
-        await callback.message.edit_text(part1, parse_mode="HTML")
+        await callback.message.edit_text(text[:3900], parse_mode="HTML")
         await callback.message.answer(
-            part2,
+            "\n... продолжение ...\n" + text[3900:],
             parse_mode="HTML",
             reply_markup=InlineKeyboardMarkup(inline_keyboard=[
                 [InlineKeyboardButton(text="🔙 К сезонам", callback_data="back_to_roles_seasons")]
@@ -573,17 +523,17 @@ async def show_roles_by_season(callback: CallbackQuery):
 @router.callback_query(F.data == "back_to_roles_seasons")
 async def back_to_roles_seasons(callback: CallbackQuery):
     await callback.answer()
-    
-    # ✅ Во флуде — игнорируем
+
     if callback.message.chat.id == GENERAL_CHAT_ID:
         await callback.message.delete()
         await callback.message.answer("🔙 Вы вернулись.")
         return
-    
+
     seasons = get_all_seasons()
     if not seasons:
         await callback.message.edit_text("📭 Сезоны не найдены.")
         return
+
     buttons = []
     for season in sorted(seasons):
         roles = get_roles_by_season(season)
@@ -595,12 +545,11 @@ async def back_to_roles_seasons(callback: CallbackQuery):
         text="🔙 Назад в меню",
         callback_data="back_to_menu_from_roles"
     )])
-    keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
+
     await callback.message.edit_text(
         "📋 <b>Список ролей по сезонам</b>\n\n"
-        "Выберите сезон для просмотра всех ролей с их статусами.\n"
-        "В скобках указано общее количество ролей в сезоне.\n\n"
-        "🟢 свободна | 🟡 забронирована | 🔴 занята | 🔵 рест",
+        "Выберите сезон.\n\n"
+        "🟢 свободна | 🟡 забронирована | 🔴 занята | 🔵 рест | ⏳ ожидает",
         parse_mode="HTML",
-        reply_markup=keyboard
+        reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
     )

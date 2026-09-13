@@ -5,11 +5,11 @@ from dotenv import load_dotenv
 # Загружаем переменные из .env
 load_dotenv()
 
-# --- Базовые пути ---
-BASE_DIR = Path(__file__).parent.parent
-DATA_DIR = os.path.join(BASE_DIR, 'data')
-DATA_PATH = DATA_DIR  # Добавлено для совместимости с chat_member.py
-SRC_PATH = Path(__file__).parent
+# --- Базовые пути (АБСОЛЮТНЫЕ) ---
+BASE_DIR = Path(__file__).parent.parent.resolve()   # ← .resolve() для абсолютного пути
+SRC_PATH = Path(__file__).parent.resolve()          # ← .resolve()
+DATA_DIR = str(BASE_DIR / 'data')                   # ← абсолютный
+DATA_PATH = DATA_DIR                                # для chat_member.py
 
 # --- Токены и ID (из .env) ---
 BOT_TOKEN = os.getenv('BOT_TOKEN')
@@ -23,14 +23,16 @@ ROLES_PER_PAGE = int(os.getenv('ROLES_PER_PAGE', 5))
 
 # --- Настройки прокси ---
 USE_PROXY = os.getenv('USE_PROXY', 'false').lower() == 'true'
-PROXY_DIR = os.getenv('PROXY_DIR', os.path.join(SRC_PATH, 'proxies'))
+PROXY_DIR = os.getenv('PROXY_DIR', str(SRC_PATH / 'proxies'))
 PROXY_ENABLED = USE_PROXY
 
-# --- Остальные настройки ---
-DATABASE_PATH = os.getenv('DATABASE_PATH', os.path.join(SRC_PATH, 'bot.db'))
+# --- Логирование (АБСОЛЮТНЫЙ путь к data/logs/bot.log) ---
 LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')
-LOG_FILE_PATH = os.getenv('LOG_FILE_PATH', os.path.join(SRC_PATH, 'logs', 'bot.log'))
+LOG_FILE_PATH = os.getenv('LOG_FILE_PATH', str(Path(DATA_DIR) / 'logs' / 'bot.log'))
 LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+
+# --- Остальные настройки ---
+DATABASE_PATH = os.getenv('DATABASE_PATH', str(SRC_PATH / 'bot.db'))
 
 # --- Пути к файлам данных ---
 ADMINS_FILE = os.path.join(DATA_DIR, 'admins', 'admins.txt')
@@ -59,10 +61,10 @@ def ensure_directories():
         os.path.join(DATA_DIR, 'roles'),
         os.path.join(DATA_DIR, 'system'),
         os.path.join(DATA_DIR, 'users_history'),
-        os.path.join(SRC_PATH, 'logs'),
+        os.path.join(DATA_DIR, 'logs'),          # ← ЛОГИ ТЕПЕРЬ В data/logs
         PROXY_DIR,
     ]
-    
+
     for directory in directories:
         if not os.path.exists(directory):
             os.makedirs(directory)
@@ -82,7 +84,7 @@ __all__ = [
     'PROXY_DIR',
     'PROXY_ENABLED',
     'DATA_DIR',
-    'DATA_PATH',  # Добавлено для chat_member.py
+    'DATA_PATH',
     'SRC_PATH',
     'DATABASE_PATH',
     'LOG_LEVEL',

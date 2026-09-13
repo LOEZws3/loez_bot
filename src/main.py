@@ -7,7 +7,11 @@ from aiogram import Bot, Dispatcher
 from aiogram.types import BotCommand
 from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.exceptions import TelegramNetworkError
-from config import BOT_TOKEN, USE_PROXY, PROXY_DIR
+from config import (
+    BOT_TOKEN, USE_PROXY, PROXY_DIR,
+    DATA_DIR, LOG_FILE_PATH, LOG_LEVEL, LOG_FORMAT,
+    ensure_directories,
+)
 from database import db
 from handlers import routers
 from proxy_manager import proxy_manager
@@ -19,6 +23,7 @@ from proxy_manager import proxy_manager
 class ProxySSLException(Exception):
     """Исключение для SSL-ошибок при работе через прокси"""
     pass
+
 # ═══════════════════════════════════════════════════════════════════
 # ⚠️  ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ О СИСТЕМЕ ПОДКЛЮЧЕНИЯ
 # ═══════════════════════════════════════════════════════════════════
@@ -39,25 +44,23 @@ class ProxySSLException(Exception):
 #  ЕСЛИ ВАМ КАЖЕТСЯ, ЧТО НУЖНО ЧТО-ТО ИЗМЕНИТЬ — 
 #  СНАЧАЛА ПРОВЕРЬТЕ РАБОТОСПОСОБНОСТЬ НА ТЕСТОВОМ БОТЕ!
 # 
-#  Рабочая версия: aiogram 2.25.1, aiohttp 3.8.5
-#  Дата проверки: 05.09.2026
+#  Рабочая версия: aiogram 3.17+, aiohttp 3.8.5
+#  Дата проверки: 13.09.2026
 # ═══════════════════════════════════════════════════════════════════
 
 # Исправление кодировки для Windows
 if sys.platform == 'win32':
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-# Создаём папку для логов
-log_dir = "logs"
-if not os.path.exists(log_dir):
-    os.makedirs(log_dir)
+# ✅ Гарантируем, что все папки существуют (включая data/logs)
+ensure_directories()
 
-# Настройка логирования
+# ✅ Настройка логирования с АБСОЛЮТНЫМ путём к data/logs/bot.log
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=getattr(logging, LOG_LEVEL.upper(), logging.INFO),
+    format=LOG_FORMAT,
     handlers=[
-        logging.FileHandler(os.path.join(log_dir, 'bot.log'), encoding='utf-8'),
+        logging.FileHandler(LOG_FILE_PATH, encoding='utf-8'),
         logging.StreamHandler(sys.stdout)
     ]
 )
