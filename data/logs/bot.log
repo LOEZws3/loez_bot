@@ -28259,3 +28259,285 @@ client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, i
 2026-09-13 21:29:38,457 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
 2026-09-13 21:29:38,459 - handlers.chat_member - INFO - ❌ Пользователь 2002184576 НЕ найден в файле
 2026-09-13 21:29:38,460 - aiogram.event - INFO - Update id=352508633 is handled. Duration 5 ms by bot id=8888839728
+2026-09-14 06:58:55,834 - __main__ - INFO - ✅ Зарегистрировано 11 роутеров
+2026-09-14 06:58:55,894 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-14 06:58:55,898 - proxy_manager - INFO - 🔄 Кэш устарел, обновляем...
+2026-09-14 06:58:55,900 - proxy_manager - INFO - 🏓 Пингую 1808 прокси через Telegram API...
+2026-09-14 06:59:03,714 - proxy_manager - INFO - 📊 Прогресс: 50/1808 (прошло 7 сек)
+2026-09-14 06:59:06,517 - proxy_manager - INFO - 📊 Прогресс: 100/1808 (прошло 10 сек)
+2026-09-14 06:59:09,547 - proxy_manager - INFO - 📊 Прогресс: 150/1808 (прошло 13 сек)
+2026-09-14 06:59:11,572 - proxy_manager - INFO - 📊 Прогресс: 200/1808 (прошло 15 сек)
+2026-09-14 06:59:14,243 - proxy_manager - INFO - 📊 Прогресс: 250/1808 (прошло 18 сек)
+2026-09-14 06:59:16,817 - proxy_manager - INFO - 📊 Прогресс: 300/1808 (прошло 20 сек)
+2026-09-14 06:59:19,601 - proxy_manager - INFO - 📊 Прогресс: 350/1808 (прошло 23 сек)
+2026-09-14 06:59:22,481 - proxy_manager - INFO - 📊 Прогресс: 400/1808 (прошло 26 сек)
+2026-09-14 06:59:24,746 - proxy_manager - INFO - 📊 Прогресс: 450/1808 (прошло 28 сек)
+2026-09-14 06:59:27,785 - proxy_manager - INFO - 📊 Прогресс: 500/1808 (прошло 31 сек)
+2026-09-14 06:59:30,631 - proxy_manager - INFO - 📊 Прогресс: 550/1808 (прошло 34 сек)
+2026-09-14 06:59:32,869 - proxy_manager - INFO - 📊 Прогресс: 600/1808 (прошло 36 сек)
+2026-09-14 06:59:35,732 - proxy_manager - INFO - 📊 Прогресс: 650/1808 (прошло 39 сек)
+2026-09-14 06:59:38,819 - proxy_manager - INFO - 📊 Прогресс: 700/1808 (прошло 42 сек)
+2026-09-14 06:59:41,592 - proxy_manager - INFO - 📊 Прогресс: 750/1808 (прошло 45 сек)
+2026-09-14 06:59:44,669 - proxy_manager - INFO - 📊 Прогресс: 800/1808 (прошло 48 сек)
+2026-09-14 06:59:47,539 - proxy_manager - INFO - 📊 Прогресс: 850/1808 (прошло 51 сек)
+2026-09-14 06:59:50,553 - proxy_manager - INFO - 📊 Прогресс: 900/1808 (прошло 54 сек)
+2026-09-14 06:59:53,916 - proxy_manager - INFO - 📊 Прогресс: 950/1808 (прошло 58 сек)
+2026-09-14 06:59:58,856 - proxy_manager - INFO - 📊 Прогресс: 1000/1808 (прошло 62 сек)
+2026-09-14 07:00:02,619 - proxy_manager - INFO - 📊 Прогресс: 1050/1808 (прошло 66 сек)
+2026-09-14 07:00:05,235 - proxy_manager - INFO - 📊 Прогресс: 1100/1808 (прошло 69 сек)
+2026-09-14 07:00:08,913 - proxy_manager - INFO - 📊 Прогресс: 1150/1808 (прошло 73 сек)
+2026-09-14 07:00:12,668 - proxy_manager - INFO - 📊 Прогресс: 1200/1808 (прошло 76 сек)
+2026-09-14 07:00:16,564 - proxy_manager - INFO - 📊 Прогресс: 1250/1808 (прошло 80 сек)
+2026-09-14 07:00:19,740 - proxy_manager - INFO - 📊 Прогресс: 1300/1808 (прошло 83 сек)
+2026-09-14 07:00:23,146 - proxy_manager - INFO - 📊 Прогресс: 1350/1808 (прошло 87 сек)
+2026-09-14 07:00:26,352 - proxy_manager - INFO - 📊 Прогресс: 1400/1808 (прошло 90 сек)
+2026-09-14 07:00:30,031 - proxy_manager - INFO - 📊 Прогресс: 1450/1808 (прошло 94 сек)
+2026-09-14 07:00:32,772 - proxy_manager - INFO - 📊 Прогресс: 1500/1808 (прошло 96 сек)
+2026-09-14 07:00:35,596 - proxy_manager - INFO - 📊 Прогресс: 1550/1808 (прошло 99 сек)
+2026-09-14 07:00:38,655 - proxy_manager - INFO - 📊 Прогресс: 1600/1808 (прошло 102 сек)
+2026-09-14 07:00:41,916 - proxy_manager - INFO - 📊 Прогресс: 1650/1808 (прошло 106 сек)
+2026-09-14 07:00:44,895 - proxy_manager - INFO - 📊 Прогресс: 1700/1808 (прошло 108 сек)
+2026-09-14 07:00:46,666 - proxy_manager - INFO - 📊 Прогресс: 1750/1808 (прошло 110 сек)
+2026-09-14 07:00:49,713 - proxy_manager - INFO - 📊 Прогресс: 1800/1808 (прошло 113 сек)
+2026-09-14 07:00:50,699 - proxy_manager - INFO - 📊 Прогресс: 1808/1808 (прошло 114 сек)
+2026-09-14 07:00:50,732 - proxy_manager - INFO - ✅ Из 1808 прокси работают 68 (за 114 сек)
+2026-09-14 07:00:50,742 - proxy_manager - INFO - 💾 Кэш пингов сохранён (68 прокси)
+2026-09-14 07:00:50,745 - proxy_manager - INFO - 🏆 Самый быстрый прокси: 3.10.170.234:3128 (2.070с)
+2026-09-14 07:00:50,746 - proxy_manager - INFO -    • 3.10.170.234:3128: 2.070с
+2026-09-14 07:00:50,752 - proxy_manager - INFO -    • 14.251.13.20:8080: 2.697с
+2026-09-14 07:00:50,757 - proxy_manager - INFO -    • 95.211.174.135:3128: 3.065с
+2026-09-14 07:00:50,760 - proxy_manager - INFO -    • 190.94.232.180:999: 3.354с
+2026-09-14 07:00:50,761 - proxy_manager - INFO -    • 1.231.81.166:3128: 3.405с
+2026-09-14 07:00:50,764 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 3.10.170.234:3128 (2.070с)
+2026-09-14 07:00:50,764 - __main__ - INFO - 🌐 Используется прокси: http://3.10.170.234:3128 (пинг: 2.070с)
+2026-09-14 07:00:52,357 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-14 07:00:52,387 - database - INFO - ✅ Таблицы БД созданы
+2026-09-14 07:00:52,389 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-14 07:00:52,390 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-14 07:00:52,775 - __main__ - WARNING - ⚠️ SSL-ошибка при установке команд: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-14 07:00:52,776 - __main__ - ERROR - ❌ SSL-ошибка: SSL error: HTTP Client says - ClientOSError: [Errno 1] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)
+2026-09-14 07:00:52,778 - __main__ - INFO - 🗑️ Сбрасываю кэш прокси...
+2026-09-14 07:00:52,781 - proxy_manager - INFO - 🗑️ Кэш пингов прокси очищен: proxy_pings_cache.json
+2026-09-14 07:00:52,788 - __main__ - INFO - 🔄 Переключаюсь на следующий прокси...
+2026-09-14 07:00:52,792 - proxy_manager - INFO - 💾 Кэш пингов сохранён (67 прокси)
+2026-09-14 07:00:52,792 - __main__ - INFO - ❌ Прокси 3.10.170.234:3128 помечен как нерабочий
+2026-09-14 07:00:52,794 - proxy_manager - INFO - 🔄 Используется прокси: 14.251.13.20:8080 (пинг: 2.697с)
+2026-09-14 07:00:53,060 - __main__ - INFO - 🔄 Переключение на прокси: http://14.251.13.20:8080 (пинг: 2.697с)
+2026-09-14 07:00:53,848 - __main__ - INFO - ✅ Переключено на прокси: 14.251.13.20:8080
+2026-09-14 07:00:53,849 - __main__ - INFO - 🔄 Перезапускаю бота...
+2026-09-14 07:00:55,854 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-14 07:00:55,867 - database - INFO - ✅ Таблицы БД созданы
+2026-09-14 07:00:55,871 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-14 07:00:55,872 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-14 07:00:58,339 - __main__ - INFO - 📋 Команды бота установлены
+2026-09-14 07:00:58,341 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-14 07:00:58,343 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-14 07:00:58,345 - aiogram.dispatcher - INFO - Start polling
+2026-09-14 07:00:58,799 - aiogram.dispatcher - INFO - Run polling for bot @REG_sf_BOT id=8888839728 - 'REG_ℿλɑɱᴙ Иɕκ℘℩_flood'
+2026-09-14 07:03:30,786 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-09-14 07:03:30,788 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-14 07:03:43,267 - aiogram.dispatcher - INFO - Connection established (tryings = 1, bot id = 8888839728)
+2026-09-14 07:06:40,513 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-14 07:06:40,558 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-14 07:06:40,559 - aiogram.event - INFO - Update id=352508634 is handled. Duration 116 ms by bot id=8888839728
+2026-09-14 07:06:41,153 - utils.user_utils - INFO - 🔄 Миграция users.txt → users.json...
+2026-09-14 07:06:41,161 - utils.user_utils - INFO - ✅ Миграция завершена: 18 пользователей
+2026-09-14 07:06:41,253 - utils.role_utils - INFO - ✅ Данные roles_status.json сохранены
+2026-09-14 07:06:41,258 - utils.user_utils - INFO - 🗑️ Пользователь 8076284478 удалён из users.json
+2026-09-14 07:06:41,259 - handlers.apply_handlers - INFO - 🗑️ Пользователь 8076284478 удалён из users.json (освободил роль)
+2026-09-14 07:06:42,936 - aiogram.event - INFO - Update id=352508635 is handled. Duration 1788 ms by bot id=8888839728
+2026-09-14 07:10:05,218 - aiogram.event - INFO - Update id=352508636 is handled. Duration 789 ms by bot id=8888839728
+2026-09-14 07:15:26,472 - handlers.diagnostic_commands - INFO - 🔍 Владелец 8076284478 запустил диагностику
+2026-09-14 07:15:27,412 - aiogram.event - INFO - Update id=352508637 is handled. Duration 944 ms by bot id=8888839728
+2026-09-14 07:17:13,494 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-14 07:17:13,499 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-14 07:17:13,500 - aiogram.event - INFO - Update id=352508638 is handled. Duration 9 ms by bot id=8888839728
+2026-09-14 07:17:38,815 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-14 07:17:38,818 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-14 07:17:38,820 - aiogram.event - INFO - Update id=352508639 is handled. Duration 16 ms by bot id=8888839728
+2026-09-14 07:33:59,720 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-14 07:33:59,722 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-14 07:33:59,722 - aiogram.event - INFO - Update id=352508640 is handled. Duration 5 ms by bot id=8888839728
+2026-09-14 07:34:21,325 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-14 07:36:51,641 - __main__ - INFO - ✅ Зарегистрировано 11 роутеров
+2026-09-14 07:36:51,645 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-14 07:36:51,659 - proxy_manager - INFO - 🔄 Кэш устарел, обновляем...
+2026-09-14 07:36:51,660 - proxy_manager - INFO - 🏓 Пингую 1808 прокси через Telegram API...
+2026-09-14 07:37:00,741 - proxy_manager - INFO - 📊 Прогресс: 50/1808 (прошло 9 сек)
+2026-09-14 07:37:02,957 - proxy_manager - INFO - 📊 Прогресс: 100/1808 (прошло 11 сек)
+2026-09-14 07:37:06,456 - proxy_manager - INFO - 📊 Прогресс: 150/1808 (прошло 14 сек)
+2026-09-14 07:37:08,716 - proxy_manager - INFO - 📊 Прогресс: 200/1808 (прошло 17 сек)
+2026-09-14 07:37:11,871 - proxy_manager - INFO - 📊 Прогресс: 250/1808 (прошло 20 сек)
+2026-09-14 07:37:14,816 - proxy_manager - INFO - 📊 Прогресс: 300/1808 (прошло 23 сек)
+2026-09-14 07:37:17,968 - proxy_manager - INFO - 📊 Прогресс: 350/1808 (прошло 26 сек)
+2026-09-14 07:37:20,524 - proxy_manager - INFO - 📊 Прогресс: 400/1808 (прошло 28 сек)
+2026-09-14 07:37:23,529 - proxy_manager - INFO - 📊 Прогресс: 450/1808 (прошло 31 сек)
+2026-09-14 07:37:26,684 - proxy_manager - INFO - 📊 Прогресс: 500/1808 (прошло 35 сек)
+2026-09-14 07:37:29,762 - proxy_manager - INFO - 📊 Прогресс: 550/1808 (прошло 38 сек)
+2026-09-14 07:37:32,994 - proxy_manager - INFO - 📊 Прогресс: 600/1808 (прошло 41 сек)
+2026-09-14 07:37:35,513 - proxy_manager - INFO - 📊 Прогресс: 650/1808 (прошло 43 сек)
+2026-09-14 07:37:38,992 - proxy_manager - INFO - 📊 Прогресс: 700/1808 (прошло 47 сек)
+2026-09-14 07:37:42,292 - proxy_manager - INFO - 📊 Прогресс: 750/1808 (прошло 50 сек)
+2026-09-14 07:37:45,800 - proxy_manager - INFO - 📊 Прогресс: 800/1808 (прошло 54 сек)
+2026-09-14 07:37:50,472 - proxy_manager - INFO - 📊 Прогресс: 850/1808 (прошло 58 сек)
+2026-09-14 07:37:50,535 - asyncio - ERROR - Unclosed connection
+client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None)>
+2026-09-14 07:37:52,881 - proxy_manager - INFO - 📊 Прогресс: 900/1808 (прошло 61 сек)
+2026-09-14 07:37:56,342 - proxy_manager - INFO - 📊 Прогресс: 950/1808 (прошло 64 сек)
+2026-09-14 07:38:00,634 - proxy_manager - INFO - 📊 Прогресс: 1000/1808 (прошло 68 сек)
+2026-09-14 07:38:04,655 - proxy_manager - INFO - 📊 Прогресс: 1050/1808 (прошло 72 сек)
+2026-09-14 07:38:08,116 - proxy_manager - INFO - 📊 Прогресс: 1100/1808 (прошло 76 сек)
+2026-09-14 07:38:11,397 - proxy_manager - INFO - 📊 Прогресс: 1150/1808 (прошло 79 сек)
+2026-09-14 07:38:14,066 - proxy_manager - INFO - 📊 Прогресс: 1200/1808 (прошло 82 сек)
+2026-09-14 07:38:17,682 - proxy_manager - INFO - 📊 Прогресс: 1250/1808 (прошло 86 сек)
+2026-09-14 07:38:20,835 - proxy_manager - INFO - 📊 Прогресс: 1300/1808 (прошло 89 сек)
+2026-09-14 07:38:24,080 - proxy_manager - INFO - 📊 Прогресс: 1350/1808 (прошло 92 сек)
+2026-09-14 07:38:27,845 - proxy_manager - INFO - 📊 Прогресс: 1400/1808 (прошло 96 сек)
+2026-09-14 07:38:31,144 - proxy_manager - INFO - 📊 Прогресс: 1450/1808 (прошло 99 сек)
+2026-09-14 07:38:33,592 - proxy_manager - INFO - 📊 Прогресс: 1500/1808 (прошло 101 сек)
+2026-09-14 07:38:37,431 - proxy_manager - INFO - 📊 Прогресс: 1550/1808 (прошло 105 сек)
+2026-09-14 07:38:39,822 - asyncio - ERROR - Unclosed connection
+client_connection: Connection<ConnectionKey(host='api.telegram.org', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None)>
+2026-09-14 07:38:40,544 - proxy_manager - INFO - 📊 Прогресс: 1600/1808 (прошло 108 сек)
+2026-09-14 07:38:43,520 - proxy_manager - INFO - 📊 Прогресс: 1650/1808 (прошло 111 сек)
+2026-09-14 07:38:46,764 - proxy_manager - INFO - 📊 Прогресс: 1700/1808 (прошло 115 сек)
+2026-09-14 07:38:48,167 - proxy_manager - INFO - 📊 Прогресс: 1750/1808 (прошло 116 сек)
+2026-09-14 07:38:51,715 - proxy_manager - INFO - 📊 Прогресс: 1800/1808 (прошло 120 сек)
+2026-09-14 07:38:53,557 - proxy_manager - INFO - 📊 Прогресс: 1808/1808 (прошло 121 сек)
+2026-09-14 07:38:53,560 - proxy_manager - INFO - ✅ Из 1808 прокси работают 67 (за 121 сек)
+2026-09-14 07:38:53,568 - proxy_manager - INFO - 💾 Кэш пингов сохранён (67 прокси)
+2026-09-14 07:38:53,571 - proxy_manager - INFO - 🏆 Самый быстрый прокси: 181.78.74.252:999 (3.241с)
+2026-09-14 07:38:53,574 - proxy_manager - INFO -    • 181.78.74.252:999: 3.241с
+2026-09-14 07:38:53,577 - proxy_manager - INFO -    • 176.111.37.5:39811: 3.680с
+2026-09-14 07:38:53,584 - proxy_manager - INFO -    • 181.78.23.187:999: 3.883с
+2026-09-14 07:38:53,585 - proxy_manager - INFO -    • 189.51.168.164:999: 3.929с
+2026-09-14 07:38:53,586 - proxy_manager - INFO -    • 45.43.60.220:8080: 4.033с
+2026-09-14 07:38:53,588 - proxy_manager - INFO - 🏆 Выбран самый быстрый прокси: 181.78.74.252:999 (3.241с)
+2026-09-14 07:38:53,589 - __main__ - INFO - 🌐 Используется прокси: http://181.78.74.252:999 (пинг: 3.241с)
+2026-09-14 07:38:54,508 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-14 07:38:54,517 - database - INFO - ✅ Таблицы БД созданы
+2026-09-14 07:38:54,519 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-14 07:38:54,520 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-14 07:38:56,528 - __main__ - INFO - 📋 Команды бота установлены
+2026-09-14 07:38:56,529 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-14 07:38:56,534 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-14 07:38:56,536 - aiogram.dispatcher - INFO - Start polling
+2026-09-14 07:38:56,970 - aiogram.dispatcher - INFO - Run polling for bot @REG_sf_BOT id=8888839728 - 'REG_ℿλɑɱᴙ Иɕκ℘℩_flood'
+2026-09-14 07:38:57,427 - handlers.base_commands - INFO - 👤 Chedrik SSL нажал /start
+2026-09-14 07:38:57,510 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-14 07:38:57,511 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-14 07:38:57,513 - aiogram.event - INFO - Update id=352508642 is handled. Duration 94 ms by bot id=8888839728
+2026-09-14 07:38:59,572 - aiogram.event - INFO - Update id=352508643 is handled. Duration 2145 ms by bot id=8888839728
+2026-09-14 07:39:19,997 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-14 07:39:20,000 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-14 07:39:20,009 - aiogram.event - INFO - Update id=352508644 is handled. Duration 21 ms by bot id=8888839728
+2026-09-14 07:39:29,486 - handlers.base_commands - INFO - 👤 Chedrik SSL нажал /start
+2026-09-14 07:39:30,105 - aiogram.event - INFO - Update id=352508645 is handled. Duration 620 ms by bot id=8888839728
+2026-09-14 07:39:37,928 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-14 07:39:37,930 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-14 07:39:37,930 - aiogram.event - INFO - Update id=352508646 is handled. Duration 14 ms by bot id=8888839728
+2026-09-14 07:39:49,548 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-14 07:39:49,553 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-14 07:39:49,554 - aiogram.event - INFO - Update id=352508647 is handled. Duration 9 ms by bot id=8888839728
+2026-09-14 10:23:50,654 - handlers.base_commands - INFO - 👤 𝓩𝓚𝓔𝓷𝓰3 нажал /start
+2026-09-14 10:23:50,726 - utils.admin_utils - INFO - 🔄 Миграция admins.txt → admins.json...
+2026-09-14 10:23:50,763 - utils.admin_utils - INFO - ✅ Миграция завершена: 2 админов
+2026-09-14 10:23:52,690 - aiogram.event - INFO - Update id=352508648 is handled. Duration 2036 ms by bot id=8888839728
+2026-09-14 10:23:59,836 - aiogram.event - INFO - Update id=352508649 is handled. Duration 863 ms by bot id=8888839728
+2026-09-14 10:24:10,506 - aiogram.event - INFO - Update id=352508650 is handled. Duration 690 ms by bot id=8888839728
+2026-09-14 10:24:14,058 - aiogram.event - INFO - Update id=352508651 is handled. Duration 456 ms by bot id=8888839728
+2026-09-14 11:20:46,532 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-14 11:20:46,624 - handlers.chat_member - INFO - ✅ Пользователь 8365616736 найден в файле
+2026-09-14 11:20:46,626 - aiogram.event - INFO - Update id=352508652 is handled. Duration 101 ms by bot id=8888839728
+2026-09-14 11:34:49,652 - handlers.base_commands - INFO - 👤 𝓩𝓚𝓔𝓷𝓰3 нажал /start
+2026-09-14 11:34:51,595 - aiogram.event - INFO - Update id=352508653 is handled. Duration 1944 ms by bot id=8888839728
+2026-09-14 11:36:37,122 - handlers.base_commands - INFO - 👤 Chedrik SSL нажал /start
+2026-09-14 11:36:37,742 - aiogram.event - INFO - Update id=352508654 is handled. Duration 620 ms by bot id=8888839728
+2026-09-14 11:37:15,234 - aiogram.event - INFO - Update id=352508655 is handled. Duration 1086 ms by bot id=8888839728
+2026-09-14 11:37:24,798 - aiogram.event - INFO - Update id=352508656 is handled. Duration 435 ms by bot id=8888839728
+2026-09-14 11:38:17,480 - aiogram.event - INFO - Update id=352508657 is handled. Duration 444 ms by bot id=8888839728
+2026-09-14 11:38:34,437 - aiogram.event - INFO - Update id=352508658 is handled. Duration 596 ms by bot id=8888839728
+2026-09-14 11:38:36,148 - handlers.base_commands - INFO - 👤 Chedrik SSL нажал /start
+2026-09-14 11:38:36,750 - aiogram.event - INFO - Update id=352508659 is handled. Duration 602 ms by bot id=8888839728
+2026-09-14 11:38:40,171 - aiogram.event - INFO - Update id=352508660 is handled. Duration 862 ms by bot id=8888839728
+2026-09-14 11:38:49,831 - aiogram.event - INFO - Update id=352508661 is handled. Duration 628 ms by bot id=8888839728
+2026-09-14 11:38:51,807 - aiogram.event - INFO - Update id=352508662 is handled. Duration 448 ms by bot id=8888839728
+2026-09-14 11:38:58,503 - aiogram.event - INFO - Update id=352508663 is handled. Duration 460 ms by bot id=8888839728
+2026-09-14 11:39:01,941 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-14 11:39:01,946 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-14 11:39:01,949 - aiogram.event - INFO - Update id=352508664 is handled. Duration 14 ms by bot id=8888839728
+2026-09-14 11:39:15,237 - aiogram.event - INFO - Update id=352508665 is handled. Duration 846 ms by bot id=8888839728
+2026-09-14 11:39:23,874 - aiogram.event - INFO - Update id=352508666 is handled. Duration 536 ms by bot id=8888839728
+2026-09-14 11:39:27,403 - aiogram.event - INFO - Update id=352508667 is handled. Duration 473 ms by bot id=8888839728
+2026-09-14 11:39:29,944 - aiogram.event - INFO - Update id=352508668 is handled. Duration 452 ms by bot id=8888839728
+2026-09-14 12:29:20,505 - aiogram.event - INFO - Update id=352508669 is handled. Duration 1960 ms by bot id=8888839728
+2026-09-14 18:42:41,193 - __main__ - INFO - ✅ Зарегистрировано 11 роутеров
+2026-09-14 18:42:41,204 - __main__ - ERROR - ❌ Необработанная ошибка: cannot import name 'PRIORITY_PROXY' from 'config' (C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\src\config.py)
+2026-09-14 18:42:41,205 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-14 18:42:46,206 - __main__ - ERROR - ❌ Необработанная ошибка: cannot import name 'PRIORITY_PROXY' from 'config' (C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\src\config.py)
+2026-09-14 18:42:46,207 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-14 18:42:51,211 - __main__ - ERROR - ❌ Необработанная ошибка: cannot import name 'PRIORITY_PROXY' from 'config' (C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\src\config.py)
+2026-09-14 18:42:51,212 - __main__ - INFO - ⏳ Перезапуск через 5 секунд...
+2026-09-14 18:43:06,761 - __main__ - INFO - ✅ Зарегистрировано 11 роутеров
+2026-09-14 18:43:06,762 - __main__ - INFO - ⭐ Приоритетный прокси: http://181.78.74.252:999
+2026-09-14 18:43:06,765 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-14 18:43:06,799 - proxy_manager - INFO - 🔄 Кэш устарел (>1200с), обновляем...
+2026-09-14 18:43:06,800 - proxy_manager - INFO - ⭐ Проверяю приоритетный прокси: http://181.78.74.252:999
+2026-09-14 18:43:11,925 - proxy_manager - INFO - ✅ Приоритетный прокси работает: http://181.78.74.252:999 (ср. пинг: 1.707с)
+2026-09-14 18:43:11,929 - proxy_manager - INFO - 💾 Кэш пингов сохранён (1 прокси)
+2026-09-14 18:43:11,930 - proxy_manager - INFO - 🏆 Выбран: http://181.78.74.252:999 (1.707с)
+2026-09-14 18:43:11,933 - __main__ - INFO - 🌐 Используется прокси: http://181.78.74.252:999 (пинг: 1.707с)
+2026-09-14 18:43:13,188 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-14 18:43:13,209 - database - INFO - ✅ Таблицы БД созданы
+2026-09-14 18:43:13,211 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-14 18:43:13,211 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-14 18:43:15,178 - __main__ - INFO - 📋 Команды бота установлены
+2026-09-14 18:43:15,178 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-14 18:43:15,179 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-14 18:43:15,180 - aiogram.dispatcher - INFO - Start polling
+2026-09-14 18:43:15,610 - aiogram.dispatcher - INFO - Run polling for bot @REG_sf_BOT id=8888839728 - 'REG_ℿλɑɱᴙ Иɕκ℘℩_flood'
+2026-09-14 18:47:12,275 - aiogram.event - INFO - Update id=352508670 is handled. Duration 2042 ms by bot id=8888839728
+2026-09-14 18:48:49,021 - handlers.diagnostic_commands - INFO - 🔍 Владелец 8076284478 запустил диагностику
+2026-09-14 18:48:49,909 - aiogram.event - INFO - Update id=352508671 is handled. Duration 890 ms by bot id=8888839728
+2026-09-14 18:49:16,996 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-14 18:49:17,013 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-14 18:49:17,013 - aiogram.event - INFO - Update id=352508672 is handled. Duration 20 ms by bot id=8888839728
+2026-09-14 18:49:35,667 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-14 18:49:35,668 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-14 18:49:35,669 - aiogram.event - INFO - Update id=352508673 is handled. Duration 5 ms by bot id=8888839728
+2026-09-14 18:51:39,875 - handlers.base_commands - INFO - ⛔ Команда /start заблокирована во флуде от 8076284478
+2026-09-14 18:51:39,876 - aiogram.event - INFO - Update id=352508674 is handled. Duration 798 ms by bot id=8888839728
+2026-09-14 18:51:49,096 - aiogram.event - INFO - Update id=352508675 is handled. Duration 782 ms by bot id=8888839728
+2026-09-14 18:52:46,149 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-14 18:52:46,150 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-14 18:52:46,151 - aiogram.event - INFO - Update id=352508676 is handled. Duration 4 ms by bot id=8888839728
+2026-09-14 18:52:46,823 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-14 18:52:46,824 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-14 18:52:46,825 - aiogram.event - INFO - Update id=352508677 is handled. Duration 150 ms by bot id=8888839728
+2026-09-14 18:52:47,222 - aiogram.event - INFO - Update id=352508678 is handled. Duration 546 ms by bot id=8888839728
+2026-09-14 18:52:48,981 - aiogram.event - INFO - Update id=352508679 is handled. Duration 2274 ms by bot id=8888839728
+2026-09-14 18:52:51,804 - aiogram.event - INFO - Update id=352508680 is handled. Duration 1012 ms by bot id=8888839728
+2026-09-14 20:43:46,654 - handlers.chat_member - INFO - 🔍 Поиск пользователя в файле: C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\data\users\users.txt
+2026-09-14 20:43:46,658 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в файле
+2026-09-14 20:43:46,659 - aiogram.event - INFO - Update id=352508681 is handled. Duration 9 ms by bot id=8888839728
+2026-09-14 21:07:39,522 - __main__ - INFO - ✅ Зарегистрировано 11 роутеров
+2026-09-14 21:07:39,523 - __main__ - INFO - ⭐ Приоритетный прокси: http://181.78.74.252:999
+2026-09-14 21:07:39,527 - proxy_manager - INFO - ✅ Загружено 1808 прокси из good_proxies.txt
+2026-09-14 21:07:39,631 - proxy_manager - INFO - 🔄 Кэш устарел (>1200с), обновляем...
+2026-09-14 21:07:39,632 - proxy_manager - INFO - ⭐ Проверяю приоритетный прокси: http://181.78.74.252:999
+2026-09-14 21:07:44,996 - proxy_manager - INFO - ✅ Приоритетный прокси работает: http://181.78.74.252:999 (ср. пинг: 1.786с)
+2026-09-14 21:07:45,000 - proxy_manager - INFO - 💾 Кэш пингов сохранён (1 прокси)
+2026-09-14 21:07:45,001 - proxy_manager - INFO - 🏆 Выбран: http://181.78.74.252:999 (1.786с)
+2026-09-14 21:07:45,002 - __main__ - INFO - 🌐 Используется прокси: http://181.78.74.252:999 (пинг: 1.786с)
+2026-09-14 21:07:45,861 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-14 21:07:45,871 - database - INFO - ✅ Таблицы БД созданы
+2026-09-14 21:07:45,872 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-14 21:07:45,873 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-14 21:07:47,847 - __main__ - INFO - 📋 Команды бота установлены
+2026-09-14 21:07:47,848 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-14 21:07:47,849 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-14 21:07:47,850 - aiogram.dispatcher - INFO - Start polling
+2026-09-14 21:07:48,310 - aiogram.dispatcher - INFO - Run polling for bot @REG_sf_BOT id=8888839728 - 'REG_ℿλɑɱᴙ Иɕκ℘℩_flood'
+2026-09-14 21:09:26,915 - aiogram.event - INFO - Update id=352508682 is handled. Duration 2020 ms by bot id=8888839728
+2026-09-14 21:11:10,680 - aiogram.event - INFO - Update id=352508683 is handled. Duration 805 ms by bot id=8888839728
+2026-09-14 21:12:20,461 - aiogram.event - INFO - Update id=352508684 is handled. Duration 1000 ms by bot id=8888839728

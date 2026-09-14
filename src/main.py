@@ -83,7 +83,17 @@ async def create_bot_with_proxy() -> Bot:
         logger.info("ℹ️ Прокси отключены в настройках")
         return Bot(token=BOT_TOKEN)
     
+    from config import PRIORITY_PROXY
+
     proxy_manager.proxy_dir = PROXY_DIR
+
+    # ✅ Приоритетный прокси
+    if PRIORITY_PROXY:
+        proxy_manager.priority_proxy = PRIORITY_PROXY
+        logger.info(f"⭐ Приоритетный прокси: {PRIORITY_PROXY}")
+    else:
+        logger.info("ℹ️ Приоритетный прокси не задан — пингование всех")
+
     count = proxy_manager.load_proxies()
     
     if count == 0:

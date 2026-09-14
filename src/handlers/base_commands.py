@@ -7,6 +7,7 @@
 # - /roles (только список, БЕЗ КНОПОК)
 # - /call, /callfal (для админов)
 # - /hide, /menu (управление клавиатурой)
+# - /stats (только админам, краткая версия)
 # 
 # ВСЕ ОСТАЛЬНЫЕ КОМАНДЫ — ЗАПРЕЩЕНЫ!
 # Они должны отвечать: "⛔ Эта команда недоступна во флуд-чате."
@@ -20,8 +21,8 @@ from aiogram.filters import Command
 from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, ReplyKeyboardRemove
 
 from config import GENERAL_CHAT_ID
-from utils.admin_utils import get_admin_rank, is_admin
-from utils.user_utils import load_users, get_users_count, get_user_by_id
+from utils.admin_utils import get_admin_rank, is_admin, load_admins
+from utils.user_utils import load_users, get_users_count, get_user_by_id, get_role_stats
 from utils.requests_utils import get_request_by_user_id, get_pending_count
 from utils.role_utils import (
     get_taken_roles, count_taken_roles,
@@ -139,7 +140,7 @@ async def cmd_help(message: Message):
             "/reject – отклонить\n\n"
             "📋 <b>Списки:</b>\n"
             "/roster – полный список\n"
-            "/stats – статистика по ролям\n"
+            "/stats – статистика (роли, участники, админы, прокси)\n"
             "/restlist – активные ресты\n\n"
             "⏳ <b>Рест:</b>\n"
             "/unrest – снять рест\n"
@@ -432,6 +433,97 @@ async def cmd_roles(message: Message):
         parse_mode="HTML",
         reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
     )
+
+
+# ============================================================
+# 📊 СТАТИСТИКА
+# ============================================================
+
+@router.message(Command('stats'))
+async def cmd_stats(message: Message):
+    """Статистика по ролям, пользователям, админам"""
+    user_id = message.from_user.id if message.from_user else None
+    if user_id is None:
+        await message.answer("❌ Не удалось определить пользователя.")
+        return
+
+    if not is_admin(user_id):
+        await message.answer("⛔ Доступ запрещён. Только для администраторов.")
+        return
+
+    # ===== Роли =====
+    seasons = get_all_seasons()
+    roles_stats = {"свободна": 0, "занята": 0, "ожидает": 0, "рест": 0, "бронь": 0}
+    total_roles = 0
+    for season in seasons:
+        roles = get_roles_by_season(season)
+        for role in roles:
+            status = role.get('status', 'свободна')
+            if status in roles_stats:
+                roles_stats[status] += 1
+            total_roles += 1
+
+    # ===== Пользователи =====
+    users = load_users()
+    total_users = len(users)
+    user_role_stats = get_role_stats()
+
+    # ===== Админы =====
+    admins = load_admins()
+    total_admins = len(admins)
+
+    # ===== Прокси =====
+    try:
+        from config import USE_PROXY
+        from proxy_manager import proxy_manager
+        proxy_status = "✅ Включён" if USE_PROXY else "❌ Отключён"
+        proxy_count = proxy_manager.get_proxy_count()
+    except Exception:
+        proxy_status = "⚠️ Ошибка"
+        proxy_count = 0
+
+    # ===== Формируем отчёт =====
+    if message.chat.id == GENERAL_CHAT_ID:
+        text = (
+            f"📊 <b>Статистика</b>\n\n"
+            f"🎭 Роли: {total_roles}\n"
+            f"  🟢 Свободно: {roles_stats['свободна']}\n"
+            f"  🔴 Занято: {roles_stats['занята']}\n"
+            f"  ⏳ Ожидает: {roles_stats['ожидает']}\n"
+            f"👥 Участников: {total_users}"
+        )
+        await message.answer(text, parse_mode="HTML")
+        return
+
+    # В ЛС — полный
+    text = (
+        f"📊 <b>Полная статистика</b>\n\n"
+        f"━━━━━━━━━━━━━━━━━━━━━\n"
+        f"🎭 <b>РОЛИ:</b>\n"
+        f"  Всего: {total_roles}\n"
+        f"  🟢 Свободна: {roles_stats['свободна']}\n"
+        f"  🔴 Занята: {roles_stats['занята']}\n"
+        f"  ⏳ Ожидает: {roles_stats['ожидает']}\n"
+        f"  🔵 Рест: {roles_stats['рест']}\n"
+        f"  🟡 Бронь: {roles_stats['бронь']}\n\n"
+        f"━━━━━━━━━━━━━━━━━━━━━\n"
+        f"👥 <b>УЧАСТНИКИ:</b>\n"
+        f"  Всего: {total_users}\n"
+    )
+
+    for role_idx in sorted(user_role_stats.keys()):
+        role_name = ROLE_NAMES.get(role_idx, f"Роль {role_idx}")
+        text += f"  • {role_name}: {user_role_stats[role_idx]}\n"
+
+    text += (
+        f"\n━━━━━━━━━━━━━━━━━━━━━\n"
+        f"👑 <b>АДМИНЫ:</b> {total_admins}\n\n"
+        f"━━━━━━━━━━━━━━━━━━━━━\n"
+        f"🌐 <b>ПРОКСИ:</b> {proxy_status}\n"
+        f"  • В списке: {proxy_count}\n"
+    )
+
+    await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
 
 
 @router.message(Command('call'))

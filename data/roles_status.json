@@ -1596,9 +1596,9 @@
     "extra": ""
   },
   "Сдерик": {
-    "status": "занята",
-    "owner_id": 8076284478,
-    "username": "Sedrik_loez",
+    "status": "свободна",
+    "owner_id": null,
+    "username": null,
     "season": "Межсезонные персонажи",
     "extra": ""
   },

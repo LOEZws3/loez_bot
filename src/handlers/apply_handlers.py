@@ -8,12 +8,12 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 
-from config import DATA_DIR
+from config import DATA_DIR, GENERAL_CHAT_ID
 from utils.role_utils import (
     get_roles_by_season, get_all_seasons,
     load_roles_status, save_roles_status
 )
-from utils.user_utils import get_user_info
+from utils.user_utils import get_user_info, remove_user
 
 logger = logging.getLogger(__name__)
 router = Router()
@@ -70,16 +70,6 @@ def _get_active_request(user_id: int):
     return None, None
 
 
-def _is_user_registered(user_id: int) -> bool:
-    if not os.path.exists(USERS_FILE):
-        return False
-    with open(USERS_FILE, 'r', encoding='utf-8') as f:
-        for line in f:
-            if line.startswith(str(user_id) + '|'):
-                return True
-    return False
-
-
 # ======================== КЛАВИАТУРЫ ========================
 
 def create_apply_keyboard(seasons: list) -> InlineKeyboardMarkup:
@@ -133,9 +123,13 @@ def create_position_keyboard() -> InlineKeyboardMarkup:
 async def cmd_apply(message: types.Message, state: FSMContext):
     user_id = message.from_user.id
 
-    if not _is_user_registered(user_id):
-        await message.answer("❌ Вы не зарегистрированы! Используйте /start.")
+    # ✅ ЗАПРЕЩАЕМ во флуде
+    if message.chat.id == GENERAL_CHAT_ID:
+        await message.answer("⛔ Эта команда недоступна во флуд-чате.")
         return
+
+    # ✅ УБРАНА проверка _is_user_registered — любой может подать заявку
+    # Регистрация происходит ПОСЛЕ одобрения админом (см. request_commands.py)
 
     if _has_active_request(user_id):
         await message.answer(
@@ -248,8 +242,6 @@ async def process_submit(callback: CallbackQuery, state: FSMContext):
     existing_ids = [int(k) for k in requests.keys() if str(k).isdigit()]
     request_id = max(existing_ids, default=0) + 1
 
-    user_info = get_user_info(user_id)
-
     requests[str(request_id)] = {
         'user_id': user_id,
         'username': callback.from_user.username or '',
@@ -339,8 +331,9 @@ async def back_to_position(callback: CallbackQuery, state: FSMContext):
 async def cmd_free(message: types.Message):
     user_id = message.from_user.id
 
-    if not _is_user_registered(user_id):
-        await message.answer("❌ Вы не зарегистрированы!")
+    # ✅ ЗАПРЕЩАЕМ во флуде
+    if message.chat.id == GENERAL_CHAT_ID:
+        await message.answer("⛔ Эта команда недоступна во флуд-чате.")
         return
 
     from utils.role_utils import get_user_role as get_user_role_name
@@ -360,6 +353,14 @@ async def cmd_free(message: types.Message):
     status_data[role_name]['username'] = None
 
     if save_roles_status(status_data):
+        # ✅ УДАЛЯЕМ пользователя из users.json
+        try:
+            removed = remove_user(user_id)
+            if removed:
+                logger.info(f"🗑️ Пользователь {user_id} удалён из users.json (освободил роль)")
+        except Exception as e:
+            logger.error(f"Ошибка удаления пользователя {user_id}: {e}")
+
         await message.answer(
             f"✅ <b>Роль «{role_name}» освобождена!</b>\n\n"
             f"Теперь она доступна для других.",
@@ -373,6 +374,11 @@ async def cmd_free(message: types.Message):
 async def cmd_cancel_request(message: types.Message):
     user_id = message.from_user.id
 
+    # ✅ ЗАПРЕЩАЕМ во флуде
+    if message.chat.id == GENERAL_CHAT_ID:
+        await message.answer("⛔ Эта команда недоступна во флуд-чате.")
+        return
+
     request_id, request = _get_active_request(user_id)
     if not request:
         await message.answer("❌ У вас нет активных заявок.")
@@ -383,7 +389,6 @@ async def cmd_cancel_request(message: types.Message):
     requests[request_id]['updated_at'] = datetime.now().isoformat()
     _save_requests(requests)
 
-    # Возвращаем роль в "свободна"
     role_name = request.get('role')
     season = request.get('season')
     if role_name and season:

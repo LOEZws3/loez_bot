@@ -6,17 +6,17 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # --- Базовые пути (АБСОЛЮТНЫЕ) ---
-BASE_DIR = Path(__file__).parent.parent.resolve()   # ← .resolve() для абсолютного пути
-SRC_PATH = Path(__file__).parent.resolve()          # ← .resolve()
-DATA_DIR = str(BASE_DIR / 'data')                   # ← абсолютный
-DATA_PATH = DATA_DIR                                # для chat_member.py
+BASE_DIR = Path(__file__).parent.parent.resolve()
+SRC_PATH = Path(__file__).parent.resolve()
+DATA_DIR = str(BASE_DIR / 'data')
+DATA_PATH = DATA_DIR
 
 # --- Токены и ID (из .env) ---
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 OWNER_ID = int(os.getenv('OWNER_ID', 0))
 GENERAL_CHAT_ID = int(os.getenv('GENERAL_CHAT_ID', 0))
 
-# --- ID чатов и ссылки (значения по умолчанию) ---
+# --- ID чатов и ссылки ---
 ADMIN_GROUP_ID = int(os.getenv('ADMIN_GROUP_ID', 0))
 CHAT_INVITE_LINK = os.getenv('CHAT_INVITE_LINK', 'https://t.me/joinchat/your_chat_link')
 ROLES_PER_PAGE = int(os.getenv('ROLES_PER_PAGE', 5))
@@ -25,13 +25,14 @@ ROLES_PER_PAGE = int(os.getenv('ROLES_PER_PAGE', 5))
 USE_PROXY = os.getenv('USE_PROXY', 'false').lower() == 'true'
 PROXY_DIR = os.getenv('PROXY_DIR', str(SRC_PATH / 'proxies'))
 PROXY_ENABLED = USE_PROXY
+PRIORITY_PROXY = os.getenv('PRIORITY_PROXY', '')  # ✅ Приоритетный прокси
 
-# --- Логирование (АБСОЛЮТНЫЙ путь к data/logs/bot.log) ---
+# --- Логирование ---
 LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')
 LOG_FILE_PATH = os.getenv('LOG_FILE_PATH', str(Path(DATA_DIR) / 'logs' / 'bot.log'))
 LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 
-# --- Остальные настройки ---
+# --- База данных ---
 DATABASE_PATH = os.getenv('DATABASE_PATH', str(SRC_PATH / 'bot.db'))
 
 # --- Пути к файлам данных ---
@@ -61,7 +62,7 @@ def ensure_directories():
         os.path.join(DATA_DIR, 'roles'),
         os.path.join(DATA_DIR, 'system'),
         os.path.join(DATA_DIR, 'users_history'),
-        os.path.join(DATA_DIR, 'logs'),          # ← ЛОГИ ТЕПЕРЬ В data/logs
+        os.path.join(DATA_DIR, 'logs'),
         PROXY_DIR,
     ]
 
@@ -83,6 +84,7 @@ __all__ = [
     'USE_PROXY',
     'PROXY_DIR',
     'PROXY_ENABLED',
+    'PRIORITY_PROXY',
     'DATA_DIR',
     'DATA_PATH',
     'SRC_PATH',
