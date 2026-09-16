@@ -1,14 +1,14 @@
 ═══════════════════════════════════════════════════════════════════
-                    🤖 LoezF_Bot — ГАЙД ДЛЯ РАЗРАБОТЧИКОВ
-                    (ОБНОВЛЕН 13.09.2026, ВЕРСИЯ 7.0.0)
+🤖 LoezF_Bot — ГАЙД ДЛЯ РАЗРАБОТЧИКОВ
+(ОБНОВЛЕН 15.09.2026, ВЕРСИЯ 7.1.0)
 ═══════════════════════════════════════════════════════════════════
 
 ═══════════════════════════════════════════════════════════════════
 📌 ОПИСАНИЕ ПРОЕКТА (ДЛЯ НОВОЙ ИИ)
 ═══════════════════════════════════════════════════════════════════
 
-LoezF_Bot — Telegram-бот для управления приёмом новых участников (нью) 
-во флуд-чаты и ролевые сообщества. 
+LoezF_Bot — Telegram-бот для управления приёмом новых участников (нью)
+во флуд-чаты и ролевые сообщества.
 
 ⛔ ВАЖНО: Проект полностью завершён и стабильно работает.
 ⛔ НЕ ТРОГАТЬ СИСТЕМУ ПОДКЛЮЧЕНИЯ!
@@ -48,12 +48,15 @@ main.py — точка входа
 
 📌 ПО УМОЛЧАНИЮ — ЧИТАЙ ФАЙЛЫ ЧЕРЕЗ RAW-ССЫЛКИ ИЗ GFA!
 
-1. Если AI НУЖНО прочитать файл (по ЛЮБОЙ причине, не только 
-   по запросу "прочитай X.py") — он ОБЯЗАН использовать 
-   Raw-ссылку из раздела "RAW-ССЫЛКИ" в конце GFA.
-2. Если Raw-ссылка не работает — API-ссылка из дерева репозитория.
-3. Только если оба не работают — web-ссылка github.com/.../blob/...
-4. ЕСЛИ пользователь ЯВНО сказал "не читай" — можно отвечать без чтения.
+Если AI НУЖНО прочитать файл (по ЛЮБОЙ причине, не только
+по запросу "прочитай X.py") — он ОБЯЗАН использовать
+Raw-ссылку из раздела "RAW-ССЫЛКИ" в конце GFA.
+
+Если Raw-ссылка не работает — API-ссылка из дерева репозитория.
+
+Только если оба не работают — web-ссылка github.com/.../blob/...
+
+ЕСЛИ пользователь ЯВНО сказал "не читай" — можно отвечать без чтения.
 
 📌 ЦЕЛЬ: экономия контекста чата + чтение актуального кода.
 
@@ -72,54 +75,138 @@ main.py — точка входа
 ✅ @router.message(Command("apply")) — правильно
 
 ❌ InlineKeyboardButton(callback_data="...") без text= — упадёт с ошибкой:
-   "BaseModel.__init__() takes 1 positional argument but 2 were given"
+"BaseModel.init() takes 1 positional argument but 2 were given"
 ✅ Всегда передавать text= именованным аргументом
 
 📌 Причина: в aiogram 3.x InlineKeyboardButton — Pydantic BaseModel,
-   который принимает ТОЛЬКО именованные аргументы.
-
-📌 Примеры правильного кода:
-
-    from aiogram.filters import Command
-    from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-
-    @router.message(Command("apply"))
-    async def cmd_apply(message: types.Message):
-        ...
-
-    keyboard = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="✅ Одобрить", callback_data="approve_1")],
-        [InlineKeyboardButton(text="❌ Отклонить", callback_data="reject_1")],
-    ])
+который принимает ТОЛЬКО именованные аргументы.
 
 ═══════════════════════════════════════════════════════════════════
-📝 ФОРМАТ requests.json (ТОЛЬКО СЛОВАРЬ!)
+📂 СИСТЕМА ПРОКСИ (НЕ ТРОГАТЬ!)
 ═══════════════════════════════════════════════════════════════════
 
-📌 СТРУКТУРА (ВАЖНО!):
+📌 ОПИСАНИЕ:
+Бот использует прокси для подключения к Telegram API.
 
-    {
-      "1": {
-        "user_id": 123456789,
-        "username": "user",
-        "full_name": "Иван Иванов",
-        "role": "Ашра",
-        "season": "Голос времени",
-        "position": "moder",
-        "position_name": "Модератор",
-        "status": "pending",
-        "created_at": "2026-09-13T17:00:00",
-        "updated_at": "2026-09-13T17:00:00"
-      },
-      "2": { ... }
-    }
+📌 ПУТЬ К ПРОКСИ (из .env):
+PROXY_DIR=C:\Users\olika\PyCharmMiscProject\proxy_manadger
 
-📌 КЛЮЧЕВЫЕ МОМЕНТЫ:
-- Ключ — ID заявки (строка)
-- Значение — словарь с данными заявки
-- status: "pending" | "approved" | "rejected" | "canceled"
-- position: "admin" | "moder" | "member"
-- position_name: "Администратор" | "Модератор" | "Участник"
+📌 СХЕМА ОБНОВЛЕНИЯ:
+
+proxy_system (отдельный проект) парсит свежие прокси
+
+Сохраняет в C:\Users\olika\PyCharmMiscProject\proxy_manadger\good_proxies.txt
+
+loez_bot читает из этой же папки (через PROXY_DIR)
+
+НИКАКОГО КОПИРОВАНИЯ ВРУЧНУЮ НЕ НУЖНО
+
+📌 ФОРМАТ good_proxies.txt:
+ip:port|дата время
+Пример: 47.250.11.111:1081|2026-09-15 17:00:06
+
+📌 ПРИОРИТЕТНЫЙ ПРОКСИ (из .env):
+PRIORITY_PROXY=http://181.78.74.252:999
+
+Если работает — бот всегда через него
+
+Если не работает — идёт по пингу из good_proxies.txt
+
+📌 НАСТРОЙКИ ПИНГОВАНИЯ (в proxy_manager.py):
+
+PING_COUNT = 1 (1 пинг на прокси — быстрее)
+
+MAX_CONCURRENT = 200 (200 одновременных)
+
+PING_TIMEOUT = 3 (3 секунды)
+
+CACHE_TTL = 1200 (20 минут — кэш)
+
+📌 КЭШ ПИНГОВ:
+data/system/proxy_pings_cache.json
+
+📌 CLEAN_PROXY — обрезает |дата:
+1.231.81.166:3128|2026-09-05 20:43:28 → 1.231.81.166:3128
+
+📌 АЛГОРИТМ РАБОТЫ:
+
+Загружает прокси из good_proxies.txt
+
+Проверяет приоритетный (если есть)
+
+Если приоритетный не работает — пингует ВСЕ прокси
+
+Выбирает самый быстрый
+
+При ошибке — переключается на следующий
+
+⛔ ВАЖНОЕ ПРАВИЛО (НЕ НАРУШАТЬ!):
+НЕ МЕНЯТЬ СИСТЕМУ ПОДКЛЮЧЕНИЯ В main.py!
+Используется только AiohttpSession(proxy=proxy_url).
+Любые другие варианты (connector, ssl_context) — ЗАПРЕЩЕНЫ!
+
+═══════════════════════════════════════════════════════════════════
+📝 ФОРМАТ JSON-ФАЙЛОВ ДАННЫХ (ТОЛЬКО СЛОВАРИ!)
+═══════════════════════════════════════════════════════════════════
+
+📌 data/users/users.json:
+{
+"8076284478": {
+"username": "Sedrik_loez",
+"full_name": "Chedrik SSL",
+"role": "Сдерик",
+"extra": "-993"
+}
+}
+
+📌 data/admins/admins.json:
+{
+"8076284478": {
+"username": "Sedrik_loez",
+"full_name": "Chedrik SSL",
+"rank": 1
+}
+}
+
+📌 data/system/requests.json:
+{
+"1": {
+"user_id": 123456789,
+"username": "user",
+"full_name": "Иван Иванов",
+"role": "Ашра",
+"season": "Голос времени",
+"position": "moder",
+"position_name": "Модератор",
+"status": "pending",
+"created_at": "...",
+"updated_at": "..."
+}
+}
+
+📌 data/system/system_settings.json:
+{
+"closed_mode": false,
+"reminder_enabled": true,
+"max_rest_days": 14,
+"call_cooldown": 20,
+"callfal_cooldown": 30,
+"welcome_enabled": true,
+"auto_rest_removal": true,
+"forward_enabled": false,
+"anonymous_mode": false
+}
+
+📌 data/roles_status.json — словарь {имя персонажа: {...}}:
+{
+"Ашра": {
+"status": "свободна" | "занята" | "ожидает" | "рест" | "бронь",
+"owner_id": null | <user_id>,
+"username": null | "<username>",
+"season": "Голос времени",
+"extra": ""
+}
+}
 
 ⛔ НЕЛЬЗЯ использовать [] (список) — только {} (словарь)!
 ⛔ Пустой файл должен быть {} (2 байта), а не []
@@ -128,225 +215,317 @@ main.py — точка входа
 'list' object has no attribute 'items' — возникает, если файл содержит [].
 Исправить: заменить содержимое на {}
 
+📌 EXTRA ПОЛЕ:
+
+extra = "-993" — если пусто (нет реста)
+
+extra = "2026-09-20" — если рест до этой даты
+
 ═══════════════════════════════════════════════════════════════════
 📂 ПУТИ И ЛОГИ (АБСОЛЮТНЫЕ)
 ═══════════════════════════════════════════════════════════════════
 
 📌 ВСЕ ПУТИ — АБСОЛЮТНЫЕ (через .resolve()):
 
-    BASE_DIR = Path(__file__).parent.parent.resolve()
-    SRC_PATH = Path(__file__).parent.resolve()
-    DATA_DIR = str(BASE_DIR / 'data')
+BASE_DIR = Path(file).parent.parent.resolve()
+SRC_PATH = Path(file).parent.resolve()
+DATA_DIR = str(BASE_DIR / 'data')
 
 📌 ЛОГИ:
-- Расположение: data/logs/bot.log
-- Задаётся в config.py → LOG_FILE_PATH
-- НЕ создавать log_dir = "logs" в main.py (устаревший подход)
-- main.py импортирует LOG_FILE_PATH из config
 
-📌 Причина: относительные пути зависят от рабочей директории
-   (при запуске из PyCharm vs из start.bat — разные пути).
+Расположение: data/logs/bot.log
 
-📌 Пример правильного логирования:
+Задаётся в config.py → LOG_FILE_PATH
 
-    from config import DATA_DIR, LOG_FILE_PATH, LOG_LEVEL, LOG_FORMAT, ensure_directories
+НЕ создавать log_dir = "logs" в main.py (устаревший подход)
 
-    ensure_directories()
+main.py импортирует LOG_FILE_PATH из config
 
-    logging.basicConfig(
-        level=getattr(logging, LOG_LEVEL.upper(), logging.INFO),
-        format=LOG_FORMAT,
-        handlers=[
-            logging.FileHandler(LOG_FILE_PATH, encoding='utf-8'),
-            logging.StreamHandler(sys.stdout)
-        ]
-    )
+📌 ПРИЧИНА: относительные пути зависят от рабочей директории
+(при запуске из PyCharm vs из start.bat — разные пути).
 
 ═══════════════════════════════════════════════════════════════════
 ⭐ СИСТЕМА РАНГОВ ПРИ ОДОБРЕНИИ ЗАЯВОК
 ═══════════════════════════════════════════════════════════════════
 
 При одобрении заявки (approve_req_<id>):
-1. Роль становится "занята"
-2. Пользователь добавляется в users.txt
-3. В зависимости от должности:
-   - Администратор (position="admin") → admins.txt, ранг = 2
-   - Модератор (position="moder") → admins.txt, ранг = 3
-   - Участник (position="member") → только users.txt (без admins.txt)
 
-📌 Формат admins.txt: user_id|username|full_name|rank
-📌 Формат users.txt: user_id|username|full_name|role|
+Роль становится "занята"
+
+Пользователь добавляется в users.json
+
+В зависимости от должности:
+
+Администратор (position="admin") → admins.json, ранг = 2
+
+Модератор (position="moder") → admins.json, ранг = 3
+
+Участник (position="member") → только users.json (без admins.json)
+
+📌 Функции добавления (из utils):
+
+add_user(user_id, username, full_name, role) — utils/user_utils.py
+
+add_admin(user_id, username, full_name, rank) — utils/admin_utils.py
 
 📌 TODO: интеграция с ИРИС (@iris_moon_bot)
-   Пока заглушка _send_to_iris() — логирует, но не отправляет.
+Пока заглушка _send_to_iris() — логирует, но не отправляет.
 
 ═══════════════════════════════════════════════════════════════════
 🗑️ УДАЛЁННЫЕ ФАЙЛЫ (не искать, не восстанавливать)
 ═══════════════════════════════════════════════════════════════════
 
 ❌ role_commands.py — удалён
-   Функции перенесены в apply_handlers.py:
-   - /apply → apply_handlers.cmd_apply
-   - /free → apply_handlers.cmd_free
-   - /cancel_request → apply_handlers.cmd_cancel_request
+Функции перенесены в apply_handlers.py:
+
+/apply → apply_handlers.cmd_apply
+
+/free → apply_handlers.cmd_free
+
+/cancel_request → apply_handlers.cmd_cancel_request
+
+❌ data/system_settings.json (в корне data/) — удалён
+Актуальный: data/system/system_settings.json
+
+❌ src/test_connect.py — удалён (пустой файл)
+
+❌ src/pycache/, src/handlers/pycache/, src/utils/pycache/ — удалены
 
 ═══════════════════════════════════════════════════════════════════
-🔧 ИЗМЕНЁННЫЕ ФАЙЛЫ (по сравнению с версией 6.x)
+🔧 ИЗМЕНЁННЫЕ ФАЙЛЫ (по сравнению с версией 7.0.0)
 ═══════════════════════════════════════════════════════════════════
 
-📄 config.py
-   - BASE_DIR и SRC_PATH — через .resolve() (абсолютные)
-   - LOG_FILE_PATH = data/logs/bot.log
-   - ensure_directories() создаёт data/logs
+📄 utils/user_utils.py
 
-📄 main.py
-   - Импортирует DATA_DIR, LOG_FILE_PATH из config
-   - Не создаёт log_dir = "logs"
-   - Использует LOG_FILE_PATH для FileHandler
+Работает с users.json (не users.txt)
 
-📄 utils/requests_utils.py
-   - Все функции работают со словарём {} вместо списка []
-   - load_requests() возвращает dict
-   - get_pending_requests() возвращает [(id, request), ...]
+Миграция users.txt → users.json
+
+Замена | на ¦ в full_name при миграции
+
+extra = "-993" если пусто
+
+remove_user(user_id) — удаляет из users.json
+
+get_user_info(user_id) — возвращает словарь
+
+get_role_stats() — статистика по ролям
+
+📄 utils/admin_utils.py
+
+Работает с admins.json (не admins.txt)
+
+Миграция admins.txt → admins.json
+
+Миграция вызывается ПРИ ИМПОРТЕ модуля
+
+add_admin(user_id, username, full_name, rank) — добавляет в admins.json
+
+load_admins() — читает admins.json
 
 📄 handlers/request_commands.py
-   - Один набор обработчиков: view_req_<id>, approve_req_<id>, reject_req_<id>
-   - Логика рангов: Админ → 2, Модератор → 3
-   - Заглушка _send_to_iris
-   - Убраны дубли: get_request, update_request_status, add_user_to_users
 
-📄 handlers/apply_handlers.py
-   - InlineKeyboardButton(text=...) везде
-   - Command("apply") вместо F.text == "/apply"
-   - Работа со словарём requests.json
-   - /free и /cancel_request перенесены сюда
+Использует add_user и add_admin из utils
+
+Пишет в users.json и admins.json (не .txt)
+
+Убраны дубли: _add_user, _add_admin
+
+📄 handlers/chat_member.py
+
+Пропускает команды: if message.text.startswith('/'): return
+
+Читает users.json через get_user_by_id
+
+reset_counter использует is_owner (не хардкод ID)
+
+📄 handlers/settings_commands.py
+
+FSM WaitingForSetting — числа обрабатываются ТОЛЬКО в режиме настроек
+
+Убран глобальный @router.message(F.text.regexp(r'^\d+$'))
+
+/cancel отменяет ввод настройки
 
 📄 handlers/base_commands.py
-   - cmd_roles: role — dict, берём role.get('name') и role.get('status')
-   - show_roles_by_season: то же самое
-   - Убран блок Reply-обработчиков
 
-📄 handlers/__init__.py
-   - Убран импорт role_commands_router
+cmd_stats — статистика (роли + участники + админы + прокси)
+
+cmd_roles: role — dict, берём role.get('name') и role.get('status')
+
+show_roles_by_season: то же самое
+
+📄 handlers/init.py
+
+Добавлен diagnostic_commands_router
+
+Убран role_commands_router
+
+📄 proxy_manager.py
+
+PING_COUNT = 1 (было 3)
+
+MAX_CONCURRENT = 200 (было 500)
+
+PING_TIMEOUT = 3
+
+CACHE_TTL = 1200 (20 минут)
+
+Кэш в data/system/proxy_pings_cache.json
+
+clean_proxy обрезает |дата
+
+📄 config.py
+
+BASE_DIR и SRC_PATH — через .resolve()
+
+LOG_FILE_PATH = data/logs/bot.log
+
+PRIORITY_PROXY = os.getenv('PRIORITY_PROXY', '')
+
+ensure_directories() создаёт data/logs и data/system
+
+📄 main.py
+
+Импортирует DATA_DIR, LOG_FILE_PATH, PRIORITY_PROXY из config
+
+Не создаёт log_dir = "logs"
+
+Использует LOG_FILE_PATH для FileHandler
 
 ═══════════════════════════════════════════════════════════════════
 🐛 ИЗВЕСТНЫЕ БАГИ И ИХ РЕШЕНИЯ
 ═══════════════════════════════════════════════════════════════════
 
-1. BaseModel.__init__() takes 1 positional argument but 2 were given:
-   → InlineKeyboardButton("текст", ...) без text=
-   → Исправить: InlineKeyboardButton(text="текст", ...)
+BaseModel.init() takes 1 positional argument but 2 were given:
+→ InlineKeyboardButton("текст", ...) без text=
+→ Исправить: InlineKeyboardButton(text="текст", ...)
 
-2. 'list' object has no attribute 'items':
-   → requests.json содержит [] вместо {}
-   → Исправить: заменить на {}
+'list' object has no attribute 'items':
+→ requests.json содержит [] вместо {}
+→ Исправить: заменить на {}
 
-3. cannot use 'dict' as a dict key:
-   → role — это dict (из get_roles_by_season), а используется как строка
-   → Исправить: role.get('name') и role.get('status')
+cannot use 'dict' as a dict key:
+→ role — это dict (из get_roles_by_season), а используется как строка
+→ Исправить: role.get('name') и role.get('status')
 
-4. ImportError: cannot import name 'cmd_free' from 'handlers.role_commands':
-   → Файл role_commands.py удалён
-   → Исправить: импортировать из apply_handlers
+ImportError: cannot import name 'cmd_free' from 'handlers.role_commands':
+→ Файл role_commands.py удалён
+→ Исправить: импортировать из apply_handlers
 
-5. Напоминалка не работает:
-   → Проверить, что chat_member_router добавлен в __init__.py
-   → Проверить, что check_user_registration обрабатывает сообщения
+Напоминалка не работает:
+→ Проверить, что chat_member_router добавлен в init.py
+→ Проверить, что check_user_registration обрабатывает сообщения
+→ Проверить, что chat_member пропускает команды
 
-6. Нет рабочих прокси:
-   → Система сама переключается при ошибках
-   → Если USE_PROXY=false в .env — работает без прокси
+Нет рабочих прокси:
+→ Система сама переключается при ошибках
+→ Если USE_PROXY=false в .env — работает без прокси
+→ Если все прокси мёртвые — обновить good_proxies.txt через proxy_system
 
-7. NameError: name 'types' is not defined:
-   → Добавить в начало файла: from aiogram import Router, F, types
+NameError: name 'types' is not defined:
+→ Добавить в начало файла: from aiogram import Router, F, types
+
+Пользователь не добавляется в users.json после /apply:
+→ request_commands.py должен использовать add_user из utils/user_utils
+→ НЕ писать в users.txt
+
+Цифры в чате меняют настройки:
+→ settings_commands.py должен использовать FSM WaitingForSetting
+→ Числа обрабатываются ТОЛЬКО после нажатия кнопки настройки
+
+Приоритетный прокси мёртв:
+→ Это нормально — прокси живут недолго
+→ Бот сам переключится на пингование good_proxies.txt
 
 ═══════════════════════════════════════════════════════════════════
 ⚠️ НИЧЕГО НЕ МЕНЯТЬ! (запрещённые действия)
 ═══════════════════════════════════════════════════════════════════
 
 ❌ НЕ МЕНЯТЬ СИСТЕМУ ПОДКЛЮЧЕНИЯ В main.py:
-   Используется только: AiohttpSession(proxy=proxy_url)
-   Запрещено: connector, ssl_context, ClientSession
+Используется только: AiohttpSession(proxy=proxy_url)
+Запрещено: connector, ssl_context, ClientSession
 
 ❌ НЕ МЕНЯТЬ СТРУКТУРУ handlers/:
-   Каждая команда в своём файле. Не объединять!
+Каждая команда в своём файле. Не объединять!
 
-❌ НЕ МЕНЯТЬ ФОРМАТ ДАННЫХ:
-   users.txt — формат: id|username|full_name|role|extra
-   admins.txt — формат: id|username|full_name|rank
-   roles_status.json — строгая структура (см. ниже)
-   requests.json — СЛОВАРЬ {} (см. выше)
+❌ НЕ МЕНЯТЬ ФОРМАТЫ JSON:
+users.json, admins.json, requests.json, roles_status.json, system_settings.json
+— строгие форматы (см. выше)
 
 ❌ НЕ МЕНЯТЬ ПРОВЕРКИ НА ФЛУД:
-   Все команды (кроме разрешённых) должны проверять:
-   if message.chat.id == GENERAL_CHAT_ID: return
+Все команды (кроме разрешённых) должны проверять:
+if message.chat.id == GENERAL_CHAT_ID: return
 
 ❌ НЕ МЕНЯТЬ КОМАНДЫ ВО ФЛУДЕ:
-   Разрешены только: /members (количество), /roles (без кнопок), 
-   /call, /callfal, /hide, /menu
+Разрешены только: /members (количество), /roles (без кнопок),
+/call, /callfal, /hide, /menu
 
 ❌ НЕ ОТКЛЮЧАТЬ ЛОГИРОВАНИЕ:
-   Все действия логируются в data/logs/bot.log
+Все действия логируются в data/logs/bot.log
 
 ❌ НЕ УДАЛЯТЬ chat_member_router:
-   Отвечает за напоминалку. Без неё бот сломается.
+Отвечает за напоминалку. Без неё бот сломается.
 
 ❌ НЕ МЕНЯТЬ СИСТЕМУ РАНГОВ:
-   1 — Владелец (нельзя понизить/удалить)
-   2 — Админ
-   3 — Модератор
+1 — Владелец (нельзя понизить/удалить)
+2 — Админ
+3 — Модератор
 
 ═══════════════════════════════════════════════════════════════════
 📂 СТРУКТУРА ПРОЕКТА
 ═══════════════════════════════════════════════════════════════════
 
 LoEZF_Bot/
-├── data/                          # Данные бота
-│   ├── admins/                    # Список администраторов
-│   │   └── admins.txt
-│   ├── roles/                     # Файлы с ролями по сезонам
-│   ├── system/                    # Системные файлы
-│   │   ├── creation_date.txt
-│   │   ├── forward_map.json
-│   │   └── requests.json
-│   ├── users/                     # Список пользователей
-│   │   ├── users.txt
-│   │   └── unsubscribed_calls.txt
-│   ├── users_history/             # История пользователей
-│   ├── logs/                      # Логи (bot.log)
-│   ├── roles_status.json          # Статусы ролей
-│   └── system_settings.json       # Настройки системы
-├── src/                           # Исходный код
-│   ├── handlers/                  # Обработчики команд
-│   │   ├── base_commands.py
-│   │   ├── role_commands.py       # УДАЛЁН
-│   │   ├── admin_commands.py
-│   │   ├── admin_management.py
-│   │   ├── request_commands.py
-│   │   ├── call_commands.py
-│   │   ├── rest_commands.py
-│   │   ├── settings_commands.py
-│   │   ├── chat_member.py         # НАПОМИНАЛКА (НЕ УДАЛЯТЬ!)
-│   │   ├── apply_handlers.py      # /apply, /free, /cancel_request
-│   │   ├── apply_states.py
-│   │   ├── diagnostic_commands.py
-│   │   ├── keyboards.py
-│   │   └── utils.py
-│   ├── utils/                     # Утилиты
-│   │   ├── admin_utils.py
-│   │   ├── user_utils.py
-│   │   ├── role_utils.py
-│   │   ├── requests_utils.py
-│   │   ├── emoji_utils.py
-│   │   ├── file_utils.py
-│   │   ├── sync_utils.py
-│   │   ├── system_utils.py
-│   │   └── user_history.py
-│   ├── config.py
-│   ├── database.py
-│   ├── proxy_manager.py
-│   ├── main.py
-│   └── bot.db
+├── data/ # Данные бота
+│ ├── admins/
+│ │ ├── admins.json # ОСНОВНОЙ
+│ │ └── admins.txt # бэкап миграции
+│ ├── roles/ # Файлы с ролями по сезонам
+│ ├── system/
+│ │ ├── creation_date.txt
+│ │ ├── forward_map.json
+│ │ ├── proxy_pings_cache.json # кэш пингов
+│ │ ├── requests.json
+│ │ └── system_settings.json # ОСНОВНОЙ
+│ ├── users/
+│ │ ├── users.json # ОСНОВНОЙ
+│ │ ├── users.txt # бэкап миграции
+│ │ └── unsubscribed_calls.txt
+│ ├── users_history/
+│ ├── logs/
+│ │ └── bot.log
+│ └── roles_status.json
+├── src/
+│ ├── handlers/
+│ │ ├── base_commands.py
+│ │ ├── admin_commands.py
+│ │ ├── admin_management.py
+│ │ ├── request_commands.py
+│ │ ├── call_commands.py
+│ │ ├── rest_commands.py
+│ │ ├── settings_commands.py
+│ │ ├── chat_member.py
+│ │ ├── apply_handlers.py
+│ │ ├── apply_states.py
+│ │ ├── diagnostic_commands.py
+│ │ ├── keyboards.py
+│ │ └── utils.py
+│ ├── utils/
+│ │ ├── admin_utils.py
+│ │ ├── user_utils.py
+│ │ ├── role_utils.py
+│ │ ├── requests_utils.py
+│ │ ├── emoji_utils.py
+│ │ ├── file_utils.py
+│ │ ├── sync_utils.py
+│ │ ├── system_utils.py
+│ │ └── user_history.py
+│ ├── config.py
+│ ├── database.py
+│ ├── proxy_manager.py
+│ ├── main.py
+│ └── bot.db
 ├── requirements.txt
 ├── CHANGELOG.md
 ├── GUIDE_FOR_AI.txt
@@ -359,71 +538,72 @@ LoEZF_Bot/
 
 👤 КОМАНДЫ ДЛЯ ВСЕХ (ТОЛЬКО В ЛИЧНЫХ СООБЩЕНИЯХ):
 ───────────────────────────────────────────────────────────────────
-/start          — Приветствие и информация
-/help           — Список всех команд
-/about          — Информация о флуд-чате
-/aboutme        — Данные пользователя (ранг, роль, персонаж)
-/update         — Проверить статус регистрации и обновить данные
-/hide           — Скрыть клавиатуру (убрать меню)
-/menu           — Показать клавиатуру (вернуть меню)
+/start — Приветствие и информация
+/help — Список всех команд
+/about — Информация о флуд-чате
+/aboutme — Данные пользователя (ранг, роль, персонаж)
+/update — Проверить статус регистрации и обновить данные
+/hide — Скрыть клавиатуру (убрать меню)
+/menu — Показать клавиатуру (вернуть меню)
 
 ⚠️ КОМАНДЫ, ДОСТУПНЫЕ ТОЛЬКО В ЛИЧНЫХ СООБЩЕНИЯХ (НЕ ВО ФЛУДЕ):
 ───────────────────────────────────────────────────────────────────
-/apply          — Подать заявку на роль (ВЫБОР СЕЗОНА → РОЛИ → ДОЛЖНОСТИ)
-/free           — Освободить свою роль
+/apply — Подать заявку на роль (ВЫБОР СЕЗОНА → РОЛИ → ДОЛЖНОСТИ)
+/free — Освободить свою роль
 /cancel_request — Отменить заявку
-/rest           — Подать заявку на рест
-/regc           — Подписаться на калы
-/unregc         — Отписаться от калов
+/rest — Подать заявку на рест
+/regc — Подписаться на калы
+/unregc — Отписаться от калов
 
 👥 КОМАНДЫ, ДОСТУПНЫЕ ВЕЗДЕ (ВКЛЮЧАЯ ФЛУД):
 ───────────────────────────────────────────────────────────────────
-/members        — Список участников (во флуде — только количество)
-/roles          — Список ролей (во флуде — без кнопок)
-/call           — Сделать кал (только для админов)
-/callfal        — Непропускаемый кал (только для админов)
+/members — Список участников (во флуде — только количество)
+/roles — Список ролей (во флуде — без кнопок)
+/call — Сделать кал (только для админов)
+/callfal — Непропускаемый кал (только для админов)
+/stats — Статистика (для админов)
 
 🔐 АДМИНИСТРАТИВНЫЕ КОМАНДЫ:
 ───────────────────────────────────────────────────────────────────
-/admins         — Список администраторов
-/users          — Список участников
-/adduser        — Добавить участника
-/removeuser     — Удалить участника
-/resetuser      — Сбросить пользователя (освободить роль + удалить из списка)
-/refresh        — Обновить список участников
-/find           — Найти пользователя по ID
-/finduser       — Найти пользователя по юзернейму
+/admins — Список администраторов
+/users — Список участников
+/adduser — Добавить участника
+/removeuser — Удалить участника
+/resetuser — Сбросить пользователя
+/refresh — Обновить список участников
+/find — Найти пользователя по ID
+/finduser — Найти пользователя по юзернейму
 
 👑 УПРАВЛЕНИЕ АДМИНИСТРАТОРАМИ (ТОЛЬКО ДЛЯ ВЛАДЕЛЬЦА):
 ───────────────────────────────────────────────────────────────────
 /promote [ID или @username] — Повысить до администратора
-/demote [ID или @username]  — Понизить администратора
-/setrank [ID] [ранг]       — Назначить ранг (1-Владелец, 2-Админ, 3-Модератор)
+/demote [ID или @username] — Понизить администратора
+/setrank [ID] [ранг] — Назначить ранг (1-Владелец, 2-Админ, 3-Модератор)
 
 📝 УПРАВЛЕНИЕ ЗАЯВКАМИ (ТОЛЬКО ДЛЯ АДМИНОВ):
 ───────────────────────────────────────────────────────────────────
-/requests       — Список заявок в ожидании
-/approve        — Одобрить заявку (требуется ID заявки)
-/reject         — Отклонить заявку (требуется ID заявки)
+/requests — Список заявок в ожидании
+/approve — Одобрить заявку
+/reject — Отклонить заявку
 
 📋 СПИСКИ И СТАТИСТИКА (ТОЛЬКО ДЛЯ АДМИНОВ):
 ───────────────────────────────────────────────────────────────────
-/roster         — Полный список участников с индексами
-/stats          — Статистика по ролям
-/restlist       — Список активных рестов
+/roster — Полный список участников с индексами
+/stats — Статистика по ролям
+/restlist — Список активных рестов
 
 ⏳ УПРАВЛЕНИЕ РЕСТОМ (ТОЛЬКО ДЛЯ АДМИНОВ):
 ───────────────────────────────────────────────────────────────────
-/unrest         — Снять рест с роли (требуется имя роли)
-/restextend     — Продлить рест (требуется имя роли и дни)
+/unrest — Снять рест с роли
+/restextend — Продлить рест
 
 ⚙️ НАСТРОЙКИ И ДИАГНОСТИКА (ТОЛЬКО ДЛЯ ВЛАДЕЛЬЦА):
 ───────────────────────────────────────────────────────────────────
-/settings       — Открыть меню настроек
-/diag           — Полная диагностика системы
-/check_chats    — Диагностика чатов
-/close          — Закрыть набор (заявки не принимаются)
-/open           — Открыть набор (заявки принимаются)
+/settings — Открыть меню настроек
+/diag — Полная диагностика системы
+/check_chats — Диагностика чатов
+/close — Закрыть набор
+/open — Открыть набор
 
 ═══════════════════════════════════════════════════════════════════
 ⚙️ НАСТРОЙКИ (меню /settings)
@@ -439,72 +619,45 @@ LoEZF_Bot/
 ⏱️ Кулдаун кал-фал — от 10 до 300 секунд
 📅 Макс. рест — от 1 до 30 дней
 
-═══════════════════════════════════════════════════════════════════
-🔧 СИСТЕМА ПРОКСИ (НЕ ТРОГАТЬ!)
-═══════════════════════════════════════════════════════════════════
-
-📌 ОПИСАНИЕ:
-Бот использует прокси для подключения к Telegram API.
-Прокси загружаются из папки ../proxy_manadger/good_proxies.txt
-
-📌 АЛГОРИТМ РАБОТЫ:
-1. При запуске бот загружает все прокси из файла
-2. Проверяет их работоспособность через Telegram API (пингование)
-3. Выбирает самый быстрый рабочий прокси
-4. Подключается через него
-5. При ошибке (таймаут, соединение) — переключается на следующий по пингу
-6. Если все прокси перепробованы — работает без прокси
-
-📌 КЭШИРОВАНИЕ:
-Результаты пингования сохраняются в proxy_pings_cache.json на 10 минут
-
-⛔ ВАЖНОЕ ПРАВИЛО (НЕ НАРУШАТЬ!):
-НЕ МЕНЯТЬ СИСТЕМУ ПОДКЛЮЧЕНИЯ В main.py!
-Используется только AiohttpSession(proxy=proxy_url).
-Любые другие варианты (connector, ssl_context) — ЗАПРЕЩЕНЫ!
-Это проверено многократно — другие способы ломают бота!
+📌 ВАЖНО: числа для настроек вводятся ТОЛЬКО после нажатия на кнопку
+настройки (FSM WaitingForSetting). Просто цифры в чате НЕ МЕНЯЮТ настройки.
 
 ═══════════════════════════════════════════════════════════════════
-📢 НАПОМИНАЛКА ДЛЯ НЕЗАРЕГИСТРИРОВАННЫХ ПОЛЬЗОВАТЕЛЕЙ (НЕ УДАЛЯТЬ!)
+📢 НАПОМИНАЛКА (НЕ УДАЛЯТЬ!)
 ═══════════════════════════════════════════════════════════════════
 
 📌 ОПИСАНИЕ:
-Когда пользователь пишет в чат, бот проверяет, есть ли он в базе.
+Когда пользователь пишет в чат, бот проверяет, есть ли он в users.json.
 Если нет — каждое 5-е сообщение напоминает о регистрации.
 
+📌 ВАЖНО: chat_member.py ПРОПУСКАЕТ команды:
+if message.text and message.text.startswith('/'):
+return
+
 📌 АЛГОРИТМ:
-1. При каждом сообщении в чате проверяется регистрация пользователя
-2. Счётчик сообщений увеличивается для незарегистрированных
-3. На каждом 5-м сообщении отправляется напоминание
-4. Счётчик сбрасывается после напоминания
 
-📌 ПРИВЕТСТВИЕ НОВЫХ:
-Когда пользователь заходит в чат, бот отправляет приветствие с инструкцией.
+При каждом сообщении (не команде) проверяется регистрация
 
-📌 КОМАНДА /update:
-Позволяет проверить статус регистрации и получить ссылку на бота.
+Счётчик сообщений увеличивается для незарегистрированных
+
+На каждом 5-м сообщении отправляется напоминание
 
 ⛔ НЕ УДАЛЯТЬ chat_member_router!
-Без него напоминалка перестанет работать, а новые пользователи не будут получать приветствие.
 
 ═══════════════════════════════════════════════════════════════════
 👑 УПРАВЛЕНИЕ АДМИНИСТРАТОРАМИ
 ═══════════════════════════════════════════════════════════════════
 
 📌 СТРУКТУРА РАНГОВ (НЕ МЕНЯТЬ!):
-- 1 — Владелец (полный доступ, нельзя понизить/удалить)
-- 2 — Админ (полный доступ, кроме управления владельцем)
-- 3 — Модератор (ограниченный доступ)
 
-📌 КОМАНДЫ:
-/promote [ID или @username] — повысить до администратора
-/demote [ID или @username] — понизить администратора
-/setrank [ID] [ранг] — назначить ранг
-/admins — список администраторов
+1 — Владелец (нельзя понизить/удалить)
 
-📌 ФАЙЛ ХРАНЕНИЯ:
-data/admins/admins.txt
-Формат: user_id|username|full_name|rank
+2 — Админ
+
+3 — Модератор
+
+📌 ФАЙЛ: data/admins/admins.json
+Формат: {"user_id": {"username": "...", "full_name": "...", "rank": N}}
 
 ═══════════════════════════════════════════════════════════════════
 🔍 ДИАГНОСТИКА
@@ -515,157 +668,48 @@ data/admins/admins.txt
 /check_chats — диагностика чатов
 
 📌 ЧТО ПРОВЕРЯЕТ /diag:
-- Информация о боте
-- Существование файлов
-- Подключение к БД
-- Наличие токена
-- ID чатов
 
-═══════════════════════════════════════════════════════════════════
-📨 БОТ-ПЕРЕСЫЛЬЩИК (forward_bot) — ОТДЕЛЬНЫЙ ПРОЕКТ
-═══════════════════════════════════════════════════════════════════
+Информация о боте
 
-📌 ОПИСАНИЕ:
-Отдельный бот для пересылки сообщений в админ-группу.
-Работает независимо от основного бота.
+Существование файлов (users.json, admins.json и т.д.)
 
-📌 КОМАНДЫ:
-/start          — Приветствие
-/admin_add      — Добавить администратора (владелец)
-/admin_remove   — Удалить администратора (владелец)
-/admins         — Список администраторов
-/stats          — Статистика
+Подключение к БД
 
-📌 НАСТРОЙКИ:
-Пересылка работает через прокси (если включено).
-Анонимный режим — скрывает имя отправителя.
+Наличие токена
 
-═══════════════════════════════════════════════════════════════════
-⚠️ ВАЖНЫЕ ПРАВИЛА (СОБЛЮДАТЬ СТРОГО!)
-═══════════════════════════════════════════════════════════════════
+ID чатов
 
-1. НЕ МЕНЯТЬ СИСТЕМУ ПОДКЛЮЧЕНИЯ
-   Используется только AiohttpSession(proxy=proxy_url).
-   Любые другие варианты (connector, ssl_context) — ЗАПРЕЩЕНЫ!
-
-2. КОМАНДЫ, НЕДОСТУПНЫЕ ВО ФЛУДЕ:
-   - /apply, /free, /cancel_request, /rest
-   - /regc, /unregc
-   - /update, /start, /help, /about, /aboutme
-   - /hide, /menu
-
-3. ВО ФЛУДЕ РАБОТАЮТ:
-   - /members (только количество)
-   - /roles (без кнопок)
-   - /call, /callfal (для админов)
-
-4. ПЕРЕСЫЛКА СООБЩЕНИЙ
-   - Пересылка выполняется отдельным ботом forward_bot
-   - Основной бот НЕ пересылает сообщения
-
-5. УПРАВЛЕНИЕ АДМИНАМИ
-   - Только владелец может повышать/понижать админов
-   - Владельца нельзя понизить или удалить
-   - Ранги: 1-Владелец, 2-Админ, 3-Модератор
-
-6. КЛАВИАТУРА
-   - Во флуде клавиатура не показывается
-   - Используйте /hide и /menu для управления
-
-7. НЕ УДАЛЯТЬ НАПОМИНАЛКУ!
-   - chat_member.py и chat_member_router обязательны
-
-8. НЕ МЕНЯТЬ ФОРМАТЫ ФАЙЛОВ!
-   - users.txt, admins.txt, roles_status.json — строгие форматы
-
-9. ЛЮБЫЕ ИЗМЕНЕНИЯ — ТОЛЬКО ПО СОГЛАСОВАНИЮ!
-   - Все изменения обсуждать с владельцем @Sedrik_loez
-
-═══════════════════════════════════════════════════════════════════
-⚠️ ВАЖНОЕ ПРАВИЛО ДЛЯ КОМАНД ВО ФЛУДЕ
-═══════════════════════════════════════════════════════════════════
-
-# ============================================================
-# ⚠️ ВАЖНОЕ ПРАВИЛО ДЛЯ КОМАНД ВО ФЛУДЕ
-# ============================================================
-# 
-# Во флуд-чате (GENERAL_CHAT_ID) РАЗРЕШЕНЫ ТОЛЬКО:
-# - /members (только количество)
-# - /roles (только список, БЕЗ КНОПОК)
-# - /call, /callfal (для админов)
-# - /hide, /menu (управление клавиатурой)
-# 
-# ВСЕ ОСТАЛЬНЫЕ КОМАНДЫ — ЗАПРЕЩЕНЫ!
-# Они должны отвечать: "⛔ Эта команда недоступна во флуд-чате."
-# ============================================================
-
-📌 ПРОВЕРКА В КОДЕ:
-В начале каждой команды должна быть проверка:
-
-    if message.chat.id == GENERAL_CHAT_ID:
-        # Разрешённые команды
-        if message.text.startswith('/members') or ...:
-            # работаем
-        else:
-            await message.reply("⛔ Эта команда недоступна во флуд-чате.")
-            return
-
-📌 ПРИМЕР ПРАВИЛЬНОЙ ПРОВЕРКИ:
-
-    @router.message(Command("apply"))
-    async def cmd_apply(message: types.Message):
-        # Проверка на флуд-чат
-        if message.chat.id == GENERAL_CHAT_ID:
-            await message.reply("⛔ Эта команда недоступна во флуд-чате.")
-            return
-        
-        # Дальнейшая логика
-        ...
-
-═══════════════════════════════════════════════════════════════════
-🎯 РЕАЛЬНАЯ СТРУКТУРА roles_status.json
-═══════════════════════════════════════════════════════════════════
-
-📌 ФОРМАТ:
-
-    {
-      "Имя персонажа": {
-        "status": "свободна" | "занята" | "ожидает" | "рест" | "бронь",
-        "owner_id": null | <user_id>,
-        "username": null | "<username>",
-        "season": "Название сезона",
-        "extra": ""
-      },
-      ...
-    }
-
-📌 КЛЮЧЕВЫЕ МОМЕНТЫ:
-- Это СЛОВАРЬ, а не список! Ключ — имя персонажа.
-- Статусы на РУССКОМ: "свободна" / "занята" / "ожидает"
-- Сезон лежит ВНУТРИ каждого персонажа.
-
-📌 ТИПИЧНАЯ ОШИБКА:
-cannot use 'dict' as a dict key — возникает, если role (из get_roles_by_season)
-используется как строка. get_roles_by_season возвращает [{...}, ...],
-нужно брать role.get('name') и role.get('status').
+Прокси
 
 ═══════════════════════════════════════════════════════════════════
 📌 ГЛАВНОЕ ПРАВИЛО РАБОТЫ AI
 ═══════════════════════════════════════════════════════════════════
 
 ✅ ПРАВИЛЬНЫЙ АЛГОРИТМ:
-1. Прочитать этот гайд полностью
-2. Перейти по Raw-ссылкам на файлы
-3. ПОНЯТЬ, какие функции уже есть
-4. ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ НАЧАЛО ФАЙЛА (импорты!)
-5. Понять, какие импорты нужны для нового кода
-6. Объяснить пользователю:
-   - В чем проблема
-   - Что нужно сделать
-   - Почему это нужно сделать
-   - Что именно будет изменено
-7. Дождаться согласия пользователя
-8. Только после согласия — дать код
+
+Прочитать этот гайд полностью
+
+Перейти по Raw-ссылкам на файлы
+
+ПОНЯТЬ, какие функции уже есть
+
+ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ НАЧАЛО ФАЙЛА (импорты!)
+
+Понять, какие импорты нужны для нового кода
+
+Объяснить пользователю:
+
+В чем проблема
+
+Что нужно сделать
+
+Почему это нужно сделать
+
+Что именно будет изменено
+
+Дождаться согласия пользователя
+
+Только после согласия — дать код
 
 🔴 ТИПИЧНЫЕ ОШИБКИ AI (НЕ ПОВТОРЯТЬ!):
 ❌ Не читать гайд перед ответом
@@ -687,87 +731,150 @@ cannot use 'dict' as a dict key — возникает, если role (из get_
 ⚠️ УДАЛЯТЬ КОД РАЗРЕШЕНО ТОЛЬКО В КРАЙНИХ СЛУЧАЯХ!
 
 📌 ЕСЛИ НУЖНО УДАЛИТЬ:
-1. ПРЕДУПРЕДИТЬ пользователя
-2. ОПИСАТЬ, ЧТО именно удаляешь
-3. ОБЪЯСНИТЬ, ПОЧЕМУ
-4. УКАЗАТЬ, что будет взамен
-5. ДОЖДАТЬСЯ подтверждения
+
+ПРЕДУПРЕДИТЬ пользователя
+
+ОПИСАТЬ, ЧТО именно удаляешь
+
+ОБЪЯСНИТЬ, ПОЧЕМУ
+
+УКАЗАТЬ, что будет взамен
+
+ДОЖДАТЬСЯ подтверждения
 
 ❌ НЕЛЬЗЯ:
-- Молча удалять функции, классы, переменные
-- Удалять комментарии и логирование
-- Удалять импорты, если они используются
+
+Молча удалять функции, классы, переменные
+
+Удалять комментарии и логирование
+
+Удалять импорты, если они используются
 
 ═══════════════════════════════════════════════════════════════════
 📋 ВСЕ ФУНКЦИИ БОТА (СПРАВОЧНИК)
 ═══════════════════════════════════════════════════════════════════
 
 📂 handlers/base_commands.py:
-- cmd_start, cmd_help, cmd_about, cmd_aboutme
-- cmd_members, cmd_roles, cmd_update
-- cmd_hide, cmd_menu, cmd_call, cmd_callfal
-- back_to_menu_from_roles, show_roles_by_season, back_to_roles_seasons
+
+cmd_start, cmd_help, cmd_about, cmd_aboutme
+
+cmd_members, cmd_roles, cmd_update
+
+cmd_hide, cmd_menu, cmd_call, cmd_callfal
+
+cmd_stats
+
+back_to_menu_from_roles, show_roles_by_season, back_to_roles_seasons
 
 📂 handlers/apply_handlers.py:
-- cmd_apply, cmd_free, cmd_cancel_request
-- process_season, process_role, process_position, process_submit
-- apply_cancel, apply_none, apply_back_to_seasons, apply_back_to_roles
-- _load_requests, _save_requests, _has_active_request, _get_active_request
-- _is_user_registered, _notify_admins
+
+cmd_apply, cmd_free, cmd_cancel_request
+
+process_season, process_role, process_position, process_submit
+
+apply_cancel, apply_none, apply_back_to_seasons, apply_back_to_roles
+
+_load_requests, _save_requests, _has_active_request, _get_active_request
+
+_notify_admins
 
 📂 handlers/request_commands.py:
-- cmd_requests, cmd_approve, cmd_reject
-- refresh_requests, view_request
-- approve_request_callback, reject_request_callback
-- _load_requests, _save_requests, _get_pending
-- _add_admin, _add_user, _send_to_iris
+
+cmd_requests, cmd_approve, cmd_reject
+
+refresh_requests, view_request
+
+approve_request_callback, reject_request_callback
+
+_load_requests, _save_requests, _get_pending
+
+_send_to_iris
 
 📂 handlers/admin_commands.py:
-- cmd_admins, cmd_users, cmd_adduser, cmd_removeuser
-- cmd_resetuser, cmd_find, cmd_finduser, cmd_refresh
+
+cmd_admins, cmd_users, cmd_adduser, cmd_removeuser
+
+cmd_resetuser, cmd_find, cmd_finduser, cmd_refresh
 
 📂 handlers/admin_management.py:
-- cmd_promote, cmd_demote, cmd_setrank
+
+cmd_promote, cmd_demote, cmd_setrank
 
 📂 handlers/call_commands.py:
-- cmd_call, cmd_callfal, cmd_regc, cmd_unregc
+
+cmd_call, cmd_callfal, cmd_regc, cmd_unregc
 
 📂 handlers/rest_commands.py:
-- cmd_rest, cmd_unrest, cmd_restextend, cmd_restlist
+
+cmd_rest, cmd_unrest, cmd_restextend, cmd_restlist
 
 📂 handlers/settings_commands.py:
-- cmd_settings, cmd_diag, cmd_check_chats, cmd_close, cmd_open
+
+cmd_settings
+
+settings_callback
+
+settings_value_input
+
+load_settings, save_settings
+
+WaitingForSetting (FSM)
 
 📂 handlers/diagnostic_commands.py:
-- диагностика
+
+cmd_diag, cmd_check_chats
 
 📂 handlers/chat_member.py:
-- handle_message, on_user_join, check_user_registration
+
+handle_message, on_user_join, check_user_registration
 
 📂 utils/role_utils.py:
-- load_roles_status, save_roles_status
-- get_seasons_list, get_all_seasons, get_roles_by_season
-- get_role_by_name, get_role_info, get_role_status
-- is_role_free, update_role_status, free_role
-- get_user_role, get_taken_roles, count_taken_roles
-- get_all_roles, get_season_stats, get_all_seasons_stats
-- get_free_roles_by_season, get_occupied_roles_by_season
-- get_system_settings, save_system_settings
-- get_closed_mode, set_closed_mode
+
+load_roles_status, save_roles_status
+
+get_seasons_list, get_all_seasons, get_roles_by_season
+
+get_role_by_name, get_role_info, get_role_status
+
+is_role_free, update_role_status, free_role
+
+get_user_role, get_taken_roles, count_taken_roles
+
+get_all_roles, get_season_stats, get_all_seasons_stats
+
+get_free_roles_by_season, get_occupied_roles_by_season
+
+get_system_settings, save_system_settings
+
+get_closed_mode, set_closed_mode
 
 📂 utils/user_utils.py:
-- load_users, save_users, get_user_by_id, get_user_by_username
-- get_all_users, add_user, remove_user, update_user
-- is_user_registered, get_user_role, count_users
-- get_user_info
+
+load_users, save_users, get_user_by_id, get_user_by_username
+
+get_all_users, add_user, remove_user, update_user
+
+get_user_role, count_users, get_users_count
+
+get_user_info, get_role_stats, get_users_by_role, get_role_names
+
+load_unsubscribed, save_unsubscribed, add_unsubscribed, remove_unsubscribed, is_unsubscribed
 
 📂 utils/admin_utils.py:
-- get_admin_rank, is_admin, load_admins, save_admins
+
+load_admins, save_admins
+
+is_admin, is_owner, get_admin_rank
+
+add_admin, remove_admin, set_rank, get_admin_info
 
 📂 utils/requests_utils.py:
-- load_requests (dict), save_requests (dict)
-- add_request, get_pending_requests, get_request_by_user_id
-- get_pending_count, get_requests_count
+
+load_requests (dict), save_requests (dict)
+
+add_request, get_pending_requests, get_request_by_user_id
+
+get_pending_count, get_requests_count
 
 ═══════════════════════════════════════════════════════════════════
 📋 ИСТОРИЯ ИЗМЕНЕНИЙ
@@ -775,22 +882,37 @@ cannot use 'dict' as a dict key — возникает, если role (из get_
 
 Все изменения проекта фиксируются в файле CHANGELOG.md.
 
-Актуальная версия: 7.0.0
-Дата последнего обновления: 13.09.2026
+Актуальная версия: 7.1.0
+Дата последнего обновления: 15.09.2026
 
 Список последних изменений:
-- [7.0.0] - Переход на aiogram 3.x, requests.json — словарь, логи в data/logs,
-            удаление role_commands.py, логика рангов при одобрении,
-            абсолютные пути через .resolve()
-- [6.2.0] - Исправлен баг 'str' object has no attribute 'get', переписан role_utils.py
-- [6.1.0] - Добавлены правила удаления кода, справочник функций
-- [5.5.0] - Управление админами, настройки, диагностика
-- [5.4.1] - Удалена пересылка из основного бота, чистка кода
-- [5.4.0] - Добавлена напоминалка, /update, управление пересылкой
-- [5.3.0] - Система прокси с пингованием, ускорение, переключение
-- [5.2.0] - Бот-пересыльщик
-- [5.1.0] - Рефакторинг, Proxy Manager
-- [5.0.0] - Первоначальная структура
+
+[7.1.0] - JSON-формат для users/admins/requests,
+приоритетный прокси + PING_COUNT=1, MAX_CONCURRENT=200,
+FSM для настроек, chat_member пропускает команды,
+add_user/add_admin из utils
+
+[7.0.0] - Переход на aiogram 3.x, requests.json — словарь, логи в data/logs,
+удаление role_commands.py, логика рангов при одобрении,
+абсолютные пути через .resolve()
+
+[6.2.0] - Исправлен баг 'str' object has no attribute 'get', переписан role_utils.py
+
+[6.1.0] - Добавлены правила удаления кода, справочник функций
+
+[5.5.0] - Управление админами, настройки, диагностика
+
+[5.4.1] - Удалена пересылка из основного бота, чистка кода
+
+[5.4.0] - Добавлена напоминалка, /update, управление пересылкой
+
+[5.3.0] - Система прокси с пингованием, ускорение, переключение
+
+[5.2.0] - Бот-пересыльщик
+
+[5.1.0] - Рефакторинг, Proxy Manager
+
+[5.0.0] - Первоначальная структура
 
 ═══════════════════════════════════════════════════════════════════
 🔗 RAW-ССЫЛКИ НА ФАЙЛЫ (ДЛЯ ЧТЕНИЯ БЕЗ ТРАТЫ ЛИМИТА)
@@ -816,7 +938,6 @@ https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/main.py
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/config.py
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/database.py
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/proxy_manager.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/test_connect.py
 
 📂 src/handlers/:
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/__init__.py
@@ -848,12 +969,11 @@ https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/user_history.p
 
 📂 data/:
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/roles_status.json
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/admins/admins.txt
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/users/users.txt
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/admins/admins.json
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/users/users.json
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/system/requests.json
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/system_settings.json
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/system/creation_date.txt
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/system/forward_map.json
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/system/system_settings.json
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/system/proxy_pings_cache.json
 
 ═══════════════════════════════════════════════════════════════════
 📞 КОНТАКТЫ
@@ -864,6 +984,6 @@ https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/system/forward_map.
 Основной бот: @REG_sf_BOT
 
 ═══════════════════════════════════════════════════════════════════
-📅 Версия: 7.0.0
-📅 Дата обновления: 13.09.2026
+📅 Версия: 7.1.0
+📅 Дата обновления: 15.09.2026
 ═══════════════════════════════════════════════════════════════════
