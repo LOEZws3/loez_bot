@@ -30,7 +30,7 @@ class ProxyManager:
         self.priority_proxy: Optional[str] = None
 
         # ✅ Настройки пинга
-        self.PING_COUNT = 1              # 1 пинг (быстрее)
+        self.PING_COUNT = 3              # 3 пинга
         self.MAX_CONCURRENT = 200        # 200 одновременных
         self.CACHE_TTL = 1200            # 20 минут (1200 сек)
         self.PING_TIMEOUT = 3            # 3 секунды таймаут

@@ -315,14 +315,25 @@ async def approve_request_callback(callback: CallbackQuery):
             logger.warning(f"⚠️ {user_id} уже в admins.json или ошибка")
         await _send_to_iris(callback.bot, user_id, rank, position_name)
 
-    # 5. Уведомление пользователю
+    # 5. Уведомление пользователю + ссылки
+    from config import CHAT_INVITE_LINK, ADMIN_LINK, MODERATOR_LINK
+
+    invite_text = f"\n\n🔗 <b>Ссылка на вступление в чат:</b>\n{CHAT_INVITE_LINK}"
+
+    if rank in [1, 2]:
+        invite_text += f"\n\n👑 <b>Ссылка для администрации:</b>\n{ADMIN_LINK}"
+    elif rank == 3:
+        invite_text += f"\n\n🛡️ <b>Ссылка для модераторов:</b>\n{MODERATOR_LINK}"
+
     try:
         await callback.bot.send_message(
             user_id,
             f"✅ <b>Заявка одобрена!</b>\n\n"
             f"📌 Роль: <b>{html.escape(role_name)}</b>\n"
-            f"🏷️ Должность: <b>{html.escape(position_name)}</b>",
-            parse_mode="HTML"
+            f"🏷️ Должность: <b>{html.escape(position_name)}</b>"
+            + invite_text,
+            parse_mode="HTML",
+            disable_web_page_preview=True
         )
     except Exception as e:
         logger.error(f"Уведомление {user_id}: {e}")

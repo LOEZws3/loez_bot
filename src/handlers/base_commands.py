@@ -276,22 +276,6 @@ async def cmd_update(message: Message):
         )
 
 
-@router.message(Command('unregc'))
-async def cmd_unregc(message: Message):
-    user_id = message.from_user.id
-    if message.chat.id == GENERAL_CHAT_ID:
-        await message.answer("⛔ Эта команда недоступна во флуд-чате.")
-        return
-    # TODO: реализовать
-
-
-@router.message(Command('regc'))
-async def cmd_regc(message: Message):
-    user_id = message.from_user.id
-    if message.chat.id == GENERAL_CHAT_ID:
-        await message.answer("⛔ Эта команда недоступна во флуд-чате.")
-        return
-    # TODO: реализовать
 
 
 # ============================================================
@@ -526,16 +510,6 @@ async def cmd_stats(message: Message):
     await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
 
 
-@router.message(Command('call'))
-async def cmd_call(message: Message):
-    """Кал (доступен во флуде для админов)"""
-    pass
-
-
-@router.message(Command('callfal'))
-async def cmd_callfal(message: Message):
-    """Непропускаемый кал"""
-    pass
 
 
 # ============================================================

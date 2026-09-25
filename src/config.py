@@ -19,8 +19,9 @@ GENERAL_CHAT_ID = int(os.getenv('GENERAL_CHAT_ID', 0))
 # --- ID чатов и ссылки ---
 ADMIN_GROUP_ID = int(os.getenv('ADMIN_GROUP_ID', 0))
 CHAT_INVITE_LINK = os.getenv('CHAT_INVITE_LINK', 'https://t.me/joinchat/your_chat_link')
+MODERATOR_LINK = os.getenv('MODERATOR_LINK', 'https://t.me/mod')
+ADMIN_LINK = os.getenv('ADMIN_LINK', 'https://t.me/admin')
 ROLES_PER_PAGE = int(os.getenv('ROLES_PER_PAGE', 5))
-
 # --- Настройки прокси ---
 USE_PROXY = os.getenv('USE_PROXY', 'false').lower() == 'true'
 PROXY_DIR = os.getenv('PROXY_DIR', str(SRC_PATH / 'proxies'))
@@ -84,7 +85,7 @@ ensure_directories()
 # --- Экспорт для других модулей ---
 __all__ = [
     'BOT_TOKEN', 'OWNER_ID', 'GENERAL_CHAT_ID',
-    'ADMIN_GROUP_ID', 'CHAT_INVITE_LINK', 'ROLES_PER_PAGE',
+    'ADMIN_GROUP_ID', 'CHAT_INVITE_LINK', 'MODERATOR_LINK', 'ADMIN_LINK', 'ROLES_PER_PAGE',
     'USE_PROXY', 'PROXY_DIR', 'PROXY_ENABLED', 'PRIORITY_PROXY',
     'DATA_DIR', 'DATA_PATH', 'SRC_PATH', 'DATABASE_PATH',
     'LOG_LEVEL', 'LOG_FILE_PATH', 'LOG_FORMAT',

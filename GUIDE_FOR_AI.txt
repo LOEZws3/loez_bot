@@ -1,6 +1,6 @@
 ═══════════════════════════════════════════════════════════════════
 🤖 LoezF_Bot — ГАЙД ДЛЯ РАЗРАБОТЧИКОВ
-(ОБНОВЛЕН 15.09.2026, ВЕРСИЯ 7.1.0)
+(ОБНОВЛЕН 18.09.2026, ВЕРСИЯ 7.3.0)
 ═══════════════════════════════════════════════════════════════════
 
 ═══════════════════════════════════════════════════════════════════
@@ -30,8 +30,8 @@ LoezF_Bot — Telegram-бот для управления приёмом нов�
 ✅ Поддержка прокси (автоматическое переключение)
 
 🔹 ТЕХНОЛОГИИ:
-🐍 Python 3.14
-🤖 aiogram 3.17+ (установлено 3.29.0)
+🐍 Python 3.14.4
+🤖 aiogram 3.17.0 (НЕ ОБНОВЛЯТЬ — см. раздел про версии)
 🗄️ SQLite (bot.db)
 📁 JSON-файлы для данных
 
@@ -42,27 +42,63 @@ data/ — хранение данных
 config.py — настройки
 main.py — точка входа
 
+📌 ДВА ОКРУЖЕНИЯ:
+
+ПРОД: LoEZF_Bot (рабочий бот, реальные юзеры)
+ТЕСТ: LoEZF_Bot_test (копия для экспериментов)
+
+У каждого свой:
+- BOT_TOKEN
+- .env
+- папка data/
+- venv
+- PROXY_DIR (proxy_manadger / proxy_manadger_test)
+
+Оба используют ОДИН набор версий библиотек (см. раздел
+"ЗАФИКСИРОВАННЫЕ ВЕРСИИ БИБЛИОТЕК").
+
+Все опасные правки — сначала в ТЕСТ, потом в ПРОД.
+
 ═══════════════════════════════════════════════════════════════════
-🚨 ГЛАВНОЕ ПРАВИЛО: ВСЕГДА ЧИТАЙ RAW-ССЫЛКИ ИЗ GFA
+🚨 ГЛАВНОЕ ПРАВИЛО: ЧТЕНИЕ ФАЙЛОВ ЧЕРЕЗ RAW-ССЫЛКИ
 ═══════════════════════════════════════════════════════════════════
 
-📌 ПО УМОЛЧАНИЮ — ЧИТАЙ ФАЙЛЫ ЧЕРЕЗ RAW-ССЫЛКИ ИЗ GFA!
+📌 AI НЕ имеет доступа к локальному диску владельца и к .env.
+📌 AI читает только то, что владелец прислал в чат, или то, что
+   есть в публичном GitHub-репозитории.
 
-Если AI НУЖНО прочитать файл (по ЛЮБОЙ причине, не только
-по запросу "прочитай X.py") — он ОБЯЗАН использовать
-Raw-ссылку из раздела "RAW-ССЫЛКИ" в конце GFA.
+⛔ ЗАПРЕЩЕНО:
+❌ Самостоятельно тянуть дерево репозитория (жрёт драгоценные токены)
+❌ Читать файлы, которые владелец не назвал
+❌ Угадывать содержимое файлов по названию
+❌ Отвечать по памяти, если есть возможность прочитать актуальный файл
 
-Если Raw-ссылка не работает — API-ссылка из дерева репозитория.
+✅ ОБЯЗАНО:
+1. В начале ответа, где нужны файлы, писать короткий список:
 
-Только если оба не работают — web-ссылка github.com/.../blob/...
+   ЧИТАЮ ФАЙЛЫ:
+   1. src/handlers/keyboards.py
+   2. src/handlers/call_commands.py
 
-ЕСЛИ пользователь ЯВНО сказал "не читай" — можно отвечать без чтения.
+2. Оформлять ссылки в markdown-код-блоке (кнопка "Копировать"),
+   одной плашкой, по одной ссылке в строке:
 
-📌 ЦЕЛЬ: экономия контекста чата + чтение актуального кода.
+   https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/keyboards.py
+   https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/call_commands.py
+
+3. Ждать, пока владелец пришлёт содержимое файлов
+4. Работать только с тем, что прислано
+
+✅ РАЗРЕШЕНО:
+- Читать файл, если владелец явно сказал "читай X" или дал ссылку
+- Читать Raw-ссылку из раздела "RAW-ССЫЛКИ" в конце GFA
+- Использовать API-ссылку из дерева, если Raw не работает
 
 📌 ПРИМЕРЫ:
 ❌ НЕПРАВИЛЬНО: "Я предполагаю, что в файле X есть функция Y..."
-✅ ПРАВИЛЬНО: [читает Raw-ссылку] → "В файле X я вижу функцию Y, она..."
+✅ ПРАВИЛЬНО: [запрашивает файл] → "В файле X я вижу функцию Y, она..."
+
+📌 ЦЕЛЬ: экономия контекста чата + чтение актуального кода.
 
 ═══════════════════════════════════════════════════════════════════
 ⚠️ КРИТИЧЕСКИЕ ПРАВИЛА AIOGRAM 3.x
@@ -80,6 +116,79 @@ Raw-ссылку из раздела "RAW-ССЫЛКИ" в конце GFA.
 
 📌 Причина: в aiogram 3.x InlineKeyboardButton — Pydantic BaseModel,
 который принимает ТОЛЬКО именованные аргументы.
+
+═══════════════════════════════════════════════════════════════════
+🔒 ЗАФИКСИРОВАННЫЕ ВЕРСИИ БИБЛИОТЕК (НЕ ОБНОВЛЯТЬ!)
+═══════════════════════════════════════════════════════════════════
+
+📌 КРИТИЧЕСКОЕ ПРАВИЛО:
+
+Версии библиотек в requirements.txt ЗАФИКСИРОВАНЫ и проверены.
+ЛЮБОЕ обновление = риск сломать подключение через прокси!
+
+📌 ПРИЧИНА:
+
+Мы провели эксперимент (18.09.2026). Один и тот же рабочий прокси
+прод-бот принял, а тест-бот с обновлёнными библиотеками — нет.
+
+На версиях aiogram 3.31 + aiohttp 3.14.3 + python-socks 3.1.1
+подключение через SOCKS/HTTP-прокси падает с ошибкой
+"In order to use aiohttp client for proxy requests, install aiohttp-socks"
+(хотя aiohttp-socks установлен).
+
+На версиях из прод-набора (см. ниже) — всё работает.
+
+📌 РАБОЧИЙ НАБОР ВЕРСИЙ (ПРОД = ТЕСТ):
+
+aiogram==3.17.0
+aiohttp==3.13.5
+aiohttp-socks==0.11.0
+python-socks==2.8.2
+pydantic==2.12.0
+pydantic_core==2.41.1
+python-dotenv==1.2.2
+requests==2.34.2
+aiosqlite==0.22.1
+beautifulsoup4==4.15.0
+lxml==6.1.1
+aiofiles==24.1.0
+certifi==2026.6.17
+charset-normalizer==3.5.1
+idna==3.18
+multidict==6.7.1
+propcache==0.5.2
+yarl==1.24.2
+aiohappyeyeballs==2.6.2
+aiosignal==1.4.0
+annotated-types==0.7.0
+typing-inspection==0.4.2
+typing_extensions==4.15.0
+urllib3==2.7.0
+magic-filter==1.0.12
+attrs==26.1.0
+frozenlist==1.8.0
+soupsieve==2.9.2
+
+📌 PYTHON:
+Python 3.14.4
+
+📌 УСТАНОВКА (если venv пересоздаётся):
+
+В обычном режиме pip может ругаться на конфликты
+(aiogram 3.17 требует aiohttp<3.12, а стоит 3.13.5).
+Это НЕ ошибка — так и надо. Устанавливать через --no-deps:
+
+pip install --no-deps "aiogram==3.17.0" "aiohttp==3.13.5" ...
+
+📌 НЕЛЬЗЯ:
+❌ Обновлять aiogram, aiohttp, aiohttp-socks, python-socks, pydantic
+❌ Ставить "последние версии" без теста на копии бота
+❌ Запускать pip install --upgrade
+
+📌 ЕСЛИ НУЖНО ОБНОВИТЬ:
+1. Сначала на тестовой копии (LoEZF_Bot_test)
+2. Проверить, что прокси работает
+3. Только потом — на проде
 
 ═══════════════════════════════════════════════════════════════════
 📂 СИСТЕМА ПРОКСИ (НЕ ТРОГАТЬ!)
@@ -106,7 +215,7 @@ ip:port|дата время
 Пример: 47.250.11.111:1081|2026-09-15 17:00:06
 
 📌 ПРИОРИТЕТНЫЙ ПРОКСИ (из .env):
-PRIORITY_PROXY=http://181.78.74.252:999
+PRIORITY_PROXY=http://185.195.71.218:18080
 
 Если работает — бот всегда через него
 
@@ -159,6 +268,15 @@ data/system/proxy_pings_cache.json
 }
 }
 
+📌 data/users/unsubscribed_calls.json:
+{
+"8076284478": true,
+"123456789": true
+}
+Формат: словарь {user_id_str: true}. Если юзер отписался — ключ есть.
+Если нет записи — юзер подписан (по умолчанию подписаны все).
+⚠️ Раньше был .txt со списком [] — перешли на .json со словарём {}
+
 📌 data/admins/admins.json:
 {
 "8076284478": {
@@ -197,7 +315,7 @@ data/system/proxy_pings_cache.json
 "anonymous_mode": false
 }
 
-📌 data/roles_status.json — словарь {имя персонажа: {...}}:
+📌 data/roles/roles_status.json — словарь {имя персонажа: {...}}:
 {
 "Ашра": {
 "status": "свободна" | "занята" | "ожидает" | "рест" | "бронь",
@@ -287,9 +405,19 @@ add_admin(user_id, username, full_name, rank) — utils/admin_utils.py
 ❌ data/system_settings.json (в корне data/) — удалён
 Актуальный: data/system/system_settings.json
 
+❌ data/roles_status.json (в корне data/) — перенесён
+Актуальный: data/roles/roles_status.json
+
+❌ data/users/unsubscribed_calls.txt — удалён
+Актуальный: data/users/unsubscribed_calls.json (словарь)
+
 ❌ src/test_connect.py — удалён (пустой файл)
 
 ❌ src/pycache/, src/handlers/pycache/, src/utils/pycache/ — удалены
+
+❌ apply_states_router — убран из __init__.py
+Файл apply_states.py существует, но НЕ подключён как роутер
+(дублирует ApplyStates из apply_handlers.py, не используется)
 
 ═══════════════════════════════════════════════════════════════════
 🔧 ИЗМЕНЁННЫЕ ФАЙЛЫ (по сравнению с версией 7.0.0)
@@ -357,9 +485,14 @@ show_roles_by_season: то же самое
 
 📄 handlers/init.py
 
-Добавлен diagnostic_commands_router
+Порядок роутеров: base → keyboards → admin → request → call →
+rest → settings → diagnostic → apply → chat_member
 
 Убран role_commands_router
+
+Убран apply_states_router
+
+keyboards_router стоит ПЕРЕД chat_member_router (важно!)
 
 📄 proxy_manager.py
 
@@ -392,6 +525,86 @@ ensure_directories() создаёт data/logs и data/system
 Не создаёт log_dir = "logs"
 
 Использует LOG_FILE_PATH для FileHandler
+
+═══════════════════════════════════════════════════════════════════
+🔧 ИЗМЕНЁННЫЕ ФАЙЛЫ (по сравнению с версией 7.1.0)
+═══════════════════════════════════════════════════════════════════
+
+📄 handlers/__init__.py
+
+Переставлен keyboards_router на 2-ю позицию (было 11-й)
+Убран apply_states_router
+Итоговый порядок: base → keyboards → admin → request → call →
+rest → settings → diagnostic → apply → chat_member
+
+📄 handlers/base_commands.py
+
+УДАЛЕНЫ 4 заглушки:
+- cmd_regc (с TODO)
+- cmd_unregc (с TODO)
+- cmd_call (pass)
+- cmd_callfal (pass)
+
+ПРИЧИНА: заглушки перехватывали команды раньше call_commands.py,
+из-за чего /regc, /unregc, /call, /callfal не работали
+
+📄 handlers/keyboards.py
+
+Исправлены импорты в button_apply и button_free:
+БЫЛО: from .role_commands import cmd_apply / cmd_free
+СТАЛО: from .apply_handlers import cmd_apply / cmd_free
+
+button_apply получил параметр state: FSMContext
+button_rest получил параметр state: FSMContext
+
+📄 handlers/utils.py
+
+Переведены функции на JSON-словарь:
+- UNSUBSCRIBED_FILE = "data/users/unsubscribed_calls.json"
+- load_unsubscribed() возвращает dict
+- is_unsubscribed(user_id) → str(user_id) in dict
+- add_unsubscribed(user_id) → data[str(user_id)] = True
+- remove_unsubscribed(user_id) → del data[str(user_id)]
+
+📄 handlers/call_commands.py
+
+2 правки: проверка отписки через str:
+- if str(u_id) in unsubscribed or u_id == user_id (в cmd_call)
+- if str(u_id) in unsubscribed (в cmd_callfal)
+
+ПРИЧИНА: ключи в JSON — строки, а u_id — int
+
+📄 handlers/admin_commands.py
+
+ДОБАВЛЕНА команда /message_all (только для rank=1)
+- FSM MessageAllStates: waiting_for_text, waiting_for_confirmation
+- Кулдаун 10 сек от запуска
+- Задержка 0.5 сек между отправками
+- HTML с fallback на plain text при ошибке парсинга
+- Логирование заблокировавших бота
+- Инлайн-кнопки: Отправить / Изменить / Отмена
+
+Расширены импорты:
+- CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
+- State, StatesGroup, FSMContext
+- asyncio, time
+
+═══════════════════════════════════════════════════════════════════
+🔧 ИЗМЕНЕНИЯ ВЕРСИИ 7.3.0
+═══════════════════════════════════════════════════════════════════
+
+📄 requirements.txt
+
+Зафиксированы версии библиотек (см. раздел "ЗАФИКСИРОВАННЫЕ
+ВЕРСИИ БИБЛИОТЕК"). Причина — обновлённые версии ломают
+подключение через прокси.
+
+📄 Создана тестовая копия проекта
+
+LoEZF_Bot_test — отдельная папка с копией кода, своим .env,
+своей data/, своим venv, своим PROXY_DIR (proxy_manadger_test).
+
+Все эксперименты и опасные правки — сначала там, потом в прод.
 
 ═══════════════════════════════════════════════════════════════════
 🐛 ИЗВЕСТНЫЕ БАГИ И ИХ РЕШЕНИЯ
@@ -438,6 +651,24 @@ NameError: name 'types' is not defined:
 → Это нормально — прокси живут недолго
 → Бот сам переключится на пингование good_proxies.txt
 
+❌ Клавиатура не реагирует / команды молчат:
+→ Порядок роутеров в __init__.py нарушен
+→ chat_member_router (голый @router.message()) перехватывает Reply-кнопки
+→ chat_member_router ДОЛЖЕН быть ПОСЛЕ keyboards_router
+→ Правильный порядок: base → keyboards → ... → apply → chat_member
+
+❌ /regc, /unregc, /call, /callfal молчат:
+→ Заглушки в base_commands.py перехватывают команды
+→ base_commands_router зарегистрирован первым, значит его хендлеры
+  срабатывают раньше, чем call_commands_router
+→ УДАЛИТЬ дубли из base_commands.py (оставить только в call_commands.py)
+
+❌ "In order to use aiohttp client for proxy requests, install aiohttp-socks":
+→ Возникает при обновлённых библиотеках (aiogram 3.31+, aiohttp 3.14+,
+  python-socks 3.x). Даже если aiohttp-socks стоит, прокси не работают.
+→ Решение: откатить версии к зафиксированному набору (см. раздел
+  "ЗАФИКСИРОВАННЫЕ ВЕРСИИ БИБЛИОТЕК").
+
 ═══════════════════════════════════════════════════════════════════
 ⚠️ НИЧЕГО НЕ МЕНЯТЬ! (запрещённые действия)
 ═══════════════════════════════════════════════════════════════════
@@ -466,11 +697,14 @@ if message.chat.id == GENERAL_CHAT_ID: return
 
 ❌ НЕ УДАЛЯТЬ chat_member_router:
 Отвечает за напоминалку. Без неё бот сломается.
+Но ОБЯЗАТЕЛЬНО ставить его ПОСЛЕ keyboards_router!
 
 ❌ НЕ МЕНЯТЬ СИСТЕМУ РАНГОВ:
 1 — Владелец (нельзя понизить/удалить)
 2 — Админ
 3 — Модератор
+
+❌ НЕ ОБНОВЛЯТЬ БИБЛИОТЕКИ БЕЗ ТЕСТА (см. отдельный раздел)
 
 ═══════════════════════════════════════════════════════════════════
 📂 СТРУКТУРА ПРОЕКТА
@@ -491,7 +725,7 @@ LoEZF_Bot/
 │ ├── users/
 │ │ ├── users.json # ОСНОВНОЙ
 │ │ ├── users.txt # бэкап миграции
-│ │ └── unsubscribed_calls.txt
+│ │ └── unsubscribed_calls.json # JSON-словарь
 │ ├── users_history/
 │ ├── logs/
 │ │ └── bot.log
@@ -507,7 +741,7 @@ LoEZF_Bot/
 │ │ ├── settings_commands.py
 │ │ ├── chat_member.py
 │ │ ├── apply_handlers.py
-│ │ ├── apply_states.py
+│ │ ├── apply_states.py # НЕ подключён как роутер
 │ │ ├── diagnostic_commands.py
 │ │ ├── keyboards.py
 │ │ └── utils.py
@@ -579,6 +813,7 @@ LoEZF_Bot/
 /promote [ID или @username] — Повысить до администратора
 /demote [ID или @username] — Понизить администратора
 /setrank [ID] [ранг] — Назначить ранг (1-Владелец, 2-Админ, 3-Модератор)
+/message_all — Рассылка всем участникам (FSM, HTML с fallback)
 
 📝 УПРАВЛЕНИЕ ЗАЯВКАМИ (ТОЛЬКО ДЛЯ АДМИНОВ):
 ───────────────────────────────────────────────────────────────────
@@ -643,6 +878,7 @@ return
 На каждом 5-м сообщении отправляется напоминание
 
 ⛔ НЕ УДАЛЯТЬ chat_member_router!
+⛔ ОБЯЗАТЕЛЬНО ставить его ПОСЛЕ keyboards_router в __init__.py
 
 ═══════════════════════════════════════════════════════════════════
 👑 УПРАВЛЕНИЕ АДМИНИСТРАТОРАМИ
@@ -689,7 +925,10 @@ ID чатов
 
 Прочитать этот гайд полностью
 
-Перейти по Raw-ссылкам на файлы
+Запросить нужные файлы (см. раздел "ГЛАВНОЕ ПРАВИЛО:
+ЧТЕНИЕ ФАЙЛОВ ЧЕРЕЗ RAW-ССЫЛКИ")
+
+Дождаться, пока владелец пришлёт содержимое
 
 ПОНЯТЬ, какие функции уже есть
 
@@ -723,6 +962,10 @@ ID чатов
 ❌ Не читать начало файла перед правкой
 ❌ Использовать InlineKeyboardButton без text=
 ❌ Использовать F.text == "/команда" вместо Command("команда")
+❌ Самостоятельно тянуть дерево репозитория (жрёт токены)
+❌ Запрашивать файлы без код-блока (неудобно копировать)
+❌ Обновлять версии библиотек без теста на копии
+❌ Предлагать pip install --upgrade для критичных пакетов
 
 ═══════════════════════════════════════════════════════════════════
 🗑️ ПРАВИЛА УДАЛЕНИЯ КОДА
@@ -760,11 +1003,13 @@ cmd_start, cmd_help, cmd_about, cmd_aboutme
 
 cmd_members, cmd_roles, cmd_update
 
-cmd_hide, cmd_menu, cmd_call, cmd_callfal
+cmd_hide, cmd_menu
 
 cmd_stats
 
 back_to_menu_from_roles, show_roles_by_season, back_to_roles_seasons
+
+⚠️ cmd_call и cmd_callfal УДАЛЕНЫ (были заглушки pass)
 
 📂 handlers/apply_handlers.py:
 
@@ -795,6 +1040,16 @@ _send_to_iris
 cmd_admins, cmd_users, cmd_adduser, cmd_removeuser
 
 cmd_resetuser, cmd_find, cmd_finduser, cmd_refresh
+
+cmd_close, cmd_open, cmd_setrank
+
+cmd_unregister_admin, cmd_unregister_user
+
+cmd_message_all (ТОЛЬКО ВЛАДЕЛЕЦ, FSM)
+
+MessageAllStates (waiting_for_text, waiting_for_confirmation)
+
+message_all_get_text, message_all_cancel, message_all_edit, message_all_send
 
 📂 handlers/admin_management.py:
 
@@ -828,6 +1083,15 @@ cmd_diag, cmd_check_chats
 
 handle_message, on_user_join, check_user_registration
 
+📂 handlers/utils.py:
+
+load_unsubscribed, save_unsubscribed
+is_unsubscribed, add_unsubscribed, remove_unsubscribed
+load_rest_requests, save_rest_requests
+generate_calendar_keyboard
+
+⚠️ unsubscribed-функции ЛЕЖАТ ЗДЕСЬ, а НЕ в utils/user_utils.py
+
 📂 utils/role_utils.py:
 
 load_roles_status, save_roles_status
@@ -858,8 +1122,6 @@ get_user_role, count_users, get_users_count
 
 get_user_info, get_role_stats, get_users_by_role, get_role_names
 
-load_unsubscribed, save_unsubscribed, add_unsubscribed, remove_unsubscribed, is_unsubscribed
-
 📂 utils/admin_utils.py:
 
 load_admins, save_admins
@@ -882,10 +1144,23 @@ get_pending_count, get_requests_count
 
 Все изменения проекта фиксируются в файле CHANGELOG.md.
 
-Актуальная версия: 7.1.0
-Дата последнего обновления: 15.09.2026
+Актуальная версия: 7.3.0
+Дата последнего обновления: 18.09.2026
 
 Список последних изменений:
+
+[7.3.0] - Зафиксированы версии библиотек (aiogram 3.17,
+aiohttp 3.13.5, aiohttp-socks 0.11.0, python-socks 2.8.2).
+Причина: обновлённые версии ломают подключение через прокси.
+Создана тестовая копия проекта (LoEZF_Bot_test) для безопасных
+экспериментов.
+
+[7.2.0] - Порядок роутеров (keyboards перед chat_member),
+удалены заглушки /regc /unregc /call /callfal из base_commands,
+unsubscribed_calls переведён на .json со словарём,
+добавлена команда /message_all (FSM, рассылка владельцем),
+apply_states убран из роутеров,
+новое правило чтения файлов через код-блок
 
 [7.1.0] - JSON-формат для users/admins/requests,
 приоритетный прокси + PING_COUNT=1, MAX_CONCURRENT=200,
@@ -918,13 +1193,17 @@ add_user/add_admin из utils
 🔗 RAW-ССЫЛКИ НА ФАЙЛЫ (ДЛЯ ЧТЕНИЯ БЕЗ ТРАТЫ ЛИМИТА)
 ═══════════════════════════════════════════════════════════════════
 
-📌 ПРАВИЛО: при чтении файла — используй Raw-ссылку из списка.
+📌 ПРАВИЛО: при запросе файла — используй Raw-ссылку из списка.
 RAW-ссылка возвращает ЧИСТЫЙ КОД без HTML-обёртки.
 
 ✅ ПРАВИЛЬНО: https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/role_utils.py
 ❌ НЕПРАВИЛЬНО: https://github.com/LOEZws3/loez_bot/blob/main/src/utils/role_utils.py
 
-🔗 АКТУАЛЬНОЕ ДЕРЕВО РЕПОЗИТОРИЯ:
+⚠️ ВАЖНО: AI НЕ тянет дерево сам. AI пишет список нужных файлов,
+оформляет их одной плашкой (код-блок) и ждёт, пока владелец пришлёт.
+
+🔗 АКТУАЛЬНОЕ ДЕРЕВО РЕПОЗИТОРИЯ (использовать ТОЛЬКО если
+владелец явно разрешил или если файла нет в списке ниже):
 https://api.github.com/repos/LOEZws3/loez_bot/git/trees/main?recursive=1
 
 📂 КОРНЕВЫЕ ФАЙЛЫ:
@@ -968,9 +1247,10 @@ https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/system_utils.p
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/user_history.py
 
 📂 data/:
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/roles_status.json
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/roles/roles_status.json
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/admins/admins.json
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/users/users.json
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/users/unsubscribed_calls.json
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/system/requests.json
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/system/system_settings.json
 https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/system/proxy_pings_cache.json
@@ -984,6 +1264,6 @@ https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/system/proxy_pings_
 Основной бот: @REG_sf_BOT
 
 ═══════════════════════════════════════════════════════════════════
-📅 Версия: 7.1.0
-📅 Дата обновления: 15.09.2026
+📅 Версия: 7.3.0
+📅 Дата обновления: 18.09.2026
 ═══════════════════════════════════════════════════════════════════

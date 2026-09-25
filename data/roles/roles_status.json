@@ -1239,9 +1239,9 @@
     "extra": ""
   },
   "Рин": {
-    "status": "свободна",
-    "owner_id": null,
-    "username": null,
+    "status": "занята",
+    "owner_id": 6760031145,
+    "username": "l0p0kl0wka2",
     "season": "Мастерская 47",
     "extra": ""
   },
@@ -1589,9 +1589,9 @@
     "extra": ""
   },
   "Шандр'гралла'дтрин": {
-    "status": "свободна",
-    "owner_id": null,
-    "username": null,
+    "status": "занята",
+    "owner_id": 6095027820,
+    "username": "Huilo12",
     "season": "Межсезонные персонажи",
     "extra": ""
   },
@@ -1939,9 +1939,9 @@
     "extra": ""
   },
   "Дилан": {
-    "status": "свободна",
-    "owner_id": null,
-    "username": null,
+    "status": "занята",
+    "owner_id": 8593585036,
+    "username": "Snaipaturn_XD",
     "season": "Последняя реальность",
     "extra": ""
   },
@@ -2408,9 +2408,9 @@
     "extra": ""
   },
   "Эграссель": {
-    "status": "свободна",
-    "owner_id": null,
-    "username": null,
+    "status": "занята",
+    "owner_id": 8472565688,
+    "username": "Hiro1250",
     "season": "Сердце вселенной",
     "extra": ""
   },
@@ -3129,9 +3129,9 @@
     "extra": ""
   },
   "Синдбад": {
-    "status": "свободна",
-    "owner_id": null,
-    "username": null,
+    "status": "занята",
+    "owner_id": 7541065884,
+    "username": "cherryi_99",
     "season": "Тринадцать огней",
     "extra": ""
   },

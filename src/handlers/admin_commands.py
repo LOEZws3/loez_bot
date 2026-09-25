@@ -1,7 +1,11 @@
 import html
 from aiogram import Router, F
 from aiogram.filters import Command
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.fsm.state import State, StatesGroup
+from aiogram.fsm.context import FSMContext
+import asyncio
+import time
 from config import GENERAL_CHAT_ID
 from utils.admin_utils import is_admin, is_owner, load_admins, save_admins, get_admin_rank, set_rank
 from utils.user_utils import load_users, add_user, remove_user, get_users_count
@@ -9,6 +13,7 @@ from utils.role_utils import free_role, get_user_role as get_user_role_from_role
 from utils.requests_utils import get_request_by_user_id
 from .keyboards import get_main_keyboard
 import logging
+
 
 logger = logging.getLogger(__name__)
 router = Router()
@@ -455,3 +460,178 @@ async def cmd_unregister_user(message: Message):
     else:
         await message.answer(text, reply_markup=get_main_keyboard(user_id, message.chat.id))
     logger.info(f"🔄 УЧАСТНИК {message.from_user.full_name} удалил себя")
+# ============================================================
+# 📢 РАССЫЛКА /message_all (только для владельцев rank=1)
+# ============================================================
+
+class MessageAllStates(StatesGroup):
+    waiting_for_text = State()
+    waiting_for_confirm = State()
+
+
+_message_all_cooldowns = {}
+
+
+@router.message(Command('message_all'))
+async def cmd_message_all(message: Message, state: FSMContext):
+    user_id = message.from_user.id
+
+    if message.chat.id == GENERAL_CHAT_ID:
+        await message.answer("⛔ Эта команда недоступна во флуд-чате.")
+        return
+
+    rank = get_admin_rank(user_id)
+    if rank != 1:
+        await message.answer("⛔ Только владельцы могут делать рассылку.")
+        return
+
+    now = time.time()
+    last = _message_all_cooldowns.get(user_id, 0)
+    if now - last < 10:
+        remaining = int(10 - (now - last))
+        await message.answer(f"⏳ Подождите {remaining} сек перед новой рассылкой.")
+        return
+
+    _message_all_cooldowns[user_id] = now
+
+    await state.set_state(MessageAllStates.waiting_for_text)
+    await message.answer(
+        "📢 <b>Рассылка всем участникам</b>\n\n"
+        "Напишите текст сообщения, которое уйдёт каждому юзеру из users.json.\n\n"
+        "Можно использовать HTML-теги (&lt;b&gt;, &lt;i&gt;, &lt;a href=...&gt;).\n"
+        "Если HTML сломается — отправим как обычный текст.",
+        parse_mode="HTML",
+        reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text="❌ Отмена", callback_data="message_all_cancel")]
+        ])
+    )
+
+
+@router.message(MessageAllStates.waiting_for_text)
+async def message_all_get_text(message: Message, state: FSMContext):
+    text = message.text or message.caption or ""
+    if not text.strip():
+        await message.answer("❌ Пустое сообщение. Напишите текст.")
+        return
+
+    await state.update_data(text=text)
+    await state.set_state(MessageAllStates.waiting_for_confirm)
+
+    await message.answer(
+        f"📋 <b>Превью:</b>\n\n{text}\n\n"
+        f"━━━━━━━━━━━━━━━━━━\n"
+        f"Отправить всем?",
+        parse_mode="HTML",
+        reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text="✅ Отправить", callback_data="message_all_send")],
+            [InlineKeyboardButton(text="✏️ Изменить", callback_data="message_all_edit")],
+            [InlineKeyboardButton(text="❌ Отмена", callback_data="message_all_cancel")]
+        ])
+    )
+
+
+@router.callback_query(F.data == "message_all_cancel", MessageAllStates.waiting_for_text)
+@router.callback_query(F.data == "message_all_cancel", MessageAllStates.waiting_for_confirm)
+async def message_all_cancel(callback: CallbackQuery, state: FSMContext):
+    await callback.answer()
+    await state.clear()
+    try:
+        await callback.message.edit_text("❌ Рассылка отменена.")
+    except Exception:
+        pass
+
+
+@router.callback_query(F.data == "message_all_edit", MessageAllStates.waiting_for_confirm)
+async def message_all_edit(callback: CallbackQuery, state: FSMContext):
+    await callback.answer()
+    await state.set_state(MessageAllStates.waiting_for_text)
+    try:
+        await callback.message.edit_text(
+            "✏️ Напишите новый текст сообщения:",
+            reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+                [InlineKeyboardButton(text="❌ Отмена", callback_data="message_all_cancel")]
+            ])
+        )
+    except Exception:
+        pass
+
+
+@router.callback_query(F.data == "message_all_send", MessageAllStates.waiting_for_confirm)
+async def message_all_send(callback: CallbackQuery, state: FSMContext):
+    await callback.answer()
+
+    data = await state.get_data()
+    text = data.get('text', '')
+    await state.clear()
+
+    if not text.strip():
+        try:
+            await callback.message.edit_text("❌ Текст потерялся. Начните заново: /message_all")
+        except Exception:
+            pass
+        return
+
+    try:
+        await callback.message.edit_text("⏳ Начинаю рассылку...")
+    except Exception:
+        pass
+
+    users = load_users()
+    if not users:
+        await callback.message.answer("📭 В users.json нет пользователей.")
+        return
+
+    sent = 0
+    errors = 0
+    blocked = 0
+    blocked_users = []
+
+    from aiogram.exceptions import TelegramForbiddenError, TelegramBadRequest
+
+    for u in users:
+        target_id = u.get('id')
+        if not target_id:
+            continue
+
+        # Пробуем HTML, если падает — plain
+        try:
+            await callback.bot.send_message(target_id, text, parse_mode="HTML")
+            sent += 1
+        except TelegramForbiddenError:
+            blocked += 1
+            uname = f"@{u.get('username')}" if u.get('username') else "без юзернейма"
+            blocked_users.append(f"{u.get('full_name', '?')} ({uname}, ID: {target_id})")
+            logger.warning(f"🚫 Пользователь {target_id} ({uname}) заблокировал бота — не отправлено")
+        except TelegramBadRequest:
+            # HTML сломался — пробуем plain
+            try:
+                await callback.bot.send_message(target_id, text)
+                sent += 1
+            except TelegramForbiddenError:
+                blocked += 1
+                uname = f"@{u.get('username')}" if u.get('username') else "без юзернейма"
+                blocked_users.append(f"{u.get('full_name', '?')} ({uname}, ID: {target_id})")
+                logger.warning(f"🚫 Пользователь {target_id} ({uname}) заблокировал бота — не отправлено")
+            except Exception as e:
+                errors += 1
+                logger.error(f"❌ Ошибка отправки {target_id}: {e}")
+        except Exception as e:
+            errors += 1
+            logger.error(f"❌ Ошибка отправки {target_id}: {e}")
+
+        await asyncio.sleep(0.5)
+
+    logger.info(f"📢 Рассылка /message_all завершена. Отправлено: {sent}, Ошибок: {errors}, Заблокировали: {blocked}")
+
+    result = (
+        f"✅ <b>Рассылка завершена</b>\n\n"
+        f"📨 Отправлено: <b>{sent}</b>\n"
+        f"⚠️ Ошибок: <b>{errors}</b>\n"
+        f"🚫 Заблокировали бота: <b>{blocked}</b>"
+    )
+    if blocked_users:
+        result += "\n\n<b>Заблокировали:</b>\n" + "\n".join(f"• {html.escape(x)}" for x in blocked_users[:20])
+        if len(blocked_users) > 20:
+            result += f"\n... и ещё {len(blocked_users) - 20}"
+
+    await callback.message.answer(result, parse_mode="HTML")

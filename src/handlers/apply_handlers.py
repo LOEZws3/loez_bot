@@ -331,7 +331,6 @@ async def back_to_position(callback: CallbackQuery, state: FSMContext):
 async def cmd_free(message: types.Message):
     user_id = message.from_user.id
 
-    # ✅ ЗАПРЕЩАЕМ во флуде
     if message.chat.id == GENERAL_CHAT_ID:
         await message.answer("⛔ Эта команда недоступна во флуд-чате.")
         return
@@ -348,12 +347,43 @@ async def cmd_free(message: types.Message):
         await message.answer(f"❌ Роль '{role_name}' не найдена.")
         return
 
+    # ✅ Спрашиваем подтверждение
+    await message.answer(
+        f"⚠️ <b>Вы уверены?</b>\n\n"
+        f"Вы хотите освободить роль <b>{role_name}</b>?\n"
+        f"Это действие нельзя отменить.",
+        parse_mode="HTML",
+        reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+            [
+                InlineKeyboardButton(text="✅ Да, освободить", callback_data="free_confirm"),
+                InlineKeyboardButton(text="❌ Нет, отмена", callback_data="free_cancel")
+            ]
+        ])
+    )
+
+
+@router.callback_query(F.data == "free_confirm")
+async def free_confirm(callback: CallbackQuery):
+    await callback.answer()
+    user_id = callback.from_user.id
+
+    from utils.role_utils import get_user_role as get_user_role_name
+    role_name = get_user_role_name(user_id)
+
+    if not role_name:
+        await callback.message.edit_text("❌ У вас нет активной роли.")
+        return
+
+    status_data = load_roles_status()
+    if role_name not in status_data:
+        await callback.message.edit_text(f"❌ Роль '{role_name}' не найдена.")
+        return
+
     status_data[role_name]['status'] = 'свободна'
     status_data[role_name]['owner_id'] = None
     status_data[role_name]['username'] = None
 
     if save_roles_status(status_data):
-        # ✅ УДАЛЯЕМ пользователя из users.json
         try:
             removed = remove_user(user_id)
             if removed:
@@ -361,13 +391,19 @@ async def cmd_free(message: types.Message):
         except Exception as e:
             logger.error(f"Ошибка удаления пользователя {user_id}: {e}")
 
-        await message.answer(
+        await callback.message.edit_text(
             f"✅ <b>Роль «{role_name}» освобождена!</b>\n\n"
             f"Теперь она доступна для других.",
             parse_mode="HTML"
         )
     else:
-        await message.answer("❌ Ошибка сохранения.")
+        await callback.message.edit_text("❌ Ошибка сохранения.")
+
+
+@router.callback_query(F.data == "free_cancel")
+async def free_cancel(callback: CallbackQuery):
+    await callback.answer()
+    await callback.message.edit_text("❌ Освобождение роли отменено.")
 
 
 @router.message(Command("cancel_request"))
@@ -403,19 +439,12 @@ async def cmd_cancel_request(message: types.Message):
 # ======================== УВЕДОМЛЕНИЕ АДМИНОВ ========================
 
 async def _notify_admins(bot, request_id: int, request: dict):
-    admins_file = os.path.join(DATA_DIR, 'admins', 'admins.txt')
-    if not os.path.exists(admins_file):
-        return
-
-    admins = []
-    with open(admins_file, 'r', encoding='utf-8') as f:
-        for line in f:
-            parts = line.strip().split('|')
-            if len(parts) >= 1:
-                try:
-                    admins.append(int(parts[0]))
-                except ValueError:
-                    continue
+    """
+    Уведомляет админов (rank 1+2) о новой заявке.
+    Если ADMIN_GROUP_ID задан — отправляет в группу, иначе в ЛС каждому.
+    """
+    from config import ADMIN_GROUP_ID
+    from utils.admin_utils import load_admins
 
     text = (
         f"📨 <b>Новая заявка #{request_id}!</b>\n\n"
@@ -427,8 +456,21 @@ async def _notify_admins(bot, request_id: int, request: dict):
         f"Обработать: /requests"
     )
 
-    for admin_id in admins:
+    # Если есть группа для уведомлений — шлём туда
+    if ADMIN_GROUP_ID:
         try:
-            await bot.send_message(admin_id, text, parse_mode="HTML")
+            await bot.send_message(ADMIN_GROUP_ID, text, parse_mode="HTML")
+            logger.info(f"📨 Уведомление о заявке #{request_id} отправлено в админ-группу")
+            return
         except Exception as e:
-            logger.error(f"Не удалось уведомить админа {admin_id}: {e}")
+            logger.error(f"❌ Не удалось отправить в админ-группу: {e} — отправляю в ЛС")
+
+    # Иначе — в ЛС каждому админу с рангом 1 или 2
+    admins = load_admins()
+    for admin in admins:
+        if admin.get('rank') not in [1, 2]:
+            continue
+        try:
+            await bot.send_message(admin['id'], text, parse_mode="HTML")
+        except Exception as e:
+            logger.error(f"Не удалось уведомить админа {admin['id']}: {e}")

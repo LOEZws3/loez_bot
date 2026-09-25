@@ -10,7 +10,7 @@ REST_REQUESTS_FILE = "data/requests/rest_requests.json"
 # ======================== ОТПИСАВШИЕСЯ ОТ КАЛОВ ========================
 
 def load_unsubscribed() -> dict:
-    """Загрузить список отписавшихся от калов. Возвращает dict {user_id_str: True}."""
+    """Загрузить отписавшихся. Возвращает dict {user_id_str: True}."""
     try:
         os.makedirs(os.path.dirname(UNSUBSCRIBED_FILE), exist_ok=True)
         with open(UNSUBSCRIBED_FILE, 'r', encoding='utf-8') as f:
@@ -22,7 +22,7 @@ def load_unsubscribed() -> dict:
         return {}
 
 def save_unsubscribed(data: dict) -> bool:
-    """Сохранить список отписавшихся."""
+    """Сохранить отписавшихся."""
     try:
         os.makedirs(os.path.dirname(UNSUBSCRIBED_FILE), exist_ok=True)
         with open(UNSUBSCRIBED_FILE, 'w', encoding='utf-8') as f:
@@ -32,18 +32,15 @@ def save_unsubscribed(data: dict) -> bool:
         return False
 
 def is_unsubscribed(user_id: int) -> bool:
-    """Проверить, отписан ли пользователь."""
     data = load_unsubscribed()
     return str(user_id) in data
 
 def add_unsubscribed(user_id: int) -> bool:
-    """Добавить пользователя в отписавшиеся."""
     data = load_unsubscribed()
     data[str(user_id)] = True
     return save_unsubscribed(data)
 
 def remove_unsubscribed(user_id: int) -> bool:
-    """Убрать пользователя из отписавшихся."""
     data = load_unsubscribed()
     if str(user_id) in data:
         del data[str(user_id)]
@@ -53,7 +50,6 @@ def remove_unsubscribed(user_id: int) -> bool:
 # ======================== ЗАЯВКИ НА РЕСТ ========================
 
 def load_rest_requests():
-    """Загрузить заявки на рест"""
     os.makedirs(os.path.dirname(REST_REQUESTS_FILE), exist_ok=True)
     try:
         with open(REST_REQUESTS_FILE, 'r', encoding='utf-8') as f:
@@ -62,7 +58,6 @@ def load_rest_requests():
         return []
 
 def save_rest_requests(requests):
-    """Сохранить заявки на рест"""
     os.makedirs(os.path.dirname(REST_REQUESTS_FILE), exist_ok=True)
     with open(REST_REQUESTS_FILE, 'w', encoding='utf-8') as f:
         json.dump(requests, f, ensure_ascii=False, indent=4)
@@ -70,7 +65,6 @@ def save_rest_requests(requests):
 # ======================== КАЛЕНДАРЬ ДЛЯ РЕСТОВ ========================
 
 def generate_calendar_keyboard(year, month, callback_prefix="rest_cal"):
-    """Создать клавиатуру-календарь для выбора даты"""
     cal = calendar.monthcalendar(year, month)
     keyboard = []
     month_name = calendar.month_name[month]
@@ -97,13 +91,10 @@ def generate_calendar_keyboard(year, month, callback_prefix="rest_cal"):
         nav_row.append(InlineKeyboardButton(text="<", callback_data=f"{callback_prefix}_prev_{year}_{month}"))
     else:
         nav_row.append(InlineKeyboardButton(text="<", callback_data=f"{callback_prefix}_prev_{year - 1}_12"))
-
     nav_row.append(InlineKeyboardButton(text="❌ Отмена", callback_data="cancel_rest_request"))
-
     if month < 12:
         nav_row.append(InlineKeyboardButton(text=">", callback_data=f"{callback_prefix}_next_{year}_{month}"))
     else:
         nav_row.append(InlineKeyboardButton(text=">", callback_data=f"{callback_prefix}_next_{year + 1}_1"))
-
     keyboard.append(nav_row)
     return InlineKeyboardMarkup(inline_keyboard=keyboard)

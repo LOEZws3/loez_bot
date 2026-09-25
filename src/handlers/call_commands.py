@@ -52,7 +52,7 @@ async def cmd_call(message: Message):
     members = []
     for u in users:
         u_id = u['id']
-        if u_id in unsubscribed or u_id == user_id:
+        if str(u_id) in unsubscribed or u_id == user_id:
             continue
         members.append(u)
 
@@ -126,7 +126,7 @@ async def cmd_callfal(message: Message):
     members = []
     for u in users:
         u_id = u['id']
-        if u_id in unsubscribed:
+        if str(u_id) in unsubscribed:
             continue
         members.append(u)
 
