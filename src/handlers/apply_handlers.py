@@ -7,13 +7,18 @@ from aiogram.filters import Command
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
+from aiogram.exceptions import TelegramBadRequest
 
 from config import DATA_DIR, GENERAL_CHAT_ID
 from utils.role_utils import (
     get_roles_by_season, get_all_seasons,
     load_roles_status, save_roles_status
 )
-from utils.user_utils import get_user_info, remove_user
+from utils.user_utils import (
+    get_user_info, remove_user,
+    get_changes_count, increment_changes_count,
+    get_user_by_id,
+)
 
 logger = logging.getLogger(__name__)
 router = Router()
@@ -27,6 +32,7 @@ class ApplyStates(StatesGroup):
     choosing_role = State()
     choosing_position = State()
     confirming = State()
+    confirming_replace = State()  # ✅ Новое: подтверждение замены роли
 
 
 # ======================== ЗАГРУЗКА / СОХРАНЕНИЕ ========================
@@ -68,6 +74,17 @@ def _get_active_request(user_id: int):
         if isinstance(req, dict) and req.get('user_id') == user_id and req.get('status') == 'pending':
             return req_id, req
     return None, None
+
+
+def _get_max_role_changes() -> int:
+    """Возвращает лимит смен роли из настроек"""
+    try:
+        from handlers.settings_commands import load_settings
+        settings = load_settings()
+        return int(settings.get('max_role_changes', 3))
+    except Exception as e:
+        logger.error(f"Ошибка чтения лимита смен роли: {e}")
+        return 3
 
 
 # ======================== КЛАВИАТУРЫ ========================
@@ -123,13 +140,9 @@ def create_position_keyboard() -> InlineKeyboardMarkup:
 async def cmd_apply(message: types.Message, state: FSMContext):
     user_id = message.from_user.id
 
-    # ✅ ЗАПРЕЩАЕМ во флуде
     if message.chat.id == GENERAL_CHAT_ID:
         await message.answer("⛔ Эта команда недоступна во флуд-чате.")
         return
-
-    # ✅ УБРАНА проверка _is_user_registered — любой может подать заявку
-    # Регистрация происходит ПОСЛЕ одобрения админом (см. request_commands.py)
 
     if _has_active_request(user_id):
         await message.answer(
@@ -137,6 +150,20 @@ async def cmd_apply(message: types.Message, state: FSMContext):
             "Дождитесь её обработки или отмените через /cancel_request."
         )
         return
+
+    # ✅ Проверяем лимит смен роли (кроме владельцев)
+    from utils.admin_utils import is_owner
+    if not is_owner(user_id):
+        current_changes = get_changes_count(user_id)
+        max_changes = _get_max_role_changes()
+
+        if current_changes >= max_changes:
+            await message.answer(
+                f"⛔ <b>Вы исчерпали лимит смен роли ({max_changes}).</b>\n\n"
+                f"Обратитесь к администрации для сброса.",
+                parse_mode="HTML"
+            )
+            return
 
     seasons = get_all_seasons()
     if not seasons:
@@ -194,11 +221,17 @@ async def process_role(callback: CallbackQuery, state: FSMContext):
     await state.update_data(role=role_name)
     await state.set_state(ApplyStates.choosing_position)
 
-    await callback.message.edit_text(
-        f"🎭 Роль: <b>{role_name}</b>\n\nВыберите должность:",
-        parse_mode="HTML",
-        reply_markup=create_position_keyboard()
-    )
+    try:
+        await callback.message.edit_text(
+            f"🎭 Роль: <b>{role_name}</b>\n\nВыберите должность:",
+            parse_mode="HTML",
+            reply_markup=create_position_keyboard()
+        )
+    except TelegramBadRequest as e:
+        if "message is not modified" in str(e):
+            logger.info(f"ℹ️ [process_role] Сообщение не изменено (двойной клик)")
+        else:
+            raise
 
 
 @router.callback_query(F.data.startswith("apply_position_"))
@@ -238,6 +271,43 @@ async def process_submit(callback: CallbackQuery, state: FSMContext):
     data = await state.get_data()
     user_id = callback.from_user.id
 
+    # ✅ Если у юзера УЖЕ есть роль — спрашиваем подтверждение
+    old_role = None
+    try:
+        from utils.role_utils import get_user_role as get_user_role_name
+        old_role = get_user_role_name(user_id)
+    except Exception:
+        old_role = None
+
+    if old_role:
+        # Показываем предупреждение и ждём подтверждения
+        await state.set_state(ApplyStates.confirming_replace)
+        await callback.message.edit_text(
+            f"⚠️ <b>У вас уже есть роль «{old_role}».</b>\n\n"
+            f"Если вашу новую заявку одобрят — старая роль освободится автоматически.\n\n"
+            f"Продолжить?",
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+                [InlineKeyboardButton(text="✅ Да, продолжить", callback_data="apply_replace_confirm")],
+                [InlineKeyboardButton(text="❌ Отмена", callback_data="apply_cancel")]
+            ])
+        )
+        return
+
+    # Если роли нет — сразу отправляем
+    await _submit_request(callback, state, data, user_id)
+
+
+@router.callback_query(F.data == "apply_replace_confirm")
+async def apply_replace_confirm(callback: CallbackQuery, state: FSMContext):
+    await callback.answer()
+    data = await state.get_data()
+    user_id = callback.from_user.id
+    await _submit_request(callback, state, data, user_id)
+
+
+async def _submit_request(callback: CallbackQuery, state: FSMContext, data: dict, user_id: int):
+    """Внутренняя функция — отправка заявки"""
     requests = _load_requests()
     existing_ids = [int(k) for k in requests.keys() if str(k).isdigit()]
     request_id = max(existing_ids, default=0) + 1
@@ -257,7 +327,6 @@ async def process_submit(callback: CallbackQuery, state: FSMContext):
 
     _save_requests(requests)
 
-    # Отмечаем роль как "ожидает"
     role_name = data.get('role')
     season = data.get('season')
     if role_name and season:
@@ -347,7 +416,6 @@ async def cmd_free(message: types.Message):
         await message.answer(f"❌ Роль '{role_name}' не найдена.")
         return
 
-    # ✅ Спрашиваем подтверждение
     await message.answer(
         f"⚠️ <b>Вы уверены?</b>\n\n"
         f"Вы хотите освободить роль <b>{role_name}</b>?\n"
@@ -410,7 +478,6 @@ async def free_cancel(callback: CallbackQuery):
 async def cmd_cancel_request(message: types.Message):
     user_id = message.from_user.id
 
-    # ✅ ЗАПРЕЩАЕМ во флуде
     if message.chat.id == GENERAL_CHAT_ID:
         await message.answer("⛔ Эта команда недоступна во флуд-чате.")
         return
@@ -456,7 +523,6 @@ async def _notify_admins(bot, request_id: int, request: dict):
         f"Обработать: /requests"
     )
 
-    # Если есть группа для уведомлений — шлём туда
     if ADMIN_GROUP_ID:
         try:
             await bot.send_message(ADMIN_GROUP_ID, text, parse_mode="HTML")
@@ -465,7 +531,6 @@ async def _notify_admins(bot, request_id: int, request: dict):
         except Exception as e:
             logger.error(f"❌ Не удалось отправить в админ-группу: {e} — отправляю в ЛС")
 
-    # Иначе — в ЛС каждому админу с рангом 1 или 2
     admins = load_admins()
     for admin in admins:
         if admin.get('rank') not in [1, 2]:

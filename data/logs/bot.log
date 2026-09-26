@@ -59484,3 +59484,1562 @@ TypeError: update_role_status() takes 3 positional arguments but 5 were given
 2026-09-26 19:22:45,777 - aiogram.dispatcher - WARNING - Sleep for 5.027478 seconds and try again... (tryings = 8462, bot id = 8888839728)
 2026-09-26 19:22:50,996 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
 2026-09-26 19:22:50,997 - aiogram.dispatcher - WARNING - Sleep for 5.100121 seconds and try again... (tryings = 8463, bot id = 8888839728)
+2026-09-26 19:22:56,345 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:22:56,346 - aiogram.dispatcher - WARNING - Sleep for 4.950474 seconds and try again... (tryings = 8464, bot id = 8888839728)
+2026-09-26 19:23:01,503 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:23:01,504 - aiogram.dispatcher - WARNING - Sleep for 5.003335 seconds and try again... (tryings = 8465, bot id = 8888839728)
+2026-09-26 19:23:06,819 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:23:06,819 - aiogram.dispatcher - WARNING - Sleep for 5.061033 seconds and try again... (tryings = 8466, bot id = 8888839728)
+2026-09-26 19:23:12,158 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:23:12,158 - aiogram.dispatcher - WARNING - Sleep for 5.008276 seconds and try again... (tryings = 8467, bot id = 8888839728)
+2026-09-26 19:23:17,345 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:23:17,346 - aiogram.dispatcher - WARNING - Sleep for 4.904793 seconds and try again... (tryings = 8468, bot id = 8888839728)
+2026-09-26 19:23:22,424 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:23:22,425 - aiogram.dispatcher - WARNING - Sleep for 5.076569 seconds and try again... (tryings = 8469, bot id = 8888839728)
+2026-09-26 19:23:27,684 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:23:27,684 - aiogram.dispatcher - WARNING - Sleep for 5.084214 seconds and try again... (tryings = 8470, bot id = 8888839728)
+2026-09-26 19:23:32,989 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:23:32,990 - aiogram.dispatcher - WARNING - Sleep for 4.900170 seconds and try again... (tryings = 8471, bot id = 8888839728)
+2026-09-26 19:23:38,148 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:23:38,526 - aiogram.dispatcher - WARNING - Sleep for 4.843060 seconds and try again... (tryings = 8472, bot id = 8888839728)
+2026-09-26 19:23:43,746 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:23:43,748 - aiogram.dispatcher - WARNING - Sleep for 5.053712 seconds and try again... (tryings = 8473, bot id = 8888839728)
+2026-09-26 19:23:49,048 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:23:49,049 - aiogram.dispatcher - WARNING - Sleep for 4.981050 seconds and try again... (tryings = 8474, bot id = 8888839728)
+2026-09-26 19:23:54,286 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:23:54,584 - aiogram.dispatcher - WARNING - Sleep for 4.923375 seconds and try again... (tryings = 8475, bot id = 8888839728)
+2026-09-26 19:23:59,929 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:23:59,933 - aiogram.dispatcher - WARNING - Sleep for 5.067950 seconds and try again... (tryings = 8476, bot id = 8888839728)
+2026-09-26 19:24:05,220 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:24:05,221 - aiogram.dispatcher - WARNING - Sleep for 4.891959 seconds and try again... (tryings = 8477, bot id = 8888839728)
+2026-09-26 19:24:10,284 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:24:10,286 - aiogram.dispatcher - WARNING - Sleep for 4.904941 seconds and try again... (tryings = 8478, bot id = 8888839728)
+2026-09-26 19:24:15,365 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:24:15,366 - aiogram.dispatcher - WARNING - Sleep for 4.964008 seconds and try again... (tryings = 8479, bot id = 8888839728)
+2026-09-26 19:24:20,545 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:24:20,546 - aiogram.dispatcher - WARNING - Sleep for 5.041305 seconds and try again... (tryings = 8480, bot id = 8888839728)
+2026-09-26 19:24:25,794 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:24:25,795 - aiogram.dispatcher - WARNING - Sleep for 4.996119 seconds and try again... (tryings = 8481, bot id = 8888839728)
+2026-09-26 19:24:31,075 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:24:31,076 - aiogram.dispatcher - WARNING - Sleep for 5.034005 seconds and try again... (tryings = 8482, bot id = 8888839728)
+2026-09-26 19:24:36,328 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:24:36,329 - aiogram.dispatcher - WARNING - Sleep for 5.115023 seconds and try again... (tryings = 8483, bot id = 8888839728)
+2026-09-26 19:24:41,845 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:24:41,846 - aiogram.dispatcher - WARNING - Sleep for 5.015428 seconds and try again... (tryings = 8484, bot id = 8888839728)
+2026-09-26 19:24:47,034 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:24:47,035 - aiogram.dispatcher - WARNING - Sleep for 4.870642 seconds and try again... (tryings = 8485, bot id = 8888839728)
+2026-09-26 19:24:52,127 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:24:52,128 - aiogram.dispatcher - WARNING - Sleep for 5.048726 seconds and try again... (tryings = 8486, bot id = 8888839728)
+2026-09-26 19:24:57,387 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:24:57,388 - aiogram.dispatcher - WARNING - Sleep for 4.984466 seconds and try again... (tryings = 8487, bot id = 8888839728)
+2026-09-26 19:25:02,556 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:25:02,557 - aiogram.dispatcher - WARNING - Sleep for 5.000457 seconds and try again... (tryings = 8488, bot id = 8888839728)
+2026-09-26 19:25:07,725 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:25:07,726 - aiogram.dispatcher - WARNING - Sleep for 5.181428 seconds and try again... (tryings = 8489, bot id = 8888839728)
+2026-09-26 19:25:13,095 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:25:13,096 - aiogram.dispatcher - WARNING - Sleep for 5.090535 seconds and try again... (tryings = 8490, bot id = 8888839728)
+2026-09-26 19:25:18,370 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:25:18,405 - aiogram.dispatcher - WARNING - Sleep for 4.773454 seconds and try again... (tryings = 8491, bot id = 8888839728)
+2026-09-26 19:25:23,403 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:25:23,404 - aiogram.dispatcher - WARNING - Sleep for 4.968075 seconds and try again... (tryings = 8492, bot id = 8888839728)
+2026-09-26 19:25:29,169 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:25:29,170 - aiogram.dispatcher - WARNING - Sleep for 4.871107 seconds and try again... (tryings = 8493, bot id = 8888839728)
+2026-09-26 19:25:34,271 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:25:34,272 - aiogram.dispatcher - WARNING - Sleep for 5.063343 seconds and try again... (tryings = 8494, bot id = 8888839728)
+2026-09-26 19:25:39,555 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:25:39,556 - aiogram.dispatcher - WARNING - Sleep for 5.119981 seconds and try again... (tryings = 8495, bot id = 8888839728)
+2026-09-26 19:25:44,899 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:25:44,900 - aiogram.dispatcher - WARNING - Sleep for 4.907572 seconds and try again... (tryings = 8496, bot id = 8888839728)
+2026-09-26 19:25:49,993 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:25:49,994 - aiogram.dispatcher - WARNING - Sleep for 5.151355 seconds and try again... (tryings = 8497, bot id = 8888839728)
+2026-09-26 19:25:55,384 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:25:55,385 - aiogram.dispatcher - WARNING - Sleep for 4.946413 seconds and try again... (tryings = 8498, bot id = 8888839728)
+2026-09-26 19:26:00,548 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:26:00,549 - aiogram.dispatcher - WARNING - Sleep for 5.084285 seconds and try again... (tryings = 8499, bot id = 8888839728)
+2026-09-26 19:26:05,863 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:26:05,863 - aiogram.dispatcher - WARNING - Sleep for 5.085455 seconds and try again... (tryings = 8500, bot id = 8888839728)
+2026-09-26 19:26:11,131 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:26:11,132 - aiogram.dispatcher - WARNING - Sleep for 4.908385 seconds and try again... (tryings = 8501, bot id = 8888839728)
+2026-09-26 19:26:16,222 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:26:16,222 - aiogram.dispatcher - WARNING - Sleep for 5.003020 seconds and try again... (tryings = 8502, bot id = 8888839728)
+2026-09-26 19:26:21,404 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:26:21,405 - aiogram.dispatcher - WARNING - Sleep for 4.979153 seconds and try again... (tryings = 8503, bot id = 8888839728)
+2026-09-26 19:26:26,572 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:26:26,573 - aiogram.dispatcher - WARNING - Sleep for 5.062992 seconds and try again... (tryings = 8504, bot id = 8888839728)
+2026-09-26 19:26:32,866 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:26:32,867 - aiogram.dispatcher - WARNING - Sleep for 5.080952 seconds and try again... (tryings = 8505, bot id = 8888839728)
+2026-09-26 19:26:38,136 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:26:38,146 - aiogram.dispatcher - WARNING - Sleep for 5.066602 seconds and try again... (tryings = 8506, bot id = 8888839728)
+2026-09-26 19:26:43,483 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:26:43,484 - aiogram.dispatcher - WARNING - Sleep for 4.839137 seconds and try again... (tryings = 8507, bot id = 8888839728)
+2026-09-26 19:26:48,497 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:26:48,498 - aiogram.dispatcher - WARNING - Sleep for 4.968801 seconds and try again... (tryings = 8508, bot id = 8888839728)
+2026-09-26 19:26:53,700 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:26:53,701 - aiogram.dispatcher - WARNING - Sleep for 5.154758 seconds and try again... (tryings = 8509, bot id = 8888839728)
+2026-09-26 19:26:59,039 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:26:59,041 - aiogram.dispatcher - WARNING - Sleep for 5.135323 seconds and try again... (tryings = 8510, bot id = 8888839728)
+2026-09-26 19:27:04,360 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:27:04,361 - aiogram.dispatcher - WARNING - Sleep for 5.054594 seconds and try again... (tryings = 8511, bot id = 8888839728)
+2026-09-26 19:27:09,634 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:27:09,635 - aiogram.dispatcher - WARNING - Sleep for 4.940815 seconds and try again... (tryings = 8512, bot id = 8888839728)
+2026-09-26 19:27:14,752 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:27:14,753 - aiogram.dispatcher - WARNING - Sleep for 5.206818 seconds and try again... (tryings = 8513, bot id = 8888839728)
+2026-09-26 19:27:20,146 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:27:20,146 - aiogram.dispatcher - WARNING - Sleep for 4.989823 seconds and try again... (tryings = 8514, bot id = 8888839728)
+2026-09-26 19:27:25,348 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:27:25,349 - aiogram.dispatcher - WARNING - Sleep for 5.125356 seconds and try again... (tryings = 8515, bot id = 8888839728)
+2026-09-26 19:27:30,667 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:27:30,668 - aiogram.dispatcher - WARNING - Sleep for 4.937768 seconds and try again... (tryings = 8516, bot id = 8888839728)
+2026-09-26 19:27:35,782 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:27:35,783 - aiogram.dispatcher - WARNING - Sleep for 4.932193 seconds and try again... (tryings = 8517, bot id = 8888839728)
+2026-09-26 19:27:40,898 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:27:40,900 - aiogram.dispatcher - WARNING - Sleep for 5.042452 seconds and try again... (tryings = 8518, bot id = 8888839728)
+2026-09-26 19:27:46,128 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:27:46,128 - aiogram.dispatcher - WARNING - Sleep for 4.897904 seconds and try again... (tryings = 8519, bot id = 8888839728)
+2026-09-26 19:27:51,219 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:27:51,220 - aiogram.dispatcher - WARNING - Sleep for 4.812944 seconds and try again... (tryings = 8520, bot id = 8888839728)
+2026-09-26 19:27:56,201 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:27:56,202 - aiogram.dispatcher - WARNING - Sleep for 4.981997 seconds and try again... (tryings = 8521, bot id = 8888839728)
+2026-09-26 19:28:01,395 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:28:01,397 - aiogram.dispatcher - WARNING - Sleep for 4.963523 seconds and try again... (tryings = 8522, bot id = 8888839728)
+2026-09-26 19:28:06,535 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:28:06,536 - aiogram.dispatcher - WARNING - Sleep for 5.038870 seconds and try again... (tryings = 8523, bot id = 8888839728)
+2026-09-26 19:28:11,791 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:28:11,792 - aiogram.dispatcher - WARNING - Sleep for 4.673703 seconds and try again... (tryings = 8524, bot id = 8888839728)
+2026-09-26 19:28:16,650 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:28:16,652 - aiogram.dispatcher - WARNING - Sleep for 5.097668 seconds and try again... (tryings = 8525, bot id = 8888839728)
+2026-09-26 19:28:21,968 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:28:21,968 - aiogram.dispatcher - WARNING - Sleep for 5.072140 seconds and try again... (tryings = 8526, bot id = 8888839728)
+2026-09-26 19:28:27,271 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:28:27,271 - aiogram.dispatcher - WARNING - Sleep for 5.084883 seconds and try again... (tryings = 8527, bot id = 8888839728)
+2026-09-26 19:28:32,584 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:28:32,585 - aiogram.dispatcher - WARNING - Sleep for 4.917556 seconds and try again... (tryings = 8528, bot id = 8888839728)
+2026-09-26 19:28:37,687 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:28:37,688 - aiogram.dispatcher - WARNING - Sleep for 5.035565 seconds and try again... (tryings = 8529, bot id = 8888839728)
+2026-09-26 19:28:42,946 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:28:42,947 - aiogram.dispatcher - WARNING - Sleep for 4.912763 seconds and try again... (tryings = 8530, bot id = 8888839728)
+2026-09-26 19:28:48,236 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:28:48,253 - aiogram.dispatcher - WARNING - Sleep for 4.934201 seconds and try again... (tryings = 8531, bot id = 8888839728)
+2026-09-26 19:28:53,358 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:28:53,358 - aiogram.dispatcher - WARNING - Sleep for 5.070579 seconds and try again... (tryings = 8532, bot id = 8888839728)
+2026-09-26 19:28:58,619 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:28:58,620 - aiogram.dispatcher - WARNING - Sleep for 4.925863 seconds and try again... (tryings = 8533, bot id = 8888839728)
+2026-09-26 19:29:03,713 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:29:03,713 - aiogram.dispatcher - WARNING - Sleep for 5.010577 seconds and try again... (tryings = 8534, bot id = 8888839728)
+2026-09-26 19:29:08,949 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:29:08,949 - aiogram.dispatcher - WARNING - Sleep for 4.983186 seconds and try again... (tryings = 8535, bot id = 8888839728)
+2026-09-26 19:29:14,111 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:29:14,112 - aiogram.dispatcher - WARNING - Sleep for 4.927587 seconds and try again... (tryings = 8536, bot id = 8888839728)
+2026-09-26 19:29:19,219 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:29:19,220 - aiogram.dispatcher - WARNING - Sleep for 4.886682 seconds and try again... (tryings = 8537, bot id = 8888839728)
+2026-09-26 19:29:24,280 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:29:24,280 - aiogram.dispatcher - WARNING - Sleep for 4.857181 seconds and try again... (tryings = 8538, bot id = 8888839728)
+2026-09-26 19:29:29,345 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:29:29,345 - aiogram.dispatcher - WARNING - Sleep for 5.029087 seconds and try again... (tryings = 8539, bot id = 8888839728)
+2026-09-26 19:29:34,600 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:29:34,600 - aiogram.dispatcher - WARNING - Sleep for 4.912482 seconds and try again... (tryings = 8540, bot id = 8888839728)
+2026-09-26 19:29:39,682 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:29:39,683 - aiogram.dispatcher - WARNING - Sleep for 4.996061 seconds and try again... (tryings = 8541, bot id = 8888839728)
+2026-09-26 19:29:44,892 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:29:44,893 - aiogram.dispatcher - WARNING - Sleep for 5.188266 seconds and try again... (tryings = 8542, bot id = 8888839728)
+2026-09-26 19:29:50,256 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:29:50,257 - aiogram.dispatcher - WARNING - Sleep for 5.084914 seconds and try again... (tryings = 8543, bot id = 8888839728)
+2026-09-26 19:29:55,519 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:29:55,519 - aiogram.dispatcher - WARNING - Sleep for 4.971969 seconds and try again... (tryings = 8544, bot id = 8888839728)
+2026-09-26 19:30:00,668 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:30:00,669 - aiogram.dispatcher - WARNING - Sleep for 5.159323 seconds and try again... (tryings = 8545, bot id = 8888839728)
+2026-09-26 19:30:06,042 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:30:06,043 - aiogram.dispatcher - WARNING - Sleep for 4.970606 seconds and try again... (tryings = 8546, bot id = 8888839728)
+2026-09-26 19:30:11,242 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:30:11,242 - aiogram.dispatcher - WARNING - Sleep for 4.899340 seconds and try again... (tryings = 8547, bot id = 8888839728)
+2026-09-26 19:30:16,363 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:30:16,372 - aiogram.dispatcher - WARNING - Sleep for 4.879552 seconds and try again... (tryings = 8548, bot id = 8888839728)
+2026-09-26 19:30:21,469 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:30:21,470 - aiogram.dispatcher - WARNING - Sleep for 5.148622 seconds and try again... (tryings = 8549, bot id = 8888839728)
+2026-09-26 19:30:26,818 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:30:26,861 - aiogram.dispatcher - WARNING - Sleep for 5.022450 seconds and try again... (tryings = 8550, bot id = 8888839728)
+2026-09-26 19:30:32,107 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:30:32,108 - aiogram.dispatcher - WARNING - Sleep for 4.960982 seconds and try again... (tryings = 8551, bot id = 8888839728)
+2026-09-26 19:30:37,248 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:30:37,249 - aiogram.dispatcher - WARNING - Sleep for 4.925657 seconds and try again... (tryings = 8552, bot id = 8888839728)
+2026-09-26 19:30:42,386 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:30:42,473 - aiogram.dispatcher - WARNING - Sleep for 4.944504 seconds and try again... (tryings = 8553, bot id = 8888839728)
+2026-09-26 19:30:47,638 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:30:47,639 - aiogram.dispatcher - WARNING - Sleep for 4.987225 seconds and try again... (tryings = 8554, bot id = 8888839728)
+2026-09-26 19:30:52,888 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:30:52,923 - aiogram.dispatcher - WARNING - Sleep for 5.144753 seconds and try again... (tryings = 8555, bot id = 8888839728)
+2026-09-26 19:30:58,240 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:30:58,248 - aiogram.dispatcher - WARNING - Sleep for 4.958410 seconds and try again... (tryings = 8556, bot id = 8888839728)
+2026-09-26 19:31:03,437 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:31:03,452 - aiogram.dispatcher - WARNING - Sleep for 4.983397 seconds and try again... (tryings = 8557, bot id = 8888839728)
+2026-09-26 19:31:08,660 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:31:08,733 - aiogram.dispatcher - WARNING - Sleep for 4.975969 seconds and try again... (tryings = 8558, bot id = 8888839728)
+2026-09-26 19:31:13,929 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:31:14,082 - aiogram.dispatcher - WARNING - Sleep for 4.841206 seconds and try again... (tryings = 8559, bot id = 8888839728)
+2026-09-26 19:31:19,165 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:31:19,223 - aiogram.dispatcher - WARNING - Sleep for 5.038278 seconds and try again... (tryings = 8560, bot id = 8888839728)
+2026-09-26 19:31:24,580 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:31:24,589 - aiogram.dispatcher - WARNING - Sleep for 4.993507 seconds and try again... (tryings = 8561, bot id = 8888839728)
+2026-09-26 19:31:29,801 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:31:29,850 - aiogram.dispatcher - WARNING - Sleep for 5.102614 seconds and try again... (tryings = 8562, bot id = 8888839728)
+2026-09-26 19:31:35,133 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:31:35,142 - aiogram.dispatcher - WARNING - Sleep for 5.148724 seconds and try again... (tryings = 8563, bot id = 8888839728)
+2026-09-26 19:31:40,507 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:31:40,522 - aiogram.dispatcher - WARNING - Sleep for 4.975570 seconds and try again... (tryings = 8564, bot id = 8888839728)
+2026-09-26 19:31:45,720 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:31:45,733 - aiogram.dispatcher - WARNING - Sleep for 4.995102 seconds and try again... (tryings = 8565, bot id = 8888839728)
+2026-09-26 19:31:50,936 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:31:50,945 - aiogram.dispatcher - WARNING - Sleep for 5.087815 seconds and try again... (tryings = 8566, bot id = 8888839728)
+2026-09-26 19:31:56,224 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:31:56,241 - aiogram.dispatcher - WARNING - Sleep for 4.823923 seconds and try again... (tryings = 8567, bot id = 8888839728)
+2026-09-26 19:32:01,246 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:32:01,247 - aiogram.dispatcher - WARNING - Sleep for 4.994558 seconds and try again... (tryings = 8568, bot id = 8888839728)
+2026-09-26 19:32:06,472 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:32:06,473 - aiogram.dispatcher - WARNING - Sleep for 4.871848 seconds and try again... (tryings = 8569, bot id = 8888839728)
+2026-09-26 19:32:11,564 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:32:11,565 - aiogram.dispatcher - WARNING - Sleep for 4.927945 seconds and try again... (tryings = 8570, bot id = 8888839728)
+2026-09-26 19:32:16,706 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:32:16,707 - aiogram.dispatcher - WARNING - Sleep for 4.995146 seconds and try again... (tryings = 8571, bot id = 8888839728)
+2026-09-26 19:32:21,885 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:32:21,886 - aiogram.dispatcher - WARNING - Sleep for 5.176637 seconds and try again... (tryings = 8572, bot id = 8888839728)
+2026-09-26 19:32:27,295 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:32:27,296 - aiogram.dispatcher - WARNING - Sleep for 5.145513 seconds and try again... (tryings = 8573, bot id = 8888839728)
+2026-09-26 19:32:32,665 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:32:32,666 - aiogram.dispatcher - WARNING - Sleep for 5.053597 seconds and try again... (tryings = 8574, bot id = 8888839728)
+2026-09-26 19:32:37,933 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:32:37,933 - aiogram.dispatcher - WARNING - Sleep for 4.916022 seconds and try again... (tryings = 8575, bot id = 8888839728)
+2026-09-26 19:32:43,077 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:32:43,077 - aiogram.dispatcher - WARNING - Sleep for 5.043371 seconds and try again... (tryings = 8576, bot id = 8888839728)
+2026-09-26 19:32:48,328 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:32:48,329 - aiogram.dispatcher - WARNING - Sleep for 4.918497 seconds and try again... (tryings = 8577, bot id = 8888839728)
+2026-09-26 19:32:53,582 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:32:53,584 - aiogram.dispatcher - WARNING - Sleep for 5.058813 seconds and try again... (tryings = 8578, bot id = 8888839728)
+2026-09-26 19:32:58,836 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:32:58,838 - aiogram.dispatcher - WARNING - Sleep for 5.071859 seconds and try again... (tryings = 8579, bot id = 8888839728)
+2026-09-26 19:33:04,116 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:33:04,117 - aiogram.dispatcher - WARNING - Sleep for 5.045353 seconds and try again... (tryings = 8580, bot id = 8888839728)
+2026-09-26 19:33:09,405 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:33:09,406 - aiogram.dispatcher - WARNING - Sleep for 5.134537 seconds and try again... (tryings = 8581, bot id = 8888839728)
+2026-09-26 19:33:14,716 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:33:14,717 - aiogram.dispatcher - WARNING - Sleep for 5.004887 seconds and try again... (tryings = 8582, bot id = 8888839728)
+2026-09-26 19:33:19,889 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:33:19,889 - aiogram.dispatcher - WARNING - Sleep for 4.904685 seconds and try again... (tryings = 8583, bot id = 8888839728)
+2026-09-26 19:33:24,971 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:33:24,972 - aiogram.dispatcher - WARNING - Sleep for 4.925218 seconds and try again... (tryings = 8584, bot id = 8888839728)
+2026-09-26 19:33:30,090 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:33:30,091 - aiogram.dispatcher - WARNING - Sleep for 5.153208 seconds and try again... (tryings = 8585, bot id = 8888839728)
+2026-09-26 19:33:35,435 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:33:35,436 - aiogram.dispatcher - WARNING - Sleep for 5.119920 seconds and try again... (tryings = 8586, bot id = 8888839728)
+2026-09-26 19:33:40,735 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:33:40,736 - aiogram.dispatcher - WARNING - Sleep for 5.081512 seconds and try again... (tryings = 8587, bot id = 8888839728)
+2026-09-26 19:33:46,048 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:33:46,049 - aiogram.dispatcher - WARNING - Sleep for 4.999222 seconds and try again... (tryings = 8588, bot id = 8888839728)
+2026-09-26 19:33:51,314 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:33:51,316 - aiogram.dispatcher - WARNING - Sleep for 4.876475 seconds and try again... (tryings = 8589, bot id = 8888839728)
+2026-09-26 19:33:56,382 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:33:56,383 - aiogram.dispatcher - WARNING - Sleep for 5.129273 seconds and try again... (tryings = 8590, bot id = 8888839728)
+2026-09-26 19:34:01,747 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:34:01,748 - aiogram.dispatcher - WARNING - Sleep for 5.075901 seconds and try again... (tryings = 8591, bot id = 8888839728)
+2026-09-26 19:34:07,044 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:34:07,044 - aiogram.dispatcher - WARNING - Sleep for 4.689804 seconds and try again... (tryings = 8592, bot id = 8888839728)
+2026-09-26 19:34:11,968 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:34:11,968 - aiogram.dispatcher - WARNING - Sleep for 4.935227 seconds and try again... (tryings = 8593, bot id = 8888839728)
+2026-09-26 19:34:17,078 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:34:17,116 - aiogram.dispatcher - WARNING - Sleep for 4.945754 seconds and try again... (tryings = 8594, bot id = 8888839728)
+2026-09-26 19:34:22,443 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:34:22,444 - aiogram.dispatcher - WARNING - Sleep for 5.001264 seconds and try again... (tryings = 8595, bot id = 8888839728)
+2026-09-26 19:34:27,627 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:34:27,643 - aiogram.dispatcher - WARNING - Sleep for 5.127785 seconds and try again... (tryings = 8596, bot id = 8888839728)
+2026-09-26 19:34:32,960 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:34:32,966 - aiogram.dispatcher - WARNING - Sleep for 4.944697 seconds and try again... (tryings = 8597, bot id = 8888839728)
+2026-09-26 19:34:38,089 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:34:38,090 - aiogram.dispatcher - WARNING - Sleep for 4.995099 seconds and try again... (tryings = 8598, bot id = 8888839728)
+2026-09-26 19:34:43,252 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:34:43,265 - aiogram.dispatcher - WARNING - Sleep for 5.068259 seconds and try again... (tryings = 8599, bot id = 8888839728)
+2026-09-26 19:34:48,513 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:34:48,514 - aiogram.dispatcher - WARNING - Sleep for 5.122928 seconds and try again... (tryings = 8600, bot id = 8888839728)
+2026-09-26 19:34:54,043 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:34:54,045 - aiogram.dispatcher - WARNING - Sleep for 5.121162 seconds and try again... (tryings = 8601, bot id = 8888839728)
+2026-09-26 19:34:59,366 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:34:59,371 - aiogram.dispatcher - WARNING - Sleep for 5.076733 seconds and try again... (tryings = 8602, bot id = 8888839728)
+2026-09-26 19:35:04,625 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:35:04,626 - aiogram.dispatcher - WARNING - Sleep for 5.009275 seconds and try again... (tryings = 8603, bot id = 8888839728)
+2026-09-26 19:35:09,806 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:35:09,807 - aiogram.dispatcher - WARNING - Sleep for 4.991474 seconds and try again... (tryings = 8604, bot id = 8888839728)
+2026-09-26 19:35:14,991 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:35:14,991 - aiogram.dispatcher - WARNING - Sleep for 5.000825 seconds and try again... (tryings = 8605, bot id = 8888839728)
+2026-09-26 19:35:20,167 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:35:20,168 - aiogram.dispatcher - WARNING - Sleep for 4.959352 seconds and try again... (tryings = 8606, bot id = 8888839728)
+2026-09-26 19:35:25,304 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:35:25,305 - aiogram.dispatcher - WARNING - Sleep for 4.877444 seconds and try again... (tryings = 8607, bot id = 8888839728)
+2026-09-26 19:35:30,357 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:35:30,358 - aiogram.dispatcher - WARNING - Sleep for 4.893393 seconds and try again... (tryings = 8608, bot id = 8888839728)
+2026-09-26 19:35:35,424 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:35:35,425 - aiogram.dispatcher - WARNING - Sleep for 4.942140 seconds and try again... (tryings = 8609, bot id = 8888839728)
+2026-09-26 19:35:40,592 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:35:40,592 - aiogram.dispatcher - WARNING - Sleep for 4.822421 seconds and try again... (tryings = 8610, bot id = 8888839728)
+2026-09-26 19:35:45,588 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:35:45,588 - aiogram.dispatcher - WARNING - Sleep for 4.985891 seconds and try again... (tryings = 8611, bot id = 8888839728)
+2026-09-26 19:35:50,738 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:35:50,739 - aiogram.dispatcher - WARNING - Sleep for 5.101816 seconds and try again... (tryings = 8612, bot id = 8888839728)
+2026-09-26 19:35:56,085 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:35:56,086 - aiogram.dispatcher - WARNING - Sleep for 4.790300 seconds and try again... (tryings = 8613, bot id = 8888839728)
+2026-09-26 19:36:01,063 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:36:01,064 - aiogram.dispatcher - WARNING - Sleep for 5.135854 seconds and try again... (tryings = 8614, bot id = 8888839728)
+2026-09-26 19:36:06,371 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:36:06,372 - aiogram.dispatcher - WARNING - Sleep for 4.879245 seconds and try again... (tryings = 8615, bot id = 8888839728)
+2026-09-26 19:36:11,419 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:36:11,420 - aiogram.dispatcher - WARNING - Sleep for 4.843209 seconds and try again... (tryings = 8616, bot id = 8888839728)
+2026-09-26 19:36:16,477 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:36:16,478 - aiogram.dispatcher - WARNING - Sleep for 5.106416 seconds and try again... (tryings = 8617, bot id = 8888839728)
+2026-09-26 19:36:21,766 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:36:21,767 - aiogram.dispatcher - WARNING - Sleep for 5.115039 seconds and try again... (tryings = 8618, bot id = 8888839728)
+2026-09-26 19:36:27,101 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:36:27,102 - aiogram.dispatcher - WARNING - Sleep for 5.037816 seconds and try again... (tryings = 8619, bot id = 8888839728)
+2026-09-26 19:36:32,321 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:36:32,322 - aiogram.dispatcher - WARNING - Sleep for 5.032164 seconds and try again... (tryings = 8620, bot id = 8888839728)
+2026-09-26 19:36:37,567 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:36:37,568 - aiogram.dispatcher - WARNING - Sleep for 5.106957 seconds and try again... (tryings = 8621, bot id = 8888839728)
+2026-09-26 19:36:42,844 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:36:42,845 - aiogram.dispatcher - WARNING - Sleep for 4.894427 seconds and try again... (tryings = 8622, bot id = 8888839728)
+2026-09-26 19:36:47,916 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:36:47,917 - aiogram.dispatcher - WARNING - Sleep for 4.979735 seconds and try again... (tryings = 8623, bot id = 8888839728)
+2026-09-26 19:36:53,086 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:36:53,091 - aiogram.dispatcher - WARNING - Sleep for 5.059288 seconds and try again... (tryings = 8624, bot id = 8888839728)
+2026-09-26 19:36:58,690 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:36:58,746 - aiogram.dispatcher - WARNING - Sleep for 5.061570 seconds and try again... (tryings = 8625, bot id = 8888839728)
+2026-09-26 19:37:04,031 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:37:04,094 - aiogram.dispatcher - WARNING - Sleep for 4.768301 seconds and try again... (tryings = 8626, bot id = 8888839728)
+2026-09-26 19:37:09,045 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:37:09,046 - aiogram.dispatcher - WARNING - Sleep for 5.041837 seconds and try again... (tryings = 8627, bot id = 8888839728)
+2026-09-26 19:37:14,302 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:37:14,673 - aiogram.dispatcher - WARNING - Sleep for 5.086043 seconds and try again... (tryings = 8628, bot id = 8888839728)
+2026-09-26 19:37:20,036 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:37:20,065 - aiogram.dispatcher - WARNING - Sleep for 5.013697 seconds and try again... (tryings = 8629, bot id = 8888839728)
+2026-09-26 19:37:25,290 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:37:25,291 - aiogram.dispatcher - WARNING - Sleep for 5.096844 seconds and try again... (tryings = 8630, bot id = 8888839728)
+2026-09-26 19:37:30,580 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:37:30,585 - aiogram.dispatcher - WARNING - Sleep for 4.961482 seconds and try again... (tryings = 8631, bot id = 8888839728)
+2026-09-26 19:37:35,757 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:37:35,758 - aiogram.dispatcher - WARNING - Sleep for 5.213152 seconds and try again... (tryings = 8632, bot id = 8888839728)
+2026-09-26 19:37:41,184 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:37:41,262 - aiogram.dispatcher - WARNING - Sleep for 5.048679 seconds and try again... (tryings = 8633, bot id = 8888839728)
+2026-09-26 19:37:46,565 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:37:46,569 - aiogram.dispatcher - WARNING - Sleep for 4.916798 seconds and try again... (tryings = 8634, bot id = 8888839728)
+2026-09-26 19:37:51,711 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:37:51,712 - aiogram.dispatcher - WARNING - Sleep for 4.999050 seconds and try again... (tryings = 8635, bot id = 8888839728)
+2026-09-26 19:37:57,092 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:37:57,122 - aiogram.dispatcher - WARNING - Sleep for 4.901469 seconds and try again... (tryings = 8636, bot id = 8888839728)
+2026-09-26 19:38:02,205 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:38:02,206 - aiogram.dispatcher - WARNING - Sleep for 5.015576 seconds and try again... (tryings = 8637, bot id = 8888839728)
+2026-09-26 19:38:07,387 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:38:07,388 - aiogram.dispatcher - WARNING - Sleep for 5.075212 seconds and try again... (tryings = 8638, bot id = 8888839728)
+2026-09-26 19:38:12,650 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:38:12,651 - aiogram.dispatcher - WARNING - Sleep for 5.003930 seconds and try again... (tryings = 8639, bot id = 8888839728)
+2026-09-26 19:38:17,838 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:38:17,839 - aiogram.dispatcher - WARNING - Sleep for 4.878077 seconds and try again... (tryings = 8640, bot id = 8888839728)
+2026-09-26 19:38:22,992 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:38:22,993 - aiogram.dispatcher - WARNING - Sleep for 5.046006 seconds and try again... (tryings = 8641, bot id = 8888839728)
+2026-09-26 19:38:28,271 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:38:28,271 - aiogram.dispatcher - WARNING - Sleep for 4.968065 seconds and try again... (tryings = 8642, bot id = 8888839728)
+2026-09-26 19:38:33,461 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:38:33,462 - aiogram.dispatcher - WARNING - Sleep for 5.082689 seconds and try again... (tryings = 8643, bot id = 8888839728)
+2026-09-26 19:38:38,859 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:38:38,928 - aiogram.dispatcher - WARNING - Sleep for 5.211871 seconds and try again... (tryings = 8644, bot id = 8888839728)
+2026-09-26 19:38:44,364 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:38:44,367 - aiogram.dispatcher - WARNING - Sleep for 5.078022 seconds and try again... (tryings = 8645, bot id = 8888839728)
+2026-09-26 19:38:49,623 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:38:49,624 - aiogram.dispatcher - WARNING - Sleep for 5.004810 seconds and try again... (tryings = 8646, bot id = 8888839728)
+2026-09-26 19:38:54,810 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:38:54,810 - aiogram.dispatcher - WARNING - Sleep for 4.997161 seconds and try again... (tryings = 8647, bot id = 8888839728)
+2026-09-26 19:39:00,134 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:39:00,136 - aiogram.dispatcher - WARNING - Sleep for 5.060814 seconds and try again... (tryings = 8648, bot id = 8888839728)
+2026-09-26 19:39:05,415 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:39:05,416 - aiogram.dispatcher - WARNING - Sleep for 5.061896 seconds and try again... (tryings = 8649, bot id = 8888839728)
+2026-09-26 19:39:10,653 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:39:10,657 - aiogram.dispatcher - WARNING - Sleep for 4.932067 seconds and try again... (tryings = 8650, bot id = 8888839728)
+2026-09-26 19:39:15,777 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:39:15,778 - aiogram.dispatcher - WARNING - Sleep for 5.124486 seconds and try again... (tryings = 8651, bot id = 8888839728)
+2026-09-26 19:39:21,082 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:39:21,083 - aiogram.dispatcher - WARNING - Sleep for 5.015869 seconds and try again... (tryings = 8652, bot id = 8888839728)
+2026-09-26 19:39:26,329 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:39:26,333 - aiogram.dispatcher - WARNING - Sleep for 4.980182 seconds and try again... (tryings = 8653, bot id = 8888839728)
+2026-09-26 19:39:31,516 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:39:31,688 - aiogram.dispatcher - WARNING - Sleep for 4.975699 seconds and try again... (tryings = 8654, bot id = 8888839728)
+2026-09-26 19:39:36,853 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:39:36,854 - aiogram.dispatcher - WARNING - Sleep for 5.023710 seconds and try again... (tryings = 8655, bot id = 8888839728)
+2026-09-26 19:39:42,063 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:39:42,080 - aiogram.dispatcher - WARNING - Sleep for 5.054515 seconds and try again... (tryings = 8656, bot id = 8888839728)
+2026-09-26 19:39:47,343 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:39:47,344 - aiogram.dispatcher - WARNING - Sleep for 4.914090 seconds and try again... (tryings = 8657, bot id = 8888839728)
+2026-09-26 19:39:52,486 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:39:52,553 - aiogram.dispatcher - WARNING - Sleep for 5.035582 seconds and try again... (tryings = 8658, bot id = 8888839728)
+2026-09-26 19:39:57,770 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:39:57,773 - aiogram.dispatcher - WARNING - Sleep for 5.079235 seconds and try again... (tryings = 8659, bot id = 8888839728)
+2026-09-26 19:40:03,028 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:40:03,058 - aiogram.dispatcher - WARNING - Sleep for 4.966361 seconds and try again... (tryings = 8660, bot id = 8888839728)
+2026-09-26 19:40:08,207 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:40:08,218 - aiogram.dispatcher - WARNING - Sleep for 5.012690 seconds and try again... (tryings = 8661, bot id = 8888839728)
+2026-09-26 19:40:13,430 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:40:13,444 - aiogram.dispatcher - WARNING - Sleep for 5.114959 seconds and try again... (tryings = 8662, bot id = 8888839728)
+2026-09-26 19:40:18,744 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:40:18,745 - aiogram.dispatcher - WARNING - Sleep for 5.094098 seconds and try again... (tryings = 8663, bot id = 8888839728)
+2026-09-26 19:40:24,060 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:40:24,071 - aiogram.dispatcher - WARNING - Sleep for 5.149640 seconds and try again... (tryings = 8664, bot id = 8888839728)
+2026-09-26 19:40:29,404 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:40:29,405 - aiogram.dispatcher - WARNING - Sleep for 5.005751 seconds and try again... (tryings = 8665, bot id = 8888839728)
+2026-09-26 19:40:34,588 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:40:34,589 - aiogram.dispatcher - WARNING - Sleep for 4.766099 seconds and try again... (tryings = 8666, bot id = 8888839728)
+2026-09-26 19:40:39,596 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:40:39,642 - aiogram.dispatcher - WARNING - Sleep for 4.881460 seconds and try again... (tryings = 8667, bot id = 8888839728)
+2026-09-26 19:40:44,945 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:40:44,976 - aiogram.dispatcher - WARNING - Sleep for 5.216311 seconds and try again... (tryings = 8668, bot id = 8888839728)
+2026-09-26 19:40:50,438 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:40:50,456 - aiogram.dispatcher - WARNING - Sleep for 4.997877 seconds and try again... (tryings = 8669, bot id = 8888839728)
+2026-09-26 19:40:55,667 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:40:55,673 - aiogram.dispatcher - WARNING - Sleep for 4.857967 seconds and try again... (tryings = 8670, bot id = 8888839728)
+2026-09-26 19:41:00,994 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:41:01,031 - aiogram.dispatcher - WARNING - Sleep for 5.036085 seconds and try again... (tryings = 8671, bot id = 8888839728)
+2026-09-26 19:41:06,265 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:41:06,266 - aiogram.dispatcher - WARNING - Sleep for 4.876029 seconds and try again... (tryings = 8672, bot id = 8888839728)
+2026-09-26 19:41:11,327 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:41:11,337 - aiogram.dispatcher - WARNING - Sleep for 4.989837 seconds and try again... (tryings = 8673, bot id = 8888839728)
+2026-09-26 19:41:16,618 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:41:16,815 - aiogram.dispatcher - WARNING - Sleep for 5.036652 seconds and try again... (tryings = 8674, bot id = 8888839728)
+2026-09-26 19:41:22,036 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:41:22,038 - aiogram.dispatcher - WARNING - Sleep for 5.095500 seconds and try again... (tryings = 8675, bot id = 8888839728)
+2026-09-26 19:41:27,307 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:41:27,308 - aiogram.dispatcher - WARNING - Sleep for 4.970199 seconds and try again... (tryings = 8676, bot id = 8888839728)
+2026-09-26 19:41:32,472 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:41:32,472 - aiogram.dispatcher - WARNING - Sleep for 4.985637 seconds and try again... (tryings = 8677, bot id = 8888839728)
+2026-09-26 19:41:37,635 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:41:37,637 - aiogram.dispatcher - WARNING - Sleep for 4.930236 seconds and try again... (tryings = 8678, bot id = 8888839728)
+2026-09-26 19:41:42,754 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:41:42,755 - aiogram.dispatcher - WARNING - Sleep for 5.049591 seconds and try again... (tryings = 8679, bot id = 8888839728)
+2026-09-26 19:41:47,981 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:41:47,982 - aiogram.dispatcher - WARNING - Sleep for 4.964076 seconds and try again... (tryings = 8680, bot id = 8888839728)
+2026-09-26 19:41:53,125 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:41:53,126 - aiogram.dispatcher - WARNING - Sleep for 4.994817 seconds and try again... (tryings = 8681, bot id = 8888839728)
+2026-09-26 19:41:58,309 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:41:58,310 - aiogram.dispatcher - WARNING - Sleep for 4.878271 seconds and try again... (tryings = 8682, bot id = 8888839728)
+2026-09-26 19:42:03,413 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:42:03,414 - aiogram.dispatcher - WARNING - Sleep for 4.957026 seconds and try again... (tryings = 8683, bot id = 8888839728)
+2026-09-26 19:42:08,547 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:42:08,548 - aiogram.dispatcher - WARNING - Sleep for 5.157291 seconds and try again... (tryings = 8684, bot id = 8888839728)
+2026-09-26 19:42:13,950 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:42:13,955 - aiogram.dispatcher - WARNING - Sleep for 4.863647 seconds and try again... (tryings = 8685, bot id = 8888839728)
+2026-09-26 19:42:19,050 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:42:19,051 - aiogram.dispatcher - WARNING - Sleep for 4.953880 seconds and try again... (tryings = 8686, bot id = 8888839728)
+2026-09-26 19:42:24,176 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:42:24,177 - aiogram.dispatcher - WARNING - Sleep for 5.044216 seconds and try again... (tryings = 8687, bot id = 8888839728)
+2026-09-26 19:42:29,397 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:42:29,397 - aiogram.dispatcher - WARNING - Sleep for 5.214513 seconds and try again... (tryings = 8688, bot id = 8888839728)
+2026-09-26 19:42:34,797 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:42:34,797 - aiogram.dispatcher - WARNING - Sleep for 4.950532 seconds and try again... (tryings = 8689, bot id = 8888839728)
+2026-09-26 19:42:39,927 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:42:39,928 - aiogram.dispatcher - WARNING - Sleep for 5.030742 seconds and try again... (tryings = 8690, bot id = 8888839728)
+2026-09-26 19:42:45,124 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:42:45,124 - aiogram.dispatcher - WARNING - Sleep for 5.072204 seconds and try again... (tryings = 8691, bot id = 8888839728)
+2026-09-26 19:42:50,367 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:42:50,368 - aiogram.dispatcher - WARNING - Sleep for 5.115658 seconds and try again... (tryings = 8692, bot id = 8888839728)
+2026-09-26 19:42:55,667 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:42:55,668 - aiogram.dispatcher - WARNING - Sleep for 5.164303 seconds and try again... (tryings = 8693, bot id = 8888839728)
+2026-09-26 19:43:01,204 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:43:01,205 - aiogram.dispatcher - WARNING - Sleep for 4.904803 seconds and try again... (tryings = 8694, bot id = 8888839728)
+2026-09-26 19:43:06,295 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:43:06,296 - aiogram.dispatcher - WARNING - Sleep for 4.877932 seconds and try again... (tryings = 8695, bot id = 8888839728)
+2026-09-26 19:43:11,351 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:43:11,351 - aiogram.dispatcher - WARNING - Sleep for 5.119507 seconds and try again... (tryings = 8696, bot id = 8888839728)
+2026-09-26 19:43:16,646 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:43:16,649 - aiogram.dispatcher - WARNING - Sleep for 4.867937 seconds and try again... (tryings = 8697, bot id = 8888839728)
+2026-09-26 19:43:21,693 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:43:21,693 - aiogram.dispatcher - WARNING - Sleep for 4.994799 seconds and try again... (tryings = 8698, bot id = 8888839728)
+2026-09-26 19:43:26,909 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:43:26,910 - aiogram.dispatcher - WARNING - Sleep for 5.091075 seconds and try again... (tryings = 8699, bot id = 8888839728)
+2026-09-26 19:43:32,170 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:43:32,206 - aiogram.dispatcher - WARNING - Sleep for 5.002954 seconds and try again... (tryings = 8700, bot id = 8888839728)
+2026-09-26 19:43:37,393 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:43:37,396 - aiogram.dispatcher - WARNING - Sleep for 5.188066 seconds and try again... (tryings = 8701, bot id = 8888839728)
+2026-09-26 19:43:42,758 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:43:42,759 - aiogram.dispatcher - WARNING - Sleep for 4.912555 seconds and try again... (tryings = 8702, bot id = 8888839728)
+2026-09-26 19:43:47,852 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:43:47,857 - aiogram.dispatcher - WARNING - Sleep for 5.034599 seconds and try again... (tryings = 8703, bot id = 8888839728)
+2026-09-26 19:43:53,075 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:43:53,076 - aiogram.dispatcher - WARNING - Sleep for 5.066064 seconds and try again... (tryings = 8704, bot id = 8888839728)
+2026-09-26 19:43:58,319 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:43:58,320 - aiogram.dispatcher - WARNING - Sleep for 4.938367 seconds and try again... (tryings = 8705, bot id = 8888839728)
+2026-09-26 19:44:03,443 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:44:03,444 - aiogram.dispatcher - WARNING - Sleep for 4.999715 seconds and try again... (tryings = 8706, bot id = 8888839728)
+2026-09-26 19:44:08,626 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:44:08,627 - aiogram.dispatcher - WARNING - Sleep for 4.905584 seconds and try again... (tryings = 8707, bot id = 8888839728)
+2026-09-26 19:44:13,700 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:44:13,701 - aiogram.dispatcher - WARNING - Sleep for 4.861887 seconds and try again... (tryings = 8708, bot id = 8888839728)
+2026-09-26 19:44:18,770 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:44:18,771 - aiogram.dispatcher - WARNING - Sleep for 5.021529 seconds and try again... (tryings = 8709, bot id = 8888839728)
+2026-09-26 19:44:24,277 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:44:24,278 - aiogram.dispatcher - WARNING - Sleep for 4.893825 seconds and try again... (tryings = 8710, bot id = 8888839728)
+2026-09-26 19:44:29,360 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:44:29,361 - aiogram.dispatcher - WARNING - Sleep for 5.139275 seconds and try again... (tryings = 8711, bot id = 8888839728)
+2026-09-26 19:44:34,679 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:44:34,680 - aiogram.dispatcher - WARNING - Sleep for 5.078522 seconds and try again... (tryings = 8712, bot id = 8888839728)
+2026-09-26 19:44:39,959 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:44:39,960 - aiogram.dispatcher - WARNING - Sleep for 5.068556 seconds and try again... (tryings = 8713, bot id = 8888839728)
+2026-09-26 19:44:45,206 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:44:45,207 - aiogram.dispatcher - WARNING - Sleep for 4.920207 seconds and try again... (tryings = 8714, bot id = 8888839728)
+2026-09-26 19:44:50,318 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:44:50,318 - aiogram.dispatcher - WARNING - Sleep for 4.963031 seconds and try again... (tryings = 8715, bot id = 8888839728)
+2026-09-26 19:44:55,496 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:44:55,497 - aiogram.dispatcher - WARNING - Sleep for 4.939866 seconds and try again... (tryings = 8716, bot id = 8888839728)
+2026-09-26 19:45:00,652 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:45:00,653 - aiogram.dispatcher - WARNING - Sleep for 5.017075 seconds and try again... (tryings = 8717, bot id = 8888839728)
+2026-09-26 19:45:06,040 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:45:06,041 - aiogram.dispatcher - WARNING - Sleep for 5.135370 seconds and try again... (tryings = 8718, bot id = 8888839728)
+2026-09-26 19:45:11,347 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:45:11,347 - aiogram.dispatcher - WARNING - Sleep for 4.879107 seconds and try again... (tryings = 8719, bot id = 8888839728)
+2026-09-26 19:45:16,407 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:45:16,408 - aiogram.dispatcher - WARNING - Sleep for 5.054188 seconds and try again... (tryings = 8720, bot id = 8888839728)
+2026-09-26 19:45:21,633 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:45:21,634 - aiogram.dispatcher - WARNING - Sleep for 5.110056 seconds and try again... (tryings = 8721, bot id = 8888839728)
+2026-09-26 19:45:26,923 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:45:26,925 - aiogram.dispatcher - WARNING - Sleep for 5.093197 seconds and try again... (tryings = 8722, bot id = 8888839728)
+2026-09-26 19:45:32,197 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:45:32,199 - aiogram.dispatcher - WARNING - Sleep for 4.996038 seconds and try again... (tryings = 8723, bot id = 8888839728)
+2026-09-26 19:45:37,389 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:45:37,390 - aiogram.dispatcher - WARNING - Sleep for 4.885596 seconds and try again... (tryings = 8724, bot id = 8888839728)
+2026-09-26 19:45:42,461 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:45:42,463 - aiogram.dispatcher - WARNING - Sleep for 4.963287 seconds and try again... (tryings = 8725, bot id = 8888839728)
+2026-09-26 19:45:47,599 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:45:47,599 - aiogram.dispatcher - WARNING - Sleep for 5.060464 seconds and try again... (tryings = 8726, bot id = 8888839728)
+2026-09-26 19:45:52,829 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:45:52,830 - aiogram.dispatcher - WARNING - Sleep for 5.005095 seconds and try again... (tryings = 8727, bot id = 8888839728)
+2026-09-26 19:45:58,050 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:45:58,051 - aiogram.dispatcher - WARNING - Sleep for 5.046925 seconds and try again... (tryings = 8728, bot id = 8888839728)
+2026-09-26 19:46:03,269 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:46:03,483 - aiogram.dispatcher - WARNING - Sleep for 5.153209 seconds and try again... (tryings = 8729, bot id = 8888839728)
+2026-09-26 19:46:08,814 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:46:08,815 - aiogram.dispatcher - WARNING - Sleep for 5.026904 seconds and try again... (tryings = 8730, bot id = 8888839728)
+2026-09-26 19:46:14,034 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:46:14,035 - aiogram.dispatcher - WARNING - Sleep for 5.095368 seconds and try again... (tryings = 8731, bot id = 8888839728)
+2026-09-26 19:46:19,321 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:46:19,321 - aiogram.dispatcher - WARNING - Sleep for 4.998558 seconds and try again... (tryings = 8732, bot id = 8888839728)
+2026-09-26 19:46:24,513 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:46:24,525 - aiogram.dispatcher - WARNING - Sleep for 5.037392 seconds and try again... (tryings = 8733, bot id = 8888839728)
+2026-09-26 19:46:30,758 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:46:30,759 - aiogram.dispatcher - WARNING - Sleep for 5.042522 seconds and try again... (tryings = 8734, bot id = 8888839728)
+2026-09-26 19:46:35,988 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:46:35,989 - aiogram.dispatcher - WARNING - Sleep for 5.090648 seconds and try again... (tryings = 8735, bot id = 8888839728)
+2026-09-26 19:46:41,250 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:46:41,251 - aiogram.dispatcher - WARNING - Sleep for 5.067197 seconds and try again... (tryings = 8736, bot id = 8888839728)
+2026-09-26 19:46:46,503 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:46:46,504 - aiogram.dispatcher - WARNING - Sleep for 4.924547 seconds and try again... (tryings = 8737, bot id = 8888839728)
+2026-09-26 19:46:51,601 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:46:51,601 - aiogram.dispatcher - WARNING - Sleep for 4.817790 seconds and try again... (tryings = 8738, bot id = 8888839728)
+2026-09-26 19:46:56,597 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:46:56,598 - aiogram.dispatcher - WARNING - Sleep for 5.090119 seconds and try again... (tryings = 8739, bot id = 8888839728)
+2026-09-26 19:47:01,871 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:47:01,872 - aiogram.dispatcher - WARNING - Sleep for 5.052115 seconds and try again... (tryings = 8740, bot id = 8888839728)
+2026-09-26 19:47:07,232 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:47:07,236 - aiogram.dispatcher - WARNING - Sleep for 5.011550 seconds and try again... (tryings = 8741, bot id = 8888839728)
+2026-09-26 19:47:12,487 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:47:12,488 - aiogram.dispatcher - WARNING - Sleep for 4.992034 seconds and try again... (tryings = 8742, bot id = 8888839728)
+2026-09-26 19:47:17,653 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:47:17,654 - aiogram.dispatcher - WARNING - Sleep for 5.112256 seconds and try again... (tryings = 8743, bot id = 8888839728)
+2026-09-26 19:47:22,944 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:47:22,946 - aiogram.dispatcher - WARNING - Sleep for 5.089827 seconds and try again... (tryings = 8744, bot id = 8888839728)
+2026-09-26 19:47:28,217 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:47:28,218 - aiogram.dispatcher - WARNING - Sleep for 4.970259 seconds and try again... (tryings = 8745, bot id = 8888839728)
+2026-09-26 19:47:33,376 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:47:33,376 - aiogram.dispatcher - WARNING - Sleep for 4.827763 seconds and try again... (tryings = 8746, bot id = 8888839728)
+2026-09-26 19:47:38,413 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:47:38,448 - aiogram.dispatcher - WARNING - Sleep for 4.937510 seconds and try again... (tryings = 8747, bot id = 8888839728)
+2026-09-26 19:47:43,582 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:47:43,592 - aiogram.dispatcher - WARNING - Sleep for 5.117410 seconds and try again... (tryings = 8748, bot id = 8888839728)
+2026-09-26 19:47:48,876 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:47:48,879 - aiogram.dispatcher - WARNING - Sleep for 5.049924 seconds and try again... (tryings = 8749, bot id = 8888839728)
+2026-09-26 19:47:54,114 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:47:54,115 - aiogram.dispatcher - WARNING - Sleep for 5.038872 seconds and try again... (tryings = 8750, bot id = 8888839728)
+2026-09-26 19:47:59,338 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:47:59,339 - aiogram.dispatcher - WARNING - Sleep for 4.926894 seconds and try again... (tryings = 8751, bot id = 8888839728)
+2026-09-26 19:48:04,458 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:48:04,459 - aiogram.dispatcher - WARNING - Sleep for 5.090383 seconds and try again... (tryings = 8752, bot id = 8888839728)
+2026-09-26 19:48:09,719 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:48:09,719 - aiogram.dispatcher - WARNING - Sleep for 5.111610 seconds and try again... (tryings = 8753, bot id = 8888839728)
+2026-09-26 19:48:15,000 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:48:15,000 - aiogram.dispatcher - WARNING - Sleep for 4.924307 seconds and try again... (tryings = 8754, bot id = 8888839728)
+2026-09-26 19:48:20,108 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:48:20,109 - aiogram.dispatcher - WARNING - Sleep for 5.042042 seconds and try again... (tryings = 8755, bot id = 8888839728)
+2026-09-26 19:48:25,336 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:48:25,337 - aiogram.dispatcher - WARNING - Sleep for 5.111453 seconds and try again... (tryings = 8756, bot id = 8888839728)
+2026-09-26 19:48:30,619 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:48:30,620 - aiogram.dispatcher - WARNING - Sleep for 4.841562 seconds and try again... (tryings = 8757, bot id = 8888839728)
+2026-09-26 19:48:35,639 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:48:35,640 - aiogram.dispatcher - WARNING - Sleep for 5.096789 seconds and try again... (tryings = 8758, bot id = 8888839728)
+2026-09-26 19:48:40,950 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:48:40,951 - aiogram.dispatcher - WARNING - Sleep for 4.839613 seconds and try again... (tryings = 8759, bot id = 8888839728)
+2026-09-26 19:48:45,966 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:48:45,966 - aiogram.dispatcher - WARNING - Sleep for 4.734750 seconds and try again... (tryings = 8760, bot id = 8888839728)
+2026-09-26 19:48:50,880 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:48:50,881 - aiogram.dispatcher - WARNING - Sleep for 4.864997 seconds and try again... (tryings = 8761, bot id = 8888839728)
+2026-09-26 19:48:55,930 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:48:55,931 - aiogram.dispatcher - WARNING - Sleep for 4.975703 seconds and try again... (tryings = 8762, bot id = 8888839728)
+2026-09-26 19:49:01,080 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:49:01,081 - aiogram.dispatcher - WARNING - Sleep for 4.969199 seconds and try again... (tryings = 8763, bot id = 8888839728)
+2026-09-26 19:49:06,223 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:49:06,234 - aiogram.dispatcher - WARNING - Sleep for 5.051077 seconds and try again... (tryings = 8764, bot id = 8888839728)
+2026-09-26 19:49:11,587 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:49:11,588 - aiogram.dispatcher - WARNING - Sleep for 4.907870 seconds and try again... (tryings = 8765, bot id = 8888839728)
+2026-09-26 19:49:16,676 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:49:16,677 - aiogram.dispatcher - WARNING - Sleep for 4.948909 seconds and try again... (tryings = 8766, bot id = 8888839728)
+2026-09-26 19:49:21,796 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:49:21,797 - aiogram.dispatcher - WARNING - Sleep for 5.120230 seconds and try again... (tryings = 8767, bot id = 8888839728)
+2026-09-26 19:49:27,090 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:49:27,091 - aiogram.dispatcher - WARNING - Sleep for 5.149713 seconds and try again... (tryings = 8768, bot id = 8888839728)
+2026-09-26 19:49:32,422 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:49:32,423 - aiogram.dispatcher - WARNING - Sleep for 4.907239 seconds and try again... (tryings = 8769, bot id = 8888839728)
+2026-09-26 19:49:37,510 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:49:37,511 - aiogram.dispatcher - WARNING - Sleep for 4.964349 seconds and try again... (tryings = 8770, bot id = 8888839728)
+2026-09-26 19:49:42,736 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:49:42,736 - aiogram.dispatcher - WARNING - Sleep for 4.950119 seconds and try again... (tryings = 8771, bot id = 8888839728)
+2026-09-26 19:49:47,857 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:49:47,858 - aiogram.dispatcher - WARNING - Sleep for 5.065843 seconds and try again... (tryings = 8772, bot id = 8888839728)
+2026-09-26 19:49:53,124 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:49:53,125 - aiogram.dispatcher - WARNING - Sleep for 5.124406 seconds and try again... (tryings = 8773, bot id = 8888839728)
+2026-09-26 19:49:58,465 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:49:58,466 - aiogram.dispatcher - WARNING - Sleep for 5.015000 seconds and try again... (tryings = 8774, bot id = 8888839728)
+2026-09-26 19:50:03,656 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:50:03,657 - aiogram.dispatcher - WARNING - Sleep for 4.946931 seconds and try again... (tryings = 8775, bot id = 8888839728)
+2026-09-26 19:50:08,790 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:50:08,791 - aiogram.dispatcher - WARNING - Sleep for 5.125216 seconds and try again... (tryings = 8776, bot id = 8888839728)
+2026-09-26 19:50:14,095 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:50:14,097 - aiogram.dispatcher - WARNING - Sleep for 4.947441 seconds and try again... (tryings = 8777, bot id = 8888839728)
+2026-09-26 19:50:19,220 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:50:19,221 - aiogram.dispatcher - WARNING - Sleep for 4.932252 seconds and try again... (tryings = 8778, bot id = 8888839728)
+2026-09-26 19:50:24,337 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:50:24,337 - aiogram.dispatcher - WARNING - Sleep for 5.101128 seconds and try again... (tryings = 8779, bot id = 8888839728)
+2026-09-26 19:50:29,613 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:50:29,614 - aiogram.dispatcher - WARNING - Sleep for 5.019856 seconds and try again... (tryings = 8780, bot id = 8888839728)
+2026-09-26 19:50:34,857 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:50:34,858 - aiogram.dispatcher - WARNING - Sleep for 5.034554 seconds and try again... (tryings = 8781, bot id = 8888839728)
+2026-09-26 19:50:40,107 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:50:40,108 - aiogram.dispatcher - WARNING - Sleep for 5.007778 seconds and try again... (tryings = 8782, bot id = 8888839728)
+2026-09-26 19:50:45,292 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:50:45,293 - aiogram.dispatcher - WARNING - Sleep for 4.906051 seconds and try again... (tryings = 8783, bot id = 8888839728)
+2026-09-26 19:50:50,382 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:50:50,383 - aiogram.dispatcher - WARNING - Sleep for 4.924106 seconds and try again... (tryings = 8784, bot id = 8888839728)
+2026-09-26 19:50:55,489 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:50:55,489 - aiogram.dispatcher - WARNING - Sleep for 5.096709 seconds and try again... (tryings = 8785, bot id = 8888839728)
+2026-09-26 19:51:00,871 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:51:00,871 - aiogram.dispatcher - WARNING - Sleep for 5.241793 seconds and try again... (tryings = 8786, bot id = 8888839728)
+2026-09-26 19:51:06,291 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:51:06,292 - aiogram.dispatcher - WARNING - Sleep for 4.953506 seconds and try again... (tryings = 8787, bot id = 8888839728)
+2026-09-26 19:51:11,420 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:51:11,421 - aiogram.dispatcher - WARNING - Sleep for 5.098460 seconds and try again... (tryings = 8788, bot id = 8888839728)
+2026-09-26 19:51:16,799 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:51:16,817 - aiogram.dispatcher - WARNING - Sleep for 5.050013 seconds and try again... (tryings = 8789, bot id = 8888839728)
+2026-09-26 19:51:22,045 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:51:22,046 - aiogram.dispatcher - WARNING - Sleep for 4.963197 seconds and try again... (tryings = 8790, bot id = 8888839728)
+2026-09-26 19:51:27,191 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:51:27,191 - aiogram.dispatcher - WARNING - Sleep for 5.098399 seconds and try again... (tryings = 8791, bot id = 8888839728)
+2026-09-26 19:51:32,460 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:51:32,461 - aiogram.dispatcher - WARNING - Sleep for 5.171402 seconds and try again... (tryings = 8792, bot id = 8888839728)
+2026-09-26 19:51:37,810 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:51:37,812 - aiogram.dispatcher - WARNING - Sleep for 4.979112 seconds and try again... (tryings = 8793, bot id = 8888839728)
+2026-09-26 19:51:42,963 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:51:42,963 - aiogram.dispatcher - WARNING - Sleep for 4.979461 seconds and try again... (tryings = 8794, bot id = 8888839728)
+2026-09-26 19:51:48,132 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:51:48,133 - aiogram.dispatcher - WARNING - Sleep for 5.049310 seconds and try again... (tryings = 8795, bot id = 8888839728)
+2026-09-26 19:51:53,364 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:51:53,365 - aiogram.dispatcher - WARNING - Sleep for 5.166242 seconds and try again... (tryings = 8796, bot id = 8888839728)
+2026-09-26 19:51:58,708 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:51:58,709 - aiogram.dispatcher - WARNING - Sleep for 5.120713 seconds and try again... (tryings = 8797, bot id = 8888839728)
+2026-09-26 19:52:04,003 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:52:04,004 - aiogram.dispatcher - WARNING - Sleep for 5.030160 seconds and try again... (tryings = 8798, bot id = 8888839728)
+2026-09-26 19:52:09,206 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:52:09,207 - aiogram.dispatcher - WARNING - Sleep for 4.972084 seconds and try again... (tryings = 8799, bot id = 8888839728)
+2026-09-26 19:52:14,361 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:52:14,362 - aiogram.dispatcher - WARNING - Sleep for 4.978624 seconds and try again... (tryings = 8800, bot id = 8888839728)
+2026-09-26 19:52:19,515 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:52:19,516 - aiogram.dispatcher - WARNING - Sleep for 5.142027 seconds and try again... (tryings = 8801, bot id = 8888839728)
+2026-09-26 19:52:24,837 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:52:24,838 - aiogram.dispatcher - WARNING - Sleep for 5.026887 seconds and try again... (tryings = 8802, bot id = 8888839728)
+2026-09-26 19:52:30,085 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:52:30,086 - aiogram.dispatcher - WARNING - Sleep for 4.903565 seconds and try again... (tryings = 8803, bot id = 8888839728)
+2026-09-26 19:52:35,164 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:52:35,165 - aiogram.dispatcher - WARNING - Sleep for 5.374547 seconds and try again... (tryings = 8804, bot id = 8888839728)
+2026-09-26 19:52:40,719 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:52:40,720 - aiogram.dispatcher - WARNING - Sleep for 4.941854 seconds and try again... (tryings = 8805, bot id = 8888839728)
+2026-09-26 19:52:45,855 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:52:45,855 - aiogram.dispatcher - WARNING - Sleep for 5.097206 seconds and try again... (tryings = 8806, bot id = 8888839728)
+2026-09-26 19:52:51,145 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:52:51,146 - aiogram.dispatcher - WARNING - Sleep for 4.995326 seconds and try again... (tryings = 8807, bot id = 8888839728)
+2026-09-26 19:52:56,367 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:52:56,368 - aiogram.dispatcher - WARNING - Sleep for 5.146112 seconds and try again... (tryings = 8808, bot id = 8888839728)
+2026-09-26 19:53:01,693 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:53:01,694 - aiogram.dispatcher - WARNING - Sleep for 5.187320 seconds and try again... (tryings = 8809, bot id = 8888839728)
+2026-09-26 19:53:07,058 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:53:07,059 - aiogram.dispatcher - WARNING - Sleep for 4.973129 seconds and try again... (tryings = 8810, bot id = 8888839728)
+2026-09-26 19:53:12,244 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:53:12,245 - aiogram.dispatcher - WARNING - Sleep for 4.964273 seconds and try again... (tryings = 8811, bot id = 8888839728)
+2026-09-26 19:53:17,551 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:53:17,551 - aiogram.dispatcher - WARNING - Sleep for 5.142351 seconds and try again... (tryings = 8812, bot id = 8888839728)
+2026-09-26 19:53:22,894 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:53:22,894 - aiogram.dispatcher - WARNING - Sleep for 5.016086 seconds and try again... (tryings = 8813, bot id = 8888839728)
+2026-09-26 19:53:28,129 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:53:28,130 - aiogram.dispatcher - WARNING - Sleep for 4.909648 seconds and try again... (tryings = 8814, bot id = 8888839728)
+2026-09-26 19:53:33,232 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:53:33,233 - aiogram.dispatcher - WARNING - Sleep for 5.098734 seconds and try again... (tryings = 8815, bot id = 8888839728)
+2026-09-26 19:53:38,516 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:53:38,517 - aiogram.dispatcher - WARNING - Sleep for 4.943693 seconds and try again... (tryings = 8816, bot id = 8888839728)
+2026-09-26 19:53:43,677 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:53:43,713 - aiogram.dispatcher - WARNING - Sleep for 4.919848 seconds and try again... (tryings = 8817, bot id = 8888839728)
+2026-09-26 19:53:48,822 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:53:48,826 - aiogram.dispatcher - WARNING - Sleep for 5.213406 seconds and try again... (tryings = 8818, bot id = 8888839728)
+2026-09-26 19:53:54,220 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:53:54,221 - aiogram.dispatcher - WARNING - Sleep for 4.907769 seconds and try again... (tryings = 8819, bot id = 8888839728)
+2026-09-26 19:53:59,314 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:53:59,315 - aiogram.dispatcher - WARNING - Sleep for 5.117799 seconds and try again... (tryings = 8820, bot id = 8888839728)
+2026-09-26 19:54:04,622 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:54:04,623 - aiogram.dispatcher - WARNING - Sleep for 4.988583 seconds and try again... (tryings = 8821, bot id = 8888839728)
+2026-09-26 19:54:09,790 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:54:09,791 - aiogram.dispatcher - WARNING - Sleep for 4.960360 seconds and try again... (tryings = 8822, bot id = 8888839728)
+2026-09-26 19:54:14,934 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:54:14,935 - aiogram.dispatcher - WARNING - Sleep for 4.878731 seconds and try again... (tryings = 8823, bot id = 8888839728)
+2026-09-26 19:54:19,990 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:54:19,991 - aiogram.dispatcher - WARNING - Sleep for 5.070738 seconds and try again... (tryings = 8824, bot id = 8888839728)
+2026-09-26 19:54:25,228 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:54:25,229 - aiogram.dispatcher - WARNING - Sleep for 5.139267 seconds and try again... (tryings = 8825, bot id = 8888839728)
+2026-09-26 19:54:30,551 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:54:30,551 - aiogram.dispatcher - WARNING - Sleep for 5.132345 seconds and try again... (tryings = 8826, bot id = 8888839728)
+2026-09-26 19:54:35,934 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:54:35,935 - aiogram.dispatcher - WARNING - Sleep for 4.919884 seconds and try again... (tryings = 8827, bot id = 8888839728)
+2026-09-26 19:54:41,037 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:54:41,037 - aiogram.dispatcher - WARNING - Sleep for 4.975593 seconds and try again... (tryings = 8828, bot id = 8888839728)
+2026-09-26 19:54:46,194 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:54:46,212 - aiogram.dispatcher - WARNING - Sleep for 5.116154 seconds and try again... (tryings = 8829, bot id = 8888839728)
+2026-09-26 19:54:51,520 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:54:51,521 - aiogram.dispatcher - WARNING - Sleep for 4.952106 seconds and try again... (tryings = 8830, bot id = 8888839728)
+2026-09-26 19:54:56,654 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:54:56,655 - aiogram.dispatcher - WARNING - Sleep for 4.859503 seconds and try again... (tryings = 8831, bot id = 8888839728)
+2026-09-26 19:55:01,690 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:55:01,691 - aiogram.dispatcher - WARNING - Sleep for 4.988901 seconds and try again... (tryings = 8832, bot id = 8888839728)
+2026-09-26 19:55:06,879 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:55:06,880 - aiogram.dispatcher - WARNING - Sleep for 5.079245 seconds and try again... (tryings = 8833, bot id = 8888839728)
+2026-09-26 19:55:12,152 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:55:12,153 - aiogram.dispatcher - WARNING - Sleep for 5.008793 seconds and try again... (tryings = 8834, bot id = 8888839728)
+2026-09-26 19:55:17,348 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:55:17,349 - aiogram.dispatcher - WARNING - Sleep for 4.927337 seconds and try again... (tryings = 8835, bot id = 8888839728)
+2026-09-26 19:55:22,649 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:55:22,650 - aiogram.dispatcher - WARNING - Sleep for 4.980320 seconds and try again... (tryings = 8836, bot id = 8888839728)
+2026-09-26 19:55:27,819 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:55:27,820 - aiogram.dispatcher - WARNING - Sleep for 5.060431 seconds and try again... (tryings = 8837, bot id = 8888839728)
+2026-09-26 19:55:33,060 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:55:33,061 - aiogram.dispatcher - WARNING - Sleep for 5.038677 seconds and try again... (tryings = 8838, bot id = 8888839728)
+2026-09-26 19:55:38,279 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:55:38,280 - aiogram.dispatcher - WARNING - Sleep for 4.921578 seconds and try again... (tryings = 8839, bot id = 8888839728)
+2026-09-26 19:55:43,390 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:55:43,391 - aiogram.dispatcher - WARNING - Sleep for 4.977652 seconds and try again... (tryings = 8840, bot id = 8888839728)
+2026-09-26 19:55:48,550 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:55:48,550 - aiogram.dispatcher - WARNING - Sleep for 5.052210 seconds and try again... (tryings = 8841, bot id = 8888839728)
+2026-09-26 19:55:53,818 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:55:53,819 - aiogram.dispatcher - WARNING - Sleep for 4.946648 seconds and try again... (tryings = 8842, bot id = 8888839728)
+2026-09-26 19:55:58,944 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:55:58,945 - aiogram.dispatcher - WARNING - Sleep for 5.058397 seconds and try again... (tryings = 8843, bot id = 8888839728)
+2026-09-26 19:56:04,189 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:56:04,190 - aiogram.dispatcher - WARNING - Sleep for 4.977032 seconds and try again... (tryings = 8844, bot id = 8888839728)
+2026-09-26 19:56:09,344 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:56:09,345 - aiogram.dispatcher - WARNING - Sleep for 5.057425 seconds and try again... (tryings = 8845, bot id = 8888839728)
+2026-09-26 19:56:14,578 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:56:14,581 - aiogram.dispatcher - WARNING - Sleep for 5.117923 seconds and try again... (tryings = 8846, bot id = 8888839728)
+2026-09-26 19:56:19,885 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:56:19,886 - aiogram.dispatcher - WARNING - Sleep for 5.152448 seconds and try again... (tryings = 8847, bot id = 8888839728)
+2026-09-26 19:56:25,299 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:56:25,300 - aiogram.dispatcher - WARNING - Sleep for 5.056760 seconds and try again... (tryings = 8848, bot id = 8888839728)
+2026-09-26 19:56:30,575 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:56:30,576 - aiogram.dispatcher - WARNING - Sleep for 4.973232 seconds and try again... (tryings = 8849, bot id = 8888839728)
+2026-09-26 19:56:35,729 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:56:35,730 - aiogram.dispatcher - WARNING - Sleep for 5.039987 seconds and try again... (tryings = 8850, bot id = 8888839728)
+2026-09-26 19:56:40,942 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:56:40,942 - aiogram.dispatcher - WARNING - Sleep for 4.955568 seconds and try again... (tryings = 8851, bot id = 8888839728)
+2026-09-26 19:56:46,070 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:56:46,070 - aiogram.dispatcher - WARNING - Sleep for 4.886698 seconds and try again... (tryings = 8852, bot id = 8888839728)
+2026-09-26 19:56:51,147 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:56:51,148 - aiogram.dispatcher - WARNING - Sleep for 4.980069 seconds and try again... (tryings = 8853, bot id = 8888839728)
+2026-09-26 19:56:56,314 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:56:56,315 - aiogram.dispatcher - WARNING - Sleep for 5.001514 seconds and try again... (tryings = 8854, bot id = 8888839728)
+2026-09-26 19:57:01,515 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:57:01,516 - aiogram.dispatcher - WARNING - Sleep for 4.974864 seconds and try again... (tryings = 8855, bot id = 8888839728)
+2026-09-26 19:57:06,678 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:57:06,679 - aiogram.dispatcher - WARNING - Sleep for 4.968488 seconds and try again... (tryings = 8856, bot id = 8888839728)
+2026-09-26 19:57:11,845 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:57:11,845 - aiogram.dispatcher - WARNING - Sleep for 4.899318 seconds and try again... (tryings = 8857, bot id = 8888839728)
+2026-09-26 19:57:16,967 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:57:16,967 - aiogram.dispatcher - WARNING - Sleep for 5.117714 seconds and try again... (tryings = 8858, bot id = 8888839728)
+2026-09-26 19:57:22,284 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:57:22,284 - aiogram.dispatcher - WARNING - Sleep for 4.963950 seconds and try again... (tryings = 8859, bot id = 8888839728)
+2026-09-26 19:57:27,585 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:57:27,586 - aiogram.dispatcher - WARNING - Sleep for 4.971921 seconds and try again... (tryings = 8860, bot id = 8888839728)
+2026-09-26 19:57:32,737 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:57:32,738 - aiogram.dispatcher - WARNING - Sleep for 4.882393 seconds and try again... (tryings = 8861, bot id = 8888839728)
+2026-09-26 19:57:37,797 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:57:37,798 - aiogram.dispatcher - WARNING - Sleep for 5.069028 seconds and try again... (tryings = 8862, bot id = 8888839728)
+2026-09-26 19:57:43,143 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:57:43,144 - aiogram.dispatcher - WARNING - Sleep for 4.876774 seconds and try again... (tryings = 8863, bot id = 8888839728)
+2026-09-26 19:57:48,210 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:57:48,211 - aiogram.dispatcher - WARNING - Sleep for 5.022169 seconds and try again... (tryings = 8864, bot id = 8888839728)
+2026-09-26 19:57:53,427 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:57:53,428 - aiogram.dispatcher - WARNING - Sleep for 4.940291 seconds and try again... (tryings = 8865, bot id = 8888839728)
+2026-09-26 19:57:58,548 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:57:58,549 - aiogram.dispatcher - WARNING - Sleep for 4.805535 seconds and try again... (tryings = 8866, bot id = 8888839728)
+2026-09-26 19:58:03,531 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:58:03,531 - aiogram.dispatcher - WARNING - Sleep for 5.173120 seconds and try again... (tryings = 8867, bot id = 8888839728)
+2026-09-26 19:58:08,893 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:58:08,894 - aiogram.dispatcher - WARNING - Sleep for 5.167204 seconds and try again... (tryings = 8868, bot id = 8888839728)
+2026-09-26 19:58:14,239 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:58:14,243 - aiogram.dispatcher - WARNING - Sleep for 5.075268 seconds and try again... (tryings = 8869, bot id = 8888839728)
+2026-09-26 19:58:19,484 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:58:19,485 - aiogram.dispatcher - WARNING - Sleep for 5.081299 seconds and try again... (tryings = 8870, bot id = 8888839728)
+2026-09-26 19:58:24,743 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:58:24,744 - aiogram.dispatcher - WARNING - Sleep for 4.838780 seconds and try again... (tryings = 8871, bot id = 8888839728)
+2026-09-26 19:58:29,769 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:58:29,770 - aiogram.dispatcher - WARNING - Sleep for 5.033569 seconds and try again... (tryings = 8872, bot id = 8888839728)
+2026-09-26 19:58:34,989 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:58:34,990 - aiogram.dispatcher - WARNING - Sleep for 4.913454 seconds and try again... (tryings = 8873, bot id = 8888839728)
+2026-09-26 19:58:40,071 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:58:40,072 - aiogram.dispatcher - WARNING - Sleep for 4.991483 seconds and try again... (tryings = 8874, bot id = 8888839728)
+2026-09-26 19:58:45,277 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:58:45,307 - aiogram.dispatcher - WARNING - Sleep for 5.184187 seconds and try again... (tryings = 8875, bot id = 8888839728)
+2026-09-26 19:58:50,712 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:58:50,713 - aiogram.dispatcher - WARNING - Sleep for 4.875123 seconds and try again... (tryings = 8876, bot id = 8888839728)
+2026-09-26 19:58:55,807 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:58:55,808 - aiogram.dispatcher - WARNING - Sleep for 4.978984 seconds and try again... (tryings = 8877, bot id = 8888839728)
+2026-09-26 19:59:00,977 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:59:00,977 - aiogram.dispatcher - WARNING - Sleep for 5.110730 seconds and try again... (tryings = 8878, bot id = 8888839728)
+2026-09-26 19:59:06,267 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:59:06,268 - aiogram.dispatcher - WARNING - Sleep for 5.027771 seconds and try again... (tryings = 8879, bot id = 8888839728)
+2026-09-26 19:59:12,495 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:59:12,496 - aiogram.dispatcher - WARNING - Sleep for 5.099059 seconds and try again... (tryings = 8880, bot id = 8888839728)
+2026-09-26 19:59:17,837 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:59:17,838 - aiogram.dispatcher - WARNING - Sleep for 5.046410 seconds and try again... (tryings = 8881, bot id = 8888839728)
+2026-09-26 19:59:23,068 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:59:23,068 - aiogram.dispatcher - WARNING - Sleep for 5.143392 seconds and try again... (tryings = 8882, bot id = 8888839728)
+2026-09-26 19:59:28,538 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:59:28,538 - aiogram.dispatcher - WARNING - Sleep for 5.124793 seconds and try again... (tryings = 8883, bot id = 8888839728)
+2026-09-26 19:59:33,846 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:59:33,847 - aiogram.dispatcher - WARNING - Sleep for 4.997612 seconds and try again... (tryings = 8884, bot id = 8888839728)
+2026-09-26 19:59:39,027 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:59:39,028 - aiogram.dispatcher - WARNING - Sleep for 4.919896 seconds and try again... (tryings = 8885, bot id = 8888839728)
+2026-09-26 19:59:44,121 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:59:44,122 - aiogram.dispatcher - WARNING - Sleep for 5.005466 seconds and try again... (tryings = 8886, bot id = 8888839728)
+2026-09-26 19:59:49,309 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:59:49,310 - aiogram.dispatcher - WARNING - Sleep for 4.961967 seconds and try again... (tryings = 8887, bot id = 8888839728)
+2026-09-26 19:59:54,454 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:59:54,455 - aiogram.dispatcher - WARNING - Sleep for 4.995017 seconds and try again... (tryings = 8888, bot id = 8888839728)
+2026-09-26 19:59:59,643 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 19:59:59,644 - aiogram.dispatcher - WARNING - Sleep for 4.968686 seconds and try again... (tryings = 8889, bot id = 8888839728)
+2026-09-26 20:00:04,788 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:00:04,789 - aiogram.dispatcher - WARNING - Sleep for 4.994519 seconds and try again... (tryings = 8890, bot id = 8888839728)
+2026-09-26 20:00:10,006 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:00:10,007 - aiogram.dispatcher - WARNING - Sleep for 5.067204 seconds and try again... (tryings = 8891, bot id = 8888839728)
+2026-09-26 20:00:15,250 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:00:15,251 - aiogram.dispatcher - WARNING - Sleep for 5.019024 seconds and try again... (tryings = 8892, bot id = 8888839728)
+2026-09-26 20:00:20,485 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:00:20,486 - aiogram.dispatcher - WARNING - Sleep for 5.058837 seconds and try again... (tryings = 8893, bot id = 8888839728)
+2026-09-26 20:00:25,730 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:00:25,731 - aiogram.dispatcher - WARNING - Sleep for 5.038468 seconds and try again... (tryings = 8894, bot id = 8888839728)
+2026-09-26 20:00:30,953 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:00:30,954 - aiogram.dispatcher - WARNING - Sleep for 5.020464 seconds and try again... (tryings = 8895, bot id = 8888839728)
+2026-09-26 20:00:36,171 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:00:36,172 - aiogram.dispatcher - WARNING - Sleep for 4.905731 seconds and try again... (tryings = 8896, bot id = 8888839728)
+2026-09-26 20:00:41,252 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:00:41,252 - aiogram.dispatcher - WARNING - Sleep for 5.163151 seconds and try again... (tryings = 8897, bot id = 8888839728)
+2026-09-26 20:00:46,600 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:00:46,600 - aiogram.dispatcher - WARNING - Sleep for 4.963453 seconds and try again... (tryings = 8898, bot id = 8888839728)
+2026-09-26 20:00:51,782 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:00:51,783 - aiogram.dispatcher - WARNING - Sleep for 5.046578 seconds and try again... (tryings = 8899, bot id = 8888839728)
+2026-09-26 20:00:57,001 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:00:57,002 - aiogram.dispatcher - WARNING - Sleep for 5.203820 seconds and try again... (tryings = 8900, bot id = 8888839728)
+2026-09-26 20:01:02,386 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:01:02,387 - aiogram.dispatcher - WARNING - Sleep for 4.959138 seconds and try again... (tryings = 8901, bot id = 8888839728)
+2026-09-26 20:01:07,528 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:01:07,529 - aiogram.dispatcher - WARNING - Sleep for 5.111350 seconds and try again... (tryings = 8902, bot id = 8888839728)
+2026-09-26 20:01:12,827 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:01:12,828 - aiogram.dispatcher - WARNING - Sleep for 4.907324 seconds and try again... (tryings = 8903, bot id = 8888839728)
+2026-09-26 20:01:17,912 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:01:17,912 - aiogram.dispatcher - WARNING - Sleep for 5.066670 seconds and try again... (tryings = 8904, bot id = 8888839728)
+2026-09-26 20:01:23,231 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:01:23,232 - aiogram.dispatcher - WARNING - Sleep for 5.152826 seconds and try again... (tryings = 8905, bot id = 8888839728)
+2026-09-26 20:01:28,874 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:01:28,877 - aiogram.dispatcher - WARNING - Sleep for 4.779446 seconds and try again... (tryings = 8906, bot id = 8888839728)
+2026-09-26 20:01:33,836 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:01:33,837 - aiogram.dispatcher - WARNING - Sleep for 4.917048 seconds and try again... (tryings = 8907, bot id = 8888839728)
+2026-09-26 20:01:38,937 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:01:38,937 - aiogram.dispatcher - WARNING - Sleep for 4.800124 seconds and try again... (tryings = 8908, bot id = 8888839728)
+2026-09-26 20:01:43,908 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:01:43,909 - aiogram.dispatcher - WARNING - Sleep for 5.181773 seconds and try again... (tryings = 8909, bot id = 8888839728)
+2026-09-26 20:01:49,317 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:01:49,319 - aiogram.dispatcher - WARNING - Sleep for 4.802760 seconds and try again... (tryings = 8910, bot id = 8888839728)
+2026-09-26 20:01:54,298 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:01:54,299 - aiogram.dispatcher - WARNING - Sleep for 4.915856 seconds and try again... (tryings = 8911, bot id = 8888839728)
+2026-09-26 20:01:59,398 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:01:59,399 - aiogram.dispatcher - WARNING - Sleep for 4.894715 seconds and try again... (tryings = 8912, bot id = 8888839728)
+2026-09-26 20:02:04,480 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:02:04,481 - aiogram.dispatcher - WARNING - Sleep for 4.838330 seconds and try again... (tryings = 8913, bot id = 8888839728)
+2026-09-26 20:02:09,604 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:02:09,605 - aiogram.dispatcher - WARNING - Sleep for 4.883900 seconds and try again... (tryings = 8914, bot id = 8888839728)
+2026-09-26 20:02:14,667 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:02:14,668 - aiogram.dispatcher - WARNING - Sleep for 5.202271 seconds and try again... (tryings = 8915, bot id = 8888839728)
+2026-09-26 20:02:20,052 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:02:20,053 - aiogram.dispatcher - WARNING - Sleep for 4.868929 seconds and try again... (tryings = 8916, bot id = 8888839728)
+2026-09-26 20:02:25,113 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:02:25,114 - aiogram.dispatcher - WARNING - Sleep for 5.030100 seconds and try again... (tryings = 8917, bot id = 8888839728)
+2026-09-26 20:02:30,333 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:02:30,335 - aiogram.dispatcher - WARNING - Sleep for 5.168048 seconds and try again... (tryings = 8918, bot id = 8888839728)
+2026-09-26 20:02:35,729 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:02:35,730 - aiogram.dispatcher - WARNING - Sleep for 5.059649 seconds and try again... (tryings = 8919, bot id = 8888839728)
+2026-09-26 20:02:40,991 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:02:40,992 - aiogram.dispatcher - WARNING - Sleep for 5.108396 seconds and try again... (tryings = 8920, bot id = 8888839728)
+2026-09-26 20:02:46,290 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:02:46,291 - aiogram.dispatcher - WARNING - Sleep for 4.875889 seconds and try again... (tryings = 8921, bot id = 8888839728)
+2026-09-26 20:02:51,345 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:02:51,346 - aiogram.dispatcher - WARNING - Sleep for 4.940350 seconds and try again... (tryings = 8922, bot id = 8888839728)
+2026-09-26 20:02:56,477 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:02:56,478 - aiogram.dispatcher - WARNING - Sleep for 5.046439 seconds and try again... (tryings = 8923, bot id = 8888839728)
+2026-09-26 20:03:01,753 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:03:01,755 - aiogram.dispatcher - WARNING - Sleep for 5.185069 seconds and try again... (tryings = 8924, bot id = 8888839728)
+2026-09-26 20:03:07,114 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:03:07,115 - aiogram.dispatcher - WARNING - Sleep for 5.046344 seconds and try again... (tryings = 8925, bot id = 8888839728)
+2026-09-26 20:03:12,339 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:03:12,340 - aiogram.dispatcher - WARNING - Sleep for 4.860409 seconds and try again... (tryings = 8926, bot id = 8888839728)
+2026-09-26 20:03:17,419 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:03:17,420 - aiogram.dispatcher - WARNING - Sleep for 5.092534 seconds and try again... (tryings = 8927, bot id = 8888839728)
+2026-09-26 20:03:22,676 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:03:22,676 - aiogram.dispatcher - WARNING - Sleep for 5.068770 seconds and try again... (tryings = 8928, bot id = 8888839728)
+2026-09-26 20:03:27,933 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:03:27,935 - aiogram.dispatcher - WARNING - Sleep for 4.895474 seconds and try again... (tryings = 8929, bot id = 8888839728)
+2026-09-26 20:03:33,178 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:03:33,179 - aiogram.dispatcher - WARNING - Sleep for 4.970428 seconds and try again... (tryings = 8930, bot id = 8888839728)
+2026-09-26 20:03:38,331 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:03:38,332 - aiogram.dispatcher - WARNING - Sleep for 5.117639 seconds and try again... (tryings = 8931, bot id = 8888839728)
+2026-09-26 20:03:44,631 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:03:44,631 - aiogram.dispatcher - WARNING - Sleep for 5.034382 seconds and try again... (tryings = 8932, bot id = 8888839728)
+2026-09-26 20:03:49,845 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:03:49,846 - aiogram.dispatcher - WARNING - Sleep for 4.928364 seconds and try again... (tryings = 8933, bot id = 8888839728)
+2026-09-26 20:03:54,970 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:03:54,971 - aiogram.dispatcher - WARNING - Sleep for 4.936553 seconds and try again... (tryings = 8934, bot id = 8888839728)
+2026-09-26 20:04:00,133 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:04:00,134 - aiogram.dispatcher - WARNING - Sleep for 4.963269 seconds and try again... (tryings = 8935, bot id = 8888839728)
+2026-09-26 20:04:05,283 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:04:05,284 - aiogram.dispatcher - WARNING - Sleep for 4.876827 seconds and try again... (tryings = 8936, bot id = 8888839728)
+2026-09-26 20:04:10,338 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:04:10,338 - aiogram.dispatcher - WARNING - Sleep for 5.199731 seconds and try again... (tryings = 8937, bot id = 8888839728)
+2026-09-26 20:04:15,724 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:04:15,725 - aiogram.dispatcher - WARNING - Sleep for 5.099464 seconds and try again... (tryings = 8938, bot id = 8888839728)
+2026-09-26 20:04:21,001 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:04:21,002 - aiogram.dispatcher - WARNING - Sleep for 4.971236 seconds and try again... (tryings = 8939, bot id = 8888839728)
+2026-09-26 20:04:26,157 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:04:26,158 - aiogram.dispatcher - WARNING - Sleep for 4.960675 seconds and try again... (tryings = 8940, bot id = 8888839728)
+2026-09-26 20:04:31,327 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:04:31,328 - aiogram.dispatcher - WARNING - Sleep for 4.986728 seconds and try again... (tryings = 8941, bot id = 8888839728)
+2026-09-26 20:04:37,134 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:04:37,135 - aiogram.dispatcher - WARNING - Sleep for 5.088629 seconds and try again... (tryings = 8942, bot id = 8888839728)
+2026-09-26 20:04:42,404 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:04:42,405 - aiogram.dispatcher - WARNING - Sleep for 5.129566 seconds and try again... (tryings = 8943, bot id = 8888839728)
+2026-09-26 20:04:47,723 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:04:47,723 - aiogram.dispatcher - WARNING - Sleep for 4.934309 seconds and try again... (tryings = 8944, bot id = 8888839728)
+2026-09-26 20:04:52,834 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:04:52,835 - aiogram.dispatcher - WARNING - Sleep for 5.116360 seconds and try again... (tryings = 8945, bot id = 8888839728)
+2026-09-26 20:04:58,133 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:04:58,134 - aiogram.dispatcher - WARNING - Sleep for 5.041412 seconds and try again... (tryings = 8946, bot id = 8888839728)
+2026-09-26 20:05:03,353 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:05:03,355 - aiogram.dispatcher - WARNING - Sleep for 4.915997 seconds and try again... (tryings = 8947, bot id = 8888839728)
+2026-09-26 20:05:08,456 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:05:08,457 - aiogram.dispatcher - WARNING - Sleep for 4.926754 seconds and try again... (tryings = 8948, bot id = 8888839728)
+2026-09-26 20:05:13,659 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:05:13,660 - aiogram.dispatcher - WARNING - Sleep for 4.984767 seconds and try again... (tryings = 8949, bot id = 8888839728)
+2026-09-26 20:05:18,917 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:05:18,918 - aiogram.dispatcher - WARNING - Sleep for 4.841424 seconds and try again... (tryings = 8950, bot id = 8888839728)
+2026-09-26 20:05:23,941 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:05:23,942 - aiogram.dispatcher - WARNING - Sleep for 5.084085 seconds and try again... (tryings = 8951, bot id = 8888839728)
+2026-09-26 20:05:29,204 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:05:29,205 - aiogram.dispatcher - WARNING - Sleep for 4.842529 seconds and try again... (tryings = 8952, bot id = 8888839728)
+2026-09-26 20:05:34,475 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:05:34,476 - aiogram.dispatcher - WARNING - Sleep for 4.836488 seconds and try again... (tryings = 8953, bot id = 8888839728)
+2026-09-26 20:05:39,515 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:05:39,516 - aiogram.dispatcher - WARNING - Sleep for 4.912494 seconds and try again... (tryings = 8954, bot id = 8888839728)
+2026-09-26 20:05:44,608 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:05:44,610 - aiogram.dispatcher - WARNING - Sleep for 5.329261 seconds and try again... (tryings = 8955, bot id = 8888839728)
+2026-09-26 20:05:50,117 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:05:50,118 - aiogram.dispatcher - WARNING - Sleep for 4.988669 seconds and try again... (tryings = 8956, bot id = 8888839728)
+2026-09-26 20:05:55,285 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:05:55,286 - aiogram.dispatcher - WARNING - Sleep for 4.968074 seconds and try again... (tryings = 8957, bot id = 8888839728)
+2026-09-26 20:06:00,433 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:06:00,433 - aiogram.dispatcher - WARNING - Sleep for 4.833304 seconds and try again... (tryings = 8958, bot id = 8888839728)
+2026-09-26 20:06:05,457 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:06:05,457 - aiogram.dispatcher - WARNING - Sleep for 4.994945 seconds and try again... (tryings = 8959, bot id = 8888839728)
+2026-09-26 20:06:10,630 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:06:10,635 - aiogram.dispatcher - WARNING - Sleep for 5.092797 seconds and try again... (tryings = 8960, bot id = 8888839728)
+2026-09-26 20:06:15,912 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:06:15,913 - aiogram.dispatcher - WARNING - Sleep for 5.073252 seconds and try again... (tryings = 8961, bot id = 8888839728)
+2026-09-26 20:06:21,169 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:06:21,170 - aiogram.dispatcher - WARNING - Sleep for 5.314093 seconds and try again... (tryings = 8962, bot id = 8888839728)
+2026-09-26 20:06:26,653 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:06:26,654 - aiogram.dispatcher - WARNING - Sleep for 4.897100 seconds and try again... (tryings = 8963, bot id = 8888839728)
+2026-09-26 20:06:31,784 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:06:31,845 - aiogram.dispatcher - WARNING - Sleep for 5.049797 seconds and try again... (tryings = 8964, bot id = 8888839728)
+2026-09-26 20:06:37,144 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:06:37,145 - aiogram.dispatcher - WARNING - Sleep for 4.838389 seconds and try again... (tryings = 8965, bot id = 8888839728)
+2026-09-26 20:06:42,163 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:06:42,164 - aiogram.dispatcher - WARNING - Sleep for 5.089940 seconds and try again... (tryings = 8966, bot id = 8888839728)
+2026-09-26 20:06:47,440 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:06:47,441 - aiogram.dispatcher - WARNING - Sleep for 5.129915 seconds and try again... (tryings = 8967, bot id = 8888839728)
+2026-09-26 20:06:52,746 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:06:52,747 - aiogram.dispatcher - WARNING - Sleep for 4.842248 seconds and try again... (tryings = 8968, bot id = 8888839728)
+2026-09-26 20:06:57,762 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:06:57,763 - aiogram.dispatcher - WARNING - Sleep for 5.057808 seconds and try again... (tryings = 8969, bot id = 8888839728)
+2026-09-26 20:07:03,009 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:07:03,010 - aiogram.dispatcher - WARNING - Sleep for 5.151098 seconds and try again... (tryings = 8970, bot id = 8888839728)
+2026-09-26 20:07:08,330 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:07:08,331 - aiogram.dispatcher - WARNING - Sleep for 4.966962 seconds and try again... (tryings = 8971, bot id = 8888839728)
+2026-09-26 20:07:13,492 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:07:13,493 - aiogram.dispatcher - WARNING - Sleep for 5.034149 seconds and try again... (tryings = 8972, bot id = 8888839728)
+2026-09-26 20:07:19,727 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:07:19,728 - aiogram.dispatcher - WARNING - Sleep for 5.068509 seconds and try again... (tryings = 8973, bot id = 8888839728)
+2026-09-26 20:07:24,970 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:07:24,970 - aiogram.dispatcher - WARNING - Sleep for 5.117466 seconds and try again... (tryings = 8974, bot id = 8888839728)
+2026-09-26 20:07:30,273 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:07:30,274 - aiogram.dispatcher - WARNING - Sleep for 4.928937 seconds and try again... (tryings = 8975, bot id = 8888839728)
+2026-09-26 20:07:35,637 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:07:35,638 - aiogram.dispatcher - WARNING - Sleep for 4.990665 seconds and try again... (tryings = 8976, bot id = 8888839728)
+2026-09-26 20:07:40,796 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:07:40,797 - aiogram.dispatcher - WARNING - Sleep for 5.058191 seconds and try again... (tryings = 8977, bot id = 8888839728)
+2026-09-26 20:07:46,031 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:07:46,031 - aiogram.dispatcher - WARNING - Sleep for 4.942896 seconds and try again... (tryings = 8978, bot id = 8888839728)
+2026-09-26 20:07:51,151 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:07:51,152 - aiogram.dispatcher - WARNING - Sleep for 5.091542 seconds and try again... (tryings = 8979, bot id = 8888839728)
+2026-09-26 20:07:56,424 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:07:56,426 - aiogram.dispatcher - WARNING - Sleep for 4.979798 seconds and try again... (tryings = 8980, bot id = 8888839728)
+2026-09-26 20:08:01,591 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:08:01,591 - aiogram.dispatcher - WARNING - Sleep for 5.189635 seconds and try again... (tryings = 8981, bot id = 8888839728)
+2026-09-26 20:08:06,963 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:08:06,964 - aiogram.dispatcher - WARNING - Sleep for 4.910186 seconds and try again... (tryings = 8982, bot id = 8888839728)
+2026-09-26 20:08:12,048 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:08:12,049 - aiogram.dispatcher - WARNING - Sleep for 5.068299 seconds and try again... (tryings = 8983, bot id = 8888839728)
+2026-09-26 20:08:17,296 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:08:17,296 - aiogram.dispatcher - WARNING - Sleep for 4.984044 seconds and try again... (tryings = 8984, bot id = 8888839728)
+2026-09-26 20:08:22,460 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:08:22,460 - aiogram.dispatcher - WARNING - Sleep for 5.161166 seconds and try again... (tryings = 8985, bot id = 8888839728)
+2026-09-26 20:08:27,815 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:08:27,816 - aiogram.dispatcher - WARNING - Sleep for 4.965295 seconds and try again... (tryings = 8986, bot id = 8888839728)
+2026-09-26 20:08:32,966 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:08:32,967 - aiogram.dispatcher - WARNING - Sleep for 4.884028 seconds and try again... (tryings = 8987, bot id = 8888839728)
+2026-09-26 20:08:38,035 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:08:38,036 - aiogram.dispatcher - WARNING - Sleep for 4.997554 seconds and try again... (tryings = 8988, bot id = 8888839728)
+2026-09-26 20:08:43,217 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:08:43,218 - aiogram.dispatcher - WARNING - Sleep for 5.185142 seconds and try again... (tryings = 8989, bot id = 8888839728)
+2026-09-26 20:08:48,580 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:08:48,581 - aiogram.dispatcher - WARNING - Sleep for 5.018894 seconds and try again... (tryings = 8990, bot id = 8888839728)
+2026-09-26 20:08:53,781 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:08:53,782 - aiogram.dispatcher - WARNING - Sleep for 5.010867 seconds and try again... (tryings = 8991, bot id = 8888839728)
+2026-09-26 20:08:58,979 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:08:58,980 - aiogram.dispatcher - WARNING - Sleep for 4.960179 seconds and try again... (tryings = 8992, bot id = 8888839728)
+2026-09-26 20:09:04,129 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:09:04,130 - aiogram.dispatcher - WARNING - Sleep for 5.011903 seconds and try again... (tryings = 8993, bot id = 8888839728)
+2026-09-26 20:09:09,314 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:09:09,315 - aiogram.dispatcher - WARNING - Sleep for 5.180999 seconds and try again... (tryings = 8994, bot id = 8888839728)
+2026-09-26 20:09:14,691 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:09:14,692 - aiogram.dispatcher - WARNING - Sleep for 4.975794 seconds and try again... (tryings = 8995, bot id = 8888839728)
+2026-09-26 20:09:19,840 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:09:19,842 - aiogram.dispatcher - WARNING - Sleep for 5.181752 seconds and try again... (tryings = 8996, bot id = 8888839728)
+2026-09-26 20:09:25,213 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:09:25,213 - aiogram.dispatcher - WARNING - Sleep for 4.945329 seconds and try again... (tryings = 8997, bot id = 8888839728)
+2026-09-26 20:09:30,337 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:09:30,338 - aiogram.dispatcher - WARNING - Sleep for 5.019119 seconds and try again... (tryings = 8998, bot id = 8888839728)
+2026-09-26 20:09:35,534 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:09:35,535 - aiogram.dispatcher - WARNING - Sleep for 4.977132 seconds and try again... (tryings = 8999, bot id = 8888839728)
+2026-09-26 20:09:40,798 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:09:40,799 - aiogram.dispatcher - WARNING - Sleep for 5.065520 seconds and try again... (tryings = 9000, bot id = 8888839728)
+2026-09-26 20:09:46,032 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:09:46,033 - aiogram.dispatcher - WARNING - Sleep for 5.027851 seconds and try again... (tryings = 9001, bot id = 8888839728)
+2026-09-26 20:09:51,235 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:09:51,235 - aiogram.dispatcher - WARNING - Sleep for 4.964756 seconds and try again... (tryings = 9002, bot id = 8888839728)
+2026-09-26 20:09:56,384 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:09:56,384 - aiogram.dispatcher - WARNING - Sleep for 4.868123 seconds and try again... (tryings = 9003, bot id = 8888839728)
+2026-09-26 20:10:01,430 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:10:01,431 - aiogram.dispatcher - WARNING - Sleep for 4.923698 seconds and try again... (tryings = 9004, bot id = 8888839728)
+2026-09-26 20:10:06,532 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:10:06,532 - aiogram.dispatcher - WARNING - Sleep for 4.965438 seconds and try again... (tryings = 9005, bot id = 8888839728)
+2026-09-26 20:10:11,682 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:10:11,683 - aiogram.dispatcher - WARNING - Sleep for 4.988041 seconds and try again... (tryings = 9006, bot id = 8888839728)
+2026-09-26 20:10:16,854 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:10:16,878 - aiogram.dispatcher - WARNING - Sleep for 5.073516 seconds and try again... (tryings = 9007, bot id = 8888839728)
+2026-09-26 20:10:22,141 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:10:22,141 - aiogram.dispatcher - WARNING - Sleep for 5.003784 seconds and try again... (tryings = 9008, bot id = 8888839728)
+2026-09-26 20:10:27,326 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:10:27,327 - aiogram.dispatcher - WARNING - Sleep for 4.868353 seconds and try again... (tryings = 9009, bot id = 8888839728)
+2026-09-26 20:10:32,385 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:10:32,386 - aiogram.dispatcher - WARNING - Sleep for 5.037048 seconds and try again... (tryings = 9010, bot id = 8888839728)
+2026-09-26 20:10:37,598 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:10:37,599 - aiogram.dispatcher - WARNING - Sleep for 4.997259 seconds and try again... (tryings = 9011, bot id = 8888839728)
+2026-09-26 20:10:42,782 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:10:42,782 - aiogram.dispatcher - WARNING - Sleep for 5.144549 seconds and try again... (tryings = 9012, bot id = 8888839728)
+2026-09-26 20:10:48,116 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:10:48,116 - aiogram.dispatcher - WARNING - Sleep for 4.935536 seconds and try again... (tryings = 9013, bot id = 8888839728)
+2026-09-26 20:10:53,238 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:10:53,239 - aiogram.dispatcher - WARNING - Sleep for 5.216108 seconds and try again... (tryings = 9014, bot id = 8888839728)
+2026-09-26 20:10:58,632 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:10:58,633 - aiogram.dispatcher - WARNING - Sleep for 4.907856 seconds and try again... (tryings = 9015, bot id = 8888839728)
+2026-09-26 20:11:03,764 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:11:03,765 - aiogram.dispatcher - WARNING - Sleep for 4.868591 seconds and try again... (tryings = 9016, bot id = 8888839728)
+2026-09-26 20:11:08,920 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:11:08,952 - aiogram.dispatcher - WARNING - Sleep for 4.923028 seconds and try again... (tryings = 9017, bot id = 8888839728)
+2026-09-26 20:11:14,051 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:11:14,051 - aiogram.dispatcher - WARNING - Sleep for 4.835153 seconds and try again... (tryings = 9018, bot id = 8888839728)
+2026-09-26 20:11:19,077 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:11:19,078 - aiogram.dispatcher - WARNING - Sleep for 5.005523 seconds and try again... (tryings = 9019, bot id = 8888839728)
+2026-09-26 20:11:24,263 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:11:24,264 - aiogram.dispatcher - WARNING - Sleep for 4.999464 seconds and try again... (tryings = 9020, bot id = 8888839728)
+2026-09-26 20:11:29,442 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:11:29,442 - aiogram.dispatcher - WARNING - Sleep for 5.027125 seconds and try again... (tryings = 9021, bot id = 8888839728)
+2026-09-26 20:11:34,644 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:11:34,645 - aiogram.dispatcher - WARNING - Sleep for 5.044625 seconds and try again... (tryings = 9022, bot id = 8888839728)
+2026-09-26 20:11:39,947 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:11:39,947 - aiogram.dispatcher - WARNING - Sleep for 5.105759 seconds and try again... (tryings = 9023, bot id = 8888839728)
+2026-09-26 20:11:45,423 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:11:45,424 - aiogram.dispatcher - WARNING - Sleep for 5.054882 seconds and try again... (tryings = 9024, bot id = 8888839728)
+2026-09-26 20:11:50,661 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:11:50,662 - aiogram.dispatcher - WARNING - Sleep for 4.912570 seconds and try again... (tryings = 9025, bot id = 8888839728)
+2026-09-26 20:11:55,763 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:11:55,764 - aiogram.dispatcher - WARNING - Sleep for 4.957335 seconds and try again... (tryings = 9026, bot id = 8888839728)
+2026-09-26 20:12:00,912 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:12:00,914 - aiogram.dispatcher - WARNING - Sleep for 5.128553 seconds and try again... (tryings = 9027, bot id = 8888839728)
+2026-09-26 20:12:06,226 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:12:06,227 - aiogram.dispatcher - WARNING - Sleep for 4.945566 seconds and try again... (tryings = 9028, bot id = 8888839728)
+2026-09-26 20:12:11,358 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:12:11,358 - aiogram.dispatcher - WARNING - Sleep for 4.768971 seconds and try again... (tryings = 9029, bot id = 8888839728)
+2026-09-26 20:12:16,298 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:12:16,299 - aiogram.dispatcher - WARNING - Sleep for 5.057895 seconds and try again... (tryings = 9030, bot id = 8888839728)
+2026-09-26 20:12:21,535 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:12:21,535 - aiogram.dispatcher - WARNING - Sleep for 5.022108 seconds and try again... (tryings = 9031, bot id = 8888839728)
+2026-09-26 20:12:26,745 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:12:26,746 - aiogram.dispatcher - WARNING - Sleep for 4.997502 seconds and try again... (tryings = 9032, bot id = 8888839728)
+2026-09-26 20:12:31,930 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:12:31,931 - aiogram.dispatcher - WARNING - Sleep for 5.033874 seconds and try again... (tryings = 9033, bot id = 8888839728)
+2026-09-26 20:12:37,145 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:12:37,146 - aiogram.dispatcher - WARNING - Sleep for 4.979591 seconds and try again... (tryings = 9034, bot id = 8888839728)
+2026-09-26 20:12:42,314 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:12:42,315 - aiogram.dispatcher - WARNING - Sleep for 4.996530 seconds and try again... (tryings = 9035, bot id = 8888839728)
+2026-09-26 20:12:47,500 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:12:47,511 - aiogram.dispatcher - WARNING - Sleep for 4.962769 seconds and try again... (tryings = 9036, bot id = 8888839728)
+2026-09-26 20:12:52,658 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:12:52,659 - aiogram.dispatcher - WARNING - Sleep for 5.050342 seconds and try again... (tryings = 9037, bot id = 8888839728)
+2026-09-26 20:12:57,894 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:12:57,895 - aiogram.dispatcher - WARNING - Sleep for 5.076550 seconds and try again... (tryings = 9038, bot id = 8888839728)
+2026-09-26 20:13:03,155 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:13:03,156 - aiogram.dispatcher - WARNING - Sleep for 5.075775 seconds and try again... (tryings = 9039, bot id = 8888839728)
+2026-09-26 20:13:08,409 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:13:08,410 - aiogram.dispatcher - WARNING - Sleep for 4.967187 seconds and try again... (tryings = 9040, bot id = 8888839728)
+2026-09-26 20:13:13,546 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:13:13,547 - aiogram.dispatcher - WARNING - Sleep for 5.092599 seconds and try again... (tryings = 9041, bot id = 8888839728)
+2026-09-26 20:13:18,819 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:13:18,820 - aiogram.dispatcher - WARNING - Sleep for 5.064104 seconds and try again... (tryings = 9042, bot id = 8888839728)
+2026-09-26 20:13:24,063 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:13:24,063 - aiogram.dispatcher - WARNING - Sleep for 4.996078 seconds and try again... (tryings = 9043, bot id = 8888839728)
+2026-09-26 20:13:29,234 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:13:29,235 - aiogram.dispatcher - WARNING - Sleep for 4.891129 seconds and try again... (tryings = 9044, bot id = 8888839728)
+2026-09-26 20:13:34,324 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:13:34,325 - aiogram.dispatcher - WARNING - Sleep for 4.998693 seconds and try again... (tryings = 9045, bot id = 8888839728)
+2026-09-26 20:13:39,506 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:13:39,507 - aiogram.dispatcher - WARNING - Sleep for 5.032882 seconds and try again... (tryings = 9046, bot id = 8888839728)
+2026-09-26 20:13:44,723 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:13:44,724 - aiogram.dispatcher - WARNING - Sleep for 5.132093 seconds and try again... (tryings = 9047, bot id = 8888839728)
+2026-09-26 20:13:50,230 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:13:50,231 - aiogram.dispatcher - WARNING - Sleep for 4.966678 seconds and try again... (tryings = 9048, bot id = 8888839728)
+2026-09-26 20:13:55,379 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:13:55,380 - aiogram.dispatcher - WARNING - Sleep for 4.998225 seconds and try again... (tryings = 9049, bot id = 8888839728)
+2026-09-26 20:14:00,559 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:14:00,560 - aiogram.dispatcher - WARNING - Sleep for 5.100970 seconds and try again... (tryings = 9050, bot id = 8888839728)
+2026-09-26 20:14:05,852 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:14:05,853 - aiogram.dispatcher - WARNING - Sleep for 5.088435 seconds and try again... (tryings = 9051, bot id = 8888839728)
+2026-09-26 20:14:11,130 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:14:11,131 - aiogram.dispatcher - WARNING - Sleep for 5.061162 seconds and try again... (tryings = 9052, bot id = 8888839728)
+2026-09-26 20:14:16,371 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:14:16,371 - aiogram.dispatcher - WARNING - Sleep for 4.991514 seconds and try again... (tryings = 9053, bot id = 8888839728)
+2026-09-26 20:14:21,546 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:14:21,547 - aiogram.dispatcher - WARNING - Sleep for 4.925600 seconds and try again... (tryings = 9054, bot id = 8888839728)
+2026-09-26 20:14:26,659 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:14:26,660 - aiogram.dispatcher - WARNING - Sleep for 4.883514 seconds and try again... (tryings = 9055, bot id = 8888839728)
+2026-09-26 20:14:31,717 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:14:31,719 - aiogram.dispatcher - WARNING - Sleep for 5.028332 seconds and try again... (tryings = 9056, bot id = 8888839728)
+2026-09-26 20:14:36,933 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:14:36,934 - aiogram.dispatcher - WARNING - Sleep for 4.928080 seconds and try again... (tryings = 9057, bot id = 8888839728)
+2026-09-26 20:14:42,036 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:14:42,036 - aiogram.dispatcher - WARNING - Sleep for 5.152414 seconds and try again... (tryings = 9058, bot id = 8888839728)
+2026-09-26 20:14:47,369 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:14:47,370 - aiogram.dispatcher - WARNING - Sleep for 4.960406 seconds and try again... (tryings = 9059, bot id = 8888839728)
+2026-09-26 20:14:52,509 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:14:52,511 - aiogram.dispatcher - WARNING - Sleep for 5.232313 seconds and try again... (tryings = 9060, bot id = 8888839728)
+2026-09-26 20:14:57,929 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:14:57,930 - aiogram.dispatcher - WARNING - Sleep for 4.803494 seconds and try again... (tryings = 9061, bot id = 8888839728)
+2026-09-26 20:15:02,911 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:15:02,912 - aiogram.dispatcher - WARNING - Sleep for 4.785467 seconds and try again... (tryings = 9062, bot id = 8888839728)
+2026-09-26 20:15:07,874 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:15:07,875 - aiogram.dispatcher - WARNING - Sleep for 5.120065 seconds and try again... (tryings = 9063, bot id = 8888839728)
+2026-09-26 20:15:13,192 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:15:13,192 - aiogram.dispatcher - WARNING - Sleep for 5.018998 seconds and try again... (tryings = 9064, bot id = 8888839728)
+2026-09-26 20:15:18,386 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:15:18,387 - aiogram.dispatcher - WARNING - Sleep for 4.955472 seconds and try again... (tryings = 9065, bot id = 8888839728)
+2026-09-26 20:15:23,572 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:15:23,573 - aiogram.dispatcher - WARNING - Sleep for 4.972074 seconds and try again... (tryings = 9066, bot id = 8888839728)
+2026-09-26 20:15:28,715 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:15:28,717 - aiogram.dispatcher - WARNING - Sleep for 5.045962 seconds and try again... (tryings = 9067, bot id = 8888839728)
+2026-09-26 20:15:33,953 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:15:33,954 - aiogram.dispatcher - WARNING - Sleep for 5.042239 seconds and try again... (tryings = 9068, bot id = 8888839728)
+2026-09-26 20:15:39,179 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:15:39,180 - aiogram.dispatcher - WARNING - Sleep for 4.980395 seconds and try again... (tryings = 9069, bot id = 8888839728)
+2026-09-26 20:15:44,349 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:15:44,350 - aiogram.dispatcher - WARNING - Sleep for 5.007807 seconds and try again... (tryings = 9070, bot id = 8888839728)
+2026-09-26 20:15:49,531 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:15:49,531 - aiogram.dispatcher - WARNING - Sleep for 5.044589 seconds and try again... (tryings = 9071, bot id = 8888839728)
+2026-09-26 20:15:55,002 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:15:55,002 - aiogram.dispatcher - WARNING - Sleep for 5.007005 seconds and try again... (tryings = 9072, bot id = 8888839728)
+2026-09-26 20:16:00,195 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:16:00,196 - aiogram.dispatcher - WARNING - Sleep for 4.946726 seconds and try again... (tryings = 9073, bot id = 8888839728)
+2026-09-26 20:16:05,318 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:16:05,319 - aiogram.dispatcher - WARNING - Sleep for 5.135855 seconds and try again... (tryings = 9074, bot id = 8888839728)
+2026-09-26 20:16:10,630 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:16:10,631 - aiogram.dispatcher - WARNING - Sleep for 5.087977 seconds and try again... (tryings = 9075, bot id = 8888839728)
+2026-09-26 20:16:15,903 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:16:15,903 - aiogram.dispatcher - WARNING - Sleep for 5.164025 seconds and try again... (tryings = 9076, bot id = 8888839728)
+2026-09-26 20:16:21,247 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:16:21,247 - aiogram.dispatcher - WARNING - Sleep for 5.061695 seconds and try again... (tryings = 9077, bot id = 8888839728)
+2026-09-26 20:16:26,478 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:16:26,479 - aiogram.dispatcher - WARNING - Sleep for 4.963221 seconds and try again... (tryings = 9078, bot id = 8888839728)
+2026-09-26 20:16:31,622 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:16:31,623 - aiogram.dispatcher - WARNING - Sleep for 4.936168 seconds and try again... (tryings = 9079, bot id = 8888839728)
+2026-09-26 20:16:36,754 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:16:36,755 - aiogram.dispatcher - WARNING - Sleep for 5.001234 seconds and try again... (tryings = 9080, bot id = 8888839728)
+2026-09-26 20:16:42,028 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:16:42,029 - aiogram.dispatcher - WARNING - Sleep for 4.956844 seconds and try again... (tryings = 9081, bot id = 8888839728)
+2026-09-26 20:16:47,190 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:16:47,192 - aiogram.dispatcher - WARNING - Sleep for 5.146409 seconds and try again... (tryings = 9082, bot id = 8888839728)
+2026-09-26 20:16:52,521 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:16:52,521 - aiogram.dispatcher - WARNING - Sleep for 5.000961 seconds and try again... (tryings = 9083, bot id = 8888839728)
+2026-09-26 20:16:57,714 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:16:57,716 - aiogram.dispatcher - WARNING - Sleep for 5.008572 seconds and try again... (tryings = 9084, bot id = 8888839728)
+2026-09-26 20:17:02,914 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:17:02,915 - aiogram.dispatcher - WARNING - Sleep for 4.970266 seconds and try again... (tryings = 9085, bot id = 8888839728)
+2026-09-26 20:17:08,063 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:17:08,064 - aiogram.dispatcher - WARNING - Sleep for 4.825494 seconds and try again... (tryings = 9086, bot id = 8888839728)
+2026-09-26 20:17:13,078 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:17:13,086 - aiogram.dispatcher - WARNING - Sleep for 5.027047 seconds and try again... (tryings = 9087, bot id = 8888839728)
+2026-09-26 20:17:18,303 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:17:18,389 - aiogram.dispatcher - WARNING - Sleep for 5.020832 seconds and try again... (tryings = 9088, bot id = 8888839728)
+2026-09-26 20:17:23,600 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:17:23,610 - aiogram.dispatcher - WARNING - Sleep for 5.134997 seconds and try again... (tryings = 9089, bot id = 8888839728)
+2026-09-26 20:17:28,925 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:17:28,926 - aiogram.dispatcher - WARNING - Sleep for 4.891330 seconds and try again... (tryings = 9090, bot id = 8888839728)
+2026-09-26 20:17:33,993 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:17:33,994 - aiogram.dispatcher - WARNING - Sleep for 5.033343 seconds and try again... (tryings = 9091, bot id = 8888839728)
+2026-09-26 20:17:39,202 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:17:39,256 - aiogram.dispatcher - WARNING - Sleep for 4.999403 seconds and try again... (tryings = 9092, bot id = 8888839728)
+2026-09-26 20:17:44,440 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:17:44,441 - aiogram.dispatcher - WARNING - Sleep for 4.888611 seconds and try again... (tryings = 9093, bot id = 8888839728)
+2026-09-26 20:17:49,517 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:17:49,518 - aiogram.dispatcher - WARNING - Sleep for 4.805945 seconds and try again... (tryings = 9094, bot id = 8888839728)
+2026-09-26 20:17:54,504 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:17:54,505 - aiogram.dispatcher - WARNING - Sleep for 4.788033 seconds and try again... (tryings = 9095, bot id = 8888839728)
+2026-09-26 20:17:59,661 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:17:59,662 - aiogram.dispatcher - WARNING - Sleep for 5.062418 seconds and try again... (tryings = 9096, bot id = 8888839728)
+2026-09-26 20:18:04,904 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:18:04,905 - aiogram.dispatcher - WARNING - Sleep for 5.016810 seconds and try again... (tryings = 9097, bot id = 8888839728)
+2026-09-26 20:18:10,114 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:18:10,114 - aiogram.dispatcher - WARNING - Sleep for 4.912291 seconds and try again... (tryings = 9098, bot id = 8888839728)
+2026-09-26 20:18:15,204 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:18:15,204 - aiogram.dispatcher - WARNING - Sleep for 4.980031 seconds and try again... (tryings = 9099, bot id = 8888839728)
+2026-09-26 20:18:21,418 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:18:21,418 - aiogram.dispatcher - WARNING - Sleep for 4.851818 seconds and try again... (tryings = 9100, bot id = 8888839728)
+2026-09-26 20:18:26,440 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:18:26,533 - aiogram.dispatcher - WARNING - Sleep for 5.055374 seconds and try again... (tryings = 9101, bot id = 8888839728)
+2026-09-26 20:18:31,788 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:18:31,789 - aiogram.dispatcher - WARNING - Sleep for 4.998613 seconds and try again... (tryings = 9102, bot id = 8888839728)
+2026-09-26 20:18:36,982 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:18:36,983 - aiogram.dispatcher - WARNING - Sleep for 5.082679 seconds and try again... (tryings = 9103, bot id = 8888839728)
+2026-09-26 20:18:42,231 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:18:42,242 - aiogram.dispatcher - WARNING - Sleep for 4.924374 seconds and try again... (tryings = 9104, bot id = 8888839728)
+2026-09-26 20:18:47,354 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:18:47,355 - aiogram.dispatcher - WARNING - Sleep for 4.976720 seconds and try again... (tryings = 9105, bot id = 8888839728)
+2026-09-26 20:18:52,518 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:18:52,521 - aiogram.dispatcher - WARNING - Sleep for 5.092816 seconds and try again... (tryings = 9106, bot id = 8888839728)
+2026-09-26 20:18:57,791 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:18:57,791 - aiogram.dispatcher - WARNING - Sleep for 4.977440 seconds and try again... (tryings = 9107, bot id = 8888839728)
+2026-09-26 20:19:02,946 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:19:02,947 - aiogram.dispatcher - WARNING - Sleep for 5.009857 seconds and try again... (tryings = 9108, bot id = 8888839728)
+2026-09-26 20:19:08,157 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:19:08,159 - aiogram.dispatcher - WARNING - Sleep for 5.020257 seconds and try again... (tryings = 9109, bot id = 8888839728)
+2026-09-26 20:19:13,365 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:19:13,366 - aiogram.dispatcher - WARNING - Sleep for 5.049572 seconds and try again... (tryings = 9110, bot id = 8888839728)
+2026-09-26 20:19:18,603 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:19:18,604 - aiogram.dispatcher - WARNING - Sleep for 5.082452 seconds and try again... (tryings = 9111, bot id = 8888839728)
+2026-09-26 20:19:23,883 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:19:23,883 - aiogram.dispatcher - WARNING - Sleep for 5.103209 seconds and try again... (tryings = 9112, bot id = 8888839728)
+2026-09-26 20:19:29,173 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:19:29,176 - aiogram.dispatcher - WARNING - Sleep for 4.942292 seconds and try again... (tryings = 9113, bot id = 8888839728)
+2026-09-26 20:19:34,298 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:19:34,299 - aiogram.dispatcher - WARNING - Sleep for 4.864734 seconds and try again... (tryings = 9114, bot id = 8888839728)
+2026-09-26 20:19:39,345 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:19:39,346 - aiogram.dispatcher - WARNING - Sleep for 5.020235 seconds and try again... (tryings = 9115, bot id = 8888839728)
+2026-09-26 20:19:44,545 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:19:44,558 - aiogram.dispatcher - WARNING - Sleep for 5.169493 seconds and try again... (tryings = 9116, bot id = 8888839728)
+2026-09-26 20:19:49,916 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:19:49,917 - aiogram.dispatcher - WARNING - Sleep for 5.093831 seconds and try again... (tryings = 9117, bot id = 8888839728)
+2026-09-26 20:19:55,191 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:19:55,192 - aiogram.dispatcher - WARNING - Sleep for 4.964250 seconds and try again... (tryings = 9118, bot id = 8888839728)
+2026-09-26 20:20:02,921 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:20:02,961 - aiogram.dispatcher - WARNING - Sleep for 4.982472 seconds and try again... (tryings = 9119, bot id = 8888839728)
+2026-09-26 20:20:08,135 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:20:08,136 - aiogram.dispatcher - WARNING - Sleep for 5.100947 seconds and try again... (tryings = 9120, bot id = 8888839728)
+2026-09-26 20:20:13,416 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:20:13,417 - aiogram.dispatcher - WARNING - Sleep for 5.165874 seconds and try again... (tryings = 9121, bot id = 8888839728)
+2026-09-26 20:20:18,777 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:20:18,811 - aiogram.dispatcher - WARNING - Sleep for 4.850887 seconds and try again... (tryings = 9122, bot id = 8888839728)
+2026-09-26 20:20:23,848 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:20:23,859 - aiogram.dispatcher - WARNING - Sleep for 4.968992 seconds and try again... (tryings = 9123, bot id = 8888839728)
+2026-09-26 20:20:29,016 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:20:29,016 - aiogram.dispatcher - WARNING - Sleep for 4.849252 seconds and try again... (tryings = 9124, bot id = 8888839728)
+2026-09-26 20:20:34,180 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:20:34,182 - aiogram.dispatcher - WARNING - Sleep for 4.920138 seconds and try again... (tryings = 9125, bot id = 8888839728)
+2026-09-26 20:20:39,288 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:20:39,289 - aiogram.dispatcher - WARNING - Sleep for 5.101289 seconds and try again... (tryings = 9126, bot id = 8888839728)
+2026-09-26 20:20:44,582 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:20:44,582 - aiogram.dispatcher - WARNING - Sleep for 5.149794 seconds and try again... (tryings = 9127, bot id = 8888839728)
+2026-09-26 20:20:49,907 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:20:49,908 - aiogram.dispatcher - WARNING - Sleep for 5.056216 seconds and try again... (tryings = 9128, bot id = 8888839728)
+2026-09-26 20:20:55,144 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:20:55,144 - aiogram.dispatcher - WARNING - Sleep for 5.106084 seconds and try again... (tryings = 9129, bot id = 8888839728)
+2026-09-26 20:21:00,435 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:21:00,435 - aiogram.dispatcher - WARNING - Sleep for 4.903190 seconds and try again... (tryings = 9130, bot id = 8888839728)
+2026-09-26 20:21:05,519 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:21:05,520 - aiogram.dispatcher - WARNING - Sleep for 4.935122 seconds and try again... (tryings = 9131, bot id = 8888839728)
+2026-09-26 20:21:10,635 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:21:10,636 - aiogram.dispatcher - WARNING - Sleep for 5.003075 seconds and try again... (tryings = 9132, bot id = 8888839728)
+2026-09-26 20:21:15,806 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:21:15,807 - aiogram.dispatcher - WARNING - Sleep for 4.932523 seconds and try again... (tryings = 9133, bot id = 8888839728)
+2026-09-26 20:21:21,922 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:21:21,922 - aiogram.dispatcher - WARNING - Sleep for 4.990972 seconds and try again... (tryings = 9134, bot id = 8888839728)
+2026-09-26 20:21:27,097 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:21:27,098 - aiogram.dispatcher - WARNING - Sleep for 4.894553 seconds and try again... (tryings = 9135, bot id = 8888839728)
+2026-09-26 20:21:32,171 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:21:32,172 - aiogram.dispatcher - WARNING - Sleep for 5.044955 seconds and try again... (tryings = 9136, bot id = 8888839728)
+2026-09-26 20:21:37,398 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:21:37,400 - aiogram.dispatcher - WARNING - Sleep for 5.122102 seconds and try again... (tryings = 9137, bot id = 8888839728)
+2026-09-26 20:21:42,710 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:21:42,710 - aiogram.dispatcher - WARNING - Sleep for 4.942807 seconds and try again... (tryings = 9138, bot id = 8888839728)
+2026-09-26 20:21:47,842 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:21:47,843 - aiogram.dispatcher - WARNING - Sleep for 5.035753 seconds and try again... (tryings = 9139, bot id = 8888839728)
+2026-09-26 20:21:53,074 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:21:53,075 - aiogram.dispatcher - WARNING - Sleep for 4.867749 seconds and try again... (tryings = 9140, bot id = 8888839728)
+2026-09-26 20:21:58,153 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:21:58,154 - aiogram.dispatcher - WARNING - Sleep for 5.052477 seconds and try again... (tryings = 9141, bot id = 8888839728)
+2026-09-26 20:22:03,541 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:22:03,542 - aiogram.dispatcher - WARNING - Sleep for 4.911460 seconds and try again... (tryings = 9142, bot id = 8888839728)
+2026-09-26 20:22:15,663 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:22:15,674 - aiogram.dispatcher - WARNING - Sleep for 5.021134 seconds and try again... (tryings = 9143, bot id = 8888839728)
+2026-09-26 20:22:20,871 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:22:20,872 - aiogram.dispatcher - WARNING - Sleep for 5.023745 seconds and try again... (tryings = 9144, bot id = 8888839728)
+2026-09-26 20:22:26,072 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:22:26,073 - aiogram.dispatcher - WARNING - Sleep for 5.023286 seconds and try again... (tryings = 9145, bot id = 8888839728)
+2026-09-26 20:22:31,282 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:22:31,283 - aiogram.dispatcher - WARNING - Sleep for 5.003612 seconds and try again... (tryings = 9146, bot id = 8888839728)
+2026-09-26 20:22:36,470 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:22:36,471 - aiogram.dispatcher - WARNING - Sleep for 4.847791 seconds and try again... (tryings = 9147, bot id = 8888839728)
+2026-09-26 20:22:41,493 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:22:41,494 - aiogram.dispatcher - WARNING - Sleep for 5.166685 seconds and try again... (tryings = 9148, bot id = 8888839728)
+2026-09-26 20:22:46,855 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:22:46,855 - aiogram.dispatcher - WARNING - Sleep for 4.909934 seconds and try again... (tryings = 9149, bot id = 8888839728)
+2026-09-26 20:22:51,935 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:22:51,936 - aiogram.dispatcher - WARNING - Sleep for 5.140044 seconds and try again... (tryings = 9150, bot id = 8888839728)
+2026-09-26 20:22:57,260 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:22:57,262 - aiogram.dispatcher - WARNING - Sleep for 5.186351 seconds and try again... (tryings = 9151, bot id = 8888839728)
+2026-09-26 20:23:02,687 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:23:02,688 - aiogram.dispatcher - WARNING - Sleep for 4.943800 seconds and try again... (tryings = 9152, bot id = 8888839728)
+2026-09-26 20:23:07,808 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:23:07,809 - aiogram.dispatcher - WARNING - Sleep for 4.796221 seconds and try again... (tryings = 9153, bot id = 8888839728)
+2026-09-26 20:23:12,793 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:23:12,794 - aiogram.dispatcher - WARNING - Sleep for 5.107516 seconds and try again... (tryings = 9154, bot id = 8888839728)
+2026-09-26 20:23:18,082 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:23:18,082 - aiogram.dispatcher - WARNING - Sleep for 4.996062 seconds and try again... (tryings = 9155, bot id = 8888839728)
+2026-09-26 20:23:23,257 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:23:23,258 - aiogram.dispatcher - WARNING - Sleep for 5.040316 seconds and try again... (tryings = 9156, bot id = 8888839728)
+2026-09-26 20:23:28,492 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:23:28,493 - aiogram.dispatcher - WARNING - Sleep for 5.115777 seconds and try again... (tryings = 9157, bot id = 8888839728)
+2026-09-26 20:23:33,783 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:23:33,783 - aiogram.dispatcher - WARNING - Sleep for 4.909832 seconds and try again... (tryings = 9158, bot id = 8888839728)
+2026-09-26 20:23:39,183 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:23:39,184 - aiogram.dispatcher - WARNING - Sleep for 4.981281 seconds and try again... (tryings = 9159, bot id = 8888839728)
+2026-09-26 20:23:44,336 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:23:44,337 - aiogram.dispatcher - WARNING - Sleep for 5.041016 seconds and try again... (tryings = 9160, bot id = 8888839728)
+2026-09-26 20:23:49,571 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:23:49,572 - aiogram.dispatcher - WARNING - Sleep for 4.985226 seconds and try again... (tryings = 9161, bot id = 8888839728)
+2026-09-26 20:23:54,742 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:23:54,743 - aiogram.dispatcher - WARNING - Sleep for 4.959437 seconds and try again... (tryings = 9162, bot id = 8888839728)
+2026-09-26 20:23:59,880 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:23:59,881 - aiogram.dispatcher - WARNING - Sleep for 5.102574 seconds and try again... (tryings = 9163, bot id = 8888839728)
+2026-09-26 20:24:05,386 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:24:05,387 - aiogram.dispatcher - WARNING - Sleep for 5.072461 seconds and try again... (tryings = 9164, bot id = 8888839728)
+2026-09-26 20:24:10,652 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:24:10,654 - aiogram.dispatcher - WARNING - Sleep for 5.008596 seconds and try again... (tryings = 9165, bot id = 8888839728)
+2026-09-26 20:24:15,941 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:24:15,942 - aiogram.dispatcher - WARNING - Sleep for 5.012588 seconds and try again... (tryings = 9166, bot id = 8888839728)
+2026-09-26 20:24:21,143 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:24:21,144 - aiogram.dispatcher - WARNING - Sleep for 5.205006 seconds and try again... (tryings = 9167, bot id = 8888839728)
+2026-09-26 20:24:26,534 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:24:26,535 - aiogram.dispatcher - WARNING - Sleep for 4.982533 seconds and try again... (tryings = 9168, bot id = 8888839728)
+2026-09-26 20:24:31,691 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:24:31,692 - aiogram.dispatcher - WARNING - Sleep for 5.150974 seconds and try again... (tryings = 9169, bot id = 8888839728)
+2026-09-26 20:24:37,030 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:24:37,030 - aiogram.dispatcher - WARNING - Sleep for 5.092841 seconds and try again... (tryings = 9170, bot id = 8888839728)
+2026-09-26 20:24:42,304 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:24:42,305 - aiogram.dispatcher - WARNING - Sleep for 5.192563 seconds and try again... (tryings = 9171, bot id = 8888839728)
+2026-09-26 20:24:47,671 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:24:47,671 - aiogram.dispatcher - WARNING - Sleep for 4.833100 seconds and try again... (tryings = 9172, bot id = 8888839728)
+2026-09-26 20:24:52,682 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:24:52,683 - aiogram.dispatcher - WARNING - Sleep for 5.037085 seconds and try again... (tryings = 9173, bot id = 8888839728)
+2026-09-26 20:24:57,898 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:24:57,899 - aiogram.dispatcher - WARNING - Sleep for 4.792131 seconds and try again... (tryings = 9174, bot id = 8888839728)
+2026-09-26 20:25:02,884 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:25:02,884 - aiogram.dispatcher - WARNING - Sleep for 4.885183 seconds and try again... (tryings = 9175, bot id = 8888839728)
+2026-09-26 20:25:07,949 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:25:07,949 - aiogram.dispatcher - WARNING - Sleep for 5.062813 seconds and try again... (tryings = 9176, bot id = 8888839728)
+2026-09-26 20:25:13,199 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:25:13,787 - aiogram.dispatcher - WARNING - Sleep for 4.894177 seconds and try again... (tryings = 9177, bot id = 8888839728)
+2026-09-26 20:25:18,909 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:25:18,956 - aiogram.dispatcher - WARNING - Sleep for 4.971281 seconds and try again... (tryings = 9178, bot id = 8888839728)
+2026-09-26 20:25:24,186 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:25:24,368 - aiogram.dispatcher - WARNING - Sleep for 4.984131 seconds and try again... (tryings = 9179, bot id = 8888839728)
+2026-09-26 20:25:29,618 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:25:29,677 - aiogram.dispatcher - WARNING - Sleep for 4.980857 seconds and try again... (tryings = 9180, bot id = 8888839728)
+2026-09-26 20:25:34,851 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:25:34,868 - aiogram.dispatcher - WARNING - Sleep for 4.933874 seconds and try again... (tryings = 9181, bot id = 8888839728)
+2026-09-26 20:25:39,985 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:25:39,989 - aiogram.dispatcher - WARNING - Sleep for 4.931010 seconds and try again... (tryings = 9182, bot id = 8888839728)
+2026-09-26 20:25:45,103 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:25:45,177 - aiogram.dispatcher - WARNING - Sleep for 4.959266 seconds and try again... (tryings = 9183, bot id = 8888839728)
+2026-09-26 20:25:50,327 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:25:50,342 - aiogram.dispatcher - WARNING - Sleep for 5.090305 seconds and try again... (tryings = 9184, bot id = 8888839728)
+2026-09-26 20:25:55,624 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:25:55,627 - aiogram.dispatcher - WARNING - Sleep for 5.173069 seconds and try again... (tryings = 9185, bot id = 8888839728)
+2026-09-26 20:26:00,992 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:26:01,028 - aiogram.dispatcher - WARNING - Sleep for 5.045441 seconds and try again... (tryings = 9186, bot id = 8888839728)
+2026-09-26 20:26:06,467 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:26:06,468 - aiogram.dispatcher - WARNING - Sleep for 5.014892 seconds and try again... (tryings = 9187, bot id = 8888839728)
+2026-09-26 20:26:11,660 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:26:11,661 - aiogram.dispatcher - WARNING - Sleep for 4.880364 seconds and try again... (tryings = 9188, bot id = 8888839728)
+2026-09-26 20:26:16,718 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:26:16,719 - aiogram.dispatcher - WARNING - Sleep for 5.008211 seconds and try again... (tryings = 9189, bot id = 8888839728)
+2026-09-26 20:26:21,907 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:26:21,907 - aiogram.dispatcher - WARNING - Sleep for 5.068739 seconds and try again... (tryings = 9190, bot id = 8888839728)
+2026-09-26 20:26:27,161 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:26:27,162 - aiogram.dispatcher - WARNING - Sleep for 5.034547 seconds and try again... (tryings = 9191, bot id = 8888839728)
+2026-09-26 20:26:32,372 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:26:32,373 - aiogram.dispatcher - WARNING - Sleep for 5.056814 seconds and try again... (tryings = 9192, bot id = 8888839728)
+2026-09-26 20:26:37,615 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:26:37,616 - aiogram.dispatcher - WARNING - Sleep for 4.935248 seconds and try again... (tryings = 9193, bot id = 8888839728)
+2026-09-26 20:26:42,725 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:26:42,726 - aiogram.dispatcher - WARNING - Sleep for 5.085454 seconds and try again... (tryings = 9194, bot id = 8888839728)
+2026-09-26 20:26:47,992 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:26:48,003 - aiogram.dispatcher - WARNING - Sleep for 4.945176 seconds and try again... (tryings = 9195, bot id = 8888839728)
+2026-09-26 20:26:53,145 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:26:53,145 - aiogram.dispatcher - WARNING - Sleep for 4.928153 seconds and try again... (tryings = 9196, bot id = 8888839728)
+2026-09-26 20:26:58,252 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:26:58,254 - aiogram.dispatcher - WARNING - Sleep for 4.874663 seconds and try again... (tryings = 9197, bot id = 8888839728)
+2026-09-26 20:27:03,309 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:27:03,310 - aiogram.dispatcher - WARNING - Sleep for 4.931909 seconds and try again... (tryings = 9198, bot id = 8888839728)
+2026-09-26 20:27:08,430 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:27:08,430 - aiogram.dispatcher - WARNING - Sleep for 5.033384 seconds and try again... (tryings = 9199, bot id = 8888839728)
+2026-09-26 20:27:13,651 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:27:13,655 - aiogram.dispatcher - WARNING - Sleep for 4.915456 seconds and try again... (tryings = 9200, bot id = 8888839728)
+2026-09-26 20:27:18,749 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:27:18,752 - aiogram.dispatcher - WARNING - Sleep for 5.104760 seconds and try again... (tryings = 9201, bot id = 8888839728)
+2026-09-26 20:27:25,145 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:27:25,146 - aiogram.dispatcher - WARNING - Sleep for 5.035751 seconds and try again... (tryings = 9202, bot id = 8888839728)
+2026-09-26 20:27:30,366 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:27:30,367 - aiogram.dispatcher - WARNING - Sleep for 4.960553 seconds and try again... (tryings = 9203, bot id = 8888839728)
+2026-09-26 20:27:35,517 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:27:35,518 - aiogram.dispatcher - WARNING - Sleep for 4.914411 seconds and try again... (tryings = 9204, bot id = 8888839728)
+2026-09-26 20:27:40,623 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:27:40,623 - aiogram.dispatcher - WARNING - Sleep for 5.022341 seconds and try again... (tryings = 9205, bot id = 8888839728)
+2026-09-26 20:27:45,825 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:27:45,826 - aiogram.dispatcher - WARNING - Sleep for 5.023161 seconds and try again... (tryings = 9206, bot id = 8888839728)
+2026-09-26 20:27:51,023 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:27:51,023 - aiogram.dispatcher - WARNING - Sleep for 4.999825 seconds and try again... (tryings = 9207, bot id = 8888839728)
+2026-09-26 20:27:56,201 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:27:56,202 - aiogram.dispatcher - WARNING - Sleep for 5.104425 seconds and try again... (tryings = 9208, bot id = 8888839728)
+2026-09-26 20:28:02,502 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:28:02,503 - aiogram.dispatcher - WARNING - Sleep for 5.063345 seconds and try again... (tryings = 9209, bot id = 8888839728)
+2026-09-26 20:28:08,038 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:28:08,039 - aiogram.dispatcher - WARNING - Sleep for 4.917374 seconds and try again... (tryings = 9210, bot id = 8888839728)
+2026-09-26 20:28:13,236 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:28:13,236 - aiogram.dispatcher - WARNING - Sleep for 5.052615 seconds and try again... (tryings = 9211, bot id = 8888839728)
+2026-09-26 20:28:19,471 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:28:19,472 - aiogram.dispatcher - WARNING - Sleep for 5.033305 seconds and try again... (tryings = 9212, bot id = 8888839728)
+2026-09-26 20:28:24,986 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:28:24,987 - aiogram.dispatcher - WARNING - Sleep for 5.041414 seconds and try again... (tryings = 9213, bot id = 8888839728)
+2026-09-26 20:28:30,208 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:28:30,210 - aiogram.dispatcher - WARNING - Sleep for 4.784296 seconds and try again... (tryings = 9214, bot id = 8888839728)
+2026-09-26 20:28:35,170 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:28:35,171 - aiogram.dispatcher - WARNING - Sleep for 4.986260 seconds and try again... (tryings = 9215, bot id = 8888839728)
+2026-09-26 20:28:40,328 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:28:40,328 - aiogram.dispatcher - WARNING - Sleep for 4.992170 seconds and try again... (tryings = 9216, bot id = 8888839728)
+2026-09-26 20:28:45,538 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:28:45,539 - aiogram.dispatcher - WARNING - Sleep for 4.772954 seconds and try again... (tryings = 9217, bot id = 8888839728)
+2026-09-26 20:28:50,496 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:28:50,496 - aiogram.dispatcher - WARNING - Sleep for 4.983088 seconds and try again... (tryings = 9218, bot id = 8888839728)
+2026-09-26 20:28:55,667 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:28:55,668 - aiogram.dispatcher - WARNING - Sleep for 5.019139 seconds and try again... (tryings = 9219, bot id = 8888839728)
+2026-09-26 20:29:01,429 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:29:01,477 - aiogram.dispatcher - WARNING - Sleep for 4.837393 seconds and try again... (tryings = 9220, bot id = 8888839728)
+2026-09-26 20:29:06,523 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:29:06,524 - aiogram.dispatcher - WARNING - Sleep for 5.178026 seconds and try again... (tryings = 9221, bot id = 8888839728)
+2026-09-26 20:29:11,892 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:29:11,893 - aiogram.dispatcher - WARNING - Sleep for 5.033031 seconds and try again... (tryings = 9222, bot id = 8888839728)
+2026-09-26 20:29:17,112 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:29:17,121 - aiogram.dispatcher - WARNING - Sleep for 5.172056 seconds and try again... (tryings = 9223, bot id = 8888839728)
+2026-09-26 20:29:22,474 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyError: 402 Payment Required
+2026-09-26 20:29:22,476 - aiogram.dispatcher - WARNING - Sleep for 4.952565 seconds and try again... (tryings = 9224, bot id = 8888839728)
+2026-09-26 20:30:34,561 - __main__ - INFO - ✅ Зарегистрировано 10 роутеров
+2026-09-26 20:30:34,562 - __main__ - INFO - ⭐ Приоритетный прокси: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754
+2026-09-26 20:30:34,566 - proxy_manager - INFO - ✅ Загружено 2237 прокси из good_proxies.txt
+2026-09-26 20:30:34,636 - proxy_manager - INFO - 🔄 Кэш устарел (>1200с), обновляем...
+2026-09-26 20:30:34,637 - proxy_manager - INFO - ⭐ Проверяю приоритетный прокси: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754
+2026-09-26 20:30:35,804 - proxy_manager - WARNING - ❌ Приоритетный прокси http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754 не работает — иду по пингу
+2026-09-26 20:30:35,804 - proxy_manager - INFO - 🏓 Пингую 2237 прокси (×3 пинга, 200 одновременно)...
+2026-09-26 20:35:23,495 - asyncio - ERROR - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2026-09-26 20:35:24,281 - asyncio - ERROR - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2026-09-26 20:35:48,922 - asyncio - ERROR - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение

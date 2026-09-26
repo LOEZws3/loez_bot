@@ -173,6 +173,7 @@ async def set_bot_commands():
         BotCommand(command="regc", description="Подписаться на калы"),
         BotCommand(command="unregc", description="Отписаться от калов"),
         BotCommand(command="update", description="Обновить данные / зарегистрироваться"),
+        BotCommand(command="userstats", description="Статистика пользователя (админ)"),
     ]
     try:
         await bot.set_my_commands(commands)

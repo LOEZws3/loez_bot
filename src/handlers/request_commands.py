@@ -11,10 +11,14 @@ from aiogram.fsm.state import State, StatesGroup
 
 from config import DATA_DIR, GENERAL_CHAT_ID
 from utils.admin_utils import is_admin, add_admin
-from utils.user_utils import add_user
+from utils.user_utils import (
+    add_user, increment_changes_count,
+    get_changes_count,
+)
 from utils.role_utils import (
     load_roles_status, save_roles_status,
-    get_role_by_name, update_role_status
+    get_role_by_name, update_role_status,
+    get_user_role as get_user_role_name,
 )
 
 logger = logging.getLogger(__name__)
@@ -59,6 +63,17 @@ def _get_pending() -> list:
     requests = _load_requests()
     return [(rid, req) for rid, req in requests.items()
             if isinstance(req, dict) and req.get('status') == 'pending']
+
+
+def _get_max_role_changes() -> int:
+    """Возвращает лимит смен роли из настроек"""
+    try:
+        from handlers.settings_commands import load_settings
+        settings = load_settings()
+        return int(settings.get('max_role_changes', 3))
+    except Exception as e:
+        logger.error(f"Ошибка чтения лимита смен роли: {e}")
+        return 3
 
 
 # ======================== ИРИС ========================
@@ -236,14 +251,33 @@ async def view_request(callback: CallbackQuery):
     safe_role = html.escape(request.get('role', '?'))
     safe_position = html.escape(request.get('position_name', request.get('position', '?')))
 
+    user_id = request.get('user_id')
+    old_role = None
+    try:
+        old_role = get_user_role_name(user_id)
+    except Exception:
+        pass
+
     text = (
         f"📝 <b>Заявка #{request_id}</b>\n\n"
         f"👤 {safe_name}\n"
         f"🔖 @{request.get('username') or 'нет'}\n"
-        f"🆔 <code>{request.get('user_id')}</code>\n"
+        f"🆔 <code>{user_id}</code>\n"
         f"📌 Роль: {safe_role}\n"
         f"🏷️ Должность: {safe_position}"
     )
+
+    # ✅ Показываем старую роль, если есть
+    if old_role:
+        text += f"\n\n⚠️ У юзера уже есть роль: <b>{html.escape(old_role)}</b> (будет освобождена)"
+
+    # ✅ Показываем счётчик смен
+    try:
+        changes = get_changes_count(user_id)
+        max_changes = _get_max_role_changes()
+        text += f"\n🔄 Смен роли: {changes} / {max_changes}"
+    except Exception:
+        pass
 
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [
@@ -285,7 +319,27 @@ async def approve_request_callback(callback: CallbackQuery):
         await callback.message.edit_text("❌ Ошибка: нет роли или сезона.")
         return
 
-    # 1. Занимаем роль
+    # ✅ 0. ОСВОБОЖДАЕМ СТАРУЮ РОЛЬ (если была)
+    old_role = None
+    try:
+        old_role = get_user_role_name(user_id)
+    except Exception:
+        pass
+
+    if old_role and old_role != role_name:
+        status_data = load_roles_status()
+        if old_role in status_data:
+            status_data[old_role]['status'] = 'свободна'
+            status_data[old_role]['owner_id'] = None
+            status_data[old_role]['username'] = None
+            save_roles_status(status_data)
+            logger.info(f"🔄 Освобождена старая роль {old_role} у {user_id}")
+
+        # ✅ Инкремент счётчика смен (если это реально смена)
+        increment_changes_count(user_id)
+        logger.info(f"🔄 Счётчик смен роли для {user_id} увеличен")
+
+    # 1. Занимаем новую роль
     status_data = load_roles_status()
     if role_name in status_data:
         status_data[role_name]['status'] = 'занята'
@@ -298,14 +352,23 @@ async def approve_request_callback(callback: CallbackQuery):
     requests[request_id]['updated_at'] = datetime.now().isoformat()
     _save_requests(requests)
 
-    # 3. ✅ Добавляем в users.json (через utils.user_utils)
-    added_to_users = add_user(user_id, username, full_name, role=role_name)
-    if added_to_users:
-        logger.info(f"✅ {user_id} → users.json (роль {role_name})")
-    else:
-        logger.warning(f"⚠️ {user_id} уже в users.json или ошибка добавления")
+    # 3. Добавляем/обновляем в users.json
+    from utils.user_utils import get_user_by_id, update_user_role
+    existing_user = get_user_by_id(user_id)
 
-    # 4. ✅ Ранг (admins.json, через utils.admin_utils)
+    if existing_user:
+        # Юзер уже есть — обновляем роль, сохраняем changes_count
+        update_user_role(user_id, role_name)
+        logger.info(f"✅ {user_id} обновлён в users.json (новая роль {role_name})")
+    else:
+        # Новый юзер
+        added_to_users = add_user(user_id, username, full_name, role=role_name)
+        if added_to_users:
+            logger.info(f"✅ {user_id} → users.json (роль {role_name})")
+        else:
+            logger.warning(f"⚠️ {user_id} уже в users.json или ошибка добавления")
+
+    # 4. Ранг (admins.json)
     rank = POSITION_RANK.get(position)
     if rank:
         added_to_admins = add_admin(user_id, username, full_name, rank=rank)
