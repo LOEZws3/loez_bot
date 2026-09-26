@@ -61043,3 +61043,1070 @@ Traceback (most recent call last):
     self._sock.shutdown(socket.SHUT_RDWR)
     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
 ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2026-09-26 21:23:57,823 - __main__ - INFO - ✅ Зарегистрировано 10 роутеров
+2026-09-26 21:23:57,837 - __main__ - INFO - ⭐ Приоритетный прокси: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754
+2026-09-26 21:23:57,840 - proxy_manager - INFO - ✅ Загружено 2237 прокси из good_proxies.txt
+2026-09-26 21:23:57,841 - proxy_manager - INFO - 🔄 Кэш устарел (>1200с), обновляем...
+2026-09-26 21:23:57,842 - proxy_manager - INFO - ⭐ Проверяю приоритетный прокси: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754
+2026-09-26 21:23:58,587 - proxy_manager - INFO - ✅ Приоритетный прокси работает: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754 (ср. пинг: 0.745с)
+2026-09-26 21:23:58,590 - proxy_manager - INFO - 💾 Кэш пингов сохранён (1 прокси)
+2026-09-26 21:23:58,590 - proxy_manager - INFO - 🏆 Выбран: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754 (0.745с)
+2026-09-26 21:23:58,590 - __main__ - INFO - 🌐 Используется прокси: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754 (пинг: 0.745с)
+2026-09-26 21:24:00,584 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-26 21:24:00,635 - database - INFO - ✅ Таблицы БД созданы
+2026-09-26 21:24:00,638 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-26 21:24:00,639 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-26 21:24:01,118 - __main__ - INFO - 📋 Команды бота установлены
+2026-09-26 21:24:01,118 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-26 21:24:01,120 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-26 21:24:01,121 - aiogram.dispatcher - INFO - Start polling
+2026-09-26 21:24:01,225 - aiogram.dispatcher - INFO - Run polling for bot @REG_sf_BOT id=8888839728 - 'REG_ℿλɑɱᴙ Иɕκ℘℩_flood'
+2026-09-26 21:24:01,970 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 21:24:01,970 - aiogram.event - INFO - Update id=352512736 is handled. Duration 303 ms by bot id=8888839728
+2026-09-26 21:24:01,973 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 21:24:01,974 - aiogram.event - INFO - Update id=352512737 is handled. Duration 283 ms by bot id=8888839728
+2026-09-26 21:24:01,976 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 21:24:01,977 - aiogram.event - INFO - Update id=352512739 is handled. Duration 284 ms by bot id=8888839728
+2026-09-26 21:24:01,979 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 21:24:01,980 - aiogram.event - INFO - Update id=352512742 is handled. Duration 284 ms by bot id=8888839728
+2026-09-26 21:24:01,983 - handlers.chat_member - INFO - ✅ Пользователь 8593585036 найден в users.json
+2026-09-26 21:24:01,984 - aiogram.event - INFO - Update id=352512746 is handled. Duration 285 ms by bot id=8888839728
+2026-09-26 21:24:01,992 - handlers.chat_member - INFO - ✅ Пользователь 5279300963 найден в users.json
+2026-09-26 21:24:01,993 - aiogram.event - INFO - Update id=352512751 is handled. Duration 291 ms by bot id=8888839728
+2026-09-26 21:24:02,003 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 21:24:02,004 - aiogram.event - INFO - Update id=352512738 is handled. Duration 312 ms by bot id=8888839728
+2026-09-26 21:24:02,007 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 21:24:02,008 - aiogram.event - INFO - Update id=352512740 is handled. Duration 314 ms by bot id=8888839728
+2026-09-26 21:24:02,010 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 21:24:02,012 - aiogram.event - INFO - Update id=352512741 is handled. Duration 317 ms by bot id=8888839728
+2026-09-26 21:24:02,017 - handlers.chat_member - INFO - ✅ Пользователь 8593585036 найден в users.json
+2026-09-26 21:24:02,018 - aiogram.event - INFO - Update id=352512743 is handled. Duration 322 ms by bot id=8888839728
+2026-09-26 21:24:02,021 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 21:24:02,022 - aiogram.event - INFO - Update id=352512744 is handled. Duration 325 ms by bot id=8888839728
+2026-09-26 21:24:02,024 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 21:24:02,025 - aiogram.event - INFO - Update id=352512745 is handled. Duration 328 ms by bot id=8888839728
+2026-09-26 21:24:02,028 - handlers.chat_member - INFO - ✅ Пользователь 8593585036 найден в users.json
+2026-09-26 21:24:02,031 - aiogram.event - INFO - Update id=352512747 is handled. Duration 332 ms by bot id=8888839728
+2026-09-26 21:24:02,034 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 21:24:02,036 - aiogram.event - INFO - Update id=352512748 is handled. Duration 336 ms by bot id=8888839728
+2026-09-26 21:24:02,038 - handlers.chat_member - INFO - ✅ Пользователь 7541065884 найден в users.json
+2026-09-26 21:24:02,039 - aiogram.event - INFO - Update id=352512749 is handled. Duration 339 ms by bot id=8888839728
+2026-09-26 21:24:02,041 - handlers.chat_member - INFO - ✅ Пользователь 7541065884 найден в users.json
+2026-09-26 21:24:02,043 - aiogram.event - INFO - Update id=352512750 is handled. Duration 342 ms by bot id=8888839728
+2026-09-26 21:24:02,048 - handlers.chat_member - INFO - ✅ Пользователь 7541065884 найден в users.json
+2026-09-26 21:24:02,053 - aiogram.event - INFO - Update id=352512754 is handled. Duration 348 ms by bot id=8888839728
+2026-09-26 21:24:02,056 - handlers.chat_member - INFO - ✅ Пользователь 5279300963 найден в users.json
+2026-09-26 21:24:02,058 - aiogram.event - INFO - Update id=352512756 is handled. Duration 353 ms by bot id=8888839728
+2026-09-26 21:24:02,061 - handlers.chat_member - INFO - ✅ Пользователь 7541065884 найден в users.json
+2026-09-26 21:24:02,063 - aiogram.event - INFO - Update id=352512757 is handled. Duration 358 ms by bot id=8888839728
+2026-09-26 21:24:02,068 - handlers.chat_member - INFO - ✅ Пользователь 7541065884 найден в users.json
+2026-09-26 21:24:02,069 - aiogram.event - INFO - Update id=352512752 is handled. Duration 366 ms by bot id=8888839728
+2026-09-26 21:24:02,072 - handlers.chat_member - INFO - ✅ Пользователь 7541065884 найден в users.json
+2026-09-26 21:24:02,072 - aiogram.event - INFO - Update id=352512753 is handled. Duration 369 ms by bot id=8888839728
+2026-09-26 21:24:02,074 - handlers.chat_member - INFO - ✅ Пользователь 5279300963 найден в users.json
+2026-09-26 21:24:02,075 - aiogram.event - INFO - Update id=352512755 is handled. Duration 370 ms by bot id=8888839728
+2026-09-26 21:24:02,077 - handlers.chat_member - INFO - ✅ Пользователь 5279300963 найден в users.json
+2026-09-26 21:24:02,079 - aiogram.event - INFO - Update id=352512758 is handled. Duration 373 ms by bot id=8888839728
+2026-09-26 21:24:02,081 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 21:24:02,082 - aiogram.event - INFO - Update id=352512765 is handled. Duration 372 ms by bot id=8888839728
+2026-09-26 21:24:02,084 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 21:24:02,084 - aiogram.event - INFO - Update id=352512766 is handled. Duration 374 ms by bot id=8888839728
+2026-09-26 21:24:02,086 - handlers.chat_member - INFO - ✅ Пользователь 5172880884 найден в users.json
+2026-09-26 21:24:02,087 - aiogram.event - INFO - Update id=352512761 is handled. Duration 379 ms by bot id=8888839728
+2026-09-26 21:24:02,089 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 21:24:02,089 - aiogram.event - INFO - Update id=352512762 is handled. Duration 381 ms by bot id=8888839728
+2026-09-26 21:24:02,091 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 21:24:02,092 - aiogram.event - INFO - Update id=352512767 is handled. Duration 381 ms by bot id=8888839728
+2026-09-26 21:24:02,096 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 21:24:02,097 - aiogram.event - INFO - Update id=352512768 is handled. Duration 386 ms by bot id=8888839728
+2026-09-26 21:24:02,100 - handlers.chat_member - INFO - ✅ Пользователь 5279300963 найден в users.json
+2026-09-26 21:24:02,100 - aiogram.event - INFO - Update id=352512769 is handled. Duration 389 ms by bot id=8888839728
+2026-09-26 21:24:02,102 - handlers.chat_member - INFO - ✅ Пользователь 8593585036 найден в users.json
+2026-09-26 21:24:02,103 - aiogram.event - INFO - Update id=352512770 is handled. Duration 391 ms by bot id=8888839728
+2026-09-26 21:24:02,105 - handlers.chat_member - INFO - ✅ Пользователь 8593585036 найден в users.json
+2026-09-26 21:24:02,105 - aiogram.event - INFO - Update id=352512771 is handled. Duration 393 ms by bot id=8888839728
+2026-09-26 21:24:02,107 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 21:24:02,108 - aiogram.event - INFO - Update id=352512775 is handled. Duration 393 ms by bot id=8888839728
+2026-09-26 21:24:02,111 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 21:24:02,112 - aiogram.event - INFO - Update id=352512776 is handled. Duration 397 ms by bot id=8888839728
+2026-09-26 21:24:02,115 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-26 21:24:02,115 - aiogram.event - INFO - Update id=352512777 is handled. Duration 400 ms by bot id=8888839728
+2026-09-26 21:24:02,117 - handlers.chat_member - INFO - ✅ Пользователь 8593585036 найден в users.json
+2026-09-26 21:24:02,118 - aiogram.event - INFO - Update id=352512772 is handled. Duration 405 ms by bot id=8888839728
+2026-09-26 21:24:02,120 - handlers.chat_member - INFO - ✅ Пользователь 7541065884 найден в users.json
+2026-09-26 21:24:02,121 - aiogram.event - INFO - Update id=352512774 is handled. Duration 407 ms by bot id=8888839728
+2026-09-26 21:24:02,122 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-26 21:24:02,123 - aiogram.event - INFO - Update id=352512779 is handled. Duration 406 ms by bot id=8888839728
+2026-09-26 21:24:02,125 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 21:24:02,126 - aiogram.event - INFO - Update id=352512780 is handled. Duration 409 ms by bot id=8888839728
+2026-09-26 21:24:02,129 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-26 21:24:02,129 - aiogram.event - INFO - Update id=352512781 is handled. Duration 411 ms by bot id=8888839728
+2026-09-26 21:24:02,131 - handlers.chat_member - INFO - ✅ Пользователь 5172880884 найден в users.json
+2026-09-26 21:24:02,132 - aiogram.event - INFO - Update id=352512782 is handled. Duration 414 ms by bot id=8888839728
+2026-09-26 21:24:02,134 - handlers.chat_member - INFO - ✅ Пользователь 8593585036 найден в users.json
+2026-09-26 21:24:02,135 - aiogram.event - INFO - Update id=352512773 is handled. Duration 421 ms by bot id=8888839728
+2026-09-26 21:24:02,136 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-26 21:24:02,137 - aiogram.event - INFO - Update id=352512778 is handled. Duration 421 ms by bot id=8888839728
+2026-09-26 21:24:02,139 - handlers.chat_member - INFO - ✅ Пользователь 5279300963 найден в users.json
+2026-09-26 21:24:02,139 - aiogram.event - INFO - Update id=352512783 is handled. Duration 421 ms by bot id=8888839728
+2026-09-26 21:24:02,143 - handlers.chat_member - INFO - ✅ Пользователь 5172880884 найден в users.json
+2026-09-26 21:24:02,144 - aiogram.event - INFO - Update id=352512784 is handled. Duration 425 ms by bot id=8888839728
+2026-09-26 21:24:02,146 - handlers.chat_member - INFO - ✅ Пользователь 5279300963 найден в users.json
+2026-09-26 21:24:02,147 - aiogram.event - INFO - Update id=352512785 is handled. Duration 427 ms by bot id=8888839728
+2026-09-26 21:24:02,150 - handlers.chat_member - INFO - ✅ Пользователь 5279300963 найден в users.json
+2026-09-26 21:24:02,150 - aiogram.event - INFO - Update id=352512786 is handled. Duration 430 ms by bot id=8888839728
+2026-09-26 21:24:02,152 - handlers.chat_member - INFO - ❌ Пользователь 7119474535 НЕ найден в users.json
+2026-09-26 21:24:02,153 - aiogram.event - INFO - Update id=352512787 is handled. Duration 432 ms by bot id=8888839728
+2026-09-26 21:24:02,155 - handlers.chat_member - INFO - ✅ Пользователь 5279300963 найден в users.json
+2026-09-26 21:24:02,155 - aiogram.event - INFO - Update id=352512788 is handled. Duration 434 ms by bot id=8888839728
+2026-09-26 21:24:02,159 - handlers.chat_member - INFO - ✅ Пользователь 5172880884 найден в users.json
+2026-09-26 21:24:02,160 - aiogram.event - INFO - Update id=352512789 is handled. Duration 438 ms by bot id=8888839728
+2026-09-26 21:24:02,162 - handlers.chat_member - INFO - ✅ Пользователь 5279300963 найден в users.json
+2026-09-26 21:24:02,162 - aiogram.event - INFO - Update id=352512790 is handled. Duration 440 ms by bot id=8888839728
+2026-09-26 21:24:02,165 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-26 21:24:02,166 - aiogram.event - INFO - Update id=352512791 is handled. Duration 443 ms by bot id=8888839728
+2026-09-26 21:24:02,167 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-26 21:24:02,168 - aiogram.event - INFO - Update id=352512792 is handled. Duration 445 ms by bot id=8888839728
+2026-09-26 21:24:02,170 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 21:24:02,171 - aiogram.event - INFO - Update id=352512793 is handled. Duration 447 ms by bot id=8888839728
+2026-09-26 21:24:02,173 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 21:24:02,175 - aiogram.event - INFO - Update id=352512794 is handled. Duration 450 ms by bot id=8888839728
+2026-09-26 21:24:02,177 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-26 21:24:02,178 - aiogram.event - INFO - Update id=352512795 is handled. Duration 453 ms by bot id=8888839728
+2026-09-26 21:24:02,180 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-26 21:24:02,182 - aiogram.event - INFO - Update id=352512796 is handled. Duration 456 ms by bot id=8888839728
+2026-09-26 21:24:02,184 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 21:24:02,184 - aiogram.event - INFO - Update id=352512797 is handled. Duration 458 ms by bot id=8888839728
+2026-09-26 21:24:02,186 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 21:24:02,187 - aiogram.event - INFO - Update id=352512798 is handled. Duration 460 ms by bot id=8888839728
+2026-09-26 21:24:02,189 - handlers.chat_member - INFO - ✅ Пользователь 5279300963 найден в users.json
+2026-09-26 21:24:02,191 - aiogram.event - INFO - Update id=352512799 is handled. Duration 464 ms by bot id=8888839728
+2026-09-26 21:24:02,193 - handlers.chat_member - INFO - ✅ Пользователь 7541065884 найден в users.json
+2026-09-26 21:24:02,193 - aiogram.event - INFO - Update id=352512759 is handled. Duration 487 ms by bot id=8888839728
+2026-09-26 21:24:02,195 - handlers.chat_member - INFO - ✅ Пользователь 5279300963 найден в users.json
+2026-09-26 21:24:02,196 - aiogram.event - INFO - Update id=352512760 is handled. Duration 489 ms by bot id=8888839728
+2026-09-26 21:24:02,198 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 21:24:02,199 - aiogram.event - INFO - Update id=352512763 is handled. Duration 490 ms by bot id=8888839728
+2026-09-26 21:24:02,201 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 21:24:02,201 - aiogram.event - INFO - Update id=352512764 is handled. Duration 492 ms by bot id=8888839728
+2026-09-26 21:51:08,235 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-26 21:51:08,236 - aiogram.event - INFO - Update id=352512800 is handled. Duration 86 ms by bot id=8888839728
+2026-09-26 21:51:15,528 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-26 21:51:15,529 - aiogram.event - INFO - Update id=352512801 is handled. Duration 20 ms by bot id=8888839728
+2026-09-26 21:54:20,719 - handlers.chat_member - INFO - ✅ Пользователь 5279300963 найден в users.json
+2026-09-26 21:54:20,719 - aiogram.event - INFO - Update id=352512802 is handled. Duration 16 ms by bot id=8888839728
+2026-09-26 22:00:13,611 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:00:13,612 - aiogram.event - INFO - Update id=352512803 is handled. Duration 10 ms by bot id=8888839728
+2026-09-26 22:00:17,268 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:00:17,269 - aiogram.event - INFO - Update id=352512804 is handled. Duration 9 ms by bot id=8888839728
+2026-09-26 22:00:20,923 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:00:20,924 - aiogram.event - INFO - Update id=352512805 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 22:00:25,220 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:00:25,220 - aiogram.event - INFO - Update id=352512806 is handled. Duration 9 ms by bot id=8888839728
+2026-09-26 22:00:33,352 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:00:33,352 - aiogram.event - INFO - Update id=352512807 is handled. Duration 11 ms by bot id=8888839728
+2026-09-26 22:00:41,058 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:00:41,060 - aiogram.event - INFO - Update id=352512808 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 22:00:59,285 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:00:59,285 - aiogram.event - INFO - Update id=352512809 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 22:01:05,300 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:01:05,301 - aiogram.event - INFO - Update id=352512810 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 22:01:16,410 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:01:16,411 - aiogram.event - INFO - Update id=352512811 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 22:01:25,714 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:01:25,716 - aiogram.event - INFO - Update id=352512812 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 22:01:31,178 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:01:31,181 - aiogram.event - INFO - Update id=352512813 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 22:01:40,206 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:01:40,207 - aiogram.event - INFO - Update id=352512814 is handled. Duration 24 ms by bot id=8888839728
+2026-09-26 22:01:59,950 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:01:59,951 - aiogram.event - INFO - Update id=352512815 is handled. Duration 19 ms by bot id=8888839728
+2026-09-26 22:02:04,272 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:02:04,273 - aiogram.event - INFO - Update id=352512816 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 22:02:12,090 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:02:12,131 - aiogram.event - INFO - Update id=352512817 is handled. Duration 49 ms by bot id=8888839728
+2026-09-26 22:02:30,576 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:02:30,577 - aiogram.event - INFO - Update id=352512818 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 22:02:35,545 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:02:35,546 - aiogram.event - INFO - Update id=352512819 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 22:02:47,531 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:02:47,531 - aiogram.event - INFO - Update id=352512820 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 22:02:59,676 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:02:59,677 - aiogram.event - INFO - Update id=352512821 is handled. Duration 11 ms by bot id=8888839728
+2026-09-26 22:03:03,915 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:03:03,915 - aiogram.event - INFO - Update id=352512822 is handled. Duration 11 ms by bot id=8888839728
+2026-09-26 22:03:10,290 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:03:10,292 - aiogram.event - INFO - Update id=352512823 is handled. Duration 16 ms by bot id=8888839728
+2026-09-26 22:03:14,411 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:03:14,413 - aiogram.event - INFO - Update id=352512824 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 22:03:24,976 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:03:24,976 - aiogram.event - INFO - Update id=352512825 is handled. Duration 16 ms by bot id=8888839728
+2026-09-26 22:03:35,472 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:03:35,473 - aiogram.event - INFO - Update id=352512826 is handled. Duration 24 ms by bot id=8888839728
+2026-09-26 22:03:40,244 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:03:40,245 - aiogram.event - INFO - Update id=352512827 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 22:03:49,892 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:03:49,893 - aiogram.event - INFO - Update id=352512828 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 22:04:00,780 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:04:00,781 - aiogram.event - INFO - Update id=352512829 is handled. Duration 14 ms by bot id=8888839728
+2026-09-26 22:04:14,505 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:04:14,507 - aiogram.event - INFO - Update id=352512830 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 22:04:20,538 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:04:20,538 - aiogram.event - INFO - Update id=352512831 is handled. Duration 20 ms by bot id=8888839728
+2026-09-26 22:04:23,799 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:04:23,800 - aiogram.event - INFO - Update id=352512832 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 22:04:39,804 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:04:39,805 - aiogram.event - INFO - Update id=352512833 is handled. Duration 11 ms by bot id=8888839728
+2026-09-26 22:04:49,604 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:04:49,604 - aiogram.event - INFO - Update id=352512834 is handled. Duration 9 ms by bot id=8888839728
+2026-09-26 22:04:53,533 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:04:53,533 - aiogram.event - INFO - Update id=352512835 is handled. Duration 8 ms by bot id=8888839728
+2026-09-26 22:04:56,117 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:04:56,119 - aiogram.event - INFO - Update id=352512836 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 22:05:00,342 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:05:00,342 - aiogram.event - INFO - Update id=352512837 is handled. Duration 8 ms by bot id=8888839728
+2026-09-26 22:05:17,062 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:05:17,062 - aiogram.event - INFO - Update id=352512838 is handled. Duration 20 ms by bot id=8888839728
+2026-09-26 22:05:59,349 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:05:59,350 - aiogram.event - INFO - Update id=352512839 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 22:06:09,203 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:06:09,206 - aiogram.event - INFO - Update id=352512840 is handled. Duration 24 ms by bot id=8888839728
+2026-09-26 22:06:12,653 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:06:12,655 - aiogram.event - INFO - Update id=352512841 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 22:06:17,671 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:06:17,672 - aiogram.event - INFO - Update id=352512842 is handled. Duration 21 ms by bot id=8888839728
+2026-09-26 22:06:56,016 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 22:06:56,017 - aiogram.event - INFO - Update id=352512843 is handled. Duration 12 ms by bot id=8888839728
+2026-09-26 22:07:29,178 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 22:07:29,179 - aiogram.event - INFO - Update id=352512844 is handled. Duration 9 ms by bot id=8888839728
+2026-09-26 22:07:38,985 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 22:07:38,990 - aiogram.event - INFO - Update id=352512845 is handled. Duration 34 ms by bot id=8888839728
+2026-09-26 22:07:40,979 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 22:07:40,979 - aiogram.event - INFO - Update id=352512846 is handled. Duration 11 ms by bot id=8888839728
+2026-09-26 22:08:45,937 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 22:08:45,940 - aiogram.event - INFO - Update id=352512847 is handled. Duration 15 ms by bot id=8888839728
+2026-09-26 22:09:01,997 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:09:02,002 - aiogram.event - INFO - Update id=352512848 is handled. Duration 14 ms by bot id=8888839728
+2026-09-26 22:09:05,365 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 22:09:05,366 - aiogram.event - INFO - Update id=352512849 is handled. Duration 9 ms by bot id=8888839728
+2026-09-26 22:09:28,033 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:09:28,033 - aiogram.event - INFO - Update id=352512850 is handled. Duration 16 ms by bot id=8888839728
+2026-09-26 22:09:36,667 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 22:09:36,671 - aiogram.event - INFO - Update id=352512851 is handled. Duration 20 ms by bot id=8888839728
+2026-09-26 22:09:53,677 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:09:53,682 - aiogram.event - INFO - Update id=352512852 is handled. Duration 19 ms by bot id=8888839728
+2026-09-26 22:10:06,751 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 22:10:06,756 - aiogram.event - INFO - Update id=352512853 is handled. Duration 21 ms by bot id=8888839728
+2026-09-26 22:10:13,322 - handlers.chat_member - INFO - ✅ Пользователь 5172880884 найден в users.json
+2026-09-26 22:10:13,325 - aiogram.event - INFO - Update id=352512854 is handled. Duration 15 ms by bot id=8888839728
+2026-09-26 22:10:20,789 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:10:20,790 - aiogram.event - INFO - Update id=352512855 is handled. Duration 21 ms by bot id=8888839728
+2026-09-26 22:10:24,751 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:10:24,751 - aiogram.event - INFO - Update id=352512856 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 22:10:36,482 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 22:10:36,484 - aiogram.event - INFO - Update id=352512857 is handled. Duration 14 ms by bot id=8888839728
+2026-09-26 22:10:41,602 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:10:41,602 - aiogram.event - INFO - Update id=352512858 is handled. Duration 10 ms by bot id=8888839728
+2026-09-26 22:10:44,570 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 22:10:44,572 - aiogram.event - INFO - Update id=352512859 is handled. Duration 14 ms by bot id=8888839728
+2026-09-26 22:10:44,688 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:10:44,690 - aiogram.event - INFO - Update id=352512860 is handled. Duration 21 ms by bot id=8888839728
+2026-09-26 22:10:54,578 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 22:10:54,581 - aiogram.event - INFO - Update id=352512861 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 22:11:00,353 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 22:11:00,355 - aiogram.event - INFO - Update id=352512862 is handled. Duration 15 ms by bot id=8888839728
+2026-09-26 22:11:03,797 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:11:03,798 - aiogram.event - INFO - Update id=352512863 is handled. Duration 16 ms by bot id=8888839728
+2026-09-26 22:11:07,595 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:11:07,596 - aiogram.event - INFO - Update id=352512864 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 22:11:16,507 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:11:16,510 - aiogram.event - INFO - Update id=352512865 is handled. Duration 33 ms by bot id=8888839728
+2026-09-26 22:11:23,774 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 22:11:23,776 - aiogram.event - INFO - Update id=352512866 is handled. Duration 18 ms by bot id=8888839728
+2026-09-26 22:12:02,369 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:12:02,372 - aiogram.event - INFO - Update id=352512867 is handled. Duration 39 ms by bot id=8888839728
+2026-09-26 22:12:08,110 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:12:08,110 - aiogram.event - INFO - Update id=352512868 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 22:12:22,984 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 22:12:22,985 - aiogram.event - INFO - Update id=352512869 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 22:12:41,196 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:12:41,212 - aiogram.event - INFO - Update id=352512870 is handled. Duration 33 ms by bot id=8888839728
+2026-09-26 22:12:58,306 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:12:58,308 - aiogram.event - INFO - Update id=352512871 is handled. Duration 15 ms by bot id=8888839728
+2026-09-26 22:13:00,226 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 22:13:00,227 - aiogram.event - INFO - Update id=352512872 is handled. Duration 13 ms by bot id=8888839728
+2026-09-26 22:13:05,279 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:13:05,283 - aiogram.event - INFO - Update id=352512873 is handled. Duration 24 ms by bot id=8888839728
+2026-09-26 22:13:06,128 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:13:06,132 - aiogram.event - INFO - Update id=352512874 is handled. Duration 37 ms by bot id=8888839728
+2026-09-26 22:13:10,075 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 22:13:10,076 - aiogram.event - INFO - Update id=352512875 is handled. Duration 13 ms by bot id=8888839728
+2026-09-26 22:13:14,340 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:13:14,361 - aiogram.event - INFO - Update id=352512876 is handled. Duration 39 ms by bot id=8888839728
+2026-09-26 22:13:20,445 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:13:20,448 - aiogram.event - INFO - Update id=352512877 is handled. Duration 21 ms by bot id=8888839728
+2026-09-26 22:13:21,718 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 22:13:21,718 - aiogram.event - INFO - Update id=352512878 is handled. Duration 10 ms by bot id=8888839728
+2026-09-26 22:13:50,187 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 22:13:50,191 - aiogram.event - INFO - Update id=352512879 is handled. Duration 22 ms by bot id=8888839728
+2026-09-26 22:13:57,551 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 22:13:57,561 - aiogram.event - INFO - Update id=352512880 is handled. Duration 31 ms by bot id=8888839728
+2026-09-26 22:14:08,708 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:14:08,728 - aiogram.event - INFO - Update id=352512881 is handled. Duration 56 ms by bot id=8888839728
+2026-09-26 22:14:48,185 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:14:48,185 - aiogram.event - INFO - Update id=352512882 is handled. Duration 37 ms by bot id=8888839728
+2026-09-26 22:14:51,149 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:14:51,150 - aiogram.event - INFO - Update id=352512883 is handled. Duration 34 ms by bot id=8888839728
+2026-09-26 22:15:01,209 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:15:01,210 - aiogram.event - INFO - Update id=352512884 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 22:15:06,892 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 22:15:06,892 - aiogram.event - INFO - Update id=352512885 is handled. Duration 9 ms by bot id=8888839728
+2026-09-26 22:15:17,990 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 22:15:17,991 - aiogram.event - INFO - Update id=352512886 is handled. Duration 44 ms by bot id=8888839728
+2026-09-26 22:15:20,697 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:15:20,698 - aiogram.event - INFO - Update id=352512887 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 22:17:41,821 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:17:41,821 - aiogram.event - INFO - Update id=352512888 is handled. Duration 31 ms by bot id=8888839728
+2026-09-26 22:17:50,971 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:17:50,971 - aiogram.event - INFO - Update id=352512889 is handled. Duration 36 ms by bot id=8888839728
+2026-09-26 22:18:04,321 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:18:04,333 - aiogram.event - INFO - Update id=352512890 is handled. Duration 33 ms by bot id=8888839728
+2026-09-26 22:19:27,460 - handlers.chat_member - INFO - ✅ Пользователь 5279300963 найден в users.json
+2026-09-26 22:19:27,465 - aiogram.event - INFO - Update id=352512891 is handled. Duration 22 ms by bot id=8888839728
+2026-09-26 22:19:40,298 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:19:40,301 - aiogram.event - INFO - Update id=352512892 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 22:20:59,909 - handlers.keyboards - INFO - 🔄 [КНОПКА] Список участников от 6036991812
+2026-09-26 22:21:00,678 - handlers.keyboards - INFO - ✅ [КНОПКА] Список участников выполнена для 6036991812
+2026-09-26 22:21:00,679 - aiogram.event - INFO - Update id=352512893 is handled. Duration 778 ms by bot id=8888839728
+2026-09-26 22:22:07,864 - utils.parsers - INFO - 🗑️ Пользователь 8007905166 удалён из users.json
+2026-09-26 22:22:08,006 - handlers.admin_commands - INFO - Админ 6036991812 удалил участника 8007905166
+2026-09-26 22:22:08,007 - aiogram.event - INFO - Update id=352512894 is handled. Duration 164 ms by bot id=8888839728
+2026-09-26 22:22:27,398 - utils.parsers - INFO - 🗑️ Пользователь 7407997675 удалён из users.json
+2026-09-26 22:22:27,538 - handlers.admin_commands - INFO - Админ 6036991812 удалил участника 7407997675
+2026-09-26 22:22:27,539 - aiogram.event - INFO - Update id=352512895 is handled. Duration 190 ms by bot id=8888839728
+2026-09-26 22:26:04,305 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 22:26:04,306 - aiogram.event - INFO - Update id=352512896 is handled. Duration 34 ms by bot id=8888839728
+2026-09-26 22:26:10,070 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 22:26:10,073 - aiogram.event - INFO - Update id=352512897 is handled. Duration 15 ms by bot id=8888839728
+2026-09-26 22:26:26,194 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 22:26:26,194 - aiogram.event - INFO - Update id=352512898 is handled. Duration 12 ms by bot id=8888839728
+2026-09-26 22:26:49,254 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 22:26:49,257 - aiogram.event - INFO - Update id=352512899 is handled. Duration 9 ms by bot id=8888839728
+2026-09-26 22:26:55,543 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 22:26:55,544 - aiogram.event - INFO - Update id=352512900 is handled. Duration 14 ms by bot id=8888839728
+2026-09-26 22:27:08,999 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:27:09,013 - aiogram.event - INFO - Update id=352512901 is handled. Duration 24 ms by bot id=8888839728
+2026-09-26 22:27:27,360 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:27:27,365 - aiogram.event - INFO - Update id=352512902 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 22:30:28,322 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 22:30:28,324 - aiogram.event - INFO - Update id=352512903 is handled. Duration 16 ms by bot id=8888839728
+2026-09-26 22:30:39,390 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 22:30:39,397 - aiogram.event - INFO - Update id=352512904 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 22:30:48,895 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:30:48,902 - aiogram.event - INFO - Update id=352512905 is handled. Duration 16 ms by bot id=8888839728
+2026-09-26 22:32:06,327 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 22:32:06,329 - aiogram.event - INFO - Update id=352512906 is handled. Duration 11 ms by bot id=8888839728
+2026-09-26 22:32:15,227 - handlers.keyboards - INFO - 🔄 [КНОПКА] Помощь от 8076284478
+2026-09-26 22:32:15,691 - handlers.keyboards - INFO - ✅ [КНОПКА] Помощь выполнена для 8076284478
+2026-09-26 22:32:15,692 - aiogram.event - INFO - Update id=352512907 is handled. Duration 472 ms by bot id=8888839728
+2026-09-26 22:32:19,944 - aiogram.event - INFO - Update id=352512908 is handled. Duration 231 ms by bot id=8888839728
+2026-09-26 22:32:57,491 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:32:57,495 - aiogram.event - INFO - Update id=352512909 is handled. Duration 31 ms by bot id=8888839728
+2026-09-26 22:33:12,548 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 22:33:12,550 - aiogram.event - INFO - Update id=352512910 is handled. Duration 15 ms by bot id=8888839728
+2026-09-26 22:33:17,521 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 22:33:17,522 - aiogram.event - INFO - Update id=352512911 is handled. Duration 10 ms by bot id=8888839728
+2026-09-26 22:33:22,158 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 22:33:22,159 - aiogram.event - INFO - Update id=352512912 is handled. Duration 13 ms by bot id=8888839728
+2026-09-26 22:33:29,935 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:33:29,937 - aiogram.event - INFO - Update id=352512913 is handled. Duration 12 ms by bot id=8888839728
+2026-09-26 22:33:40,654 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-26 22:33:40,655 - aiogram.event - INFO - Update id=352512914 is handled. Duration 10 ms by bot id=8888839728
+2026-09-26 22:39:39,295 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:39:39,301 - aiogram.event - INFO - Update id=352512915 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 22:40:27,157 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 22:40:27,158 - aiogram.event - INFO - Update id=352512916 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 22:46:09,024 - handlers.chat_member - INFO - ✅ Пользователь 7541065884 найден в users.json
+2026-09-26 22:46:09,026 - aiogram.event - INFO - Update id=352512917 is handled. Duration 13 ms by bot id=8888839728
+2026-09-26 22:53:41,427 - handlers.chat_member - INFO - ✅ Пользователь 5172880884 найден в users.json
+2026-09-26 22:53:41,427 - aiogram.event - INFO - Update id=352512918 is handled. Duration 11 ms by bot id=8888839728
+2026-09-26 22:54:06,688 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 22:54:06,689 - aiogram.event - INFO - Update id=352512919 is handled. Duration 35 ms by bot id=8888839728
+2026-09-26 22:54:11,554 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 22:54:11,554 - aiogram.event - INFO - Update id=352512920 is handled. Duration 20 ms by bot id=8888839728
+2026-09-26 22:54:17,516 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 22:54:17,517 - aiogram.event - INFO - Update id=352512921 is handled. Duration 24 ms by bot id=8888839728
+2026-09-26 22:56:31,855 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 22:56:31,858 - aiogram.event - INFO - Update id=352512922 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 22:56:50,575 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:56:50,576 - aiogram.event - INFO - Update id=352512923 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 22:57:01,995 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 22:57:01,996 - aiogram.event - INFO - Update id=352512924 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 22:57:13,397 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 22:57:13,414 - aiogram.event - INFO - Update id=352512925 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 22:57:37,852 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 22:57:37,853 - aiogram.event - INFO - Update id=352512926 is handled. Duration 40 ms by bot id=8888839728
+2026-09-26 22:57:37,855 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:57:37,856 - aiogram.event - INFO - Update id=352512927 is handled. Duration 41 ms by bot id=8888839728
+2026-09-26 22:57:58,348 - handlers.chat_member - INFO - ✅ Пользователь 5172880884 найден в users.json
+2026-09-26 22:57:58,348 - aiogram.event - INFO - Update id=352512928 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 22:57:59,886 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 22:57:59,887 - aiogram.event - INFO - Update id=352512929 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 22:58:02,275 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 22:58:02,276 - aiogram.event - INFO - Update id=352512930 is handled. Duration 37 ms by bot id=8888839728
+2026-09-26 22:58:23,002 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 22:58:23,004 - aiogram.event - INFO - Update id=352512931 is handled. Duration 14 ms by bot id=8888839728
+2026-09-26 22:58:26,293 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:58:26,294 - aiogram.event - INFO - Update id=352512932 is handled. Duration 15 ms by bot id=8888839728
+2026-09-26 22:58:30,839 - handlers.chat_member - INFO - ✅ Пользователь 5172880884 найден в users.json
+2026-09-26 22:58:30,842 - aiogram.event - INFO - Update id=352512933 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 22:58:36,146 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 22:58:36,147 - aiogram.event - INFO - Update id=352512934 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 22:58:48,329 - handlers.chat_member - INFO - ✅ Пользователь 5172880884 найден в users.json
+2026-09-26 22:58:48,329 - aiogram.event - INFO - Update id=352512935 is handled. Duration 33 ms by bot id=8888839728
+2026-09-26 22:59:35,415 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 22:59:35,422 - aiogram.event - INFO - Update id=352512936 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 23:00:09,181 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:00:09,182 - aiogram.event - INFO - Update id=352512937 is handled. Duration 32 ms by bot id=8888839728
+2026-09-26 23:00:11,279 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:00:11,279 - aiogram.event - INFO - Update id=352512938 is handled. Duration 32 ms by bot id=8888839728
+2026-09-26 23:00:31,700 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:00:31,701 - aiogram.event - INFO - Update id=352512939 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:00:35,116 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:00:35,121 - aiogram.event - INFO - Update id=352512940 is handled. Duration 31 ms by bot id=8888839728
+2026-09-26 23:01:01,953 - handlers.chat_member - INFO - ✅ Пользователь 5172880884 найден в users.json
+2026-09-26 23:01:01,954 - aiogram.event - INFO - Update id=352512941 is handled. Duration 39 ms by bot id=8888839728
+2026-09-26 23:01:14,152 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:01:14,153 - aiogram.event - INFO - Update id=352512942 is handled. Duration 32 ms by bot id=8888839728
+2026-09-26 23:01:21,289 - handlers.chat_member - INFO - ✅ Пользователь 5172880884 найден в users.json
+2026-09-26 23:01:21,290 - aiogram.event - INFO - Update id=352512943 is handled. Duration 31 ms by bot id=8888839728
+2026-09-26 23:01:44,829 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:01:44,832 - aiogram.event - INFO - Update id=352512944 is handled. Duration 31 ms by bot id=8888839728
+2026-09-26 23:01:58,671 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:01:58,672 - aiogram.event - INFO - Update id=352512945 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:02:03,257 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:02:03,257 - aiogram.event - INFO - Update id=352512946 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:02:08,072 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:02:08,073 - aiogram.event - INFO - Update id=352512947 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:02:10,251 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:02:10,252 - aiogram.event - INFO - Update id=352512948 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 23:02:15,171 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:02:15,172 - aiogram.event - INFO - Update id=352512949 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:02:18,920 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:02:18,921 - aiogram.event - INFO - Update id=352512950 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:02:20,679 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:02:20,680 - aiogram.event - INFO - Update id=352512951 is handled. Duration 18 ms by bot id=8888839728
+2026-09-26 23:02:28,435 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:02:28,435 - aiogram.event - INFO - Update id=352512952 is handled. Duration 20 ms by bot id=8888839728
+2026-09-26 23:02:28,766 - handlers.chat_member - INFO - ✅ Пользователь 5172880884 найден в users.json
+2026-09-26 23:02:28,766 - aiogram.event - INFO - Update id=352512953 is handled. Duration 18 ms by bot id=8888839728
+2026-09-26 23:02:35,230 - handlers.chat_member - INFO - ✅ Пользователь 5172880884 найден в users.json
+2026-09-26 23:02:35,230 - aiogram.event - INFO - Update id=352512954 is handled. Duration 22 ms by bot id=8888839728
+2026-09-26 23:02:46,827 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:02:46,828 - aiogram.event - INFO - Update id=352512955 is handled. Duration 17 ms by bot id=8888839728
+2026-09-26 23:02:56,720 - handlers.chat_member - INFO - ✅ Пользователь 5172880884 найден в users.json
+2026-09-26 23:02:56,721 - aiogram.event - INFO - Update id=352512956 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:03:02,605 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:03:02,607 - aiogram.event - INFO - Update id=352512957 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:03:08,345 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:03:08,347 - aiogram.event - INFO - Update id=352512958 is handled. Duration 32 ms by bot id=8888839728
+2026-09-26 23:03:11,155 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:03:11,155 - aiogram.event - INFO - Update id=352512959 is handled. Duration 22 ms by bot id=8888839728
+2026-09-26 23:03:14,543 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:03:14,549 - aiogram.event - INFO - Update id=352512960 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 23:03:21,986 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:03:21,987 - aiogram.event - INFO - Update id=352512961 is handled. Duration 12 ms by bot id=8888839728
+2026-09-26 23:03:24,304 - handlers.chat_member - INFO - ✅ Пользователь 5172880884 найден в users.json
+2026-09-26 23:03:24,308 - aiogram.event - INFO - Update id=352512962 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:03:24,495 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:03:24,496 - aiogram.event - INFO - Update id=352512963 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 23:03:31,769 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:03:31,770 - aiogram.event - INFO - Update id=352512964 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:03:33,151 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:03:33,153 - aiogram.event - INFO - Update id=352512965 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:03:34,115 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:03:34,116 - aiogram.event - INFO - Update id=352512966 is handled. Duration 41 ms by bot id=8888839728
+2026-09-26 23:03:37,748 - handlers.chat_member - INFO - ✅ Пользователь 5172880884 найден в users.json
+2026-09-26 23:03:37,748 - aiogram.event - INFO - Update id=352512967 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:03:47,251 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:03:47,253 - aiogram.event - INFO - Update id=352512968 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 23:03:49,700 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:03:49,701 - aiogram.event - INFO - Update id=352512969 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:03:52,442 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:03:52,444 - aiogram.event - INFO - Update id=352512970 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:03:57,345 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:03:57,346 - aiogram.event - INFO - Update id=352512971 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:03:57,725 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:03:57,727 - aiogram.event - INFO - Update id=352512972 is handled. Duration 19 ms by bot id=8888839728
+2026-09-26 23:03:58,061 - handlers.chat_member - INFO - ✅ Пользователь 5172880884 найден в users.json
+2026-09-26 23:03:58,064 - aiogram.event - INFO - Update id=352512973 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 23:04:01,678 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:04:01,678 - aiogram.event - INFO - Update id=352512974 is handled. Duration 22 ms by bot id=8888839728
+2026-09-26 23:04:02,367 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-26 23:04:02,370 - aiogram.event - INFO - Update id=352512975 is handled. Duration 20 ms by bot id=8888839728
+2026-09-26 23:04:07,244 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:04:07,245 - aiogram.event - INFO - Update id=352512976 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 23:04:08,646 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:04:08,647 - aiogram.event - INFO - Update id=352512977 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 23:04:10,058 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:04:10,059 - aiogram.event - INFO - Update id=352512978 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:04:19,869 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:04:19,869 - aiogram.event - INFO - Update id=352512979 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:04:23,278 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:04:23,281 - aiogram.event - INFO - Update id=352512980 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:04:32,273 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:04:32,275 - aiogram.event - INFO - Update id=352512981 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:04:39,796 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:04:39,797 - aiogram.event - INFO - Update id=352512982 is handled. Duration 21 ms by bot id=8888839728
+2026-09-26 23:04:49,021 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:04:49,022 - aiogram.event - INFO - Update id=352512983 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:04:49,491 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:04:49,492 - aiogram.event - INFO - Update id=352512984 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:04:51,195 - handlers.chat_member - INFO - ✅ Пользователь 5172880884 найден в users.json
+2026-09-26 23:04:51,197 - aiogram.event - INFO - Update id=352512985 is handled. Duration 32 ms by bot id=8888839728
+2026-09-26 23:04:57,080 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:04:57,083 - aiogram.event - INFO - Update id=352512986 is handled. Duration 33 ms by bot id=8888839728
+2026-09-26 23:05:02,705 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:05:02,706 - aiogram.event - INFO - Update id=352512987 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:05:09,061 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:05:09,061 - aiogram.event - INFO - Update id=352512988 is handled. Duration 8 ms by bot id=8888839728
+2026-09-26 23:05:11,120 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:05:11,121 - aiogram.event - INFO - Update id=352512989 is handled. Duration 8 ms by bot id=8888839728
+2026-09-26 23:05:11,549 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:05:11,550 - aiogram.event - INFO - Update id=352512990 is handled. Duration 11 ms by bot id=8888839728
+2026-09-26 23:05:14,303 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:05:14,304 - aiogram.event - INFO - Update id=352512991 is handled. Duration 11 ms by bot id=8888839728
+2026-09-26 23:05:24,688 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:05:24,691 - aiogram.event - INFO - Update id=352512992 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 23:05:39,399 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:05:39,400 - aiogram.event - INFO - Update id=352512993 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 23:05:49,531 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-26 23:05:49,533 - aiogram.event - INFO - Update id=352512994 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 23:07:25,374 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:07:25,375 - aiogram.event - INFO - Update id=352512995 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 23:07:40,207 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:07:40,208 - aiogram.event - INFO - Update id=352512996 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:07:52,501 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:07:52,502 - aiogram.event - INFO - Update id=352512997 is handled. Duration 42 ms by bot id=8888839728
+2026-09-26 23:08:06,577 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:08:06,578 - aiogram.event - INFO - Update id=352512998 is handled. Duration 22 ms by bot id=8888839728
+2026-09-26 23:08:21,367 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:08:21,371 - aiogram.event - INFO - Update id=352512999 is handled. Duration 32 ms by bot id=8888839728
+2026-09-26 23:08:25,010 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:08:25,010 - aiogram.event - INFO - Update id=352513000 is handled. Duration 8 ms by bot id=8888839728
+2026-09-26 23:08:33,079 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:08:33,080 - aiogram.event - INFO - Update id=352513001 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 23:09:06,012 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:09:06,014 - aiogram.event - INFO - Update id=352513002 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:09:21,603 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:09:21,604 - aiogram.event - INFO - Update id=352513003 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:09:47,372 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:09:47,377 - aiogram.event - INFO - Update id=352513004 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:09:52,482 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:09:52,483 - aiogram.event - INFO - Update id=352513005 is handled. Duration 10 ms by bot id=8888839728
+2026-09-26 23:10:03,107 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:10:03,109 - aiogram.event - INFO - Update id=352513006 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:10:05,871 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:10:05,872 - aiogram.event - INFO - Update id=352513007 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:10:10,807 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:10:10,808 - aiogram.event - INFO - Update id=352513008 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:10:12,876 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:10:12,877 - aiogram.event - INFO - Update id=352513009 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:10:14,115 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:10:14,116 - aiogram.event - INFO - Update id=352513010 is handled. Duration 16 ms by bot id=8888839728
+2026-09-26 23:10:19,631 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:10:19,632 - aiogram.event - INFO - Update id=352513011 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:10:20,939 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:10:20,941 - aiogram.event - INFO - Update id=352513012 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:10:32,032 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:10:32,032 - aiogram.event - INFO - Update id=352513013 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:10:36,467 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:10:36,470 - aiogram.event - INFO - Update id=352513014 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:10:56,842 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:10:56,843 - aiogram.event - INFO - Update id=352513015 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:11:01,077 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:11:01,078 - aiogram.event - INFO - Update id=352513016 is handled. Duration 21 ms by bot id=8888839728
+2026-09-26 23:11:10,583 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:11:10,584 - aiogram.event - INFO - Update id=352513017 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:11:12,267 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:11:12,268 - aiogram.event - INFO - Update id=352513018 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 23:11:14,789 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:11:14,790 - aiogram.event - INFO - Update id=352513019 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 23:11:24,548 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:11:24,549 - aiogram.event - INFO - Update id=352513020 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:11:33,933 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:11:33,934 - aiogram.event - INFO - Update id=352513021 is handled. Duration 13 ms by bot id=8888839728
+2026-09-26 23:11:44,511 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:11:44,512 - aiogram.event - INFO - Update id=352513022 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:11:54,391 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:11:54,393 - aiogram.event - INFO - Update id=352513023 is handled. Duration 24 ms by bot id=8888839728
+2026-09-26 23:11:57,450 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:11:57,451 - aiogram.event - INFO - Update id=352513024 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:12:05,421 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:12:05,423 - aiogram.event - INFO - Update id=352513025 is handled. Duration 32 ms by bot id=8888839728
+2026-09-26 23:12:21,943 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:12:21,944 - aiogram.event - INFO - Update id=352513026 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:12:25,419 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:12:25,421 - aiogram.event - INFO - Update id=352513027 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:12:35,341 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:12:35,342 - aiogram.event - INFO - Update id=352513028 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 23:12:40,191 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:12:40,192 - aiogram.event - INFO - Update id=352513029 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:12:44,053 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:12:44,054 - aiogram.event - INFO - Update id=352513030 is handled. Duration 19 ms by bot id=8888839728
+2026-09-26 23:12:46,011 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:12:46,016 - aiogram.event - INFO - Update id=352513031 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:12:51,242 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:12:51,243 - aiogram.event - INFO - Update id=352513032 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:12:56,864 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:12:56,864 - aiogram.event - INFO - Update id=352513033 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:13:00,802 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:13:00,802 - aiogram.event - INFO - Update id=352513034 is handled. Duration 19 ms by bot id=8888839728
+2026-09-26 23:13:35,822 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:13:35,826 - aiogram.event - INFO - Update id=352513035 is handled. Duration 31 ms by bot id=8888839728
+2026-09-26 23:13:38,221 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:13:38,222 - aiogram.event - INFO - Update id=352513036 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:13:44,813 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:13:44,815 - aiogram.event - INFO - Update id=352513037 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:13:50,374 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:13:50,375 - aiogram.event - INFO - Update id=352513038 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:14:01,697 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:14:01,697 - aiogram.event - INFO - Update id=352513039 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:14:02,095 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:14:02,096 - aiogram.event - INFO - Update id=352513040 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:14:07,946 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:14:07,946 - aiogram.event - INFO - Update id=352513041 is handled. Duration 13 ms by bot id=8888839728
+2026-09-26 23:14:13,433 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:14:13,434 - aiogram.event - INFO - Update id=352513042 is handled. Duration 24 ms by bot id=8888839728
+2026-09-26 23:14:33,402 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:14:33,408 - aiogram.event - INFO - Update id=352513043 is handled. Duration 33 ms by bot id=8888839728
+2026-09-26 23:14:41,265 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:14:41,266 - aiogram.event - INFO - Update id=352513044 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:14:49,790 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:14:49,791 - aiogram.event - INFO - Update id=352513045 is handled. Duration 9 ms by bot id=8888839728
+2026-09-26 23:15:54,883 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:15:54,885 - aiogram.event - INFO - Update id=352513046 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 23:16:05,452 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:16:05,453 - aiogram.event - INFO - Update id=352513047 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 23:16:07,032 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:16:07,034 - aiogram.event - INFO - Update id=352513048 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:16:12,672 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:16:12,674 - aiogram.event - INFO - Update id=352513049 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:16:13,675 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:16:13,675 - aiogram.event - INFO - Update id=352513050 is handled. Duration 24 ms by bot id=8888839728
+2026-09-26 23:16:19,854 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:16:19,855 - aiogram.event - INFO - Update id=352513051 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:16:30,162 - handlers.chat_member - INFO - ✅ Пользователь 2030814494 найден в users.json
+2026-09-26 23:16:30,164 - aiogram.event - INFO - Update id=352513052 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:16:30,257 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:16:30,259 - aiogram.event - INFO - Update id=352513053 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:16:37,846 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:16:37,847 - aiogram.event - INFO - Update id=352513054 is handled. Duration 10 ms by bot id=8888839728
+2026-09-26 23:16:45,861 - handlers.chat_member - INFO - ✅ Пользователь 2030814494 найден в users.json
+2026-09-26 23:16:45,861 - aiogram.event - INFO - Update id=352513055 is handled. Duration 8 ms by bot id=8888839728
+2026-09-26 23:16:47,815 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:16:47,816 - aiogram.event - INFO - Update id=352513056 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:16:53,152 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:16:53,156 - aiogram.event - INFO - Update id=352513057 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:16:59,244 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:16:59,246 - aiogram.event - INFO - Update id=352513058 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:17:10,890 - handlers.chat_member - INFO - ✅ Пользователь 2030814494 найден в users.json
+2026-09-26 23:17:10,891 - aiogram.event - INFO - Update id=352513059 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 23:17:11,968 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:17:11,969 - aiogram.event - INFO - Update id=352513060 is handled. Duration 24 ms by bot id=8888839728
+2026-09-26 23:17:12,486 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:17:12,487 - aiogram.event - INFO - Update id=352513061 is handled. Duration 16 ms by bot id=8888839728
+2026-09-26 23:17:21,131 - handlers.chat_member - INFO - ✅ Пользователь 2030814494 найден в users.json
+2026-09-26 23:17:21,133 - aiogram.event - INFO - Update id=352513062 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:17:35,616 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:17:35,618 - aiogram.event - INFO - Update id=352513063 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:17:44,025 - handlers.chat_member - INFO - ✅ Пользователь 2030814494 найден в users.json
+2026-09-26 23:17:44,026 - aiogram.event - INFO - Update id=352513064 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:17:48,073 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:17:48,074 - aiogram.event - INFO - Update id=352513065 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 23:17:50,309 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:17:50,311 - aiogram.event - INFO - Update id=352513066 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:18:11,473 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:18:11,475 - aiogram.event - INFO - Update id=352513067 is handled. Duration 32 ms by bot id=8888839728
+2026-09-26 23:18:30,646 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:18:30,647 - aiogram.event - INFO - Update id=352513068 is handled. Duration 22 ms by bot id=8888839728
+2026-09-26 23:18:32,445 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:18:32,446 - aiogram.event - INFO - Update id=352513069 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:18:45,046 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:18:45,056 - aiogram.event - INFO - Update id=352513070 is handled. Duration 38 ms by bot id=8888839728
+2026-09-26 23:18:53,324 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:18:53,325 - aiogram.event - INFO - Update id=352513071 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:18:55,002 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:18:55,004 - aiogram.event - INFO - Update id=352513072 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:18:55,584 - handlers.chat_member - INFO - ✅ Пользователь 2030814494 найден в users.json
+2026-09-26 23:18:55,584 - aiogram.event - INFO - Update id=352513073 is handled. Duration 19 ms by bot id=8888839728
+2026-09-26 23:18:55,870 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:18:55,871 - aiogram.event - INFO - Update id=352513074 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:19:00,012 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:19:00,017 - aiogram.event - INFO - Update id=352513075 is handled. Duration 34 ms by bot id=8888839728
+2026-09-26 23:19:04,091 - handlers.chat_member - INFO - ✅ Пользователь 2030814494 найден в users.json
+2026-09-26 23:19:04,093 - aiogram.event - INFO - Update id=352513076 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:19:04,642 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:19:04,643 - aiogram.event - INFO - Update id=352513077 is handled. Duration 16 ms by bot id=8888839728
+2026-09-26 23:19:08,810 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:19:08,810 - aiogram.event - INFO - Update id=352513078 is handled. Duration 20 ms by bot id=8888839728
+2026-09-26 23:19:09,365 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:19:09,371 - aiogram.event - INFO - Update id=352513079 is handled. Duration 15 ms by bot id=8888839728
+2026-09-26 23:19:15,136 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:19:15,137 - aiogram.event - INFO - Update id=352513080 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:19:21,425 - handlers.chat_member - INFO - ✅ Пользователь 2030814494 найден в users.json
+2026-09-26 23:19:21,426 - aiogram.event - INFO - Update id=352513081 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 23:19:32,762 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:19:32,764 - aiogram.event - INFO - Update id=352513082 is handled. Duration 31 ms by bot id=8888839728
+2026-09-26 23:19:36,158 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:19:36,161 - aiogram.event - INFO - Update id=352513083 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:19:43,773 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:19:43,775 - aiogram.event - INFO - Update id=352513084 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:20:30,009 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:20:30,011 - aiogram.event - INFO - Update id=352513085 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:20:37,136 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:20:37,137 - aiogram.event - INFO - Update id=352513086 is handled. Duration 15 ms by bot id=8888839728
+2026-09-26 23:21:48,892 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:21:48,895 - aiogram.event - INFO - Update id=352513087 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:21:56,699 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:21:56,700 - aiogram.event - INFO - Update id=352513088 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 23:21:59,190 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:21:59,191 - aiogram.event - INFO - Update id=352513089 is handled. Duration 19 ms by bot id=8888839728
+2026-09-26 23:22:03,081 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:22:03,081 - aiogram.event - INFO - Update id=352513090 is handled. Duration 13 ms by bot id=8888839728
+2026-09-26 23:22:16,011 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:22:16,012 - aiogram.event - INFO - Update id=352513091 is handled. Duration 33 ms by bot id=8888839728
+2026-09-26 23:22:24,912 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:22:24,913 - aiogram.event - INFO - Update id=352513092 is handled. Duration 14 ms by bot id=8888839728
+2026-09-26 23:22:34,032 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:22:34,033 - aiogram.event - INFO - Update id=352513093 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 23:22:44,732 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:22:44,734 - aiogram.event - INFO - Update id=352513094 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:22:45,660 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:22:45,661 - aiogram.event - INFO - Update id=352513095 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:22:45,777 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:22:45,778 - aiogram.event - INFO - Update id=352513096 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:22:59,876 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:22:59,880 - aiogram.event - INFO - Update id=352513097 is handled. Duration 32 ms by bot id=8888839728
+2026-09-26 23:23:06,134 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:23:06,137 - aiogram.event - INFO - Update id=352513098 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:23:07,466 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:23:07,468 - aiogram.event - INFO - Update id=352513099 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:23:09,287 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:23:09,288 - aiogram.event - INFO - Update id=352513100 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 23:23:09,364 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:23:09,364 - aiogram.event - INFO - Update id=352513101 is handled. Duration 11 ms by bot id=8888839728
+2026-09-26 23:23:14,600 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:23:14,601 - aiogram.event - INFO - Update id=352513102 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 23:23:15,360 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:23:15,361 - aiogram.event - INFO - Update id=352513103 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:23:27,382 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:23:27,383 - aiogram.event - INFO - Update id=352513104 is handled. Duration 16 ms by bot id=8888839728
+2026-09-26 23:23:48,674 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:23:48,675 - aiogram.event - INFO - Update id=352513105 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:23:55,647 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:23:55,649 - aiogram.event - INFO - Update id=352513106 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:24:03,122 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:24:03,125 - aiogram.event - INFO - Update id=352513107 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 23:24:04,524 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:24:04,525 - aiogram.event - INFO - Update id=352513108 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 23:24:10,951 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:24:10,953 - aiogram.event - INFO - Update id=352513109 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 23:24:11,720 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:24:11,722 - aiogram.event - INFO - Update id=352513110 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:24:22,376 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:24:22,377 - aiogram.event - INFO - Update id=352513111 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:24:24,164 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:24:24,165 - aiogram.event - INFO - Update id=352513112 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:24:30,143 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:24:30,143 - aiogram.event - INFO - Update id=352513113 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:24:35,020 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:24:35,022 - aiogram.event - INFO - Update id=352513114 is handled. Duration 32 ms by bot id=8888839728
+2026-09-26 23:24:38,641 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:24:38,644 - aiogram.event - INFO - Update id=352513115 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:24:51,124 - handlers.chat_member - INFO - ✅ Пользователь 1118388850 найден в users.json
+2026-09-26 23:24:51,125 - aiogram.event - INFO - Update id=352513116 is handled. Duration 12 ms by bot id=8888839728
+2026-09-26 23:24:59,743 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:24:59,747 - aiogram.event - INFO - Update id=352513117 is handled. Duration 22 ms by bot id=8888839728
+2026-09-26 23:25:07,751 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:25:07,752 - aiogram.event - INFO - Update id=352513118 is handled. Duration 22 ms by bot id=8888839728
+2026-09-26 23:25:09,836 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:25:09,837 - aiogram.event - INFO - Update id=352513119 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 23:25:16,470 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:25:16,471 - aiogram.event - INFO - Update id=352513120 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:25:25,182 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:25:25,183 - aiogram.event - INFO - Update id=352513121 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:25:36,259 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:25:36,263 - aiogram.event - INFO - Update id=352513122 is handled. Duration 24 ms by bot id=8888839728
+2026-09-26 23:25:45,826 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:25:45,826 - aiogram.event - INFO - Update id=352513123 is handled. Duration 11 ms by bot id=8888839728
+2026-09-26 23:25:51,463 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:25:51,464 - aiogram.event - INFO - Update id=352513124 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:25:59,611 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:25:59,612 - aiogram.event - INFO - Update id=352513125 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:26:11,261 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:26:11,261 - aiogram.event - INFO - Update id=352513126 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 23:26:23,229 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:26:23,230 - aiogram.event - INFO - Update id=352513127 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:26:40,142 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:26:40,143 - aiogram.event - INFO - Update id=352513128 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 23:26:49,084 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:26:49,085 - aiogram.event - INFO - Update id=352513129 is handled. Duration 20 ms by bot id=8888839728
+2026-09-26 23:26:58,624 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:26:58,625 - aiogram.event - INFO - Update id=352513130 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:27:42,054 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:27:42,056 - aiogram.event - INFO - Update id=352513131 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:27:53,046 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:27:53,047 - aiogram.event - INFO - Update id=352513132 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:27:56,056 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:27:56,058 - aiogram.event - INFO - Update id=352513133 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:28:18,355 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:28:18,357 - aiogram.event - INFO - Update id=352513134 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 23:28:24,942 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:28:24,944 - aiogram.event - INFO - Update id=352513135 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:28:37,948 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:28:37,948 - aiogram.event - INFO - Update id=352513136 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:28:41,543 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:28:41,544 - aiogram.event - INFO - Update id=352513137 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:28:48,831 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:28:48,833 - aiogram.event - INFO - Update id=352513138 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:28:54,574 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:28:54,575 - aiogram.event - INFO - Update id=352513139 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:29:06,553 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:29:06,554 - aiogram.event - INFO - Update id=352513140 is handled. Duration 24 ms by bot id=8888839728
+2026-09-26 23:29:23,941 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:29:23,943 - aiogram.event - INFO - Update id=352513141 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:29:33,532 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:29:33,532 - aiogram.event - INFO - Update id=352513142 is handled. Duration 17 ms by bot id=8888839728
+2026-09-26 23:29:39,537 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:29:39,538 - aiogram.event - INFO - Update id=352513143 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:29:46,187 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:29:46,190 - aiogram.event - INFO - Update id=352513144 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:30:01,709 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:30:01,709 - aiogram.event - INFO - Update id=352513145 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:30:06,974 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:30:06,975 - aiogram.event - INFO - Update id=352513146 is handled. Duration 20 ms by bot id=8888839728
+2026-09-26 23:30:21,347 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:30:21,348 - aiogram.event - INFO - Update id=352513147 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:30:33,518 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:30:33,519 - aiogram.event - INFO - Update id=352513148 is handled. Duration 21 ms by bot id=8888839728
+2026-09-26 23:30:39,625 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:30:39,626 - aiogram.event - INFO - Update id=352513149 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 23:30:50,674 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:30:50,675 - aiogram.event - INFO - Update id=352513150 is handled. Duration 38 ms by bot id=8888839728
+2026-09-26 23:30:53,395 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:30:53,397 - aiogram.event - INFO - Update id=352513151 is handled. Duration 31 ms by bot id=8888839728
+2026-09-26 23:30:59,253 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:30:59,254 - aiogram.event - INFO - Update id=352513152 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:31:13,128 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:31:13,128 - aiogram.event - INFO - Update id=352513153 is handled. Duration 33 ms by bot id=8888839728
+2026-09-26 23:31:16,572 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:31:16,575 - aiogram.event - INFO - Update id=352513154 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 23:31:17,982 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:31:17,984 - aiogram.event - INFO - Update id=352513155 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:31:21,896 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:31:21,897 - aiogram.event - INFO - Update id=352513156 is handled. Duration 19 ms by bot id=8888839728
+2026-09-26 23:31:22,333 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:31:22,334 - aiogram.event - INFO - Update id=352513157 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:31:26,813 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:31:26,813 - aiogram.event - INFO - Update id=352513158 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:31:30,535 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:31:30,535 - aiogram.event - INFO - Update id=352513159 is handled. Duration 20 ms by bot id=8888839728
+2026-09-26 23:31:41,514 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:31:41,514 - aiogram.event - INFO - Update id=352513160 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:31:56,877 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:31:56,879 - aiogram.event - INFO - Update id=352513161 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:32:02,155 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:32:02,156 - aiogram.event - INFO - Update id=352513162 is handled. Duration 31 ms by bot id=8888839728
+2026-09-26 23:33:48,227 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:33:48,230 - aiogram.event - INFO - Update id=352513163 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:34:12,378 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:34:12,378 - aiogram.event - INFO - Update id=352513164 is handled. Duration 22 ms by bot id=8888839728
+2026-09-26 23:34:28,445 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:34:28,446 - aiogram.event - INFO - Update id=352513165 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:34:36,037 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:34:36,038 - aiogram.event - INFO - Update id=352513166 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:34:47,207 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:34:47,208 - aiogram.event - INFO - Update id=352513167 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:36:01,363 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:36:01,366 - aiogram.event - INFO - Update id=352513168 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:36:22,467 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:36:22,468 - aiogram.event - INFO - Update id=352513169 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:36:40,497 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:36:40,498 - aiogram.event - INFO - Update id=352513170 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:36:44,084 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:36:44,085 - aiogram.event - INFO - Update id=352513171 is handled. Duration 24 ms by bot id=8888839728
+2026-09-26 23:36:49,123 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:36:49,123 - aiogram.event - INFO - Update id=352513172 is handled. Duration 20 ms by bot id=8888839728
+2026-09-26 23:36:57,140 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:36:57,141 - aiogram.event - INFO - Update id=352513173 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:37:15,626 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:37:15,627 - aiogram.event - INFO - Update id=352513174 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:37:37,423 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:37:37,423 - aiogram.event - INFO - Update id=352513175 is handled. Duration 24 ms by bot id=8888839728
+2026-09-26 23:37:43,245 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:37:43,245 - aiogram.event - INFO - Update id=352513176 is handled. Duration 20 ms by bot id=8888839728
+2026-09-26 23:37:48,366 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:37:48,369 - aiogram.event - INFO - Update id=352513177 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:38:39,888 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:38:39,896 - aiogram.event - INFO - Update id=352513178 is handled. Duration 37 ms by bot id=8888839728
+2026-09-26 23:38:50,287 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:38:50,288 - aiogram.event - INFO - Update id=352513179 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:39:10,874 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:39:10,875 - aiogram.event - INFO - Update id=352513180 is handled. Duration 33 ms by bot id=8888839728
+2026-09-26 23:39:17,642 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:39:17,643 - aiogram.event - INFO - Update id=352513181 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:39:22,675 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:39:22,676 - aiogram.event - INFO - Update id=352513182 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 23:39:30,756 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:39:30,757 - aiogram.event - INFO - Update id=352513183 is handled. Duration 37 ms by bot id=8888839728
+2026-09-26 23:39:31,358 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:39:31,360 - aiogram.event - INFO - Update id=352513184 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 23:39:39,802 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:39:39,804 - aiogram.event - INFO - Update id=352513185 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:39:44,415 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:39:44,417 - aiogram.event - INFO - Update id=352513186 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:40:00,624 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:40:00,625 - aiogram.event - INFO - Update id=352513187 is handled. Duration 22 ms by bot id=8888839728
+2026-09-26 23:40:15,655 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:40:15,659 - aiogram.event - INFO - Update id=352513188 is handled. Duration 33 ms by bot id=8888839728
+2026-09-26 23:40:17,035 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:40:17,035 - aiogram.event - INFO - Update id=352513189 is handled. Duration 31 ms by bot id=8888839728
+2026-09-26 23:40:23,009 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:40:23,011 - aiogram.event - INFO - Update id=352513190 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:40:43,984 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:40:43,986 - aiogram.event - INFO - Update id=352513191 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 23:40:51,476 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:40:51,479 - aiogram.event - INFO - Update id=352513192 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:41:01,720 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:41:01,720 - aiogram.event - INFO - Update id=352513193 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:41:20,829 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:41:20,829 - aiogram.event - INFO - Update id=352513194 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:41:29,400 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:41:29,401 - aiogram.event - INFO - Update id=352513195 is handled. Duration 24 ms by bot id=8888839728
+2026-09-26 23:41:36,533 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:41:36,538 - aiogram.event - INFO - Update id=352513196 is handled. Duration 36 ms by bot id=8888839728
+2026-09-26 23:41:40,238 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:41:40,239 - aiogram.event - INFO - Update id=352513197 is handled. Duration 39 ms by bot id=8888839728
+2026-09-26 23:41:53,663 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:41:53,665 - aiogram.event - INFO - Update id=352513198 is handled. Duration 33 ms by bot id=8888839728
+2026-09-26 23:41:58,856 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:41:58,858 - aiogram.event - INFO - Update id=352513199 is handled. Duration 39 ms by bot id=8888839728
+2026-09-26 23:42:10,032 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:42:10,034 - aiogram.event - INFO - Update id=352513200 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:42:14,384 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:42:14,384 - aiogram.event - INFO - Update id=352513201 is handled. Duration 25 ms by bot id=8888839728
+2026-09-26 23:42:18,752 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:42:18,755 - aiogram.event - INFO - Update id=352513202 is handled. Duration 32 ms by bot id=8888839728
+2026-09-26 23:42:34,636 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:42:34,644 - aiogram.event - INFO - Update id=352513203 is handled. Duration 39 ms by bot id=8888839728
+2026-09-26 23:42:46,798 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:42:46,799 - aiogram.event - INFO - Update id=352513204 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:43:16,183 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:43:16,185 - aiogram.event - INFO - Update id=352513205 is handled. Duration 31 ms by bot id=8888839728
+2026-09-26 23:43:28,491 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:43:28,493 - aiogram.event - INFO - Update id=352513206 is handled. Duration 21 ms by bot id=8888839728
+2026-09-26 23:43:31,275 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:43:31,277 - aiogram.event - INFO - Update id=352513207 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:43:42,397 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:43:42,398 - aiogram.event - INFO - Update id=352513208 is handled. Duration 21 ms by bot id=8888839728
+2026-09-26 23:43:56,126 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:43:56,126 - aiogram.event - INFO - Update id=352513209 is handled. Duration 22 ms by bot id=8888839728
+2026-09-26 23:44:10,555 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:44:10,557 - aiogram.event - INFO - Update id=352513210 is handled. Duration 18 ms by bot id=8888839728
+2026-09-26 23:44:11,382 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:44:11,388 - aiogram.event - INFO - Update id=352513211 is handled. Duration 34 ms by bot id=8888839728
+2026-09-26 23:44:33,920 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:44:33,922 - aiogram.event - INFO - Update id=352513212 is handled. Duration 33 ms by bot id=8888839728
+2026-09-26 23:44:57,951 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:44:57,953 - aiogram.event - INFO - Update id=352513213 is handled. Duration 32 ms by bot id=8888839728
+2026-09-26 23:45:06,462 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:45:06,462 - aiogram.event - INFO - Update id=352513214 is handled. Duration 22 ms by bot id=8888839728
+2026-09-26 23:45:35,083 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:45:35,086 - aiogram.event - INFO - Update id=352513215 is handled. Duration 21 ms by bot id=8888839728
+2026-09-26 23:45:41,649 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:45:41,650 - aiogram.event - INFO - Update id=352513216 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:45:55,936 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:45:55,936 - aiogram.event - INFO - Update id=352513217 is handled. Duration 38 ms by bot id=8888839728
+2026-09-26 23:46:08,705 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:46:08,709 - aiogram.event - INFO - Update id=352513218 is handled. Duration 31 ms by bot id=8888839728
+2026-09-26 23:46:19,291 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:46:19,298 - aiogram.event - INFO - Update id=352513219 is handled. Duration 34 ms by bot id=8888839728
+2026-09-26 23:46:20,468 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:46:20,470 - aiogram.event - INFO - Update id=352513220 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:46:27,814 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:46:27,816 - aiogram.event - INFO - Update id=352513221 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 23:46:33,031 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:46:33,032 - aiogram.event - INFO - Update id=352513222 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 23:46:39,547 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:46:39,548 - aiogram.event - INFO - Update id=352513223 is handled. Duration 32 ms by bot id=8888839728
+2026-09-26 23:46:47,826 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:46:47,828 - aiogram.event - INFO - Update id=352513224 is handled. Duration 12 ms by bot id=8888839728
+2026-09-26 23:46:55,007 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:46:55,010 - aiogram.event - INFO - Update id=352513225 is handled. Duration 31 ms by bot id=8888839728
+2026-09-26 23:47:01,501 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:47:01,502 - aiogram.event - INFO - Update id=352513226 is handled. Duration 33 ms by bot id=8888839728
+2026-09-26 23:47:41,286 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:47:41,288 - aiogram.event - INFO - Update id=352513227 is handled. Duration 32 ms by bot id=8888839728
+2026-09-26 23:47:50,334 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:47:50,335 - aiogram.event - INFO - Update id=352513228 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:47:58,770 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:47:58,771 - aiogram.event - INFO - Update id=352513229 is handled. Duration 21 ms by bot id=8888839728
+2026-09-26 23:48:03,884 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:48:03,886 - aiogram.event - INFO - Update id=352513230 is handled. Duration 22 ms by bot id=8888839728
+2026-09-26 23:48:12,881 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:48:12,883 - aiogram.event - INFO - Update id=352513231 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 23:48:16,996 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:48:16,998 - aiogram.event - INFO - Update id=352513232 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:48:26,575 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:48:26,576 - aiogram.event - INFO - Update id=352513233 is handled. Duration 27 ms by bot id=8888839728
+2026-09-26 23:48:36,569 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:48:36,573 - aiogram.event - INFO - Update id=352513234 is handled. Duration 31 ms by bot id=8888839728
+2026-09-26 23:49:01,694 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:49:01,694 - aiogram.event - INFO - Update id=352513235 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:49:13,320 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:49:13,322 - aiogram.event - INFO - Update id=352513236 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 23:49:19,247 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:49:19,248 - aiogram.event - INFO - Update id=352513237 is handled. Duration 22 ms by bot id=8888839728
+2026-09-26 23:49:51,060 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:49:51,064 - aiogram.event - INFO - Update id=352513238 is handled. Duration 26 ms by bot id=8888839728
+2026-09-26 23:49:56,828 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:49:56,829 - aiogram.event - INFO - Update id=352513239 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:50:05,370 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:50:05,372 - aiogram.event - INFO - Update id=352513240 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 23:50:11,471 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:50:11,473 - aiogram.event - INFO - Update id=352513241 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:50:26,216 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:50:26,218 - aiogram.event - INFO - Update id=352513242 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:50:31,176 - handlers.chat_member - INFO - ✅ Пользователь 5415736349 найден в users.json
+2026-09-26 23:50:31,177 - aiogram.event - INFO - Update id=352513243 is handled. Duration 23 ms by bot id=8888839728
+2026-09-26 23:50:59,277 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:50:59,278 - aiogram.event - INFO - Update id=352513244 is handled. Duration 21 ms by bot id=8888839728
+2026-09-26 23:51:59,663 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:51:59,667 - aiogram.event - INFO - Update id=352513245 is handled. Duration 32 ms by bot id=8888839728
+2026-09-26 23:53:45,064 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:53:45,067 - aiogram.event - INFO - Update id=352513246 is handled. Duration 33 ms by bot id=8888839728
+2026-09-26 23:53:52,557 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-26 23:53:52,557 - aiogram.event - INFO - Update id=352513247 is handled. Duration 15 ms by bot id=8888839728
+2026-09-26 23:54:02,387 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:54:02,387 - aiogram.event - INFO - Update id=352513248 is handled. Duration 11 ms by bot id=8888839728
+2026-09-26 23:54:10,069 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-26 23:54:10,071 - aiogram.event - INFO - Update id=352513249 is handled. Duration 29 ms by bot id=8888839728
+2026-09-26 23:54:22,192 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-26 23:54:22,193 - aiogram.event - INFO - Update id=352513250 is handled. Duration 21 ms by bot id=8888839728
+2026-09-26 23:54:25,638 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:54:25,638 - aiogram.event - INFO - Update id=352513251 is handled. Duration 24 ms by bot id=8888839728
+2026-09-26 23:54:28,090 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:54:28,094 - aiogram.event - INFO - Update id=352513252 is handled. Duration 31 ms by bot id=8888839728
+2026-09-26 23:54:39,646 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:54:39,648 - aiogram.event - INFO - Update id=352513253 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 23:54:44,253 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:54:44,255 - aiogram.event - INFO - Update id=352513254 is handled. Duration 28 ms by bot id=8888839728
+2026-09-26 23:54:46,724 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-26 23:54:46,726 - aiogram.event - INFO - Update id=352513255 is handled. Duration 30 ms by bot id=8888839728
+2026-09-26 23:56:33,725 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-26 23:56:33,731 - aiogram.event - INFO - Update id=352513256 is handled. Duration 35 ms by bot id=8888839728
+2026-09-27 00:14:40,997 - handlers.chat_member - INFO - ✅ Пользователь 6009359887 найден в users.json
+2026-09-27 00:14:41,006 - aiogram.event - INFO - Update id=352513257 is handled. Duration 37 ms by bot id=8888839728
+2026-09-27 00:18:24,791 - handlers.chat_member - INFO - ✅ Пользователь 5279300963 найден в users.json
+2026-09-27 00:18:24,793 - aiogram.event - INFO - Update id=352513258 is handled. Duration 22 ms by bot id=8888839728

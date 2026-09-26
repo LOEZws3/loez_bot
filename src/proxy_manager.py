@@ -21,19 +21,19 @@ class ProxyManager:
         self.current_index = 0
         self.current_proxy: Optional[str] = None
         self.used_proxies: set = set()
+        self.bad_proxies_until: Dict[str, float] = {}  # {proxy: timestamp до которого плохой}
 
-        # ✅ Кэш в data/system/
         from config import DATA_DIR
         self.cache_file = os.path.join(DATA_DIR, 'system', 'proxy_pings_cache.json')
 
-        # ✅ Приоритетный прокси (устанавливается из main.py)
         self.priority_proxy: Optional[str] = None
 
-        # ✅ Настройки пинга
-        self.PING_COUNT = 3              # 3 пинга
+        # ✅ Настройки пинга (ИЗМЕНЕНО 26.09.2026)
+        self.PING_COUNT = 1              # 1 пинг — быстрее
         self.MAX_CONCURRENT = 200        # 200 одновременных
-        self.CACHE_TTL = 1200            # 20 минут (1200 сек)
-        self.PING_TIMEOUT = 3            # 3 секунды таймаут
+        self.CACHE_TTL = 1200            # 20 минут
+        self.PING_TIMEOUT = 5            # 5 секунд (было 3 — приоритетный не успевал)
+        self.BAD_PROXY_TTL = 600         # 10 минут — soft-blacklist
 
         logger.info(f"📂 ProxyManager инициализирован. Папка: {proxy_dir}")
         logger.info(f"⚙️ PING_COUNT={self.PING_COUNT}, MAX_CONCURRENT={self.MAX_CONCURRENT}, TIMEOUT={self.PING_TIMEOUT}с")
@@ -125,10 +125,14 @@ class ProxyManager:
                 ) as response:
                     if response.status in [200, 404]:
                         return time.time() - start_time
+                    logger.debug(f"⚠️ Прокси {clean}: статус {response.status}")
                     return None
         except asyncio.TimeoutError:
+            logger.debug(f"⏱️ Прокси {clean}: timeout {timeout}с")
             return None
-        except Exception:
+        except Exception as e:
+            # ✅ Логируем ошибку чтобы понимать почему падает
+            logger.debug(f"❌ Прокси {clean}: {type(e).__name__}: {e}")
             return None
 
     async def ping_proxy_triple(self, proxy: str, timeout: int = None) -> Optional[float]:
@@ -145,7 +149,6 @@ class ProxyManager:
             if ping is not None:
                 results.append(ping)
 
-        # Если PING_COUNT == 1 — достаточно 1 успешного
         min_required = 1 if self.PING_COUNT == 1 else 2
 
         if len(results) < min_required:
@@ -156,23 +159,17 @@ class ProxyManager:
     # ==================== ПИНГ ВСЕХ ПРОКСИ ====================
 
     async def ping_all_proxies(self, max_concurrent: int = None) -> Dict[str, float]:
-        """
-        Пингует ВСЕ прокси сразу (с ограничением MAX_CONCURRENT).
-        Анимация прогресса в консоли.
-        Приоритетный прокси проверяется первым.
-        """
         if not self.proxies:
             logger.warning("⚠️ Нет прокси для пингования")
             return {}
 
-        # Проверяем кэш
         cached_pings = self._load_cache()
         if cached_pings:
             self.proxy_pings = cached_pings
             logger.info(f"✅ Загружено {len(self.proxy_pings)} прокси из кэша (TTL {self.CACHE_TTL}с)")
             return self.proxy_pings
 
-        # ✅ Приоритетный прокси
+        # ✅ Приоритетный прокси — проверяем с двойным шансом
         if self.priority_proxy:
             clean = self.clean_proxy(self.priority_proxy)
             if clean:
@@ -184,9 +181,17 @@ class ProxyManager:
                     self._save_cache(self.proxy_pings)
                     return self.proxy_pings
                 else:
-                    logger.warning(f"❌ Приоритетный прокси {clean} не работает — иду по пингу")
+                    # ✅ Вторая попытка с увеличенным таймаутом
+                    logger.warning(f"⚠️ Приоритетный прокси {clean} не ответил с 1-го раза, повторяю...")
+                    ping = await self.ping_proxy_once(clean, timeout=10)
+                    if ping is not None:
+                        logger.info(f"✅ Приоритетный прокси работает (2-я попытка): {clean} (пинг: {ping:.3f}с)")
+                        self.proxy_pings = {clean: ping}
+                        self._save_cache(self.proxy_pings)
+                        return self.proxy_pings
+                    else:
+                        logger.warning(f"❌ Приоритетный прокси {clean} не работает — иду по пингу")
 
-        # ✅ Пингуем все прокси
         max_conc = max_concurrent or self.MAX_CONCURRENT
         logger.info(f"🏓 Пингую {len(self.proxies)} прокси (×{self.PING_COUNT} пинга, {max_conc} одновременно)...")
         start_time = time.time()
@@ -235,7 +240,6 @@ class ProxyManager:
         return self.proxy_pings
 
     def _print_progress(self, completed: int, total: int, start_time: float):
-        """Анимация прогресса в консоли"""
         percent = int(completed / total * 100)
         bar_length = 30
         filled = int(bar_length * completed / total)
@@ -297,7 +301,7 @@ class ProxyManager:
             proxy = self.proxies[self.current_index]
             self.current_index += 1
             clean = self.clean_proxy(proxy)
-            if clean and clean not in self.used_proxies:
+            if clean and clean not in self.used_proxies and not self.is_proxy_bad(clean):
                 self.current_proxy = clean
                 logger.info(f"🔄 Используется прокси: {clean} ({self.current_index}/{len(self.proxies)})")
                 return clean
@@ -312,7 +316,7 @@ class ProxyManager:
             return self.get_next_proxy()
         sorted_proxies = sorted(self.proxy_pings.keys(), key=lambda p: self.proxy_pings[p])
         for proxy in sorted_proxies:
-            if proxy not in self.used_proxies:
+            if proxy not in self.used_proxies and not self.is_proxy_bad(proxy):
                 self.current_proxy = proxy
                 ping = self.proxy_pings.get(proxy, 0)
                 logger.info(f"🔄 Используется прокси: {proxy} (пинг: {ping:.3f}с)")
@@ -323,16 +327,40 @@ class ProxyManager:
     # ==================== УТИЛИТЫ ====================
 
     def mark_proxy_bad(self, proxy: str):
+        """
+        Помечает прокси плохим НА ВРЕМЯ (BAD_PROXY_TTL секунд).
+        НЕ удаляет из списка навсегда.
+        """
         clean = self.clean_proxy(proxy)
         if not clean:
             return
-        if clean in self.proxies:
-            self.proxies.remove(clean)
-            logger.warning(f"❌ Прокси {clean} удалён из списка")
+
+        self.bad_proxies_until[clean] = time.time() + self.BAD_PROXY_TTL
+        logger.warning(f"❌ Прокси {clean} в чёрном списке на {self.BAD_PROXY_TTL} сек")
+
         if clean in self.proxy_pings:
             del self.proxy_pings[clean]
+
         self.used_proxies.add(clean)
         self._save_cache(self.proxy_pings)
+
+    def is_proxy_bad(self, proxy: str) -> bool:
+        """Проверяет, в чёрном ли списке прокси. Снимает метку по истечении TTL."""
+        clean = self.clean_proxy(proxy)
+        if not clean:
+            return True
+
+        until = self.bad_proxies_until.get(clean)
+        if until is None:
+            return False
+
+        if time.time() >= until:
+            del self.bad_proxies_until[clean]
+            self.used_proxies.discard(clean)
+            logger.info(f"✅ Прокси {clean} снова доступен (TTL истёк)")
+            return False
+
+        return True
 
     def mark_proxy_used(self, proxy: str):
         clean = self.clean_proxy(proxy)
