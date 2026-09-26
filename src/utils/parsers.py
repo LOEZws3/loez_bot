@@ -21,7 +21,6 @@ from config import (
 
 logger = logging.getLogger(__name__)
 
-
 # ======================== БАЗОВЫЕ ФУНКЦИИ ========================
 
 def load_json(path: str, default: Any = None) -> Any:
@@ -38,7 +37,6 @@ def load_json(path: str, default: Any = None) -> Any:
 
     return data
 
-
 def save_json(path: str, data: Any) -> bool:
     """Универсальное сохранение JSON"""
     try:
@@ -50,20 +48,17 @@ def save_json(path: str, data: Any) -> bool:
         logger.error(f"❌ Ошибка сохранения {path}: {e}")
         return False
 
-
 # ======================== ПОЛЬЗОВАТЕЛИ ========================
 
 def load_users() -> Dict[str, dict]:
-    """Загружает users.json → {id: {username, full_name, role, extra}}"""
+    """Загружает users.json → {id: {username, full_name, role, extra, changes_count}}"""
     data = load_json(USERS_FILE_JSON, default={})
     if not isinstance(data, dict):
         return {}
     return data
 
-
 def save_users(users: Dict[str, dict]) -> bool:
     return save_json(USERS_FILE_JSON, users)
-
 
 def get_user(user_id: int) -> Optional[dict]:
     """Возвращает данные пользователя по ID"""
@@ -77,11 +72,12 @@ def get_user(user_id: int) -> Optional[dict]:
         'full_name': info.get('full_name', ''),
         'role': info.get('role', '0'),
         'extra': info.get('extra', '-993'),
+        'changes_count': int(info.get('changes_count', 0)),
     }
 
-
 def add_user(user_id: int, username: str, full_name: str,
-             role: str = '0', extra: str = '-993') -> bool:
+             role: str = '0', extra: str = '-993',
+             changes_count: int = 0) -> bool:
     """Добавляет пользователя"""
     users = load_users()
     if str(user_id) in users:
@@ -91,9 +87,9 @@ def add_user(user_id: int, username: str, full_name: str,
         'full_name': (full_name or f"User {user_id}").replace('|', '¦'),
         'role': role or '0',
         'extra': extra or '-993',
+        'changes_count': int(changes_count),
     }
     return save_users(users)
-
 
 def remove_user(user_id: int) -> bool:
     """Удаляет пользователя"""
@@ -105,7 +101,6 @@ def remove_user(user_id: int) -> bool:
         return True
     return False
 
-
 def update_user_role(user_id: int, new_role: str) -> bool:
     """Обновляет роль пользователя"""
     users = load_users()
@@ -114,6 +109,32 @@ def update_user_role(user_id: int, new_role: str) -> bool:
         return save_users(users)
     return False
 
+def get_changes_count(user_id: int) -> int:
+    """Возвращает количество смен роли у пользователя"""
+    users = load_users()
+    info = users.get(str(user_id))
+    if not info or not isinstance(info, dict):
+        return 0
+    return int(info.get('changes_count', 0))
+
+def increment_changes_count(user_id: int) -> bool:
+    """Увеличивает счётчик смен роли на 1"""
+    users = load_users()
+    uid_str = str(user_id)
+    if uid_str not in users:
+        return False
+    current = int(users[uid_str].get('changes_count', 0))
+    users[uid_str]['changes_count'] = current + 1
+    return save_users(users)
+
+def reset_changes_count(user_id: int) -> bool:
+    """Сбрасывает счётчик смен роли в 0"""
+    users = load_users()
+    uid_str = str(user_id)
+    if uid_str not in users:
+        return False
+    users[uid_str]['changes_count'] = 0
+    return save_users(users)
 
 # ======================== АДМИНИСТРАТОРЫ ========================
 
@@ -124,10 +145,8 @@ def load_admins() -> Dict[str, dict]:
         return {}
     return data
 
-
 def save_admins(admins: Dict[str, dict]) -> bool:
     return save_json(ADMINS_FILE_JSON, admins)
-
 
 def get_admin(user_id: int) -> Optional[dict]:
     """Возвращает данные администратора по ID"""
@@ -142,7 +161,6 @@ def get_admin(user_id: int) -> Optional[dict]:
         'rank': int(info.get('rank', 2)),
     }
 
-
 def add_admin(user_id: int, username: str = '', full_name: str = '',
               rank: int = 2) -> bool:
     """Добавляет администратора"""
@@ -156,7 +174,6 @@ def add_admin(user_id: int, username: str = '', full_name: str = '',
     }
     return save_admins(admins)
 
-
 def remove_admin(user_id: int) -> bool:
     """Удаляет администратора (кроме OWNER_ID)"""
     if user_id == OWNER_ID:
@@ -168,7 +185,6 @@ def remove_admin(user_id: int) -> bool:
         return save_admins(admins)
     return False
 
-
 def set_rank(user_id: int, rank: int) -> bool:
     """Устанавливает ранг (кроме OWNER_ID)"""
     if user_id == OWNER_ID:
@@ -178,7 +194,6 @@ def set_rank(user_id: int, rank: int) -> bool:
         admins[str(user_id)]['rank'] = rank
         return save_admins(admins)
     return False
-
 
 # ======================== ВЛАДЕЛЬЦЫ (ЕДИНАЯ ЛОГИКА) ========================
 
@@ -202,11 +217,9 @@ def get_owner_ids() -> List[int]:
 
     return list(owners)
 
-
 def is_owner(user_id: int) -> bool:
     """Проверяет, владелец ли пользователь (OWNER_ID или rank=1)"""
     return user_id in get_owner_ids()
-
 
 def is_admin(user_id: int) -> bool:
     """
@@ -217,7 +230,6 @@ def is_admin(user_id: int) -> bool:
         return True
     admins = load_admins()
     return str(user_id) in admins
-
 
 def get_admin_rank(user_id: int) -> int:
     """
@@ -238,7 +250,6 @@ def get_admin_rank(user_id: int) -> int:
             return 2
     return 0
 
-
 # ======================== ЗАЯВКИ ========================
 
 def load_requests() -> Dict[str, dict]:
@@ -248,10 +259,8 @@ def load_requests() -> Dict[str, dict]:
         return {}
     return data
 
-
 def save_requests(requests: Dict[str, dict]) -> bool:
     return save_json(REQUESTS_FILE, requests)
-
 
 # ======================== НАСТРОЙКИ ========================
 
@@ -267,16 +276,15 @@ def load_settings() -> dict:
         'auto_rest_removal': True,
         'forward_enabled': False,
         'anonymous_mode': False,
+        'max_role_changes': 3,
     }
     data = load_json(SYSTEM_SETTINGS_FILE, default=default)
     if not isinstance(data, dict):
         return default
     return data
 
-
 def save_settings(settings: dict) -> bool:
     return save_json(SYSTEM_SETTINGS_FILE, settings)
-
 
 # ======================== РОЛИ ========================
 
@@ -286,7 +294,6 @@ def load_roles_status() -> dict:
     if not isinstance(data, dict):
         return {}
     return data
-
 
 def save_roles_status(roles: dict) -> bool:
     return save_json(ROLES_STATUS_FILE, roles)

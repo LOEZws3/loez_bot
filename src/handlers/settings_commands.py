@@ -53,7 +53,8 @@ def _default_settings():
         "welcome_enabled": True,
         "auto_rest_removal": True,
         "forward_enabled": False,
-        "anonymous_mode": False
+        "anonymous_mode": False,
+        "max_role_changes": 1
     }
 
 
@@ -107,10 +108,16 @@ async def cmd_settings(message: Message):
                 callback_data="settings_callfal_cooldown"
             )
         ],
-        [
+            [
             InlineKeyboardButton(
                 text=f"📅 Макс. рест: {settings['max_rest_days']} дн.",
                 callback_data="settings_max_rest"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text=f"🔄 Макс. смен роли: {settings.get('max_role_changes', 3)}",
+                callback_data="settings_max_role_changes"
             )
         ],
         [
@@ -199,6 +206,18 @@ async def settings_callback(callback: CallbackQuery, state: FSMContext):
         )
         await callback.message.delete()
         return
+    
+    elif action == "max_role_changes":
+        await state.set_state(WaitingForSetting.value)
+        await state.update_data(setting_name='max_role_changes')
+        await callback.message.answer(
+            "🔄 <b>Изменить максимальное количество смен роли</b>\n\n"
+            "Введите новое значение (от 0 до 20):\n"
+            "0 — смены роли запрещены",
+            parse_mode="HTML"
+        )
+        await callback.message.delete()
+        return
 
     elif action == "show_all":
         text = (
@@ -209,7 +228,8 @@ async def settings_callback(callback: CallbackQuery, state: FSMContext):
             f"⏳ Авто-снятие реста: {'✅ Включено' if settings['auto_rest_removal'] else '❌ Выключено'}\n"
             f"⏱️ Кулдаун кала: {settings['call_cooldown']} сек\n"
             f"⏱️ Кулдаун кал-фал: {settings['callfal_cooldown']} сек\n"
-            f"📅 Макс. рест: {settings['max_rest_days']} дн."
+            f"📅 Макс. рест: {settings['max_rest_days']} дн.\n"
+            f"🔄 Макс. смен роли: {settings.get('max_role_changes', 3)}"
         )
         await callback.message.answer(text, parse_mode="HTML")
         return
@@ -274,6 +294,13 @@ async def settings_value_input(message: Message, state: FSMContext):
         else:
             await message.answer("❌ Значение вне диапазона (1-30).")
 
+    elif setting_name == 'max_role_changes':
+        if 0 <= value <= 20:
+            settings['max_role_changes'] = value
+            save_settings(settings)
+            await message.answer(f"✅ Макс. смен роли изменён на {value}.")
+        else:
+            await message.answer("❌ Значение вне диапазона (0-20).")
     await state.clear()
 
 

@@ -16,7 +16,6 @@ logger = logging.getLogger(__name__)
 USERS_JSON = os.path.join(DATA_DIR, 'users', 'users.json')
 UNSUBSCRIBED_FILE = os.path.join(DATA_DIR, 'users', 'unsubscribed_calls.json')
 
-
 # ======================== ПОЛЬЗОВАТЕЛИ (обёртки) ========================
 
 def load_users() -> list:
@@ -34,9 +33,9 @@ def load_users() -> list:
             'full_name': info.get('full_name', ''),
             'role': info.get('role', '0'),
             'extra': info.get('extra', '-993'),
+            'changes_count': int(info.get('changes_count', 0)),
         })
     return result
-
 
 def save_users(users: list) -> bool:
     data = {}
@@ -49,38 +48,32 @@ def save_users(users: list) -> bool:
             'full_name': u.get('full_name', ''),
             'role': u.get('role', '0'),
             'extra': u.get('extra', '-993'),
+            'changes_count': int(u.get('changes_count', 0)),
         }
     return parsers.save_users(data)
 
-
-def add_user(user_id, username, full_name, role='0', extra='-993') -> bool:
-    return parsers.add_user(user_id, username, full_name, role, extra)
-
+def add_user(user_id, username, full_name, role='0', extra='-993',
+             changes_count: int = 0) -> bool:
+    return parsers.add_user(user_id, username, full_name, role, extra, changes_count)
 
 def remove_user(user_id) -> bool:
     return parsers.remove_user(user_id)
 
-
 def get_users_count() -> int:
     return len(parsers.load_users())
-
 
 def get_user_by_id(user_id):
     return parsers.get_user(user_id)
 
-
 def update_user_role(user_id, new_role) -> bool:
     return parsers.update_user_role(user_id, new_role)
-
 
 def get_user_role(user_id):
     user = parsers.get_user(user_id)
     return user.get('role', '0') if user else None
 
-
 def get_users_by_role(role_key) -> list:
     return [u for u in load_users() if u.get('role') == role_key]
-
 
 def get_role_stats() -> dict:
     stats = {}
@@ -89,14 +82,11 @@ def get_role_stats() -> dict:
         stats[role] = stats.get(role, 0) + 1
     return stats
 
-
 def get_user_role_stats() -> dict:
     return get_role_stats()
 
-
 def get_role_names() -> list:
     return list(set(u.get('role', '0') for u in load_users()))
-
 
 def get_user_info(user_id: int) -> dict:
     try:
@@ -113,19 +103,30 @@ def get_user_info(user_id: int) -> dict:
         logger.error(f"Ошибка получения пользователя {user_id}: {e}")
         return {'user_id': user_id, 'username': '', 'full_name': '', 'role': ''}
 
-
 def is_user_registered(user_id: int) -> bool:
     return parsers.get_user(user_id) is not None
 
+# ======================== СМЕНЫ РОЛЕЙ ========================
+
+def get_changes_count(user_id) -> int:
+    return parsers.get_changes_count(user_id)
+
+def increment_changes_count(user_id) -> bool:
+    return parsers.increment_changes_count(user_id)
+
+def reset_changes_count(user_id) -> bool:
+    return parsers.reset_changes_count(user_id)
 
 # ======================== ОТПИСКИ ОТ КАЛОВ ========================
+# ВНИМАНИЕ: сейчас в handlers/utils.py есть своя версия этих функций
+# (с JSON-словарём). Здесь оставлено как есть, но используется
+# версия из handlers/utils.py. Позже надо унифицировать.
 
 def ensure_unsubscribed_file():
     os.makedirs(os.path.dirname(UNSUBSCRIBED_FILE), exist_ok=True)
     if not os.path.exists(UNSUBSCRIBED_FILE):
         with open(UNSUBSCRIBED_FILE, 'w', encoding='utf-8') as f:
             json.dump([], f)
-
 
 def load_unsubscribed() -> list:
     ensure_unsubscribed_file()
@@ -135,12 +136,10 @@ def load_unsubscribed() -> list:
     except (json.JSONDecodeError, FileNotFoundError):
         return []
 
-
 def save_unsubscribed(lst):
     ensure_unsubscribed_file()
     with open(UNSUBSCRIBED_FILE, 'w', encoding='utf-8') as f:
         json.dump(lst, f, indent=4)
-
 
 def add_unsubscribed(user_id) -> bool:
     lst = load_unsubscribed()
@@ -150,7 +149,6 @@ def add_unsubscribed(user_id) -> bool:
         return True
     return False
 
-
 def remove_unsubscribed(user_id) -> bool:
     lst = load_unsubscribed()
     if user_id in lst:
@@ -158,7 +156,6 @@ def remove_unsubscribed(user_id) -> bool:
         save_unsubscribed(lst)
         return True
     return False
-
 
 def is_unsubscribed(user_id) -> bool:
     return user_id in load_unsubscribed()
