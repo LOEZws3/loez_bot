@@ -1,3930 +1,3376 @@
 {
-  "Ашра (Голос времени)": {
+  "Ашра": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 1
+    "extra": ""
   },
-  "Акакий (Голос времени)": {
+  "Акакий": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 2
+    "extra": ""
   },
-  "Андроид №1 (Голос времени)": {
+  "Андроид №1": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 3
+    "extra": ""
   },
-  "Андроид №2 (Голос времени)": {
+  "Андроид №2": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 4
+    "extra": ""
   },
-  "Бартоломью (Голос времени)": {
+  "Бартоломью": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 5
+    "extra": ""
   },
-  "Бен (Голос времени)": {
+  "Бен": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 6
+    "extra": ""
   },
-  "Вито (Голос времени)": {
+  "Вито": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 7
+    "extra": ""
   },
-  "Грумрак (Голос времени)": {
+  "Грумрак": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 8
+    "extra": ""
   },
-  "Гуро (Голос времени)": {
+  "Гуро": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 9
+    "extra": ""
   },
-  "Гонец (Голос времени)": {
+  "Гонец": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 10
+    "extra": ""
   },
-  "Данилка Холмс (Голос времени)": {
+  "Данилка Холмс": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 11
+    "extra": ""
   },
-  "Ден (Голос времени)": {
+  "Ден": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 12
+    "extra": ""
   },
-  "Джон (Идеальный мир)": {
+  "Джон": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 13
+    "extra": ""
   },
-  "Джонни (Голос времени)": {
+  "Джонни": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 14
+    "extra": ""
   },
-  "Джули (Голос времени)": {
+  "Джули": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 15
+    "extra": ""
   },
-  "Дороти (Голос времени)": {
+  "Дороти": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 16
+    "extra": ""
   },
-  "Доа (Голос времени)": {
+  "Доа": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 17
+    "extra": ""
   },
-  "Женя (Голос времени)": {
+  "Женя": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 18
+    "extra": ""
   },
-  "Император (Голос времени)": {
+  "Император": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 19
+    "extra": ""
   },
-  "Кхаини (Голос времени)": {
+  "Кхаини": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 20
+    "extra": ""
   },
-  "Караваджо (Голос времени)": {
+  "Караваджо": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 21
+    "extra": ""
   },
-  "Келон (Голос времени)": {
+  "Келон": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 22
+    "extra": ""
   },
-  "Кипленд (Голос времени)": {
+  "Кипленд": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 23
+    "extra": ""
   },
-  "Киррь (Голос времени)": {
+  "Киррь": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 24
+    "extra": ""
   },
-  "Кроу-Тоу Вукха (Голос времени)": {
+  "Кроу-Тоу Вукха": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 25
+    "extra": ""
   },
-  "Крэб (Голос времени)": {
+  "Крэб": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 26
+    "extra": ""
   },
-  "Керкун (Голос времени)": {
+  "Керкун": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 27
+    "extra": ""
   },
-  "Королева Пропии (Голос времени)": {
+  "Королева Пропии": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 28
+    "extra": ""
   },
-  "Лис (Голос времени)": {
+  "Лис": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 29
+    "extra": ""
   },
-  "Матильда (Голос времени)": {
+  "Матильда": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 30
+    "extra": ""
   },
-  "Минэко (Голос времени)": {
+  "Минэко": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 31
+    "extra": ""
   },
-  "Молчун (Голос времени)": {
+  "Молчун": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 32
+    "extra": ""
   },
-  "Монстрас (Голос времени)": {
+  "Монстрас": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 33
+    "extra": ""
   },
-  "Нечто (Голос времени)": {
+  "Нечто": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 34
+    "extra": ""
   },
-  "Ноктир (Голос времени)": {
+  "Ноктир": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 35
+    "extra": ""
   },
-  "Павел (Голос времени)": {
+  "Павел": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 36
+    "extra": ""
   },
-  "Пэлиас (Голос времени)": {
+  "Пэлиас": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 37
+    "extra": ""
   },
-  "Сан-Фран (Голос времени)": {
+  "Сан-Фран": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 38
+    "extra": ""
   },
-  "Сал (Голос времени)": {
+  "Сал": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 39
+    "extra": ""
   },
-  "Сомик Хлой (Голос времени)": {
+  "Сомик Хлой": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 40
+    "extra": ""
   },
-  "Стоун (Голос времени)": {
+  "Стоун": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 41
+    "extra": ""
   },
-  "Стэн (Голос времени)": {
+  "Стэн": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 42
+    "extra": ""
   },
-  "Сяо (Голос времени)": {
+  "Сяо": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 43
+    "extra": ""
   },
-  "Сзубик (Голос времени)": {
+  "Сзубик": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 44
+    "extra": ""
   },
-  "Скупидия (Голос времени)": {
+  "Скупидия": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 45
+    "extra": ""
   },
-  "Томас (Голос времени)": {
+  "Томас": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 46
+    "extra": ""
   },
-  "Траин (Голос времени)": {
+  "Траин": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 47
+    "extra": ""
   },
-  "Узник 276 (Голос времени)": {
+  "Узник 276": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 48
+    "extra": ""
   },
-  "Узница 686 (Голос времени)": {
+  "Узница 686": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 49
+    "extra": ""
   },
-  "Уильям (Голос времени)": {
+  "Уильям": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 50
+    "extra": ""
   },
-  "Уоргрейв (Голос времени)": {
+  "Уоргрейв": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 51
+    "extra": ""
   },
-  "Фарагонда (Голос времени)": {
+  "Фарагонда": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 52
+    "extra": ""
   },
-  "Фаронд (Голос времени)": {
+  "Фаронд": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 53
+    "extra": ""
   },
-  "Харви (Голос времени)": {
+  "Харви": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 54
+    "extra": ""
   },
-  "Хесус (Голос времени)": {
+  "Хесус": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 55
+    "extra": ""
   },
-  "Хулио (Голос времени)": {
+  "Хулио": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 56
+    "extra": ""
   },
-  "Хризеида (Голос времени)": {
+  "Хризеида": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 57
+    "extra": ""
   },
-  "Чарли (Последняя реальность)": {
+  "Чарли": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 58
+    "extra": ""
   },
-  "Чарльз (Голос времени)": {
+  "Чарльз": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 59
+    "extra": ""
   },
-  "Шелест (Голос времени)": {
+  "Шелест": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 60
+    "extra": ""
   },
-  "Шулерн (Голос времени)": {
+  "Шулерн": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 61
+    "extra": ""
   },
-  "Эбардо (Голос времени)": {
+  "Эбардо": {
     "status": "занята",
     "owner_id": 8365616736,
     "username": "NiBlazeme",
     "season": "Голос времени",
-    "extra": "",
-    "id": 62
+    "extra": ""
   },
-  "Элиза (Игра бога)": {
+  "Элиза": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 63
+    "extra": ""
   },
-  "Экстерро (Голос времени)": {
+  "Экстерро": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 64
+    "extra": ""
   },
-  "Эмили (Голос времени)": {
+  "Эмили": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 65
+    "extra": ""
   },
-  "Энтони (Голос времени)": {
+  "Энтони": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 66
+    "extra": ""
   },
-  "Этель (Голос времени)": {
+  "Этель": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 67
+    "extra": ""
   },
-  "Эстебан (Голос времени)": {
+  "Эстебан": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 68
+    "extra": ""
   },
-  "Югель (Голос времени)": {
+  "Югель": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 69
+    "extra": ""
   },
-  "Змей (Голос времени)": {
+  "Змей": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 70
+    "extra": ""
   },
-  "Мускат (Голос времени)": {
+  "Мускат": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 71
+    "extra": ""
   },
-  "Пуговица (Голос времени)": {
+  "Пуговица": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 72
+    "extra": ""
   },
-  "Шляпа (Голос времени)": {
+  "Шляпа": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 73
+    "extra": ""
   },
-  "Шрам (Голос времени)": {
+  "Шрам": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Голос времени",
-    "extra": "",
-    "id": 74
+    "extra": ""
   },
-  "Аргус (Игра бога)": {
+  "Аргус": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 75
+    "extra": ""
   },
-  "Абисса (Игра бога)": {
+  "Абисса": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 76
+    "extra": ""
   },
-  "Айко (Игра бога)": {
+  "Айко": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 77
+    "extra": ""
   },
-  "Альберто (Игра бога)": {
+  "Альберто": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 78
+    "extra": ""
   },
-  "Бастиан (Игра бога)": {
+  "Бастиан": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 79
+    "extra": ""
   },
-  "Беннет (Игра бога)": {
+  "Беннет": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 80
+    "extra": ""
   },
-  "Воланд (Игра бога)": {
+  "Воланд": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 81
+    "extra": ""
   },
-  "Вария (Игра бога)": {
+  "Вария": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 82
+    "extra": ""
   },
-  "Джейс Ави (Игра бога)": {
+  "Джейс Ави": {
     "status": "занята",
     "owner_id": 5279300963,
     "username": "Kleh_228",
     "season": "Игра бога",
-    "extra": "",
-    "id": 83
+    "extra": ""
   },
-  "Довин Баан (Игра бога)": {
+  "Довин Баан": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 84
+    "extra": ""
   },
-  "Зефирион (Игра бога)": {
+  "Зефирион": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 85
+    "extra": ""
   },
-  "Ивлис (Игра бога)": {
+  "Ивлис": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 86
+    "extra": ""
   },
-  "Катрина Баан (Игра бога)": {
+  "Катрина Баан": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 87
+    "extra": ""
   },
-  "Картер (Игра бога)": {
+  "Картер": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 88
+    "extra": ""
   },
-  "Коллекционер №1 (Игра бога)": {
+  "Коллекционер №1": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 89
+    "extra": ""
   },
-  "Коллекционер №2 (Игра бога)": {
+  "Коллекционер №2": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 90
+    "extra": ""
   },
-  "Крайр (Игра бога)": {
+  "Крайр": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 91
+    "extra": ""
   },
-  "Люциус (Игра бога)": {
+  "Люциус": {
     "status": "занята",
     "owner_id": 7156943971,
     "username": "Lentaawel",
     "season": "Игра бога",
-    "extra": "",
-    "id": 92
+    "extra": ""
   },
-  "Люк (Игра бога)": {
+  "Люк": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 93
+    "extra": ""
   },
-  "Лемак (Игра бога)": {
+  "Лемак": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 94
+    "extra": ""
   },
-  "Лоренс Гай Уайт (Игра бога)": {
+  "Лоренс Гай Уайт": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 95
+    "extra": ""
   },
-  "Междумирец-Демиург (Игра бога)": {
+  "Междумирец-Демиург": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 96
+    "extra": ""
   },
-  "Пимпаджон (Игра бога)": {
+  "Пимпаджон": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 97
+    "extra": ""
   },
-  "Потема Ави (Игра бога)": {
+  "Потема Ави": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 98
+    "extra": ""
   },
-  "Робин (Игра бога)": {
+  "Робин": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 99
+    "extra": ""
   },
-  "Роджер (Игра бога)": {
+  "Роджер": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 100
+    "extra": ""
   },
-  "Селести (Игра бога)": {
+  "Селести": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 101
+    "extra": ""
   },
-  "Сильвестр (Идеальный мир)": {
+  "Сильвестр": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 102
+    "extra": ""
   },
-  "Спектра (Игра бога)": {
+  "Спектра": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 103
+    "extra": ""
   },
-  "Цесанна (Игра бога)": {
+  "Цесанна": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 104
+    "extra": ""
   },
-  "Эмрис (Игра бога)": {
+  "Эмрис": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 105
+    "extra": ""
   },
-  "Энария (Игра бога)": {
+  "Энария": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 106
+    "extra": ""
   },
-  "Эола (Игра бога)": {
+  "Эола": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 107
+    "extra": ""
   },
-  "Аква (Игра бога)": {
+  "Аква": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 108
+    "extra": ""
   },
-  "Агний (Игра бога)": {
+  "Агний": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 109
+    "extra": ""
   },
-  "Аэро (Игра бога)": {
+  "Аэро": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 110
+    "extra": ""
   },
-  "Эко (Игра бога)": {
+  "Эко": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Игра бога",
-    "extra": "",
-    "id": 111
+    "extra": ""
   },
-  "Азирафель (Идеальный мир)": {
+  "Азирафель": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 112
+    "extra": ""
   },
-  "Аманда (Идеальный мир)": {
+  "Аманда": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 113
+    "extra": ""
   },
-  "Ала (Идеальный мир)": {
+  "Ала": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 114
+    "extra": ""
   },
-  "Анафема (Идеальный мир)": {
+  "Анафема": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 115
+    "extra": ""
   },
-  "Бобби (Последняя реальность)": {
+  "Бобби": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 116
+    "extra": ""
   },
-  "Ванесса (Идеальный мир)": {
+  "Ванесса": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 117
+    "extra": ""
   },
-  "Войд (Идеальный мир)": {
+  "Войд": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 118
+    "extra": ""
   },
-  "Вебстер (Идеальный мир)": {
+  "Вебстер": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 119
+    "extra": ""
   },
-  "Вольдемар (Идеальный мир)": {
+  "Вольдемар": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 120
+    "extra": ""
   },
-  "Габриель (Идеальный мир)": {
+  "Габриель": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 121
+    "extra": ""
   },
-  "Джек (Идеальный мир)": {
+  "Джек": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 122
+    "extra": ""
   },
-  "Джеффри (Идеальный мир)": {
+  "Джеффри": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 123
+    "extra": ""
   },
-  "Дэрри (Идеальный мир)": {
+  "Дэрри": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 124
+    "extra": ""
   },
-  "Долорес (Идеальный мир)": {
+  "Долорес": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 125
+    "extra": ""
   },
-  "Ильстебан (Идеальный мир)": {
+  "Ильстебан": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 126
+    "extra": ""
   },
-  "Исая (Идеальный мир)": {
+  "Исая": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 127
+    "extra": ""
   },
-  "Калеб (Идеальный мир)": {
+  "Калеб": {
     "status": "занята",
     "owner_id": 7461695159,
     "username": "tPESH11",
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 128
+    "extra": ""
   },
-  "Кавински (Идеальный мир)": {
+  "Кавински": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 129
+    "extra": ""
   },
-  "Кейт (Идеальный мир)": {
+  "Кейт": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 130
+    "extra": ""
   },
-  "Ким (Идеальный мир)": {
+  "Ким": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 131
+    "extra": ""
   },
-  "Камилла (Идеальный мир)": {
+  "Камилла": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 132
+    "extra": ""
   },
-  "Кроули Возвышенный (Идеальный мир)": {
+  "Кроули Возвышенный": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 133
+    "extra": ""
   },
-  "Радан (Идеальный мир)": {
+  "Радан": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 134
+    "extra": ""
   },
-  "Рэй (Идеальный мир)": {
+  "Рэй": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 135
+    "extra": ""
   },
-  "Райя Абер (Идеальный мир)": {
+  "Райя Абер": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 136
+    "extra": ""
   },
-  "Ровоам Кэлхун (Идеальный мир)": {
+  "Ровоам Кэлхун": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 137
+    "extra": ""
   },
-  "Rehoboam (Идеальный мир)": {
+  "Rehoboam": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 138
+    "extra": ""
   },
-  "Патрик (Идеальный мир)": {
+  "Патрик": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 139
+    "extra": ""
   },
-  "Питер (Идеальный мир)": {
+  "Питер": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 140
+    "extra": ""
   },
-  "Паркомоло (Идеальный мир)": {
+  "Паркомоло": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 141
+    "extra": ""
   },
-  "Отер (Идеальный мир)": {
+  "Отер": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 142
+    "extra": ""
   },
-  "Скирс (Идеальный мир)": {
+  "Скирс": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 143
+    "extra": ""
   },
-  "Стиплер (Идеальный мир)": {
+  "Стиплер": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 144
+    "extra": ""
   },
-  "Лоренс (Идеальный мир)": {
+  "Лоренс": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 145
+    "extra": ""
   },
-  "Лионель (Идеальный мир)": {
+  "Лионель": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 146
+    "extra": ""
   },
-  "Майк (Идеальный мир)": {
+  "Майк": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 147
+    "extra": ""
   },
-  "Мария (Идеальный мир)": {
+  "Мария": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 148
+    "extra": ""
   },
-  "Мартин (Идеальный мир)": {
+  "Мартин": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 149
+    "extra": ""
   },
-  "Массинелло (Идеальный мир)": {
+  "Массинелло": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 150
+    "extra": ""
   },
-  "Минни (Идеальный мир)": {
+  "Минни": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 151
+    "extra": ""
   },
-  "Мисс Жирафаэль (Идеальный мир)": {
+  "Мисс Жирафаэль": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 152
+    "extra": ""
   },
-  "Мистер Помидорка (Идеальный мир)": {
+  "Мистер Помидорка": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 153
+    "extra": ""
   },
-  "Мясник (Идеальный мир)": {
+  "Мясник": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 154
+    "extra": ""
   },
-  "Монтэг (Идеальный мир)": {
+  "Монтэг": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 155
+    "extra": ""
   },
-  "Нахаш (Идеальный мир)": {
+  "Нахаш": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 156
+    "extra": ""
   },
-  "Нико (Идеальный мир)": {
+  "Нико": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 157
+    "extra": ""
   },
-  "Тори (Идеальный мир)": {
+  "Тори": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 158
+    "extra": ""
   },
-  "Уриель (Идеальный мир)": {
+  "Уриель": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 159
+    "extra": ""
   },
-  "Финдер (Идеальный мир)": {
+  "Финдер": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 160
+    "extra": ""
   },
-  "Хейли (Идеальный мир)": {
+  "Хейли": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 161
+    "extra": ""
   },
-  "Хэнк (Идеальный мир)": {
+  "Хэнк": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 162
+    "extra": ""
   },
-  "Эдмунд Теннант (Идеальный мир)": {
+  "Эдмунд Теннант": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 163
+    "extra": ""
   },
-  "Эрнест (Идеальный мир)": {
+  "Эрнест": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 164
+    "extra": ""
   },
-  "Шерон (Идеальный мир)": {
+  "Шерон": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 165
+    "extra": ""
   },
-  "Шарлотта (Идеальный мир)": {
+  "Шарлотта": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Идеальный мир",
-    "extra": "",
-    "id": 166
+    "extra": ""
   },
-  "Айтор (Мастерская 47)": {
+  "Айтор": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 167
+    "extra": ""
   },
-  "Амарин (Мастерская 47)": {
+  "Амарин": {
     "status": "занята",
     "owner_id": 6829951282,
     "username": "Akmal20026",
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 168
+    "extra": ""
   },
-  "Ану (Мастерская 47)": {
+  "Ану": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 169
+    "extra": ""
   },
-  "Вахуб (Мастерская 47)": {
+  "Вахуб": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 170
+    "extra": ""
   },
-  "Голос (Мастерская 47)": {
+  "Голос": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 171
+    "extra": ""
   },
-  "Джозеф (Мастерская 47)": {
+  "Джозеф": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 172
+    "extra": ""
   },
-  "Иветт (Мастерская 47)": {
+  "Иветт": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 173
+    "extra": ""
   },
-  "Илиар (Мастерская 47)": {
+  "Илиар": {
     "status": "занята",
     "owner_id": 8426582501,
     "username": "megabrotella",
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 174
+    "extra": ""
   },
-  "Каверн (Мастерская 47)": {
+  "Каверн": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 175
+    "extra": ""
   },
-  "Риз (Мастерская 47)": {
+  "Риз": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 176
+    "extra": ""
   },
-  "Рин (Мастерская 47)": {
+  "Рин": {
     "status": "занята",
     "owner_id": 6760031145,
     "username": "l0p0kl0wka2",
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 177
+    "extra": ""
   },
-  "Рудольф (Мастерская 47)": {
+  "Рудольф": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 178
+    "extra": ""
   },
-  "Формик (Мастерская 47)": {
+  "Формик": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 179
+    "extra": ""
   },
-  "Чак (Мастерская 47)": {
+  "Чак": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 180
+    "extra": ""
   },
-  "Алби (Мастерская 47)": {
+  "Алби": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 181
+    "extra": ""
   },
-  "Басиль (Мастерская 47)": {
+  "Басиль": {
     "status": "занята",
     "owner_id": 7096667694,
     "username": "Mikaell_zip",
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 182
+    "extra": ""
   },
-  "Бенджамин (Мастерская 47)": {
+  "Бенджамин": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 183
+    "extra": ""
   },
-  "Брок (Мастерская 47)": {
+  "Брок": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 184
+    "extra": ""
   },
-  "Буф (Мастерская 47)": {
+  "Буф": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 185
+    "extra": ""
   },
-  "Велькар (Мастерская 47)": {
+  "Велькар": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 186
+    "extra": ""
   },
-  "Гедан (Мастерская 47)": {
+  "Гедан": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 187
+    "extra": ""
   },
-  "Гилберт (Мастерская 47)": {
+  "Гилберт": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 188
+    "extra": ""
   },
-  "Джег (Мастерская 47)": {
+  "Джег": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 189
+    "extra": ""
   },
-  "Добрый лось (Мастерская 47)": {
+  "Добрый лось": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 190
+    "extra": ""
   },
-  "Жмимж (Мастерская 47)": {
+  "Жмимж": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 191
+    "extra": ""
   },
-  "Кельд (Мастерская 47)": {
+  "Кельд": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 192
+    "extra": ""
   },
-  "Лливэль (Мастерская 47)": {
+  "Лливэль": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 193
+    "extra": ""
   },
-  "Мадине (Мастерская 47)": {
+  "Мадине": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 194
+    "extra": ""
   },
-  "Маргарет (Мастерская 47)": {
+  "Маргарет": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 195
+    "extra": ""
   },
-  "Милли (Мастерская 47)": {
+  "Милли": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 196
+    "extra": ""
   },
-  "Миреска (Мастерская 47)": {
+  "Миреска": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 197
+    "extra": ""
   },
-  "Моти (Мастерская 47)": {
+  "Моти": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 198
+    "extra": ""
   },
-  "Надим (Мастерская 47)": {
+  "Надим": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 199
+    "extra": ""
   },
-  "Невилл (Мастерская 47)": {
+  "Невилл": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 200
+    "extra": ""
   },
-  "Нелли (Мастерская 47)": {
+  "Нелли": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 201
+    "extra": ""
   },
-  "Ноксар (Мастерская 47)": {
+  "Ноксар": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 202
+    "extra": ""
   },
-  "Нора (Мастерская 47)": {
+  "Нора": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 203
+    "extra": ""
   },
-  "Посыльный (Мастерская 47)": {
+  "Посыльный": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 204
+    "extra": ""
   },
-  "Разбойник (Мастерская 47)": {
+  "Разбойник": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 205
+    "extra": ""
   },
-  "Рейнальд (Мастерская 47)": {
+  "Рейнальд": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 206
+    "extra": ""
   },
-  "Роквуд (Мастерская 47)": {
+  "Роквуд": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 207
+    "extra": ""
   },
-  "Рокет (Мастерская 47)": {
+  "Рокет": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 208
+    "extra": ""
   },
-  "Сиан (Мастерская 47)": {
+  "Сиан": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 209
+    "extra": ""
   },
-  "Слизень (Мастерская 47)": {
+  "Слизень": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 210
+    "extra": ""
   },
-  "Таргул (Мастерская 47)": {
+  "Таргул": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 211
+    "extra": ""
   },
-  "Циклоп (Новое поколение)": {
+  "Циклоп": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 212
+    "extra": ""
   },
-  "Шарманщица (Мастерская 47)": {
+  "Шарманщица": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 213
+    "extra": ""
   },
-  "Шахразада (Мастерская 47)": {
+  "Шахразада": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 214
+    "extra": ""
   },
-  "Элия (Мастерская 47)": {
+  "Элия": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 215
+    "extra": ""
   },
-  "Эмма (Мастерская 47)": {
+  "Эмма": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 216
+    "extra": ""
   },
-  "Гидеон (Мастерская 47)": {
+  "Гидеон": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 217
+    "extra": ""
   },
-  "Ирса (Мастерская 47)": {
+  "Ирса": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 218
+    "extra": ""
   },
-  "Риан (Мастерская 47)": {
+  "Риан": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Мастерская 47",
-    "extra": "",
-    "id": 219
+    "extra": ""
   },
-  "Лололошка (Межсезонные персонажи)": {
+  "Лололошка": {
     "status": "занята",
     "owner_id": 8007905166,
     "username": "corpse3",
     "season": "Межсезонные персонажи",
-    "extra": "",
-    "id": 220
+    "extra": ""
   },
-  "JDH (Межсезонные персонажи)": {
+  "JDH": {
     "status": "занята",
     "owner_id": 5792140520,
     "username": "Tapka_tp",
     "season": "Межсезонные персонажи",
-    "extra": "",
-    "id": 221
+    "extra": ""
   },
-  "Окетра (Межсезонные персонажи)": {
+  "Окетра": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Межсезонные персонажи",
-    "extra": "",
-    "id": 222
+    "extra": ""
   },
-  "Джодах Ави (Межсезонные персонажи)": {
+  "Джодах Ави": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Межсезонные персонажи",
-    "extra": "",
-    "id": 223
+    "extra": ""
   },
-  "Райа Прайм (Межсезонные персонажи)": {
+  "Райа Прайм": {
     "status": "занята",
     "owner_id": 6036991812,
     "username": "Li_l_y_0",
     "season": "Межсезонные персонажи",
-    "extra": "",
-    "id": 224
+    "extra": ""
   },
-  "Междумирец (Межсезонные персонажи)": {
+  "Междумирец": {
     "status": "занята",
     "owner_id": 2030814494,
     "username": "Rainee_993Lo_De_a_er",
     "season": "Межсезонные персонажи",
-    "extra": "",
-    "id": 225
+    "extra": ""
   },
-  "Смотрящий (Межсезонные персонажи)": {
+  "Смотрящий": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Межсезонные персонажи",
-    "extra": "",
-    "id": 226
+    "extra": ""
   },
-  "Шандр'гралла'дтрин (Межсезонные персонажи)": {
+  "Шандр'гралла'дтрин": {
     "status": "занята",
     "owner_id": 6095027820,
     "username": "Huilo12",
     "season": "Межсезонные персонажи",
-    "extra": "",
-    "id": 227
+    "extra": ""
   },
-  "Седрик (Межсезонные персонажи)": {
-    "status": "свободна",
-    "owner_id": null,
-    "username": null,
+  "Седрик": {
+    "status": "занята",
+    "owner_id": 8076284478,
+    "username": "Sedrik_loez",
     "season": "Межсезонные персонажи",
-    "extra": "",
-    "id": 228
+    "extra": ""
   },
-  "Джонолошка (Межсезонные персонажи)": {
+  "Джонолошка": {
     "status": "занята",
     "owner_id": 5415736349,
     "username": "poz1tka",
     "season": "Межсезонные персонажи",
-    "extra": "",
-    "id": 229
+    "extra": ""
   },
-  "Фиксплей (Межсезонные персонажи)": {
+  "Фиксплей": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Межсезонные персонажи",
-    "extra": "",
-    "id": 230
+    "extra": ""
   },
-  "Юни (Межсезонные персонажи)": {
+  "Юни": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Межсезонные персонажи",
-    "extra": "",
-    "id": 231
+    "extra": ""
   },
-  "Роман Фильченков (Межсезонные персонажи)": {
+  "Роман Фильченков": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Межсезонные персонажи",
-    "extra": "",
-    "id": 232
+    "extra": ""
   },
-  "Вальдхар (Межсезонные персонажи)": {
+  "Вальдхар": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Межсезонные персонажи",
-    "extra": "",
-    "id": 233
+    "extra": ""
   },
-  "Нардуш (Межсезонные персонажи)": {
+  "Нардуш": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Межсезонные персонажи",
-    "extra": "",
-    "id": 234
+    "extra": ""
   },
-  "Туилин (Межсезонные персонажи)": {
+  "Туилин": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Межсезонные персонажи",
-    "extra": "",
-    "id": 235
+    "extra": ""
   },
-  "Фалинда (Межсезонные персонажи)": {
+  "Фалинда": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Межсезонные персонажи",
-    "extra": "",
-    "id": 236
+    "extra": ""
   },
-  "Гуах'ткш'кхтар (Межсезонные персонажи)": {
+  "Гуах'ткш'кхтар": {
     "status": "занята",
     "owner_id": 7676125334,
     "username": "FistingLover228",
     "season": "Межсезонные персонажи",
-    "extra": "",
-    "id": 237
+    "extra": ""
   },
-  "Акула (Новое поколение)": {
+  "Акула": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 238
+    "extra": ""
   },
-  "Африт (Новое поколение)": {
+  "Африт": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 239
+    "extra": ""
   },
-  "Варнер (Новое поколение)": {
+  "Варнер": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 240
+    "extra": ""
   },
-  "Веронд (Новое поколение)": {
+  "Веронд": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 241
+    "extra": ""
   },
-  "Горбатик (Новое поколение)": {
+  "Горбатик": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 242
+    "extra": ""
   },
-  "Гектор (Новое поколение)": {
+  "Гектор": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 243
+    "extra": ""
   },
-  "Горгона (Новое поколение)": {
+  "Горгона": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 244
+    "extra": ""
   },
-  "Грибокк (Новое поколение)": {
+  "Грибокк": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 245
+    "extra": ""
   },
-  "Доктор Блэк (Новое поколение)": {
+  "Доктор Блэк": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 246
+    "extra": ""
   },
-  "Дина (Новое поколение)": {
+  "Дина": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 247
+    "extra": ""
   },
-  "Зал-Чародей (Новое поколение)": {
+  "Зал-Чародей": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 248
+    "extra": ""
   },
-  "Зал-Банкир (Новое поколение)": {
+  "Зал-Банкир": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 249
+    "extra": ""
   },
-  "Зал-Травник (Новое поколение)": {
+  "Зал-Травник": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 250
+    "extra": ""
   },
-  "Изначальный Волшебник (Новое поколение)": {
+  "Изначальный Волшебник": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 251
+    "extra": ""
   },
-  "Изначальная Волшебница (Новое поколение)": {
+  "Изначальная Волшебница": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 252
+    "extra": ""
   },
-  "Изначальный Банкир (Новое поколение)": {
+  "Изначальный Банкир": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 253
+    "extra": ""
   },
-  "Изначальный Заклинатель (Новое поколение)": {
+  "Изначальный Заклинатель": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 254
+    "extra": ""
   },
-  "Иро (Новое поколение)": {
+  "Иро": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 255
+    "extra": ""
   },
-  "Карл (Последняя реальность)": {
+  "Карл": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 256
+    "extra": ""
   },
-  "Лефтарион (Новое поколение)": {
+  "Лефтарион": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 257
+    "extra": ""
   },
-  "Линда (Новое поколение)": {
+  "Линда": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 258
+    "extra": ""
   },
-  "Лотерейщик Лучеземья (Новое поколение)": {
+  "Лотерейщик Лучеземья": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 259
+    "extra": ""
   },
-  "Льярона (Новое поколение)": {
+  "Льярона": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 260
+    "extra": ""
   },
-  "Райтарион (Новое поколение)": {
+  "Райтарион": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 261
+    "extra": ""
   },
-  "Охранник Соколов (Новое поколение)": {
+  "Охранник Соколов": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 262
+    "extra": ""
   },
-  "Охранник Ястребов (Новое поколение)": {
+  "Охранник Ястребов": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 263
+    "extra": ""
   },
-  "Спинукс (Новое поколение)": {
+  "Спинукс": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 264
+    "extra": ""
   },
-  "Средняя сестра (Новое поколение)": {
+  "Средняя сестра": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 265
+    "extra": ""
   },
-  "Старшая сестра (Новое поколение)": {
+  "Старшая сестра": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 266
+    "extra": ""
   },
-  "Хранитель подземелья (Новое поколение)": {
+  "Хранитель подземелья": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 267
+    "extra": ""
   },
-  "Чародей (Новое поколение)": {
+  "Чародей": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 268
+    "extra": ""
   },
-  "Арнир (Новое поколение)": {
+  "Арнир": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 269
+    "extra": ""
   },
-  "Санфиш (Новое поколение)": {
+  "Санфиш": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Новое поколение",
-    "extra": "",
-    "id": 270
+    "extra": ""
   },
-  "Брай (Последняя реальность)": {
+  "Брай": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 271
+    "extra": ""
   },
-  "Брэндон (Последняя реальность)": {
+  "Брэндон": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 272
+    "extra": ""
   },
-  "Глен (Последняя реальность)": {
+  "Глен": {
     "status": "занята",
     "owner_id": 8188772841,
     "username": "sddy_y",
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 273
+    "extra": ""
   },
-  "Дженна (Последняя реальность)": {
+  "Дженна": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 274
+    "extra": ""
   },
-  "Джоди Арист (Последняя реальность)": {
+  "Джоди Арист": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 275
+    "extra": ""
   },
-  "Диего Санчез (Последняя реальность)": {
+  "Диего Санчез": {
     "status": "занята",
     "owner_id": 5299279926,
     "username": "MyRmIk_t",
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 276
+    "extra": ""
   },
-  "Дилан (Последняя реальность)": {
+  "Дилан": {
     "status": "занята",
     "owner_id": 8593585036,
     "username": "Snaipaturn_XD",
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 277
+    "extra": ""
   },
-  "Евсей (Последняя реальность)": {
+  "Евсей": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 278
+    "extra": ""
   },
-  "Клео (Последняя реальность)": {
+  "Клео": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 279
+    "extra": ""
   },
-  "Марло Брэндо (Последняя реальность)": {
+  "Марло Брэндо": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 280
+    "extra": ""
   },
-  "Престон (Последняя реальность)": {
+  "Престон": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 281
+    "extra": ""
   },
-  "Ричард (Последняя реальность)": {
+  "Ричард": {
     "status": "занята",
     "owner_id": 6009359887,
     "username": "oopppssiee",
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 282
+    "extra": ""
   },
-  "Саймон Солус (Последняя реальность)": {
+  "Саймон Солус": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 283
+    "extra": ""
   },
-  "Тим (Последняя реальность)": {
+  "Тим": {
     "status": "занята",
     "owner_id": 1118388850,
     "username": "Timofy09",
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 284
+    "extra": ""
   },
-  "Чед (Последняя реальность)": {
+  "Чед": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 285
+    "extra": ""
   },
-  "Шэрон (Последняя реальность)": {
+  "Шэрон": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 286
+    "extra": ""
   },
-  "Абилка (Последняя реальность)": {
+  "Абилка": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 287
+    "extra": ""
   },
-  "Адольф (Точка невозврата)": {
+  "Адольф": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 288
+    "extra": ""
   },
-  "Альберт (Последняя реальность)": {
+  "Альберт": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 289
+    "extra": ""
   },
-  "Бариста (Последняя реальность)": {
+  "Бариста": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 290
+    "extra": ""
   },
-  "Бри (Последняя реальность)": {
+  "Бри": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 291
+    "extra": ""
   },
-  "Вахтёрша (Последняя реальность)": {
+  "Вахтёрша": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 292
+    "extra": ""
   },
-  "Вивьен (Последняя реальность)": {
+  "Вивьен": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 293
+    "extra": ""
   },
-  "Джейсон (Последняя реальность)": {
+  "Джейсон": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 294
+    "extra": ""
   },
-  "Джет Беринг (Последняя реальность)": {
+  "Джет Беринг": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 295
+    "extra": ""
   },
-  "Джуди (Последняя реальность)": {
+  "Джуди": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 296
+    "extra": ""
   },
-  "Жаклин (Последняя реальность)": {
+  "Жаклин": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 297
+    "extra": ""
   },
-  "Кайл (Последняя реальность)": {
+  "Кайл": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 298
+    "extra": ""
   },
-  "Кано (Последняя реальность)": {
+  "Кано": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 299
+    "extra": ""
   },
-  "Камелия (Последняя реальность)": {
+  "Камелия": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 300
+    "extra": ""
   },
-  "Карамелька (Последняя реальность)": {
+  "Карамелька": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 301
+    "extra": ""
   },
-  "Кларк (Последняя реальность)": {
+  "Кларк": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 302
+    "extra": ""
   },
-  "Лейсон (Последняя реальность)": {
+  "Лейсон": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 303
+    "extra": ""
   },
-  "Линда Вермут (Последняя реальность)": {
+  "Линда Вермут": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 304
+    "extra": ""
   },
-  "Лиса (Последняя реальность)": {
+  "Лиса": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 305
+    "extra": ""
   },
-  "Луис (Последняя реальность)": {
+  "Луис": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 306
+    "extra": ""
   },
-  "Мистер Труман (Последняя реальность)": {
+  "Мистер Труман": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 307
+    "extra": ""
   },
-  "Молли (Последняя реальность)": {
+  "Молли": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 308
+    "extra": ""
   },
-  "Ник (Последняя реальность)": {
+  "Ник": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 309
+    "extra": ""
   },
-  "Ника (Последняя реальность)": {
+  "Ника": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 310
+    "extra": ""
   },
-  "Николас Вейн (Последняя реальность)": {
+  "Николас Вейн": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 311
+    "extra": ""
   },
-  "Персик (Последняя реальность)": {
+  "Персик": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 312
+    "extra": ""
   },
-  "Продавец (Последняя реальность)": {
+  "Продавец": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 313
+    "extra": ""
   },
-  "Риарден (Последняя реальность)": {
+  "Риарден": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 314
+    "extra": ""
   },
-  "Рэн (Последняя реальность)": {
+  "Рэн": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 315
+    "extra": ""
   },
-  "Саймон Иллинг (Последняя реальность)": {
+  "Саймон Иллинг": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 316
+    "extra": ""
   },
-  "Саша (Последняя реальность)": {
+  "Саша": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 317
+    "extra": ""
   },
-  "Смит (Последняя реальность)": {
+  "Смит": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 318
+    "extra": ""
   },
-  "Стефани Краун (Последняя реальность)": {
+  "Стефани Краун": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 319
+    "extra": ""
   },
-  "Тайлер (Последняя реальность)": {
+  "Тайлер": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 320
+    "extra": ""
   },
-  "Уильям Джефферсон (Последняя реальность)": {
+  "Уильям Джефферсон": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 321
+    "extra": ""
   },
-  "Элеонора (Последняя реальность)": {
+  "Элеонора": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 322
+    "extra": ""
   },
-  "Элеонора Труман (Последняя реальность)": {
+  "Элеонора Труман": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 323
+    "extra": ""
   },
-  "Энди (Последняя реальность)": {
+  "Энди": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 324
+    "extra": ""
   },
-  "Эндрю (Последняя реальность)": {
+  "Эндрю": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 325
+    "extra": ""
   },
-  "Юлий Антонио (Последняя реальность)": {
+  "Юлий Антонио": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 326
+    "extra": ""
   },
-  "Адам Вельт (Последняя реальность)": {
+  "Адам Вельт": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 327
+    "extra": ""
   },
-  "Джон Бровмен (Последняя реальность)": {
+  "Джон Бровмен": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 328
+    "extra": ""
   },
-  "Митчелл (Последняя реальность)": {
+  "Митчелл": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 329
+    "extra": ""
   },
-  "Розенталь (Последняя реальность)": {
+  "Розенталь": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 330
+    "extra": ""
   },
-  "Рокси (Последняя реальность)": {
+  "Рокси": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Последняя реальность",
-    "extra": "",
-    "id": 331
+    "extra": ""
   },
-  "Альфред (Сердце вселенной)": {
+  "Альфред": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 332
+    "extra": ""
   },
-  "Балсмег (Сердце вселенной)": {
+  "Балсмег": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 333
+    "extra": ""
   },
-  "Беренгарий (Сердце вселенной)": {
+  "Беренгарий": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 334
+    "extra": ""
   },
-  "Валин (Сердце вселенной)": {
+  "Валин": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 335
+    "extra": ""
   },
-  "Гимлин (Сердце вселенной)": {
+  "Гимлин": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 336
+    "extra": ""
   },
-  "Епископ Лукий (Сердце вселенной)": {
+  "Епископ Лукий": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 337
+    "extra": ""
   },
-  "Мрк'грш'траклар (Сердце вселенной)": {
+  "Мрк'грш'траклар": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 338
+    "extra": ""
   },
-  "Начало (Сердце вселенной)": {
+  "Начало": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 339
+    "extra": ""
   },
-  "Невер (Сердце вселенной)": {
+  "Невер": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 340
+    "extra": ""
   },
-  "Сайрисса (Сердце вселенной)": {
+  "Сайрисса": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 341
+    "extra": ""
   },
-  "Сорвен (Сердце вселенной)": {
+  "Сорвен": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 342
+    "extra": ""
   },
-  "Тадмавриэль (Сердце вселенной)": {
+  "Тадмавриэль": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 343
+    "extra": ""
   },
-  "Эграссель (Сердце вселенной)": {
+  "Эграссель": {
     "status": "занята",
     "owner_id": 8472565688,
     "username": "Hiro1250",
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 344
+    "extra": ""
   },
-  "Брунгильда (Сердце вселенной)": {
+  "Брунгильда": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 345
+    "extra": ""
   },
-  "Ваму (Сердце вселенной)": {
+  "Ваму": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 346
+    "extra": ""
   },
-  "Виенна (Сердце вселенной)": {
+  "Виенна": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 347
+    "extra": ""
   },
-  "Галнаг (Сердце вселенной)": {
+  "Галнаг": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 348
+    "extra": ""
   },
-  "Годрик (Сердце вселенной)": {
+  "Годрик": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 349
+    "extra": ""
   },
-  "Годфри (Сердце вселенной)": {
+  "Годфри": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 350
+    "extra": ""
   },
-  "Гулида (Сердце вселенной)": {
+  "Гулида": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 351
+    "extra": ""
   },
-  "Леонора (Сердце вселенной)": {
+  "Леонора": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 352
+    "extra": ""
   },
-  "Ливия (Сердце вселенной)": {
+  "Ливия": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 353
+    "extra": ""
   },
-  "Линерра (Сердце вселенной)": {
+  "Линерра": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 354
+    "extra": ""
   },
-  "Облачко (Сердце вселенной)": {
+  "Облачко": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 355
+    "extra": ""
   },
-  "Прапрадед Гимлина (Сердце вселенной)": {
+  "Прапрадед Гимлина": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 356
+    "extra": ""
   },
-  "Реджи (Сердце вселенной)": {
+  "Реджи": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 357
+    "extra": ""
   },
-  "Сайман (Сердце вселенной)": {
+  "Сайман": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 358
+    "extra": ""
   },
-  "Садыка (Сердце вселенной)": {
+  "Садыка": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 359
+    "extra": ""
   },
-  "Синдри (Сердце вселенной)": {
+  "Синдри": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 360
+    "extra": ""
   },
-  "Скинтозавр (Сердце вселенной)": {
+  "Скинтозавр": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 361
+    "extra": ""
   },
-  "Скотт (Сердце вселенной)": {
+  "Скотт": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 362
+    "extra": ""
   },
-  "Фалхтра (Сердце вселенной)": {
+  "Фалхтра": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 363
+    "extra": ""
   },
-  "Эрнальд (Сердце вселенной)": {
+  "Эрнальд": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 364
+    "extra": ""
   },
-  "Бубен (Сердце вселенной)": {
+  "Бубен": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 365
+    "extra": ""
   },
-  "Таурил (Сердце вселенной)": {
+  "Таурил": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 366
+    "extra": ""
   },
-  "Череп (Сердце вселенной)": {
+  "Череп": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 367
+    "extra": ""
   },
-  "Тейрасса (Сердце вселенной)": {
+  "Тейрасса": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Сердце вселенной",
-    "extra": "",
-    "id": 368
+    "extra": ""
   },
-  "Аса Браун (Точка невозврата)": {
+  "Аса Браун": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 369
+    "extra": ""
   },
-  "Гусыня (Точка невозврата)": {
+  "Гусыня": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 370
+    "extra": ""
   },
-  "Кацпер Малецки (Точка невозврата)": {
+  "Кацпер Малецки": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 371
+    "extra": ""
   },
-  "Лайетана Каталонес (Точка невозврата)": {
+  "Лайетана Каталонес": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 372
+    "extra": ""
   },
-  "Олли Зард (Точка невозврата)": {
+  "Олли Зард": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 373
+    "extra": ""
   },
-  "Питер де Орас (Точка невозврата)": {
+  "Питер де Орас": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 374
+    "extra": ""
   },
-  "Помощник У.Т.К.Э.Р. (Точка невозврата)": {
+  "Помощник У.Т.К.Э.Р.": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 375
+    "extra": ""
   },
-  "Скример (Точка невозврата)": {
+  "Скример": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 376
+    "extra": ""
   },
-  "Стелла Песада (Точка невозврата)": {
+  "Стелла Песада": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 377
+    "extra": ""
   },
-  "Аллан (Точка невозврата)": {
+  "Аллан": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 378
+    "extra": ""
   },
-  "Анна Виктория Розалинда ||| (Точка невозврата)": {
+  "Анна Виктория Розалинда |||": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 379
+    "extra": ""
   },
-  "Ассараш (Точка невозврата)": {
+  "Ассараш": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 380
+    "extra": ""
   },
-  "Бекки (Точка невозврата)": {
+  "Бекки": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 381
+    "extra": ""
   },
-  "Боб (Точка невозврата)": {
+  "Боб": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 382
+    "extra": ""
   },
-  "Вольт (Точка невозврата)": {
+  "Вольт": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 383
+    "extra": ""
   },
-  "Гербалист (Точка невозврата)": {
+  "Гербалист": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 384
+    "extra": ""
   },
-  "Глюкхен (Точка невозврата)": {
+  "Глюкхен": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 385
+    "extra": ""
   },
-  "Джованни Буон-Джорно (Точка невозврата)": {
+  "Джованни Буон-Джорно": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 386
+    "extra": ""
   },
-  "Дорин (Точка невозврата)": {
+  "Дорин": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 387
+    "extra": ""
   },
-  "Йеллер (Точка невозврата)": {
+  "Йеллер": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 388
+    "extra": ""
   },
-  "Заз (Точка невозврата)": {
+  "Заз": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 389
+    "extra": ""
   },
-  "Зоракс (Точка невозврата)": {
+  "Зоракс": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 390
+    "extra": ""
   },
-  "Квантовый Эмпат (Точка невозврата)": {
+  "Квантовый Эмпат": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 391
+    "extra": ""
   },
-  "Керкус (Точка невозврата)": {
+  "Керкус": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 392
+    "extra": ""
   },
-  "Керш (Точка невозврата)": {
+  "Керш": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 393
+    "extra": ""
   },
-  "Кортни (Точка невозврата)": {
+  "Кортни": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 394
+    "extra": ""
   },
-  "Мистер О'Флафферти (Точка невозврата)": {
+  "Мистер О'Флафферти": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 395
+    "extra": ""
   },
-  "Мэд Систер (Точка невозврата)": {
+  "Мэд Систер": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 396
+    "extra": ""
   },
-  "Патате (Точка невозврата)": {
+  "Патате": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 397
+    "extra": ""
   },
-  "Патриша (Точка невозврата)": {
+  "Патриша": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 398
+    "extra": ""
   },
-  "Пинки Кейк (Точка невозврата)": {
+  "Пинки Кейк": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 399
+    "extra": ""
   },
-  "Продавец специй (Точка невозврата)": {
+  "Продавец специй": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 400
+    "extra": ""
   },
-  "Психопомп (Точка невозврата)": {
+  "Психопомп": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 401
+    "extra": ""
   },
-  "Пучакабра (Точка невозврата)": {
+  "Пучакабра": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 402
+    "extra": ""
   },
-  "Пэт (Точка невозврата)": {
+  "Пэт": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 403
+    "extra": ""
   },
-  "Реджинальд (Точка невозврата)": {
+  "Реджинальд": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 404
+    "extra": ""
   },
-  "Ренуа Десандр (Точка невозврата)": {
+  "Ренуа Десандр": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 405
+    "extra": ""
   },
-  "Свен (Точка невозврата)": {
+  "Свен": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 406
+    "extra": ""
   },
-  "Селия (Точка невозврата)": {
+  "Селия": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 407
+    "extra": ""
   },
-  "Сильви Блямс (Точка невозврата)": {
+  "Сильви Блямс": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 408
+    "extra": ""
   },
-  "Слайми (Точка невозврата)": {
+  "Слайми": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 409
+    "extra": ""
   },
-  "Стилл Беннер (Точка невозврата)": {
+  "Стилл Беннер": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 410
+    "extra": ""
   },
-  "Стинки (Точка невозврата)": {
+  "Стинки": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 411
+    "extra": ""
   },
-  "Стэн Боллер (Точка невозврата)": {
+  "Стэн Боллер": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 412
+    "extra": ""
   },
-  "Тристан (Точка невозврата)": {
+  "Тристан": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 413
+    "extra": ""
   },
-  "Харон (Точка невозврата)": {
+  "Харон": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 414
+    "extra": ""
   },
-  "Цамхен (Точка невозврата)": {
+  "Цамхен": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 415
+    "extra": ""
   },
-  "Чипен (Точка невозврата)": {
+  "Чипен": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 416
+    "extra": ""
   },
-  "Шамхен (Точка невозврата)": {
+  "Шамхен": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 417
+    "extra": ""
   },
-  "Шон (Точка невозврата)": {
+  "Шон": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 418
+    "extra": ""
   },
-  "Эрик (Точка невозврата)": {
+  "Эрик": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 419
+    "extra": ""
   },
-  "Альвар (Точка невозврата)": {
+  "Альвар": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 420
+    "extra": ""
   },
-  "Гай (Точка невозврата)": {
+  "Гай": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 421
+    "extra": ""
   },
-  "Дровосек (Точка невозврата)": {
+  "Дровосек": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 422
+    "extra": ""
   },
-  "Иоганнес (Точка невозврата)": {
+  "Иоганнес": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 423
+    "extra": ""
   },
-  "Йован (Точка невозврата)": {
+  "Йован": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 424
+    "extra": ""
   },
-  "Квинт (Точка невозврата)": {
+  "Квинт": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 425
+    "extra": ""
   },
-  "Кристель (Точка невозврата)": {
+  "Кристель": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 426
+    "extra": ""
   },
-  "Мелина (Точка невозврата)": {
+  "Мелина": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 427
+    "extra": ""
   },
-  "Милош (Точка невозврата)": {
+  "Милош": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 428
+    "extra": ""
   },
-  "Надия (Точка невозврата)": {
+  "Надия": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 429
+    "extra": ""
   },
-  "Оракул (Точка невозврата)": {
+  "Оракул": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 430
+    "extra": ""
   },
-  "Славко (Точка невозврата)": {
+  "Славко": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 431
+    "extra": ""
   },
-  "София (Точка невозврата)": {
+  "София": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 432
+    "extra": ""
   },
-  "Элизабет (Точка невозврата)": {
+  "Элизабет": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 433
+    "extra": ""
   },
-  "Дасти (Точка невозврата)": {
+  "Дасти": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 434
+    "extra": ""
   },
-  "Дот (Точка невозврата)": {
+  "Дот": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 435
+    "extra": ""
   },
-  "Корнетт Уинг (Точка невозврата)": {
+  "Корнетт Уинг": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 436
+    "extra": ""
   },
-  "Луиза Де Саль (Точка невозврата)": {
+  "Луиза Де Саль": {
     "status": "занята",
     "owner_id": 7407997675,
     "username": "Tweili_Lin",
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 437
+    "extra": ""
   },
-  "Марвин (Точка невозврата)": {
+  "Марвин": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 438
+    "extra": ""
   },
-  "Порко Пикколо (Точка невозврата)": {
+  "Порко Пикколо": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Точка невозврата",
-    "extra": "",
-    "id": 439
+    "extra": ""
   },
-  "Абди (Тринадцать огней)": {
+  "Абди": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 440
+    "extra": ""
   },
-  "Бурис (Тринадцать огней)": {
+  "Бурис": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 441
+    "extra": ""
   },
-  "Дана (Тринадцать огней)": {
+  "Дана": {
     "status": "занята",
     "owner_id": 5779530670,
     "username": "Kiryau_love",
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 442
+    "extra": ""
   },
-  "Джамиль (Тринадцать огней)": {
+  "Джамиль": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 443
+    "extra": ""
   },
-  "Зариф (Тринадцать огней)": {
+  "Зариф": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 444
+    "extra": ""
   },
-  "Салик (Тринадцать огней)": {
+  "Салик": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 445
+    "extra": ""
   },
-  "Скульптор (Тринадцать огней)": {
+  "Скульптор": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 446
+    "extra": ""
   },
-  "Синдбад (Тринадцать огней)": {
+  "Синдбад": {
     "status": "занята",
     "owner_id": 7541065884,
     "username": "cherryi_99",
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 447
+    "extra": ""
   },
-  "Халима (Тринадцать огней)": {
+  "Халима": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 448
+    "extra": ""
   },
-  "Хануф (Тринадцать огней)": {
+  "Хануф": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 449
+    "extra": ""
   },
-  "Алькафир (Тринадцать огней)": {
+  "Алькафир": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 450
+    "extra": ""
   },
-  "Альмухариб (Тринадцать огней)": {
+  "Альмухариб": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 451
+    "extra": ""
   },
-  "Асил (Тринадцать огней)": {
+  "Асил": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 452
+    "extra": ""
   },
-  "Барути (Тринадцать огней)": {
+  "Барути": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 453
+    "extra": ""
   },
-  "Врач (Тринадцать огней)": {
+  "Врач": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 454
+    "extra": ""
   },
-  "Вилли (Тринадцать огней)": {
+  "Вилли": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 455
+    "extra": ""
   },
-  "Жрица Селиасэт (Тринадцать огней)": {
+  "Жрица Селиасэт": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 456
+    "extra": ""
   },
-  "Зафир (Тринадцать огней)": {
+  "Зафир": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 457
+    "extra": ""
   },
-  "Идрис (Тринадцать огней)": {
+  "Идрис": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 458
+    "extra": ""
   },
-  "Инад (Тринадцать огней)": {
+  "Инад": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 459
+    "extra": ""
   },
-  "Исмайл (Тринадцать огней)": {
+  "Исмайл": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 460
+    "extra": ""
   },
-  "Красавица (Тринадцать огней)": {
+  "Красавица": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 461
+    "extra": ""
   },
-  "Лейла (Тринадцать огней)": {
+  "Лейла": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 462
+    "extra": ""
   },
-  "Мо-мо (Тринадцать огней)": {
+  "Мо-мо": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 463
+    "extra": ""
   },
-  "Мумин (Тринадцать огней)": {
+  "Мумин": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 464
+    "extra": ""
   },
-  "Низам (Тринадцать огней)": {
+  "Низам": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 465
+    "extra": ""
   },
-  "Нинель (Тринадцать огней)": {
+  "Нинель": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 466
+    "extra": ""
   },
-  "Расул (Тринадцать огней)": {
+  "Расул": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 467
+    "extra": ""
   },
-  "Салман Муджалид (Тринадцать огней)": {
+  "Салман Муджалид": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 468
+    "extra": ""
   },
-  "Старушка (Тринадцать огней)": {
+  "Старушка": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 469
+    "extra": ""
   },
-  "Сэт (Тринадцать огней)": {
+  "Сэт": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 470
+    "extra": ""
   },
-  "Тигра (Тринадцать огней)": {
+  "Тигра": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 471
+    "extra": ""
   },
-  "Фарах (Тринадцать огней)": {
+  "Фарах": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 472
+    "extra": ""
   },
-  "Франческо (Тринадцать огней)": {
+  "Франческо": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 473
+    "extra": ""
   },
-  "Мади (Тринадцать огней)": {
+  "Мади": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 474
+    "extra": ""
   },
-  "Махир (Тринадцать огней)": {
+  "Махир": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 475
+    "extra": ""
   },
-  "Мусфира (Тринадцать огней)": {
+  "Мусфира": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 476
+    "extra": ""
   },
-  "Окет (Тринадцать огней)": {
+  "Окет": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 477
+    "extra": ""
   },
-  "Кнефмтити (Тринадцать огней)": {
+  "Кнефмтити": {
     "status": "занята",
     "owner_id": 5172880884,
     "username": "zipkases",
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 478
+    "extra": ""
   },
-  "Монту (Тринадцать огней)": {
+  "Монту": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 479
+    "extra": ""
   },
-  "Ронас (Тринадцать огней)": {
+  "Ронас": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 480
+    "extra": ""
   },
-  "Селиасэт (Тринадцать огней)": {
+  "Селиасэт": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 481
+    "extra": ""
   },
-  "Хэтинтэп (Тринадцать огней)": {
+  "Хэтинтэп": {
     "status": "свободна",
     "owner_id": null,
     "username": null,
     "season": "Тринадцать огней",
-    "extra": "",
-    "id": 482
-  },
-  "Бобби (Идеальный мир)": {
-    "status": "свободна",
-    "owner_id": null,
-    "username": null,
-    "season": "Идеальный мир",
-    "extra": "",
-    "id": 483
-  },
-  "Сильвестр (Игра бога)": {
-    "status": "свободна",
-    "owner_id": null,
-    "username": null,
-    "season": "Игра бога",
-    "extra": "",
-    "id": 484
-  },
-  "Чарли (Голос времени)": {
-    "status": "свободна",
-    "owner_id": null,
-    "username": null,
-    "season": "Голос времени",
-    "extra": "",
-    "id": 485
-  },
-  "Адольф (Последняя реальность)": {
-    "status": "свободна",
-    "owner_id": null,
-    "username": null,
-    "season": "Последняя реальность",
-    "extra": "",
-    "id": 486
-  },
-  "Карл (Новое поколение)": {
-    "status": "свободна",
-    "owner_id": null,
-    "username": null,
-    "season": "Новое поколение",
-    "extra": "",
-    "id": 487
-  },
-  "Джон (Голос времени)": {
-    "status": "свободна",
-    "owner_id": null,
-    "username": null,
-    "season": "Голос времени",
-    "extra": "",
-    "id": 488
-  },
-  "Элиза (Голос времени)": {
-    "status": "свободна",
-    "owner_id": null,
-    "username": null,
-    "season": "Голос времени",
-    "extra": "",
-    "id": 489
-  },
-  "Циклоп (Мастерская 47)": {
-    "status": "свободна",
-    "owner_id": null,
-    "username": null,
-    "season": "Мастерская 47",
-    "extra": "",
-    "id": 490
-  },
-  "Груша (Последняя реальность)": {
-    "id": 491,
-    "status": "свободна",
-    "owner_id": null,
-    "username": null,
-    "season": "Последняя реальность",
     "extra": ""
   }
 }

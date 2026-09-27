@@ -1,40 +1,4 @@
 {
-  "1": {
-    "user_id": 8076284478,
-    "username": "Sedrik_loez",
-    "full_name": "Chedrik SSL",
-    "season": "Межсезонные персонажи",
-    "role": "Сдерик",
-    "position": "admin",
-    "position_name": "Администратор",
-    "status": "approved",
-    "created_at": "2026-09-13T20:35:20.983691",
-    "updated_at": "2026-09-13T20:36:51.504964"
-  },
-  "2": {
-    "user_id": 8076284478,
-    "username": "Sedrik_loez",
-    "full_name": "Chedrik SSL",
-    "season": "Межсезонные персонажи",
-    "role": "Сдерик",
-    "position": "admin",
-    "position_name": "Администратор",
-    "status": "approved",
-    "created_at": "2026-09-14T21:55:45.268164",
-    "updated_at": "2026-09-14T21:55:55.446096"
-  },
-  "3": {
-    "user_id": 8076284478,
-    "username": "Sedrik_loez",
-    "full_name": "Chedrik SSL",
-    "season": "Межсезонные персонажи",
-    "role": "Сдерик",
-    "position": "admin",
-    "position_name": "Администратор",
-    "status": "approved",
-    "created_at": "2026-09-15T07:05:30.445849",
-    "updated_at": "2026-09-15T07:05:40.011041"
-  },
   "4": {
     "user_id": 7407997675,
     "username": "Tweili_Lin",
@@ -83,30 +47,6 @@
     "created_at": "2026-09-16T22:14:45.065236",
     "updated_at": "2026-09-16T22:20:46.553278"
   },
-  "8": {
-    "user_id": 8076284478,
-    "username": "Sedrik_loez",
-    "full_name": "Chedrik SSL",
-    "season": "Межсезонные персонажи",
-    "role": "Сдерик",
-    "position": "admin",
-    "position_name": "Администратор",
-    "status": "approved",
-    "created_at": "2026-09-16T22:19:30.088467",
-    "updated_at": "2026-09-16T22:21:15.295616"
-  },
-  "9": {
-    "user_id": 8076284478,
-    "username": "Sedrik_loez",
-    "full_name": "Chedrik SSL",
-    "season": "Межсезонные персонажи",
-    "role": "Окетра",
-    "position": "admin",
-    "position_name": "Администратор",
-    "status": "approved",
-    "created_at": "2026-09-17T10:35:46.182202",
-    "updated_at": "2026-09-17T10:36:43.557339"
-  },
   "10": {
     "user_id": 5365691888,
     "username": "ZKEng3",
@@ -118,18 +58,6 @@
     "status": "approved",
     "created_at": "2026-09-18T17:44:58.434009",
     "updated_at": "2026-09-18T17:45:37.668187"
-  },
-  "11": {
-    "user_id": 8076284478,
-    "username": "Sedrik_loez",
-    "full_name": "Chedrik SSL",
-    "season": "Межсезонные персонажи",
-    "role": "Сдерик",
-    "position": "admin",
-    "position_name": "Администратор",
-    "status": "approved",
-    "created_at": "2026-09-19T16:12:30.400202",
-    "updated_at": "2026-09-19T16:12:47.900610"
   },
   "12": {
     "user_id": 7541065884,
