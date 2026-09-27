@@ -17,14 +17,14 @@ def load_roles_status() -> dict:
         if not os.path.exists(status_file):
             logger.error(f"Файл {status_file} не найден")
             return {}
-        
+
         with open(status_file, 'r', encoding='utf-8') as f:
             data = json.load(f)
-        
+
         if not isinstance(data, dict):
             logger.error(f"roles_status.json имеет неверный формат: ожидался dict, получен {type(data).__name__}")
             return {}
-        
+
         return data
     except Exception as e:
         logger.error(f"Ошибка загрузки roles_status.json: {e}")
@@ -127,14 +127,14 @@ def update_role_status(role_name: str, season: str, status: str) -> bool:
         if role_name not in data:
             logger.warning(f"Роль {role_name} не найдена в roles_status.json")
             return False
-        
+
         if season and data[role_name].get('season') != season:
             logger.warning(f"Роль {role_name} не принадлежит сезону {season}")
             return False
-        
+
         old_status = data[role_name].get('status', 'unknown')
         data[role_name]['status'] = status
-        
+
         if save_roles_status(data):
             logger.info(f"✅ Статус роли {role_name}: {old_status} -> {status}")
             return True
@@ -150,11 +150,11 @@ def free_role(role_name: str, season: str = None) -> bool:
         if role_name not in data:
             logger.warning(f"Роль {role_name} не найдена")
             return False
-        
+
         data[role_name]['status'] = 'свободна'
         data[role_name]['owner_id'] = None
         data[role_name]['username'] = None
-        
+
         if save_roles_status(data):
             logger.info(f"✅ Роль {role_name} освобождена")
             return True
@@ -162,6 +162,83 @@ def free_role(role_name: str, season: str = None) -> bool:
     except Exception as e:
         logger.error(f"Ошибка освобождения роли {role_name}: {e}")
         return False
+
+# ======================== ПОИСК РОЛЕЙ (НОВОЕ) ========================
+
+def find_roles(query: str) -> list:
+    """
+    Ищет роли по:
+    - названию роли (частичное совпадение, регистр не важен)
+    - username владельца (частичное, регистр не важен)
+    - ID владельца (точное)
+    - full_name владельца (частичное, регистр не важен)
+
+    Возвращает список словарей:
+    [
+        {
+            'name': 'Ашра',
+            'season': 'Голос времени',
+            'status': 'занята',
+            'owner_id': 123456789,
+            'username': 'user',
+            'full_name': 'Иван Иванов'  # из users.json если найден
+        },
+        ...
+    ]
+    """
+    from utils.user_utils import get_user_by_id
+
+    data = load_roles_status()
+    if not query or not query.strip():
+        return []
+
+    q = query.strip().lower().lstrip('@')
+    results = []
+
+    for role_name, role_info in data.items():
+        if not isinstance(role_info, dict):
+            continue
+
+        role_name_lower = role_name.lower()
+        owner_id = role_info.get('owner_id')
+        username = (role_info.get('username') or '').lower().lstrip('@')
+
+        # Проверяем совпадения
+        match = False
+
+        # 1. По названию роли
+        if q in role_name_lower:
+            match = True
+
+        # 2. По username владельца
+        if username and q in username:
+            match = True
+
+        # 3. По ID владельца (точное, если запрос — число)
+        if q.isdigit() and owner_id and int(q) == int(owner_id):
+            match = True
+
+        # 4. По full_name владельца (из users.json)
+        full_name = ''
+        if owner_id:
+            user_data = get_user_by_id(int(owner_id))
+            if user_data:
+                full_name = user_data.get('full_name', '')
+                if q in full_name.lower():
+                    match = True
+
+        if match:
+            results.append({
+                'name': role_name,
+                'season': role_info.get('season', '?'),
+                'status': role_info.get('status', '?'),
+                'owner_id': owner_id,
+                'username': role_info.get('username', ''),
+                'full_name': full_name,
+            })
+
+    logger.info(f"🔍 find_roles('{query}') → найдено {len(results)}")
+    return results
 
 # ======================== ПОЛЬЗОВАТЕЛИ И РОЛИ ========================
 
@@ -225,7 +302,7 @@ def get_season_stats(season: str) -> dict:
         total = len(roles)
         free = sum(1 for r in roles if r.get('status') == 'свободна')
         occupied = sum(1 for r in roles if r.get('status') == 'занята')
-        
+
         return {
             'season': season,
             'total': total,
@@ -268,7 +345,7 @@ def get_system_settings() -> dict:
             with open(settings_file, 'w', encoding='utf-8') as f:
                 json.dump(default, f, ensure_ascii=False, indent=2)
             return default
-        
+
         with open(settings_file, 'r', encoding='utf-8') as f:
             return json.load(f)
     except Exception as e:

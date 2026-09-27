@@ -5,12 +5,11 @@
 # Во флуд-чате (GENERAL_CHAT_ID) РАЗРЕШЕНЫ ТОЛЬКО:
 # - /members (только количество)
 # - /roles (только список, БЕЗ КНОПОК)
-# - /call, /callfal (для админов)
+# - /call, /callfal, /callstaff (для админов)
 # - /hide, /menu (управление клавиатурой)
 # - /stats (только админам, краткая версия)
 # 
 # ВСЕ ОСТАЛЬНЫЕ КОМАНДЫ — ЗАПРЕЩЕНЫ!
-# Они должны отвечать: "⛔ Эта команда недоступна во флуд-чате."
 # ============================================================
 
 import html
@@ -45,7 +44,7 @@ ROLE_NAMES = {
 
 
 # ============================================================
-# ⛔ КОМАНДЫ, ЗАПРЕЩЁННЫЕ ВО ФЛУДЕ
+# 🆕 /start
 # ============================================================
 
 @router.message(Command('start'))
@@ -84,8 +83,13 @@ async def cmd_start(message: Message):
     await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
 
 
+# ============================================================
+# 📚 /help — ИНТЕРАКТИВНЫЙ
+# ============================================================
+
 @router.message(Command('help'))
 async def cmd_help(message: Message):
+    """Главное меню /help с группами"""
     user_id = message.from_user.id if message.from_user else None
     if user_id is None:
         await message.answer("❌ Не удалось определить пользователя.")
@@ -93,70 +97,220 @@ async def cmd_help(message: Message):
 
     if message.chat.id == GENERAL_CHAT_ID:
         await message.answer("⛔ Эта команда недоступна во флуд-чате.")
-        logger.info(f"⛔ Команда /help заблокирована во флуде от {user_id}")
         return
 
     is_admin_user = is_admin(user_id)
+    rank = get_admin_rank(user_id)
+    user_data = get_user_by_id(user_id)
+    is_registered = user_data is not None
 
-    help_text = (
-        "📚 <b>Доступные команды</b>\n\n"
-        "👤 <b>Для всех:</b>\n"
-        "/start – приветствие (ТОЛЬКО В ЛС)\n"
-        "/help – эта справка (ТОЛЬКО В ЛС)\n"
-        "/about – информация о флуд-чате (ТОЛЬКО В ЛС)\n"
-        "/aboutme – ваши данные (ТОЛЬКО В ЛС)\n"
-        "/members – список участников (во флуде — только количество)\n"
-        "/roles – список ролей (во флуде — БЕЗ КНОПОК)\n"
-        "/apply – подать заявку (ТОЛЬКО В ЛС)\n"
-        "/free – освободить роль (ТОЛЬКО В ЛС)\n"
-        "/cancel_request – отменить заявку (ТОЛЬКО В ЛС)\n"
-        "/unregc – отписаться от калов (ТОЛЬКО В ЛС)\n"
-        "/regc – подписаться на калы (ТОЛЬКО В ЛС)\n"
-        "/rest – подать заявку на рест (ТОЛЬКО В ЛС)\n"
-        "/update – обновить данные (ТОЛЬКО В ЛС)\n"
-        "/hide – скрыть клавиатуру\n"
-        "/menu – показать клавиатуру\n"
-    )
+    # Если НЕ зарегистрирован — показываем только базовые
+    if not is_registered:
+        buttons = [
+            [InlineKeyboardButton(text="👤 Основное", callback_data="help_group_main")]
+        ]
+        text = (
+            "📚 <b>Справка</b>\n\n"
+            "⚠️ Вы ещё не зарегистрированы в системе.\n"
+            "Чтобы получить доступ ко всем командам — подайте заявку через /apply.\n\n"
+            "Нажмите на группу чтобы посмотреть команды:"
+        )
+        await message.answer(text, parse_mode="HTML", reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons))
+        return
+
+    # Зарегистрирован — показываем группы
+    buttons = [
+        [InlineKeyboardButton(text="👤 Для всех", callback_data="help_group_main")],
+        [InlineKeyboardButton(text="📝 Заявки", callback_data="help_group_apply")],
+        [InlineKeyboardButton(text="⏳ Ресты", callback_data="help_group_rest")],
+        [InlineKeyboardButton(text="📢 Калы", callback_data="help_group_calls")],
+    ]
 
     if is_admin_user:
-        help_text += (
-            "\n🔐 <b>Административные команды:</b>\n"
-            "/admins – список администраторов\n"
-            "/users – список участников\n"
-            "/adduser – добавить участника\n"
-            "/removeuser – удалить участника\n"
-            "/resetuser – сбросить пользователя\n"
-            "/refresh – обновить список участников\n"
-            "/find – найти пользователя\n"
-            "/finduser – найти по юзернейму\n"
-            "/broadcast – рассылка\n"
-            "/call – сделать кал (ДОСТУПНА ВО ФЛУДЕ)\n"
-            "/callfal – непропускаемый кал (ДОСТУПНА ВО ФЛУДЕ)\n"
-            "/check_chats – диагностика\n"
-            "/diag – диагностика (владелец)\n\n"
-            "📝 <b>Заявки:</b>\n"
-            "/requests – список заявок\n"
-            "/approve – одобрить\n"
-            "/reject – отклонить\n\n"
-            "📋 <b>Списки:</b>\n"
-            "/roster – полный список\n"
-            "/stats – статистика (роли, участники, админы, прокси)\n"
-            "/restlist – активные ресты\n\n"
-            "⏳ <b>Рест:</b>\n"
-            "/unrest – снять рест\n"
-            "/restextend – продлить рест\n\n"
-            "👑 <b>Владелец:</b>\n"
-            "/setrank – назначить ранг\n"
-            "/close /open – закрыть/открыть набор\n"
-        )
-    else:
-        help_text += (
-            "\n💬 <b>Связь с администрацией:</b>\n"
-            "Если у вас есть вопросы – напишите <b>@Sedrikai_bot</b>"
-        )
+        buttons.append([InlineKeyboardButton(text="🔐 Административные", callback_data="help_group_admin")])
 
-    await message.answer(help_text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
+    if rank == 1:
+        buttons.append([InlineKeyboardButton(text="👑 Владелец", callback_data="help_group_owner")])
 
+    text = (
+        "📚 <b>Справка</b>\n\n"
+        "Нажмите на группу чтобы посмотреть команды.\n\n"
+        f"⭐ Ваш ранг: <b>{'Владелец' if rank == 1 else 'Админ' if rank == 2 else 'Модератор' if rank == 3 else 'Участник'}</b>"
+    )
+
+    await message.answer(text, parse_mode="HTML", reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons))
+
+
+# ============================================================
+# 📚 /help — ОБРАБОТЧИКИ ГРУПП
+# ============================================================
+
+HELP_GROUPS = {
+    "main": {
+        "title": "👤 Для всех",
+        "text": (
+            "👤 <b>Основные команды</b>\n\n"
+            "/start — приветствие\n"
+            "/help — эта справка\n"
+            "/about — информация о флуд-чате\n"
+            "/aboutme — ваши данные\n"
+            "/members — список участников\n"
+            "/roles — список ролей\n"
+            "/update — проверить статус регистрации\n"
+            "/setbirthday — установить дату рождения\n"
+            "/hide — скрыть клавиатуру\n"
+            "/menu — показать клавиатуру"
+        )
+    },
+    "apply": {
+        "title": "📝 Заявки",
+        "text": (
+            "📝 <b>Заявки и роли</b>\n\n"
+            "/apply — подать заявку на роль\n"
+            "/free — освободить свою роль\n"
+            "/cancel_request — отменить заявку\n\n"
+            "📌 Для админов:\n"
+            "/requests — список заявок\n"
+            "/approve [ID] — одобрить\n"
+            "/reject [ID] — отклонить"
+        )
+    },
+    "rest": {
+        "title": "⏳ Ресты",
+        "text": (
+            "⏳ <b>Ресты</b>\n\n"
+            "/rest — подать заявку на рест\n\n"
+            "📌 Для админов:\n"
+            "/restlist — список активных рестов\n"
+            "/unrest — снять рест\n"
+            "/restextend — продлить рест"
+        )
+    },
+    "calls": {
+        "title": "📢 Калы",
+        "text": (
+            "📢 <b>Калы</b>\n\n"
+            "/regc — подписаться на калы\n"
+            "/unregc — отписаться от калов\n\n"
+            "📌 Для админов:\n"
+            "/call — обычный кал\n"
+            "/callfal — непропускаемый кал\n"
+            "/callstaff — кал только для администрации"
+        )
+    },
+    "admin": {
+        "title": "🔐 Административные",
+        "text": (
+            "🔐 <b>Административные команды</b>\n\n"
+            "/admins — список администраторов\n"
+            "/users — полный список участников\n"
+            "/adduser [ID] — добавить участника\n"
+            "/removeuser [ID] — удалить участника\n"
+            "/resetuser [ID] — сбросить пользователя\n"
+            "/refresh — обновить список\n"
+            "/find [ID] — найти по ID\n"
+            "/finduser [@username] — найти по юзернейму\n"
+            "/findrole [запрос] — найти роль\n"
+            "/userstats [ID] — статистика пользователя\n"
+            "/stats — статистика бота\n"
+            "/check_chats — диагностика чатов"
+        )
+    },
+    "owner": {
+        "title": "👑 Владелец",
+        "text": (
+            "👑 <b>Команды владельца</b>\n\n"
+            "/settings — меню настроек\n"
+            "/diag — полная диагностика\n"
+            "/setrank [ID] [ранг] — назначить ранг\n"
+            "/close — закрыть набор\n"
+            "/open — открыть набор\n"
+            "/message_all — рассылка всем юзерам"
+        )
+    },
+}
+
+
+@router.callback_query(F.data.startswith("help_group_"))
+async def help_group_callback(callback: CallbackQuery):
+    """Показ команды группы"""
+    await callback.answer()
+
+    if callback.message.chat.id == GENERAL_CHAT_ID:
+        await callback.answer("⛔ Во флуд-чате недоступно.", show_alert=True)
+        return
+
+    group_key = callback.data.replace("help_group_", "")
+    group = HELP_GROUPS.get(group_key)
+
+    if not group:
+        await callback.answer("❌ Группа не найдена.", show_alert=True)
+        return
+
+    buttons = [
+        [InlineKeyboardButton(text="🔙 Назад", callback_data="help_back")]
+    ]
+
+    await callback.message.edit_text(
+        group["text"],
+        parse_mode="HTML",
+        reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
+    )
+
+
+@router.callback_query(F.data == "help_back")
+async def help_back_callback(callback: CallbackQuery):
+    """Возврат в главное меню /help"""
+    await callback.answer()
+
+    if callback.message.chat.id == GENERAL_CHAT_ID:
+        await callback.answer("⛔ Недоступно.", show_alert=True)
+        return
+
+    user_id = callback.from_user.id
+    is_admin_user = is_admin(user_id)
+    rank = get_admin_rank(user_id)
+    user_data = get_user_by_id(user_id)
+    is_registered = user_data is not None
+
+    if not is_registered:
+        buttons = [
+            [InlineKeyboardButton(text="👤 Основное", callback_data="help_group_main")]
+        ]
+        text = (
+            "📚 <b>Справка</b>\n\n"
+            "⚠️ Вы ещё не зарегистрированы в системе.\n"
+            "Чтобы получить доступ ко всем командам — подайте заявку через /apply.\n\n"
+            "Нажмите на группу чтобы посмотреть команды:"
+        )
+        await callback.message.edit_text(text, parse_mode="HTML", reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons))
+        return
+
+    buttons = [
+        [InlineKeyboardButton(text="👤 Для всех", callback_data="help_group_main")],
+        [InlineKeyboardButton(text="📝 Заявки", callback_data="help_group_apply")],
+        [InlineKeyboardButton(text="⏳ Ресты", callback_data="help_group_rest")],
+        [InlineKeyboardButton(text="📢 Калы", callback_data="help_group_calls")],
+    ]
+
+    if is_admin_user:
+        buttons.append([InlineKeyboardButton(text="🔐 Административные", callback_data="help_group_admin")])
+
+    if rank == 1:
+        buttons.append([InlineKeyboardButton(text="👑 Владелец", callback_data="help_group_owner")])
+
+    text = (
+        "📚 <b>Справка</b>\n\n"
+        "Нажмите на группу чтобы посмотреть команды.\n\n"
+        f"⭐ Ваш ранг: <b>{'Владелец' if rank == 1 else 'Админ' if rank == 2 else 'Модератор' if rank == 3 else 'Участник'}</b>"
+    )
+
+    await callback.message.edit_text(text, parse_mode="HTML", reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons))
+
+
+# ============================================================
+# 📖 /about
+# ============================================================
 
 @router.message(Command('about'))
 async def cmd_about(message: Message):
@@ -187,6 +341,10 @@ async def cmd_about(message: Message):
 
     await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id), disable_web_page_preview=False)
 
+
+# ============================================================
+# 📖 /aboutme
+# ============================================================
 
 @router.message(Command('aboutme'))
 async def cmd_aboutme(message: Message):
@@ -231,6 +389,10 @@ async def cmd_aboutme(message: Message):
     await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user.id, message.chat.id))
 
 
+# ============================================================
+# 📖 /update
+# ============================================================
+
 @router.message(Command('update'))
 async def cmd_update(message: Message):
     user = message.from_user
@@ -274,8 +436,6 @@ async def cmd_update(message: Message):
             f"И подайте заявку через команду /apply в личных сообщениях с ботом.",
             parse_mode="HTML"
         )
-
-
 
 
 # ============================================================
@@ -372,7 +532,6 @@ async def cmd_roles(message: Message):
         await message.answer("📭 Сезоны не найдены.")
         return
 
-    # ✅ ВО ФЛУДЕ — БЕЗ КНОПОК
     if message.chat.id == GENERAL_CHAT_ID:
         text = "📋 <b>Список ролей по сезонам</b>\n\n"
         for season in sorted(seasons):
@@ -397,7 +556,6 @@ async def cmd_roles(message: Message):
         await message.answer(text, parse_mode="HTML")
         return
 
-    # В ЛС — с кнопками
     buttons = []
     for season in sorted(seasons):
         roles = get_roles_by_season(season)
@@ -435,7 +593,6 @@ async def cmd_stats(message: Message):
         await message.answer("⛔ Доступ запрещён. Только для администраторов.")
         return
 
-    # ===== Роли =====
     seasons = get_all_seasons()
     roles_stats = {"свободна": 0, "занята": 0, "ожидает": 0, "рест": 0, "бронь": 0}
     total_roles = 0
@@ -447,16 +604,13 @@ async def cmd_stats(message: Message):
                 roles_stats[status] += 1
             total_roles += 1
 
-    # ===== Пользователи =====
     users = load_users()
     total_users = len(users)
     user_role_stats = get_role_stats()
 
-    # ===== Админы =====
     admins = load_admins()
     total_admins = len(admins)
 
-    # ===== Прокси =====
     try:
         from config import USE_PROXY
         from proxy_manager import proxy_manager
@@ -466,7 +620,6 @@ async def cmd_stats(message: Message):
         proxy_status = "⚠️ Ошибка"
         proxy_count = 0
 
-    # ===== Формируем отчёт =====
     if message.chat.id == GENERAL_CHAT_ID:
         text = (
             f"📊 <b>Статистика</b>\n\n"
@@ -479,7 +632,6 @@ async def cmd_stats(message: Message):
         await message.answer(text, parse_mode="HTML")
         return
 
-    # В ЛС — полный
     text = (
         f"📊 <b>Полная статистика</b>\n\n"
         f"━━━━━━━━━━━━━━━━━━━━━\n"
@@ -510,10 +662,8 @@ async def cmd_stats(message: Message):
     await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
 
 
-
-
 # ============================================================
-# INLINE CALLBACK
+# INLINE CALLBACK (роли)
 # ============================================================
 
 @router.callback_query(F.data == "back_to_menu_from_roles")

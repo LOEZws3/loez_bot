@@ -62243,3 +62243,79 @@ ImportError: cannot import name 'save_user_emoji' from 'utils.user_history' (C:\
 2026-09-27 09:50:48,004 - aiogram.event - INFO - Update id=352513275 is handled. Duration 20 ms by bot id=8888839728
 2026-09-27 09:50:53,269 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
 2026-09-27 09:50:53,270 - aiogram.event - INFO - Update id=352513276 is handled. Duration 19 ms by bot id=8888839728
+2026-09-27 10:12:37,338 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-27 10:12:37,339 - aiogram.event - INFO - Update id=352513277 is handled. Duration 10 ms by bot id=8888839728
+2026-09-27 10:16:15,906 - handlers.chat_member - INFO - ✅ Пользователь 6009359887 найден в users.json
+2026-09-27 10:16:15,918 - aiogram.event - INFO - Update id=352513278 is handled. Duration 29 ms by bot id=8888839728
+2026-09-27 10:16:18,263 - handlers.chat_member - INFO - ✅ Пользователь 6009359887 найден в users.json
+2026-09-27 10:16:18,274 - aiogram.event - INFO - Update id=352513279 is handled. Duration 30 ms by bot id=8888839728
+2026-09-27 10:16:43,487 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-27 10:16:43,491 - aiogram.event - INFO - Update id=352513280 is handled. Duration 18 ms by bot id=8888839728
+2026-09-27 10:16:57,486 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-27 10:16:57,489 - aiogram.event - INFO - Update id=352513281 is handled. Duration 31 ms by bot id=8888839728
+2026-09-27 10:17:45,249 - handlers.chat_member - INFO - ✅ Пользователь 6009359887 найден в users.json
+2026-09-27 10:17:45,251 - aiogram.event - INFO - Update id=352513282 is handled. Duration 14 ms by bot id=8888839728
+2026-09-27 10:18:06,938 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-27 10:18:06,948 - aiogram.event - INFO - Update id=352513283 is handled. Duration 21 ms by bot id=8888839728
+2026-09-27 10:19:54,893 - __main__ - INFO - ✅ Зарегистрировано 10 роутеров
+2026-09-27 10:19:54,894 - __main__ - INFO - ⭐ Приоритетный прокси: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754
+2026-09-27 10:19:54,913 - proxy_manager - INFO - ✅ Загружено 2237 прокси из good_proxies.txt
+2026-09-27 10:19:54,914 - proxy_manager - INFO - 🔄 Кэш устарел (>1200с), обновляем...
+2026-09-27 10:19:54,914 - proxy_manager - INFO - ⭐ Проверяю приоритетный прокси: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754
+2026-09-27 10:19:55,441 - proxy_manager - INFO - ✅ Приоритетный прокси работает: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754 (ср. пинг: 0.523с)
+2026-09-27 10:19:55,446 - proxy_manager - INFO - 💾 Кэш пингов сохранён (1 прокси)
+2026-09-27 10:19:55,447 - proxy_manager - INFO - 🏆 Выбран: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754 (0.523с)
+2026-09-27 10:19:55,448 - __main__ - INFO - 🌐 Используется прокси: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754 (пинг: 0.523с)
+2026-09-27 10:19:57,151 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-27 10:19:57,166 - database - INFO - ✅ Таблицы БД созданы
+2026-09-27 10:19:57,167 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-27 10:19:57,167 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-27 10:19:57,574 - __main__ - INFO - 📋 Команды бота установлены
+2026-09-27 10:19:57,574 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-27 10:19:57,576 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-27 10:19:57,578 - aiogram.dispatcher - INFO - Start polling
+2026-09-27 10:19:57,692 - aiogram.dispatcher - INFO - Run polling for bot @REG_sf_BOT id=8888839728 - 'REG_ℿλɑɱᴙ Иɕκ℘℩_flood'
+2026-09-27 10:19:57,892 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-27 10:19:57,892 - aiogram.event - INFO - Update id=352513285 is handled. Duration 15 ms by bot id=8888839728
+2026-09-27 10:19:57,897 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-27 10:19:57,899 - aiogram.event - INFO - Update id=352513284 is handled. Duration 95 ms by bot id=8888839728
+2026-09-27 10:20:35,223 - utils.role_utils - INFO - 🔍 find_roles('амарин') → найдено 1
+2026-09-27 10:20:35,719 - aiogram.event - INFO - Update id=352513286 is handled. Duration 564 ms by bot id=8888839728
+2026-09-27 10:20:39,790 - aiogram.event - INFO - Update id=352513287 is handled. Duration 471 ms by bot id=8888839728
+2026-09-27 10:21:13,600 - aiogram.event - INFO - Update id=352513288 is handled. Duration 279 ms by bot id=8888839728
+2026-09-27 10:21:29,998 - aiogram.event - INFO - Update id=352513289 is handled. Duration 266 ms by bot id=8888839728
+2026-09-27 10:22:08,312 - utils.role_utils - INFO - 🔍 find_roles('https://t.me/oopppssiee') → найдено 0
+2026-09-27 10:22:08,495 - aiogram.event - INFO - Update id=352513290 is handled. Duration 227 ms by bot id=8888839728
+2026-09-27 10:22:44,152 - utils.role_utils - INFO - 🔍 find_roles('@oopppssiee') → найдено 1
+2026-09-27 10:22:44,290 - aiogram.event - INFO - Update id=352513291 is handled. Duration 163 ms by bot id=8888839728
+2026-09-27 10:22:49,506 - aiogram.event - INFO - Update id=352513292 is handled. Duration 305 ms by bot id=8888839728
+2026-09-27 10:23:03,892 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-27 10:23:03,892 - aiogram.event - INFO - Update id=352513293 is handled. Duration 9 ms by bot id=8888839728
+2026-09-27 10:23:07,260 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-27 10:23:07,261 - aiogram.event - INFO - Update id=352513294 is handled. Duration 10 ms by bot id=8888839728
+2026-09-27 10:23:11,894 - aiogram.event - INFO - Update id=352513295 is handled. Duration 236 ms by bot id=8888839728
+2026-09-27 10:30:50,353 - __main__ - INFO - ✅ Зарегистрировано 10 роутеров
+2026-09-27 10:30:50,353 - __main__ - INFO - ⭐ Приоритетный прокси: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754
+2026-09-27 10:30:50,357 - proxy_manager - INFO - ✅ Загружено 2237 прокси из good_proxies.txt
+2026-09-27 10:30:50,373 - proxy_manager - INFO - ✅ Загружено 1 прокси из кэша (TTL 1200с)
+2026-09-27 10:30:50,373 - proxy_manager - INFO - 🏆 Выбран: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754 (0.523с)
+2026-09-27 10:30:50,373 - __main__ - INFO - 🌐 Используется прокси: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754 (пинг: 0.523с)
+2026-09-27 10:30:51,084 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-27 10:30:51,090 - database - INFO - ✅ Таблицы БД созданы
+2026-09-27 10:30:51,091 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-27 10:30:51,092 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-27 10:30:51,543 - __main__ - INFO - 📋 Команды бота установлены
+2026-09-27 10:30:51,544 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-27 10:30:51,545 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-27 10:30:51,546 - aiogram.dispatcher - INFO - Start polling
+2026-09-27 10:30:51,656 - aiogram.dispatcher - INFO - Run polling for bot @REG_sf_BOT id=8888839728 - 'REG_ℿλɑɱᴙ Иɕκ℘℩_flood'
+2026-09-27 10:31:12,131 - aiogram.event - INFO - Update id=352513296 is handled. Duration 850 ms by bot id=8888839728
+2026-09-27 10:31:39,305 - handlers.keyboards - INFO - 🔄 [КНОПКА] Помощь от 8076284478
+2026-09-27 10:31:39,734 - handlers.keyboards - INFO - ✅ [КНОПКА] Помощь выполнена для 8076284478
+2026-09-27 10:31:39,735 - aiogram.event - INFO - Update id=352513297 is handled. Duration 435 ms by bot id=8888839728
+2026-09-27 10:31:48,183 - aiogram.event - INFO - Update id=352513298 is handled. Duration 265 ms by bot id=8888839728
+2026-09-27 10:31:54,715 - aiogram.event - INFO - Update id=352513299 is handled. Duration 277 ms by bot id=8888839728
+2026-09-27 10:31:56,381 - aiogram.event - INFO - Update id=352513300 is handled. Duration 248 ms by bot id=8888839728
+2026-09-27 10:32:05,588 - aiogram.event - INFO - Update id=352513301 is handled. Duration 236 ms by bot id=8888839728
+2026-09-27 10:32:08,498 - aiogram.event - INFO - Update id=352513302 is handled. Duration 231 ms by bot id=8888839728
+2026-09-27 10:32:13,272 - aiogram.event - INFO - Update id=352513303 is handled. Duration 158 ms by bot id=8888839728

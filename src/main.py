@@ -3,6 +3,7 @@ import io
 import asyncio
 import logging
 import os
+import datetime
 from aiogram import Bot, Dispatcher
 from aiogram.types import BotCommand
 from aiogram.client.session.aiohttp import AiohttpSession
@@ -24,38 +25,27 @@ class ProxySSLException(Exception):
     """Исключение для SSL-ошибок при работе через прокси"""
     pass
 
+
 # ═══════════════════════════════════════════════════════════════════
 # ⚠️  ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ О СИСТЕМЕ ПОДКЛЮЧЕНИЯ
 # ═══════════════════════════════════════════════════════════════════
-# 
+#
 #  Данная система подключения (AiohttpSession(proxy=proxy_url))
 #  является РАБОЧЕЙ и СТАБИЛЬНОЙ.
-# 
+#
 #  ЗАПРЕЩАЕТСЯ:
 #  1. Добавлять connector, ssl_context или другие параметры в AiohttpSession
 #  2. Использовать aiohttp.ClientSession для подмены сессии
 #  3. Менять способ создания сессии на любой другой
-# 
-#  Причина: все попытки "улучшить" подключение приводили к ошибкам:
-#  - BaseSession.__init__() got an unexpected keyword argument
-#  - SSL: CERTIFICATE_VERIFY_FAILED
-#  - ProxyConnectionError
-# 
-#  ЕСЛИ ВАМ КАЖЕТСЯ, ЧТО НУЖНО ЧТО-ТО ИЗМЕНИТЬ — 
-#  СНАЧАЛА ПРОВЕРЬТЕ РАБОТОСПОСОБНОСТЬ НА ТЕСТОВОМ БОТЕ!
-# 
-#  Рабочая версия: aiogram 3.17+, aiohttp 3.8.5
-#  Дата проверки: 13.09.2026
+#
+#  Рабочая версия: aiogram 3.17+
 # ═══════════════════════════════════════════════════════════════════
 
-# Исправление кодировки для Windows
 if sys.platform == 'win32':
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-# ✅ Гарантируем, что все папки существуют (включая data/logs)
 ensure_directories()
 
-# ✅ Настройка логирования с АБСОЛЮТНЫМ путём к data/logs/bot.log
 logging.basicConfig(
     level=getattr(logging, LOG_LEVEL.upper(), logging.INFO),
     format=LOG_FORMAT,
@@ -66,28 +56,19 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Глобальная переменная для бота
 bot = None
 RESTART_DELAY = 5
 
 
 async def create_bot_with_proxy() -> Bot:
-    """
-    Создаёт экземпляр бота с прокси.
-    
-    ⚠️ НЕ МЕНЯТЬ СПОСОБ ПОДКЛЮЧЕНИЯ!
-    Используется только AiohttpSession(proxy=proxy_url).
-    Любые другие варианты (connector, ssl_context, ClientSession) — ЗАПРЕЩЕНЫ!
-    """
     if not USE_PROXY:
         logger.info("ℹ️ Прокси отключены в настройках")
         return Bot(token=BOT_TOKEN)
-    
+
     from config import PRIORITY_PROXY
 
     proxy_manager.proxy_dir = PROXY_DIR
 
-    # ✅ Приоритетный прокси
     if PRIORITY_PROXY:
         proxy_manager.priority_proxy = PRIORITY_PROXY
         logger.info(f"⭐ Приоритетный прокси: {PRIORITY_PROXY}")
@@ -95,70 +76,62 @@ async def create_bot_with_proxy() -> Bot:
         logger.info("ℹ️ Приоритетный прокси не задан — пингование всех")
 
     count = proxy_manager.load_proxies()
-    
+
     if count == 0:
         logger.warning("⚠️ Нет доступных прокси, работаем без прокси")
         return Bot(token=BOT_TOKEN)
-    
+
     fastest_proxy = await proxy_manager.get_fastest_proxy()
-    
+
     if not fastest_proxy:
         logger.warning("⚠️ Не удалось найти рабочий прокси, работаем без прокси")
         return Bot(token=BOT_TOKEN)
-    
+
     proxy_url = proxy_manager.format_proxy(fastest_proxy)
     ping = proxy_manager.proxy_pings.get(fastest_proxy, 0)
     logger.info(f"🌐 Используется прокси: {proxy_url} (пинг: {ping:.3f}с)")
-    
-    # ✅ ЕДИНСТВЕННОЕ РАБОЧЕЕ ПОДКЛЮЧЕНИЕ — НЕ ТРОГАТЬ!
+
     session = AiohttpSession(proxy=proxy_url)
     return Bot(token=BOT_TOKEN, session=session)
 
 
 async def switch_to_next_proxy():
-    """
-    Переключается на следующий по пингу прокси.
-    
-    ⚠️ НЕ МЕНЯТЬ СПОСОБ ПОДКЛЮЧЕНИЯ!
-    """
     global bot
-    
+
     if not USE_PROXY:
         return False
-    
+
     current = proxy_manager.get_current_proxy()
     if current:
         proxy_manager.mark_proxy_used(current)
         proxy_manager.mark_proxy_bad(current)
         logger.info(f"❌ Прокси {current} помечен как нерабочий")
-    
+
     next_proxy = proxy_manager.get_next_fastest_proxy()
     if not next_proxy:
         logger.warning("⚠️ Нет доступных прокси, работаем без прокси")
         bot = Bot(token=BOT_TOKEN)
         return False
-    
+
     try:
         if bot and bot.session:
             await bot.session.close()
-        
+
         proxy_url = proxy_manager.format_proxy(next_proxy)
         ping = proxy_manager.proxy_pings.get(next_proxy, 0)
         logger.info(f"🔄 Переключение на прокси: {proxy_url} (пинг: {ping:.3f}с)")
-        
-        # ✅ ЕДИНСТВЕННОЕ РАБОЧЕЕ ПОДКЛЮЧЕНИЕ — НЕ ТРОГАТЬ!
+
         session = AiohttpSession(proxy=proxy_url)
         bot = Bot(token=BOT_TOKEN, session=session)
         logger.info(f"✅ Переключено на прокси: {next_proxy}")
         return True
-        
+
     except Exception as e:
         logger.error(f"❌ Ошибка переключения: {e}")
         return False
 
 
 async def set_bot_commands():
-    """Установка команд для меню бота"""
     commands = [
         BotCommand(command="start", description="Приветствие"),
         BotCommand(command="help", description="Справка"),
@@ -174,21 +147,21 @@ async def set_bot_commands():
         BotCommand(command="unregc", description="Отписаться от калов"),
         BotCommand(command="update", description="Обновить данные / зарегистрироваться"),
         BotCommand(command="userstats", description="Статистика пользователя (админ)"),
+        BotCommand(command="findrole", description="Поиск роли (админ)"),
     ]
     try:
         await bot.set_my_commands(commands)
         logger.info("📋 Команды бота установлены")
     except Exception as e:
         error_str = str(e).lower()
-        
-        # ✅ SSL-ОШИБКА — ВЫБРАСЫВАЕМ ИСКЛЮЧЕНИЕ ДЛЯ ПЕРЕЗАПУСКА
+
         is_ssl_error = (
             'ssl' in error_str or
             'certificate' in error_str or
             'certificate_verify_failed' in error_str or
             'clientoserror' in error_str
         )
-        
+
         if is_ssl_error:
             logger.warning(f"⚠️ SSL-ошибка при установке команд: {e}")
             raise ProxySSLException(f"SSL error: {e}")
@@ -199,35 +172,68 @@ async def set_bot_commands():
 
 
 async def check_rests_loop():
-    """Планировщик проверки рестов каждую минуту"""
+    """
+    Планировщик проверки рестов каждую минуту.
+    Читает roles_status.json (статус 'рест'), снимает истекшие.
+    """
     global bot
+
+    from utils.role_utils import load_roles_status, save_roles_status
+
     while True:
         try:
-            expired = await db.check_expired_rests()
-            for role in expired:
-                if role['owner_id'] and bot:
-                    try:
-                        await bot.send_message(
-                            role['owner_id'],
-                            f"🔔 Ваш рест для роли **{role['name']}** закончился! Теперь вы снова активны.",
-                            parse_mode="Markdown"
-                        )
-                        logger.info(f"✅ Уведомление о снятии реста отправлено пользователю {role['owner_id']}")
-                    except Exception as e:
-                        error_msg = str(e).lower()
-                        if "proxy" in error_msg or "connection" in error_msg or "timeout" in error_msg:
-                            logger.warning(f"⚠️ Ошибка прокси, переключаюсь...")
-                            await switch_to_next_proxy()
-                        else:
-                            logger.error(f"❌ Не удалось уведомить пользователя {role['owner_id']}: {e}")
+            today = datetime.date.today().isoformat()
+            roles = load_roles_status()
+            expired = []
+
+            for role_name, role_data in roles.items():
+                if not isinstance(role_data, dict):
+                    continue
+                if role_data.get('status') != 'рест':
+                    continue
+                extra = role_data.get('extra', '')
+                if not extra:
+                    continue
+                # extra = "YYYY-MM-DD"
+                if extra <= today:
+                    expired.append(role_name)
+
+            if expired:
+                status_data = load_roles_status()
+                for role_name in expired:
+                    status_data[role_name]['status'] = 'занята'
+                    status_data[role_name]['extra'] = ''
+                save_roles_status(status_data)
+                logger.info(f"🔔 Снято рестов: {len(expired)} — {', '.join(expired)}")
+
+                # Уведомляем владельцев
+                for role_name in expired:
+                    owner_id = status_data[role_name].get('owner_id')
+                    if owner_id and bot:
+                        try:
+                            await bot.send_message(
+                                owner_id,
+                                f"🔔 <b>Ваш рест закончился!</b>\n\n"
+                                f"🎭 Роль: <b>{role_name}</b>\n"
+                                f"Теперь вы снова активны.",
+                                parse_mode="HTML"
+                            )
+                            logger.info(f"✅ Уведомление о снятии реста отправлено {owner_id}")
+                        except Exception as e:
+                            error_msg = str(e).lower()
+                            if "proxy" in error_msg or "connection" in error_msg or "timeout" in error_msg:
+                                logger.warning(f"⚠️ Ошибка прокси, переключаюсь...")
+                                await switch_to_next_proxy()
+                            else:
+                                logger.error(f"❌ Не удалось уведомить {owner_id}: {e}")
+
         except Exception as e:
-            logger.error(f"❌ Ошибка в планировщике: {e}")
-        
+            logger.error(f"❌ Ошибка в планировщике рестов: {e}")
+
         await asyncio.sleep(60)
 
 
 async def run_bot():
-    """Запускает бота с текущим прокси"""
     global bot
 
     dp = Dispatcher()
@@ -247,16 +253,15 @@ async def run_bot():
                 logger.info("🔄 Начинаю поллинг...")
                 await dp.start_polling(bot, skip_updates=True)
             except ProxySSLException as ssl_error:
-                # ✅ ОБРАБОТКА SSL-ОШИБКИ — СБРОС КЭША + ПЕРЕКЛЮЧЕНИЕ ПРОКСИ
                 logger.error(f"❌ SSL-ошибка прокси: {ssl_error}")
                 logger.info("🗑️ Сбрасываю кэш прокси...")
-                
+
                 try:
                     from proxy_manager import clear_pings_cache
                     clear_pings_cache()
                 except Exception as cache_error:
                     logger.error(f"❌ Ошибка сброса кэша: {cache_error}")
-                
+
                 logger.info("🔄 Переключаюсь на следующий прокси...")
                 if await switch_to_next_proxy():
                     logger.info("🔄 Перезапускаю бота с новым прокси...")
@@ -283,16 +288,15 @@ async def run_bot():
             break
 
         except ProxySSLException as ssl_error:
-            # ✅ ОБРАБОТКА SSL-ОШИБКИ НА УРОВНЕ RUN_BOT (если выброшена из on_startup)
             logger.error(f"❌ SSL-ошибка: {ssl_error}")
             logger.info("🗑️ Сбрасываю кэш прокси...")
-            
+
             try:
                 from proxy_manager import clear_pings_cache
                 clear_pings_cache()
             except Exception as cache_error:
                 logger.error(f"❌ Ошибка сброса кэша: {cache_error}")
-            
+
             logger.info("🔄 Переключаюсь на следующий прокси...")
             if await switch_to_next_proxy():
                 logger.info("🔄 Перезапускаю бота...")
@@ -313,24 +317,22 @@ async def run_bot():
 
 
 async def on_startup():
-    """Действия при запуске бота"""
     logger.info("🚀 Запуск бота...")
-    
+
     await db.init()
     logger.info("✅ База данных инициализирована")
-    
+
     asyncio.create_task(check_rests_loop())
-    logger.info("🔄 Планировщик рестов запущен")
-    
+    logger.info("🔄 Планировщик рестов запущен (читает roles_status.json)")
+
     await set_bot_commands()
-    
+
     logger.info("✅ Бот успешно запущен!")
 
 
 async def main():
-    """Главная функция запуска бота"""
     global bot
-    
+
     try:
         await run_bot()
     except KeyboardInterrupt:

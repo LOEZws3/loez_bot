@@ -7,12 +7,15 @@ from aiogram.fsm.context import FSMContext
 import asyncio
 import time
 from config import GENERAL_CHAT_ID
-from utils.admin_utils import is_admin, is_owner, load_admins, save_admins, get_admin_rank, set_rank
+from utils.admin_utils import is_admin, is_owner, load_admins, save_admins, get_admin_rank, set_rank, add_admin
 from utils.user_utils import (
     load_users, add_user, remove_user, get_users_count,
     get_changes_count, reset_changes_count,
 )
-from utils.role_utils import free_role, get_user_role as get_user_role_from_roles
+from utils.role_utils import (
+    free_role, get_user_role as get_user_role_from_roles,
+    find_roles,
+)
 from utils.requests_utils import get_request_by_user_id
 from .keyboards import get_main_keyboard
 import logging
@@ -30,6 +33,221 @@ ROLE_NAMES = {
 }
 
 closed_mode = False
+
+# ============================================================
+# 🔍 ПОИСК ПО РОЛИ (/findrole)
+# ============================================================
+
+@router.message(Command('findrole'))
+async def cmd_findrole(message: Message):
+    """Поиск роли по названию, юзернейму, ID или имени владельца"""
+    user_id = message.from_user.id
+
+    if not is_admin(user_id):
+        await message.answer("⛔ Доступ запрещён.")
+        return
+
+    parts = message.text.split(maxsplit=1)
+    if len(parts) < 2:
+        await message.answer(
+            "❌ Используйте: /findrole [запрос]\n\n"
+            "Можно искать по:\n"
+            "• названию роли (частично)\n"
+            "• @юзернейму владельца\n"
+            "• ID владельца\n"
+            "• имени владельца"
+        )
+        return
+
+    query = parts[1].strip()
+    results = find_roles(query)
+
+    if not results:
+        await message.answer(f"❌ По запросу <b>{html.escape(query)}</b> ничего не найдено.", parse_mode="HTML")
+        return
+
+    # Если найдено много — показываем списком с кнопками
+    if len(results) > 10:
+        text = f"🔍 <b>Найдено {len(results)} ролей</b> (показаны первые 10):\n\n"
+        results = results[:10]
+    else:
+        text = f"🔍 <b>Найдено: {len(results)}</b>\n\n"
+
+    buttons = []
+    for r in results:
+        role_name = r['name']
+        status_emoji = "🟢" if r['status'] == 'свободна' else "🔴" if r['status'] == 'занята' else "⏳"
+        buttons.append([InlineKeyboardButton(
+            text=f"{status_emoji} {role_name} ({r['season']})",
+            callback_data=f"findrole_view_{role_name}"
+        )])
+
+    await message.answer(text, parse_mode="HTML", reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons))
+
+
+@router.callback_query(F.data.startswith("findrole_view_"))
+async def findrole_view(callback: CallbackQuery):
+    """Просмотр конкретной роли"""
+    await callback.answer()
+    admin_id = callback.from_user.id
+
+    if not is_admin(admin_id):
+        await callback.answer("⛔ Доступ запрещён.", show_alert=True)
+        return
+
+    role_name = callback.data.replace("findrole_view_", "")
+
+    from utils.role_utils import get_role_by_name
+    role = get_role_by_name(role_name)
+
+    if not role:
+        await callback.message.edit_text(f"❌ Роль '{html.escape(role_name)}' не найдена.")
+        return
+
+    status = role.get('status', '?')
+    season = role.get('season', '?')
+    owner_id = role.get('owner_id')
+    username = role.get('username', '')
+
+    # Получаем данные юзера
+    full_name = '—'
+    if owner_id:
+        from utils.user_utils import get_user_by_id
+        user_data = get_user_by_id(int(owner_id))
+        if user_data:
+            full_name = user_data.get('full_name', '—')
+
+    status_emoji = "🟢" if status == 'свободна' else "🔴" if status == 'занята' else "⏳"
+
+    text = (
+        f"🎭 <b>Роль: {html.escape(role_name)}</b>\n\n"
+        f"📁 Сезон: {html.escape(season)}\n"
+        f"{status_emoji} Статус: {status}\n"
+    )
+
+    if owner_id:
+        text += f"\n👤 <b>Владелец:</b>\n"
+        text += f"• Имя: {html.escape(full_name)}\n"
+        text += f"• Юзернейм: @{username if username else 'нет'}\n"
+        text += f"• ID: <code>{owner_id}</code>\n"
+    else:
+        text += f"\n👤 Владелец: нет\n"
+
+    buttons = [[InlineKeyboardButton(text="🔙 К поиску", callback_data="findrole_back")]]
+
+    # Если роль занята — кнопка удаления
+    if owner_id:
+        buttons.insert(0, [InlineKeyboardButton(
+            text="🗑️ Удалить роль и юзера",
+            callback_data=f"findrole_delete_{role_name}"
+        )])
+
+    await callback.message.edit_text(
+        text,
+        parse_mode="HTML",
+        reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
+    )
+
+
+@router.callback_query(F.data.startswith("findrole_delete_"))
+async def findrole_delete_confirm(callback: CallbackQuery):
+    """Подтверждение удаления роли + юзера"""
+    await callback.answer()
+    admin_id = callback.from_user.id
+
+    if not is_admin(admin_id):
+        await callback.answer("⛔ Доступ запрещён.", show_alert=True)
+        return
+
+    role_name = callback.data.replace("findrole_delete_", "")
+
+    from utils.role_utils import get_role_by_name
+    role = get_role_by_name(role_name)
+
+    if not role or not role.get('owner_id'):
+        await callback.message.edit_text("❌ Роль уже свободна или не найдена.")
+        return
+
+    owner_id = role.get('owner_id')
+
+    await callback.message.edit_text(
+        f"⚠️ <b>Вы уверены?</b>\n\n"
+        f"Роль: <b>{html.escape(role_name)}</b>\n"
+        f"Владелец ID: <code>{owner_id}</code>\n\n"
+        f"Будет удалено:\n"
+        f"• Роль → статус «свободна»\n"
+        f"• Юзер из users.json\n"
+        f"• Тег в чате\n"
+        f"• Счётчик смен\n\n"
+        f"История (users_history) сохранится.",
+        parse_mode="HTML",
+        reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+            [
+                InlineKeyboardButton(text="✅ Да, удалить", callback_data=f"findrole_delete_yes_{role_name}"),
+                InlineKeyboardButton(text="❌ Отмена", callback_data="findrole_back")
+            ]
+        ])
+    )
+
+
+@router.callback_query(F.data.startswith("findrole_delete_yes_"))
+async def findrole_delete_do(callback: CallbackQuery):
+    """Реальное удаление роли + юзера"""
+    await callback.answer()
+    admin_id = callback.from_user.id
+
+    if not is_admin(admin_id):
+        await callback.answer("⛔ Доступ запрещён.", show_alert=True)
+        return
+
+    role_name = callback.data.replace("findrole_delete_yes_", "")
+
+    from utils.role_utils import get_role_by_name
+    role = get_role_by_name(role_name)
+
+    if not role or not role.get('owner_id'):
+        await callback.message.edit_text("❌ Роль уже свободна или не найдена.")
+        return
+
+    owner_id = int(role.get('owner_id'))
+
+    # 1. Освобождаем роль
+    freed = free_role(role_name)
+
+    # 2. Удаляем из users.json
+    removed = remove_user(owner_id)
+
+    # 3. Сбрасываем счётчик (если юзер был)
+    try:
+        reset_changes_count(owner_id)
+    except Exception:
+        pass
+
+    # 4. Удаляем тег в чате
+    try:
+        await callback.bot.set_chat_member_tag(chat_id=GENERAL_CHAT_ID, user_id=owner_id, tag="")
+        logger.info(f"🏷️ Удалён тег у пользователя {owner_id}")
+    except Exception as e:
+        logger.error(f"❌ Не удалось удалить тег: {e}")
+
+    response = f"✅ <b>Роль «{html.escape(role_name)}» удалена:</b>\n"
+    if freed:
+        response += f"• 📌 Роль освобождена\n"
+    if removed:
+        response += f"• 👤 Юзер <code>{owner_id}</code> удалён из users.json\n"
+    response += f"• 🏷️ Тег удалён в чате\n"
+    response += f"• 🔄 Счётчик смен сброшен"
+
+    await callback.message.edit_text(response, parse_mode="HTML")
+    logger.info(f"Админ {admin_id} удалил роль {role_name} и юзера {owner_id}")
+
+
+@router.callback_query(F.data == "findrole_back")
+async def findrole_back(callback: CallbackQuery):
+    await callback.answer()
+    await callback.message.edit_text(
+        "🔍 Для нового поиска используйте /findrole [запрос]"
+    )
 
 
 # ============================================================
@@ -168,9 +386,9 @@ async def do_reset_callback(callback: CallbackQuery):
         await callback.message.edit_text("⛔ Нельзя сбросить администратора.")
         return
 
-    # Удаляем тег
     try:
         await callback.bot.set_chat_member_tag(chat_id=GENERAL_CHAT_ID, user_id=target_id, tag="")
+        logger.info(f"🏷️ Удалён тег у пользователя {target_id}")
     except Exception as e:
         logger.error(f"❌ Не удалось удалить тег: {e}")
 
