@@ -4,7 +4,7 @@ from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message
 from config import GENERAL_CHAT_ID
-from utils.admin_utils import is_admin, get_admin_rank
+from utils.admin_utils import is_admin, get_admin_rank, load_admins
 from utils.user_utils import load_users
 from utils.emoji_utils import get_user_emoji
 from .utils import load_unsubscribed, is_unsubscribed, add_unsubscribed, remove_unsubscribed
@@ -15,6 +15,8 @@ router = Router()
 
 call_cooldowns = {}
 callfal_cooldowns = {}
+callstaff_cooldowns = {}
+
 
 @router.message(Command('call'))
 async def cmd_call(message: Message):
@@ -91,11 +93,12 @@ async def cmd_call(message: Message):
 
     call_cooldowns[user_id] = current_time
     logger.info(f"📢 Кал отправлен. Упомянуто: {sent_count}, Ошибок: {errors}")
-    
+
     result_text = f"✅ Кал отправлен! Упомянуто участников: {sent_count}"
     if errors > 0:
         result_text += f"\n⚠️ Ошибок при отправке: {errors}"
     await message.answer(result_text)
+
 
 @router.message(Command('callfal'))
 async def cmd_callfal(message: Message):
@@ -171,6 +174,84 @@ async def cmd_callfal(message: Message):
         result_text += f"\n⚠️ Ошибок при отправке: {errors}"
     await message.answer(result_text)
 
+
+@router.message(Command('callstaff'))
+async def cmd_callstaff(message: Message):
+    """Кал только для администрации (rank 1, 2, 3). Отписаться нельзя."""
+    user_id = message.from_user.id
+    chat_id = message.chat.id
+    if chat_id != GENERAL_CHAT_ID:
+        return
+
+    if not (is_admin(user_id) and get_admin_rank(user_id) in [1, 2]):
+        await message.answer("⛔ Только владелец и администраторы могут использовать эту команду.")
+        return
+
+    last_call = callstaff_cooldowns.get(user_id, 0)
+    current_time = time.time()
+    if current_time - last_call < 15:
+        remaining = int(15 - (current_time - last_call))
+        await message.answer(f"⏳ Подождите {remaining} секунд перед следующим калом.")
+        return
+
+    parts = message.text.split(maxsplit=1)
+    call_text = parts[1][:300] if len(parts) > 1 else ""
+
+    status_msg = await message.answer("📡 Собираю администрацию...")
+
+    # ✅ Берём ТОЛЬКО админов (rank 1, 2, 3) из admins.json
+    admins = load_admins()
+    members = []
+    for a in admins:
+        a_id = a.get('id')
+        if not a_id:
+            continue
+        if a_id == user_id:
+            continue
+        members.append({'id': a_id})
+
+    if not members:
+        await status_msg.edit_text("❌ В списке администрации нет других участников.")
+        return
+
+    await status_msg.delete()
+
+    sent_count = 0
+    batch_size = 5
+    first_batch = True
+    errors = 0
+
+    for i in range(0, len(members), batch_size):
+        batch = members[i:i + batch_size]
+        mentions = []
+        for user in batch:
+            u_id = user['id']
+            emoji = get_user_emoji(u_id)
+            mentions.append(f'<a href="tg://user?id={u_id}">{emoji}</a>')
+
+        if first_batch:
+            message_text = f"{' '.join(mentions)} {call_text}" if call_text else f"{' '.join(mentions)}"
+            first_batch = False
+        else:
+            message_text = f"{' '.join(mentions)}"
+
+        try:
+            await message.answer(message_text, parse_mode="HTML")
+            sent_count += len(batch)
+        except Exception as e:
+            errors += 1
+            logger.error(f"❌ Ошибка /callstaff: {e}")
+        await asyncio.sleep(0.3)
+
+    callstaff_cooldowns[user_id] = current_time
+    logger.info(f"📢 /callstaff отправлен. Упомянуто админов: {sent_count}, Ошибок: {errors}")
+
+    result_text = f"✅ Кал для администрации отправлен! Упомянуто: {sent_count}"
+    if errors > 0:
+        result_text += f"\n⚠️ Ошибок при отправке: {errors}"
+    await message.answer(result_text)
+
+
 @router.message(Command('regc'))
 async def cmd_regc(message: Message):
     """Подписаться на калы"""
@@ -180,6 +261,7 @@ async def cmd_regc(message: Message):
         await message.answer("✅ Вы подписались на калы.")
     else:
         await message.answer("ℹ️ Вы уже подписаны на калы.")
+
 
 @router.message(Command('unregc'))
 async def cmd_unregc(message: Message):

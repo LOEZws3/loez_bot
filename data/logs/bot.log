@@ -62110,3 +62110,136 @@ ConnectionResetError: [WinError 10054] Удаленный хост принуд�
 2026-09-27 00:14:41,006 - aiogram.event - INFO - Update id=352513257 is handled. Duration 37 ms by bot id=8888839728
 2026-09-27 00:18:24,791 - handlers.chat_member - INFO - ✅ Пользователь 5279300963 найден в users.json
 2026-09-27 00:18:24,793 - aiogram.event - INFO - Update id=352513258 is handled. Duration 22 ms by bot id=8888839728
+2026-09-27 00:58:00,113 - __main__ - INFO - ✅ Зарегистрировано 10 роутеров
+2026-09-27 00:58:00,113 - __main__ - INFO - ⭐ Приоритетный прокси: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754
+2026-09-27 00:58:00,134 - proxy_manager - INFO - ✅ Загружено 2237 прокси из good_proxies.txt
+2026-09-27 00:58:00,148 - proxy_manager - INFO - 🔄 Кэш устарел (>1200с), обновляем...
+2026-09-27 00:58:00,148 - proxy_manager - INFO - ⭐ Проверяю приоритетный прокси: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754
+2026-09-27 00:58:00,632 - proxy_manager - INFO - ✅ Приоритетный прокси работает: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754 (ср. пинг: 0.481с)
+2026-09-27 00:58:00,638 - proxy_manager - INFO - 💾 Кэш пингов сохранён (1 прокси)
+2026-09-27 00:58:00,639 - proxy_manager - INFO - 🏆 Выбран: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754 (0.481с)
+2026-09-27 00:58:00,640 - __main__ - INFO - 🌐 Используется прокси: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754 (пинг: 0.481с)
+2026-09-27 00:58:01,648 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-27 00:58:01,664 - database - INFO - ✅ Таблицы БД созданы
+2026-09-27 00:58:01,665 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-27 00:58:01,665 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-27 00:58:02,068 - __main__ - INFO - 📋 Команды бота установлены
+2026-09-27 00:58:02,070 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-27 00:58:02,074 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-27 00:58:02,077 - aiogram.dispatcher - INFO - Start polling
+2026-09-27 00:58:02,183 - aiogram.dispatcher - INFO - Run polling for bot @REG_sf_BOT id=8888839728 - 'REG_ℿλɑɱᴙ Иɕκ℘℩_flood'
+2026-09-27 00:58:49,487 - aiogram.event - INFO - Update id=352513259 is handled. Duration 49 ms by bot id=8888839728
+2026-09-27 00:59:01,902 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-27 00:59:01,904 - aiogram.event - INFO - Update id=352513260 is handled. Duration 14 ms by bot id=8888839728
+2026-09-27 01:00:11,754 - aiogram.event - INFO - Update id=352513261 is not handled. Duration 717 ms by bot id=8888839728
+2026-09-27 01:00:11,755 - aiogram.event - ERROR - Cause exception while process update id=352513261 by bot id=8888839728
+ImportError: cannot import name 'save_user_emoji' from 'utils.user_history' (C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\src\utils\user_history.py)
+Traceback (most recent call last):
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 309, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 158, in feed_update
+    response = await self.update.wrap_outer_middleware(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\middlewares\error.py", line 25, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\middlewares\user_context.py", line 56, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\fsm\middleware.py", line 42, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 43, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 276, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 141, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        observer=observer, update_type=update_type, event=telegram_event, **data
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 174, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 146, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 141, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        observer=observer, update_type=update_type, event=telegram_event, **data
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 166, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\bot\.venv\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 43, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\src\handlers\call_commands.py", line 229, in cmd_callstaff
+    emoji = get_user_emoji(u_id)
+  File "C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\src\utils\emoji_utils.py", line 39, in get_user_emoji
+    from utils.user_history import load_user_history, save_user_emoji
+ImportError: cannot import name 'save_user_emoji' from 'utils.user_history' (C:\Users\olika\PyCharmMiscProject\LoEZF_Bot\src\utils\user_history.py). Did you mean: 'get_user_emoji'?
+2026-09-27 01:00:59,976 - aiogram.event - INFO - Update id=352513262 is handled. Duration 13 ms by bot id=8888839728
+2026-09-27 01:01:04,163 - handlers.chat_member - INFO - ✅ Пользователь 2030814494 найден в users.json
+2026-09-27 01:01:04,167 - aiogram.event - INFO - Update id=352513263 is handled. Duration 38 ms by bot id=8888839728
+2026-09-27 01:01:08,476 - handlers.chat_member - INFO - ✅ Пользователь 2030814494 найден в users.json
+2026-09-27 01:01:08,477 - aiogram.event - INFO - Update id=352513264 is handled. Duration 13 ms by bot id=8888839728
+2026-09-27 01:03:15,141 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-27 01:03:15,145 - aiogram.event - INFO - Update id=352513265 is handled. Duration 17 ms by bot id=8888839728
+2026-09-27 01:03:24,618 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-27 01:03:24,618 - aiogram.event - INFO - Update id=352513266 is handled. Duration 11 ms by bot id=8888839728
+2026-09-27 01:04:22,995 - __main__ - INFO - ✅ Зарегистрировано 10 роутеров
+2026-09-27 01:04:22,996 - __main__ - INFO - ⭐ Приоритетный прокси: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754
+2026-09-27 01:04:22,999 - proxy_manager - INFO - ✅ Загружено 2237 прокси из good_proxies.txt
+2026-09-27 01:04:23,015 - proxy_manager - INFO - ✅ Загружено 1 прокси из кэша (TTL 1200с)
+2026-09-27 01:04:23,015 - proxy_manager - INFO - 🏆 Выбран: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754 (0.481с)
+2026-09-27 01:04:23,015 - __main__ - INFO - 🌐 Используется прокси: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754 (пинг: 0.481с)
+2026-09-27 01:04:23,737 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-27 01:04:23,744 - database - INFO - ✅ Таблицы БД созданы
+2026-09-27 01:04:23,745 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-27 01:04:23,745 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-27 01:04:24,194 - __main__ - INFO - 📋 Команды бота установлены
+2026-09-27 01:04:24,195 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-27 01:04:24,196 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-27 01:04:24,197 - aiogram.dispatcher - INFO - Start polling
+2026-09-27 01:04:24,315 - aiogram.dispatcher - INFO - Run polling for bot @REG_sf_BOT id=8888839728 - 'REG_ℿλɑɱᴙ Иɕκ℘℩_flood'
+2026-09-27 01:04:32,803 - handlers.call_commands - INFO - 📢 /callstaff отправлен. Упомянуто админов: 3, Ошибок: 0
+2026-09-27 01:04:32,956 - aiogram.event - INFO - Update id=352513267 is handled. Duration 1226 ms by bot id=8888839728
+2026-09-27 01:06:36,152 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-27 01:06:36,154 - aiogram.event - INFO - Update id=352513268 is handled. Duration 14 ms by bot id=8888839728
+2026-09-27 01:06:40,880 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-27 01:06:40,880 - aiogram.event - INFO - Update id=352513269 is handled. Duration 14 ms by bot id=8888839728
+2026-09-27 01:09:33,531 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-27 01:09:33,542 - aiogram.event - INFO - Update id=352513270 is handled. Duration 38 ms by bot id=8888839728
+2026-09-27 01:20:50,329 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-27 01:20:50,329 - aiogram.event - INFO - Update id=352513271 is handled. Duration 9 ms by bot id=8888839728
+2026-09-27 01:23:54,502 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-27 01:23:54,502 - aiogram.event - INFO - Update id=352513272 is handled. Duration 22 ms by bot id=8888839728
+2026-09-27 09:46:50,396 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-27 09:46:50,398 - aiogram.event - INFO - Update id=352513273 is handled. Duration 56 ms by bot id=8888839728
+2026-09-27 09:47:00,949 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-27 09:47:00,949 - aiogram.event - INFO - Update id=352513274 is handled. Duration 25 ms by bot id=8888839728
+2026-09-27 09:50:48,003 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-27 09:50:48,004 - aiogram.event - INFO - Update id=352513275 is handled. Duration 20 ms by bot id=8888839728
+2026-09-27 09:50:53,269 - handlers.chat_member - INFO - ✅ Пользователь 7676125334 найден в users.json
+2026-09-27 09:50:53,270 - aiogram.event - INFO - Update id=352513276 is handled. Duration 19 ms by bot id=8888839728

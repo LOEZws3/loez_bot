@@ -10,7 +10,7 @@ SAFE_EMOJIS = [
     "🦢", "🦆", "🦃", "🐓", "🐔", "🐥", "🦚", "🦜",
     "🐬", "🐳", "🐋", "🦈", "🐊", "🐢", "🐙", "🦑",
     "🦀", "🐚", "🐠", "🐟", "🐡", "🐙", "🦐", "🦞",
-    "🐉", "🦄", "🧙", "🧝", "🧚", "🧛", "🧜", "🧞", "🪄",
+    "🐉", "🦄", "🧙", "🧝", "🧚", "🧛", "🧜", "🧞", "",
     "🍕", "🍔", "🌭", "🍟", "🍩", "🍪", "🧁", "🍫",
     "🍬", "🍭", "🎂", "🍰", "🧇", "🥞", "🥐", "🥖",
     "🥨", "🥯", "🥞", "🍖", "🍗", "🥩", "🥓", "🍔",
@@ -20,7 +20,7 @@ SAFE_EMOJIS = [
     "🌴", "🌵", "🌸", "🌺", "🌻", "🌹", "🌷", "🌱",
     "🌿", "☘️", "🍀", "🎍", "🎋", "🌾", "🌼", "🌷",
     "🚗", "🚕", "🚙", "🚌", "🚎", "🏎️", "🚓", "🚑",
-    "🚒", "🛻", "🚚", "🚛", "🚜", "🛵", "🏍️", "🚲",
+    "🚒", "", "🚚", "🚛", "🚜", "🛵", "🏍️", "🚲",
     "🛴", "🛹", "🚂", "🚃", "🚄", "🚅", "🚆", "🚇",
     "🚈", "🚉", "🚊", "🚝", "🚞",
     "⚡", "🔥", "💪", "🏆", "🎯", "🎮", "🚀", "🌟",
@@ -32,14 +32,23 @@ SAFE_EMOJIS = [
     "📡", "🔭", "🪐", "🌌",
 ]
 
+
 def get_random_emoji():
+    """Возвращает случайный эмодзи из безопасного списка"""
     return random.choice(SAFE_EMOJIS)
 
+
 def get_user_emoji(user_id):
-    from utils.user_history import load_user_history, save_user_emoji
+    """
+    Возвращает эмодзи пользователя.
+    Если у пользователя ещё нет эмодзи — назначает случайный и сохраняет.
+    """
+    from utils.user_history import load_user_history, update_user_history
+
     history = load_user_history(user_id)
     if history and history.get("emoji"):
         return history["emoji"]
+
     new_emoji = get_random_emoji()
-    save_user_emoji(user_id, new_emoji)
+    update_user_history(user_id, "emoji", new_emoji)
     return new_emoji
