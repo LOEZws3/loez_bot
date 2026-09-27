@@ -16,6 +16,7 @@ from config import (
 from database import db
 from handlers import routers
 from proxy_manager import proxy_manager
+from middlewares import RegistrationCheckMiddleware
 
 # ═══════════════════════════════════════════════════════════════════
 # КЛАСС ИСКЛЮЧЕНИЯ ДЛЯ SSL-ОШИБОК ПРОКСИ
@@ -37,8 +38,6 @@ class ProxySSLException(Exception):
 #  1. Добавлять connector, ssl_context или другие параметры в AiohttpSession
 #  2. Использовать aiohttp.ClientSession для подмены сессии
 #  3. Менять способ создания сессии на любой другой
-#
-#  Рабочая версия: aiogram 3.17+
 # ═══════════════════════════════════════════════════════════════════
 
 if sys.platform == 'win32':
@@ -172,10 +171,7 @@ async def set_bot_commands():
 
 
 async def check_rests_loop():
-    """
-    Планировщик проверки рестов каждую минуту.
-    Читает roles_status.json (статус 'рест'), снимает истекшие.
-    """
+    """Планировщик рестов. Читает roles_status.json."""
     global bot
 
     from utils.role_utils import load_roles_status, save_roles_status
@@ -194,7 +190,6 @@ async def check_rests_loop():
                 extra = role_data.get('extra', '')
                 if not extra:
                     continue
-                # extra = "YYYY-MM-DD"
                 if extra <= today:
                     expired.append(role_name)
 
@@ -206,7 +201,6 @@ async def check_rests_loop():
                 save_roles_status(status_data)
                 logger.info(f"🔔 Снято рестов: {len(expired)} — {', '.join(expired)}")
 
-                # Уведомляем владельцев
                 for role_name in expired:
                     owner_id = status_data[role_name].get('owner_id')
                     if owner_id and bot:
@@ -233,10 +227,50 @@ async def check_rests_loop():
         await asyncio.sleep(60)
 
 
+async def sync_roles_loop():
+    """
+    Планировщик синхронизации ролей из папки data/roles/*.txt.
+    Запускается раз в день в 03:33 по МСК.
+    """
+    from utils.role_utils import sync_roles_from_files
+
+    while True:
+        try:
+            # Текущее время в МСК (UTC+3)
+            now_utc = datetime.datetime.utcnow()
+            now_msk = now_utc + datetime.timedelta(hours=3)
+
+            # Целевое время — 03:33 МСК
+            target = now_msk.replace(hour=3, minute=33, second=0, microsecond=0)
+
+            # Если 03:33 уже прошло сегодня — ждём до завтра
+            if now_msk >= target:
+                target += datetime.timedelta(days=1)
+
+            wait_seconds = (target - now_msk).total_seconds()
+            logger.info(f"🔄 Синхронизация ролей: следующая через {int(wait_seconds / 60)} мин (в 03:33 МСК)")
+
+            await asyncio.sleep(wait_seconds)
+
+            # Синхронизация
+            logger.info("🔄 Запуск синхронизации ролей из папки...")
+            result = sync_roles_from_files()
+            logger.info(f"✅ Синхронизация завершена: {result}")
+
+        except Exception as e:
+            logger.error(f"❌ Ошибка в планировщике синхронизации ролей: {e}")
+            # Если ошибка — подождём час и попробуем снова
+            await asyncio.sleep(3600)
+
+
 async def run_bot():
     global bot
 
     dp = Dispatcher()
+
+    # Подключаем middleware стартового режима
+    dp.message.middleware(RegistrationCheckMiddleware())
+    logger.info("✅ Middleware стартового режима подключен")
 
     for router in routers:
         dp.include_router(router)
@@ -322,8 +356,19 @@ async def on_startup():
     await db.init()
     logger.info("✅ База данных инициализирована")
 
+    # Синхронизация ролей при старте
+    try:
+        from utils.role_utils import sync_roles_from_files
+        result = sync_roles_from_files()
+        logger.info(f"🔄 Синхронизация ролей при старте: {result}")
+    except Exception as e:
+        logger.error(f"❌ Ошибка синхронизации ролей при старте: {e}")
+
     asyncio.create_task(check_rests_loop())
-    logger.info("🔄 Планировщик рестов запущен (читает roles_status.json)")
+    logger.info("🔄 Планировщик рестов запущен")
+
+    asyncio.create_task(sync_roles_loop())
+    logger.info("🔄 Планировщик синхронизации ролей запущен (03:33 МСК)")
 
     await set_bot_commands()
 

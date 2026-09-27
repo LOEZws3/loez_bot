@@ -1,192 +1,133 @@
+"""
+Обёртка над parsers.py для обратной совместимости.
+Все данные читаются/пишутся через parsers.
+"""
+
 import os
 import json
-import datetime
-import calendar
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+import logging
 
-UNSUBSCRIBED_FILE = "data/users/unsubscribed_calls.json"
-REST_REQUESTS_FILE = "data/requests/rest_requests.json"
+from config import DATA_DIR
+from utils import parsers
 
+logger = logging.getLogger(__name__)
 
-# ======================== ОТПИСАВШИЕСЯ ОТ КАЛОВ ========================
-
-def load_unsubscribed() -> dict:
-    """Загрузить отписавшихся. Возвращает dict {user_id_str: True}."""
-    try:
-        os.makedirs(os.path.dirname(UNSUBSCRIBED_FILE), exist_ok=True)
-        with open(UNSUBSCRIBED_FILE, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        if not isinstance(data, dict):
-            return {}
-        return data
-    except (FileNotFoundError, json.JSONDecodeError, IOError):
-        return {}
+USERS_JSON = os.path.join(DATA_DIR, 'users', 'users.json')
+UNSUBSCRIBED_FILE = os.path.join(DATA_DIR, 'users', 'unsubscribed_calls.json')
 
 
-def save_unsubscribed(data: dict) -> bool:
-    try:
-        os.makedirs(os.path.dirname(UNSUBSCRIBED_FILE), exist_ok=True)
-        with open(UNSUBSCRIBED_FILE, 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
-        return True
-    except Exception:
-        return False
+# ======================== ПОЛЬЗОВАТЕЛИ ========================
 
-
-def is_unsubscribed(user_id: int) -> bool:
-    data = load_unsubscribed()
-    return str(user_id) in data
-
-
-def add_unsubscribed(user_id: int) -> bool:
-    data = load_unsubscribed()
-    data[str(user_id)] = True
-    return save_unsubscribed(data)
-
-
-def remove_unsubscribed(user_id: int) -> bool:
-    data = load_unsubscribed()
-    if str(user_id) in data:
-        del data[str(user_id)]
-        return save_unsubscribed(data)
-    return True
-
-
-# ======================== ЗАЯВКИ НА РЕСТ (JSON-СЛОВАРЬ) ========================
-
-def load_rest_requests() -> dict:
-    """
-    Загрузить заявки на рест.
-    Формат: {user_id_str: {user_id, username, full_name, role_name, days,
-             rest_until, reason, status, created_at}}
-    """
-    try:
-        os.makedirs(os.path.dirname(REST_REQUESTS_FILE), exist_ok=True)
-        with open(REST_REQUESTS_FILE, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        if not isinstance(data, dict):
-            return {}
-        return data
-    except (FileNotFoundError, json.JSONDecodeError, IOError):
-        return {}
-
-
-def save_rest_requests(data: dict) -> bool:
-    try:
-        os.makedirs(os.path.dirname(REST_REQUESTS_FILE), exist_ok=True)
-        with open(REST_REQUESTS_FILE, 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
-        return True
-    except Exception:
-        return False
-
-
-def get_rest_request(user_id: int) -> dict:
-    """Возвращает заявку на рест конкретного юзера (или {})"""
-    data = load_rest_requests()
-    return data.get(str(user_id), {})
-
-
-def add_rest_request(user_id: int, request_data: dict) -> bool:
-    """Добавляет/перезаписывает заявку юзера"""
-    data = load_rest_requests()
-    data[str(user_id)] = request_data
-    return save_rest_requests(data)
-
-
-def remove_rest_request(user_id: int) -> bool:
-    """Удаляет заявку юзера"""
-    data = load_rest_requests()
-    if str(user_id) in data:
-        del data[str(user_id)]
-        return save_rest_requests(data)
-    return True
-
-
-def update_rest_request(user_id: int, key: str, value) -> bool:
-    """Обновляет одно поле в заявке"""
-    data = load_rest_requests()
-    uid_str = str(user_id)
-    if uid_str not in data:
-        return False
-    data[uid_str][key] = value
-    return save_rest_requests(data)
-
-
-def get_pending_rests() -> list:
-    """Возвращает список pending-заявок [(user_id, data), ...]"""
-    data = load_rest_requests()
+def load_users() -> list:
+    data = parsers.load_users()
     result = []
-    for uid_str, req in data.items():
-        if isinstance(req, dict) and req.get('status') == 'pending':
-            try:
-                result.append((int(uid_str), req))
-            except ValueError:
-                continue
+    for uid_str, info in data.items():
+        try:
+            uid = int(uid_str)
+        except ValueError:
+            continue
+        result.append({
+            'id': uid,
+            'username': info.get('username', ''),
+            'full_name': info.get('full_name', ''),
+            'role': info.get('role', '0'),
+            'extra': info.get('extra', '-993'),
+            'changes_count': int(info.get('changes_count', 0)),
+        })
     return result
 
 
-# ======================== КАЛЕНДАРЬ ДЛЯ РЕСТОВ ========================
+def save_users(users: list) -> bool:
+    data = {}
+    for u in users:
+        uid = u.get('id')
+        if uid is None:
+            continue
+        data[str(uid)] = {
+            'username': u.get('username', ''),
+            'full_name': u.get('full_name', ''),
+            'role': u.get('role', '0'),
+            'extra': u.get('extra', '-993'),
+            'changes_count': int(u.get('changes_count', 0)),
+        }
+    return parsers.save_users(data)
 
-def generate_calendar_keyboard(year, month, callback_prefix="rest_cal"):
-    """
-    Создаёт клавиатуру-календарь для выбора даты.
-    Callback data:
-    - выбор дня:    {prefix}_day_YYYY_M_D
-    - пред. месяц:  {prefix}_prev_YYYY_M
-    - след. месяц:  {prefix}_next_YYYY_M
-    - отмена:       cancel_rest_request
-    """
-    cal = calendar.monthcalendar(year, month)
-    keyboard = []
 
-    month_names = [
-        "", "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
-        "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
-    ]
-    keyboard.append([InlineKeyboardButton(
-        text=f"{month_names[month]} {year}",
-        callback_data="ignore"
-    )])
+def add_user(user_id, username, full_name, role='0', extra='-993',
+             changes_count: int = 0) -> bool:
+    return parsers.add_user(user_id, username, full_name, role, extra, changes_count)
 
-    week_days = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]
-    keyboard.append([InlineKeyboardButton(text=day, callback_data="ignore") for day in week_days])
 
-    today = datetime.date.today()
+def remove_user(user_id) -> bool:
+    return parsers.remove_user(user_id)
 
-    for week in cal:
-        row = []
-        for day in week:
-            if day == 0:
-                row.append(InlineKeyboardButton(text=" ", callback_data="ignore"))
-            else:
-                date_obj = datetime.date(year, month, day)
-                if date_obj < today:
-                    # Прошедшие дни — неактивные
-                    row.append(InlineKeyboardButton(text=f"·{day}", callback_data="ignore"))
-                else:
-                    row.append(InlineKeyboardButton(
-                        text=str(day),
-                        callback_data=f"{callback_prefix}_day_{year}_{month}_{day}"
-                    ))
-        keyboard.append(row)
 
-    # Навигация
-    nav_row = []
+def get_users_count() -> int:
+    return len(parsers.load_users())
 
-    # Назад
-    if month > 1:
-        nav_row.append(InlineKeyboardButton(text="⬅️", callback_data=f"{callback_prefix}_prev_{year}_{month}"))
-    else:
-        nav_row.append(InlineKeyboardButton(text="⬅️", callback_data=f"{callback_prefix}_prev_{year - 1}_12"))
 
-    nav_row.append(InlineKeyboardButton(text="❌ Отмена", callback_data="cancel_rest_request"))
+def get_user_by_id(user_id):
+    return parsers.get_user(user_id)
 
-    # Вперёд
-    if month < 12:
-        nav_row.append(InlineKeyboardButton(text="➡️", callback_data=f"{callback_prefix}_next_{year}_{month}"))
-    else:
-        nav_row.append(InlineKeyboardButton(text="➡️", callback_data=f"{callback_prefix}_next_{year + 1}_1"))
 
-    keyboard.append(nav_row)
-    return InlineKeyboardMarkup(inline_keyboard=keyboard)
+def update_user_role(user_id, new_role) -> bool:
+    return parsers.update_user_role(user_id, new_role)
+
+
+def get_user_role(user_id):
+    user = parsers.get_user(user_id)
+    return user.get('role', '0') if user else None
+
+
+def get_users_by_role(role_key) -> list:
+    return [u for u in load_users() if u.get('role') == role_key]
+
+
+def get_role_stats() -> dict:
+    stats = {}
+    for u in load_users():
+        role = u.get('role', '0')
+        stats[role] = stats.get(role, 0) + 1
+    return stats
+
+
+def get_user_role_stats() -> dict:
+    return get_role_stats()
+
+
+def get_role_names() -> list:
+    return list(set(u.get('role', '0') for u in load_users()))
+
+
+def get_user_info(user_id: int) -> dict:
+    try:
+        user = parsers.get_user(user_id)
+        if user:
+            return {
+                'user_id': user_id,
+                'username': user.get('username', ''),
+                'full_name': user.get('full_name', ''),
+                'role': user.get('role', ''),
+            }
+        return {'user_id': user_id, 'username': '', 'full_name': '', 'role': ''}
+    except Exception as e:
+        logger.error(f"Ошибка получения пользователя {user_id}: {e}")
+        return {'user_id': user_id, 'username': '', 'full_name': '', 'role': ''}
+
+
+def is_user_registered(user_id: int) -> bool:
+    return parsers.get_user(user_id) is not None
+
+
+# ======================== СМЕНЫ РОЛЕЙ ========================
+
+def get_changes_count(user_id) -> int:
+    return parsers.get_changes_count(user_id)
+
+
+def increment_changes_count(user_id) -> bool:
+    return parsers.increment_changes_count(user_id)
+
+
+def reset_changes_count(user_id) -> bool:
+    return parsers.reset_changes_count(user_id)

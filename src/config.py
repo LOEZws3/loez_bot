@@ -22,6 +22,7 @@ CHAT_INVITE_LINK = os.getenv('CHAT_INVITE_LINK', 'https://t.me/joinchat/your_cha
 MODERATOR_LINK = os.getenv('MODERATOR_LINK', 'https://t.me/mod')
 ADMIN_LINK = os.getenv('ADMIN_LINK', 'https://t.me/admin')
 ROLES_PER_PAGE = int(os.getenv('ROLES_PER_PAGE', 5))
+
 # --- Настройки прокси ---
 USE_PROXY = os.getenv('USE_PROXY', 'false').lower() == 'true'
 PROXY_DIR = os.getenv('PROXY_DIR', str(SRC_PATH / 'proxies'))
@@ -54,6 +55,18 @@ SYSTEM_SETTINGS_FILE = os.path.join(DATA_DIR, 'system', 'system_settings.json')
 ROLES_STATUS_FILE = os.path.join(DATA_DIR, 'roles', 'roles_status.json')
 ROLES_DIR = os.path.join(DATA_DIR, 'roles')
 USERS_HISTORY_DIR = os.path.join(DATA_DIR, 'users_history')
+
+# --- Стартовый режим ---
+# Разрешённые команды для незарегистрированных юзеров
+STARTER_MODE_ALLOWED_COMMANDS = {
+    '/start',
+    '/help',
+    '/about',
+    '/aboutme',
+    '/apply',
+    '/setbirthday',
+    '/update',
+}
 
 # --- Проверка обязательных переменных ---
 if not BOT_TOKEN:
@@ -94,5 +107,6 @@ __all__ = [
     'CREATION_FILE', 'FORWARD_FILE',
     'REQUESTS_FILE', 'SYSTEM_SETTINGS_FILE',
     'ROLES_STATUS_FILE', 'ROLES_DIR', 'USERS_HISTORY_DIR',
+    'STARTER_MODE_ALLOWED_COMMANDS',
     'ensure_directories',
 ]

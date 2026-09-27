@@ -1,37 +1,54 @@
 import os
 import json
 import logging
-from config import DATA_DIR
+from config import DATA_DIR, ROLES_DIR
 
 logger = logging.getLogger(__name__)
 
-# ======================== БАЗОВЫЕ ФУНКЦИИ РАБОТЫ С ФАЙЛОМ ========================
+
+# ======================== УТИЛИТЫ ИМЁН ========================
+
+def format_role_display(role_key: str) -> str:
+    """'Элиза (Голос времени)' → 'Элиза'"""
+    if not role_key:
+        return ''
+    if '(' in role_key and role_key.endswith(')'):
+        return role_key.rsplit('(', 1)[0].strip()
+    return role_key
+
+
+def get_role_season_from_key(role_key: str) -> str:
+    """'Элиза (Голос времени)' → 'Голос времени'"""
+    if not role_key or '(' not in role_key or not role_key.endswith(')'):
+        return ''
+    return role_key.rsplit('(', 1)[1][:-1].strip()
+
+
+def make_role_key(role_name: str, season: str) -> str:
+    """'Элиза' + 'Голос времени' → 'Элиза (Голос времени)'"""
+    return f"{role_name} ({season})"
+
+
+# ======================== БАЗОВЫЕ ========================
 
 def load_roles_status() -> dict:
-    """
-    Загружает roles_status.json.
-    Структура: {"Имя персонажа": {"status": "свободна", "owner_id": ..., "username": ..., "season": "...", "extra": ""}, ...}
-    """
     try:
         status_file = os.path.join(DATA_DIR, 'roles', 'roles_status.json')
         if not os.path.exists(status_file):
             logger.error(f"Файл {status_file} не найден")
             return {}
-
         with open(status_file, 'r', encoding='utf-8') as f:
             data = json.load(f)
-
         if not isinstance(data, dict):
-            logger.error(f"roles_status.json имеет неверный формат: ожидался dict, получен {type(data).__name__}")
+            logger.error(f"roles_status.json — не словарь")
             return {}
-
         return data
     except Exception as e:
         logger.error(f"Ошибка загрузки roles_status.json: {e}")
         return {}
 
+
 def save_roles_status(roles_data: dict) -> bool:
-    """Сохраняет данные в roles_status.json"""
     try:
         status_file = os.path.join(DATA_DIR, 'roles', 'roles_status.json')
         with open(status_file, 'w', encoding='utf-8') as f:
@@ -42,152 +59,186 @@ def save_roles_status(roles_data: dict) -> bool:
         logger.error(f"Ошибка сохранения roles_status.json: {e}")
         return False
 
+
+# ======================== ID РОЛЕЙ ========================
+
+def get_role_by_id(role_id: int) -> dict:
+    """Находит роль по её ID. Возвращает dict с полями + name + key."""
+    data = load_roles_status()
+    for role_key, role_info in data.items():
+        if isinstance(role_info, dict) and role_info.get('id') == role_id:
+            result = dict(role_info)
+            result['name'] = format_role_display(role_key)
+            result['key'] = role_key
+            return result
+    return None
+
+
 # ======================== СЕЗОНЫ И РОЛИ ========================
 
 def get_seasons_list() -> list:
-    """Возвращает список уникальных сезонов"""
     try:
         data = load_roles_status()
         seasons = set()
-        for role_name, role_info in data.items():
+        for role_key, role_info in data.items():
             if isinstance(role_info, dict):
                 season = role_info.get('season')
                 if season:
                     seasons.add(season)
-        result = sorted(list(seasons))
-        logger.debug(f"Загружены сезоны: {result}")
-        return result
+        return sorted(list(seasons))
     except Exception as e:
-        logger.error(f"Ошибка получения списка сезонов: {e}")
+        logger.error(f"Ошибка получения сезонов: {e}")
         return []
 
+
 def get_all_seasons() -> list:
-    """Алиас для get_seasons_list()"""
     return get_seasons_list()
 
+
 def get_roles_by_season(season: str) -> list:
-    """Возвращает список ролей для указанного сезона"""
+    """Список ролей сезона. Каждая: name, key, id, status, owner_id, ..."""
     try:
         data = load_roles_status()
         roles = []
-        for role_name, role_info in data.items():
+        for role_key, role_info in data.items():
             if isinstance(role_info, dict) and role_info.get('season') == season:
                 role = dict(role_info)
-                role['name'] = role_name
+                role['name'] = format_role_display(role_key)
+                role['key'] = role_key
                 roles.append(role)
-        logger.debug(f"Загружены роли для {season}: {len(roles)}")
         return roles
     except Exception as e:
         logger.error(f"Ошибка получения ролей для {season}: {e}")
         return []
 
+
 def get_role_by_name(role_name: str, season: str = None) -> dict:
-    """Возвращает информацию о роли по имени"""
     try:
         data = load_roles_status()
+
+        if season:
+            role_key = make_role_key(role_name, season)
+            role_info = data.get(role_key)
+            if role_info and isinstance(role_info, dict):
+                result = dict(role_info)
+                result['name'] = role_name
+                result['key'] = role_key
+                return result
+
         role_info = data.get(role_name)
-        if not role_info or not isinstance(role_info, dict):
-            return None
-        if season and role_info.get('season') != season:
-            return None
-        result = dict(role_info)
-        result['name'] = role_name
-        return result
+        if role_info and isinstance(role_info, dict):
+            result = dict(role_info)
+            result['name'] = format_role_display(role_name)
+            result['key'] = role_name
+            return result
+
+        for role_key, info in data.items():
+            if not isinstance(info, dict):
+                continue
+            if format_role_display(role_key) == role_name:
+                if season and info.get('season') != season:
+                    continue
+                result = dict(info)
+                result['name'] = role_name
+                result['key'] = role_key
+                return result
+
+        return None
     except Exception as e:
-        logger.error(f"Ошибка получения роли по имени {role_name}: {e}")
+        logger.error(f"Ошибка получения роли {role_name}: {e}")
         return None
 
+
 def get_role_info(role_name: str, season: str = None) -> dict:
-    """Алиас для get_role_by_name()"""
     return get_role_by_name(role_name, season)
 
+
 def get_role_status(role_name: str, season: str = None) -> str:
-    """Возвращает статус роли: "свободна" / "занята" """
-    try:
-        role = get_role_by_name(role_name, season)
-        if role:
-            return role.get('status', 'unknown')
-        return 'unknown'
-    except Exception as e:
-        logger.error(f"Ошибка получения статуса роли {role_name}: {e}")
-        return 'unknown'
+    role = get_role_by_name(role_name, season)
+    return role.get('status', 'unknown') if role else 'unknown'
+
 
 def is_role_free(role_name: str, season: str = None) -> bool:
-    """Проверяет, свободна ли роль (status == "свободна")"""
-    try:
-        return get_role_status(role_name, season) == 'свободна'
-    except Exception as e:
-        logger.error(f"Ошибка проверки статуса роли {role_name}: {e}")
-        return False
+    return get_role_status(role_name, season) == 'свободна'
+
 
 def update_role_status(role_name: str, season: str, status: str) -> bool:
-    """Обновляет статус роли (свободна / занята / ожидает)"""
     try:
         data = load_roles_status()
-        if role_name not in data:
-            logger.warning(f"Роль {role_name} не найдена в roles_status.json")
+        role_key = make_role_key(role_name, season)
+
+        if role_key not in data:
+            logger.warning(f"Роль '{role_key}' не найдена")
             return False
 
-        if season and data[role_name].get('season') != season:
-            logger.warning(f"Роль {role_name} не принадлежит сезону {season}")
-            return False
-
-        old_status = data[role_name].get('status', 'unknown')
-        data[role_name]['status'] = status
+        old_status = data[role_key].get('status', 'unknown')
+        data[role_key]['status'] = status
 
         if save_roles_status(data):
-            logger.info(f"✅ Статус роли {role_name}: {old_status} -> {status}")
+            logger.info(f"✅ {role_key}: {old_status} -> {status}")
             return True
         return False
     except Exception as e:
-        logger.error(f"Ошибка обновления статуса роли {role_name}: {e}")
+        logger.error(f"Ошибка обновления статуса {role_name}: {e}")
         return False
 
-def free_role(role_name: str, season: str = None) -> bool:
-    """Освобождает роль (status = "свободна")"""
+
+def update_role_status_by_id(role_id: int, status: str) -> bool:
+    """Обновляет статус по ID роли."""
     try:
         data = load_roles_status()
-        if role_name not in data:
-            logger.warning(f"Роль {role_name} не найдена")
-            return False
+        for role_key, role_info in data.items():
+            if isinstance(role_info, dict) and role_info.get('id') == role_id:
+                old_status = role_info.get('status', 'unknown')
+                role_info['status'] = status
+                if save_roles_status(data):
+                    logger.info(f"✅ ID {role_id} ({role_key}): {old_status} -> {status}")
+                    return True
+                return False
+        logger.warning(f"Роль с ID {role_id} не найдена")
+        return False
+    except Exception as e:
+        logger.error(f"Ошибка обновления по ID {role_id}: {e}")
+        return False
 
-        data[role_name]['status'] = 'свободна'
-        data[role_name]['owner_id'] = None
-        data[role_name]['username'] = None
+
+def free_role(role_name: str, season: str = None) -> bool:
+    try:
+        data = load_roles_status()
+
+        if season:
+            role_key = make_role_key(role_name, season)
+            if role_key not in data:
+                return False
+        else:
+            role_key = None
+            if role_name in data:
+                role_key = role_name
+            else:
+                for k, v in data.items():
+                    if isinstance(v, dict) and format_role_display(k) == role_name:
+                        role_key = k
+                        break
+            if not role_key:
+                return False
+
+        data[role_key]['status'] = 'свободна'
+        data[role_key]['owner_id'] = None
+        data[role_key]['username'] = None
 
         if save_roles_status(data):
-            logger.info(f"✅ Роль {role_name} освобождена")
+            logger.info(f"✅ Роль {role_key} освобождена")
             return True
         return False
     except Exception as e:
         logger.error(f"Ошибка освобождения роли {role_name}: {e}")
         return False
 
-# ======================== ПОИСК РОЛЕЙ (НОВОЕ) ========================
+
+# ======================== ПОИСК ========================
 
 def find_roles(query: str) -> list:
-    """
-    Ищет роли по:
-    - названию роли (частичное совпадение, регистр не важен)
-    - username владельца (частичное, регистр не важен)
-    - ID владельца (точное)
-    - full_name владельца (частичное, регистр не важен)
-
-    Возвращает список словарей:
-    [
-        {
-            'name': 'Ашра',
-            'season': 'Голос времени',
-            'status': 'занята',
-            'owner_id': 123456789,
-            'username': 'user',
-            'full_name': 'Иван Иванов'  # из users.json если найден
-        },
-        ...
-    ]
-    """
     from utils.user_utils import get_user_by_id
-
     data = load_roles_status()
     if not query or not query.strip():
         return []
@@ -195,30 +246,23 @@ def find_roles(query: str) -> list:
     q = query.strip().lower().lstrip('@')
     results = []
 
-    for role_name, role_info in data.items():
+    for role_key, role_info in data.items():
         if not isinstance(role_info, dict):
             continue
 
-        role_name_lower = role_name.lower()
+        short_name = format_role_display(role_key).lower()
         owner_id = role_info.get('owner_id')
         username = (role_info.get('username') or '').lower().lstrip('@')
 
-        # Проверяем совпадения
         match = False
 
-        # 1. По названию роли
-        if q in role_name_lower:
+        if q in short_name:
             match = True
-
-        # 2. По username владельца
         if username and q in username:
             match = True
-
-        # 3. По ID владельца (точное, если запрос — число)
         if q.isdigit() and owner_id and int(q) == int(owner_id):
             match = True
 
-        # 4. По full_name владельца (из users.json)
         full_name = ''
         if owner_id:
             user_data = get_user_by_id(int(owner_id))
@@ -229,7 +273,9 @@ def find_roles(query: str) -> list:
 
         if match:
             results.append({
-                'name': role_name,
+                'name': format_role_display(role_key),
+                'key': role_key,
+                'id': role_info.get('id'),
                 'season': role_info.get('season', '?'),
                 'status': role_info.get('status', '?'),
                 'owner_id': owner_id,
@@ -240,30 +286,43 @@ def find_roles(query: str) -> list:
     logger.info(f"🔍 find_roles('{query}') → найдено {len(results)}")
     return results
 
+
 # ======================== ПОЛЬЗОВАТЕЛИ И РОЛИ ========================
 
 def get_user_role(user_id: int) -> str:
-    """Возвращает имя роли, которую занимает пользователь"""
     try:
         data = load_roles_status()
-        for role_name, role_info in data.items():
+        for role_key, role_info in data.items():
             if isinstance(role_info, dict) and role_info.get('owner_id') == user_id:
-                return role_name
+                return format_role_display(role_key)
         return ''
     except Exception as e:
-        logger.error(f"Ошибка получения роли пользователя {user_id}: {e}")
+        logger.error(f"Ошибка получения роли юзера {user_id}: {e}")
         return ''
 
+
+def get_user_role_key(user_id: int) -> str:
+    try:
+        data = load_roles_status()
+        for role_key, role_info in data.items():
+            if isinstance(role_info, dict) and role_info.get('owner_id') == user_id:
+                return role_key
+        return ''
+    except Exception as e:
+        logger.error(f"Ошибка получения ключа роли юзера {user_id}: {e}")
+        return ''
+
+
 def get_taken_roles() -> list:
-    """Возвращает список занятых ролей"""
     try:
         data = load_roles_status()
         taken = []
-        for role_name, role_info in data.items():
+        for role_key, role_info in data.items():
             if isinstance(role_info, dict) and role_info.get('status') == 'занята':
                 taken.append({
                     'season': role_info.get('season', ''),
-                    'role': role_name,
+                    'role': format_role_display(role_key),
+                    'key': role_key,
                     'user': role_info.get('username') or 'Неизвестно'
                 })
         return taken
@@ -271,38 +330,38 @@ def get_taken_roles() -> list:
         logger.error(f"Ошибка получения занятых ролей: {e}")
         return []
 
+
 def count_taken_roles() -> int:
-    """Возвращает количество занятых ролей"""
     return len(get_taken_roles())
+
 
 # ======================== СТАТИСТИКА ========================
 
 def get_all_roles() -> dict:
-    """Возвращает все роли в виде {сезон: [роли]}"""
     try:
         data = load_roles_status()
         result = {}
-        for role_name, role_info in data.items():
+        for role_key, role_info in data.items():
             if isinstance(role_info, dict):
                 season = role_info.get('season', 'Без сезона')
                 if season not in result:
                     result[season] = []
                 role = dict(role_info)
-                role['name'] = role_name
+                role['name'] = format_role_display(role_key)
+                role['key'] = role_key
                 result[season].append(role)
         return result
     except Exception as e:
         logger.error(f"Ошибка получения всех ролей: {e}")
         return {}
 
+
 def get_season_stats(season: str) -> dict:
-    """Статистика по сезону"""
     try:
         roles = get_roles_by_season(season)
         total = len(roles)
         free = sum(1 for r in roles if r.get('status') == 'свободна')
         occupied = sum(1 for r in roles if r.get('status') == 'занята')
-
         return {
             'season': season,
             'total': total,
@@ -311,25 +370,25 @@ def get_season_stats(season: str) -> dict:
             'free_percent': round((free / total * 100) if total > 0 else 0, 1)
         }
     except Exception as e:
-        logger.error(f"Ошибка статистики по {season}: {e}")
+        logger.error(f"Ошибка статистики {season}: {e}")
         return {'season': season, 'total': 0, 'free': 0, 'occupied': 0, 'free_percent': 0}
 
+
 def get_all_seasons_stats() -> dict:
-    """Статистика по всем сезонам"""
     return {season: get_season_stats(season) for season in get_seasons_list()}
 
+
 def get_free_roles_by_season(season: str) -> list:
-    """Свободные роли в сезоне"""
     return [r for r in get_roles_by_season(season) if r.get('status') == 'свободна']
 
+
 def get_occupied_roles_by_season(season: str) -> list:
-    """Занятые роли в сезоне"""
     return [r for r in get_roles_by_season(season) if r.get('status') == 'занята']
 
-# ======================== НАСТРОЙКИ СИСТЕМЫ ========================
+
+# ======================== НАСТРОЙКИ ========================
 
 def get_system_settings() -> dict:
-    """Загружает system_settings.json"""
     try:
         settings_file = os.path.join(DATA_DIR, 'system', 'system_settings.json')
         if not os.path.exists(settings_file):
@@ -345,15 +404,14 @@ def get_system_settings() -> dict:
             with open(settings_file, 'w', encoding='utf-8') as f:
                 json.dump(default, f, ensure_ascii=False, indent=2)
             return default
-
         with open(settings_file, 'r', encoding='utf-8') as f:
             return json.load(f)
     except Exception as e:
         logger.error(f"Ошибка загрузки system_settings.json: {e}")
         return {}
 
+
 def save_system_settings(settings: dict) -> bool:
-    """Сохраняет system_settings.json"""
     try:
         settings_file = os.path.join(DATA_DIR, 'system', 'system_settings.json')
         with open(settings_file, 'w', encoding='utf-8') as f:
@@ -363,20 +421,134 @@ def save_system_settings(settings: dict) -> bool:
         logger.error(f"Ошибка сохранения system_settings.json: {e}")
         return False
 
+
 def get_closed_mode() -> bool:
-    """Возвращает True, если набор закрыт"""
-    try:
-        return get_system_settings().get('closed_mode', False)
-    except Exception as e:
-        logger.error(f"Ошибка получения closed_mode: {e}")
-        return False
+    return get_system_settings().get('closed_mode', False)
+
 
 def set_closed_mode(value: bool) -> bool:
-    """Устанавливает режим закрытого набора"""
+    settings = get_system_settings()
+    settings['closed_mode'] = value
+    return save_system_settings(settings)
+
+
+# ======================== СИНХРОНИЗАЦИЯ (с ID) ========================
+
+def _read_season_file(filepath: str) -> list:
+    roles = []
     try:
-        settings = get_system_settings()
-        settings['closed_mode'] = value
-        return save_system_settings(settings)
+        with open(filepath, 'r', encoding='utf-8') as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith('#'):
+                    continue
+                roles.append(line)
     except Exception as e:
-        logger.error(f"Ошибка установки closed_mode: {e}")
-        return False
+        logger.error(f"❌ Ошибка чтения {filepath}: {e}")
+        return []
+    return roles
+
+
+def sync_roles_from_files() -> dict:
+    """
+    Синхронизация ролей из data/roles/*.txt.
+    Новым ролям присваивается ID.
+    """
+    from utils.role_ids import get_next_id, add_free_id
+
+    if not os.path.exists(ROLES_DIR):
+        logger.warning(f"⚠️ Папка {ROLES_DIR} не найдена")
+        return {'added': 0, 'removed': 0, 'kept': 0, 'total_files': 0}
+
+    data = load_roles_status()
+
+    expected_keys = set()
+    total_files = 0
+
+    try:
+        files = [f for f in os.listdir(ROLES_DIR) if f.endswith('.txt')]
+    except Exception as e:
+        logger.error(f"❌ Ошибка чтения {ROLES_DIR}: {e}")
+        return {'added': 0, 'removed': 0, 'kept': 0, 'total_files': 0}
+
+    for filename in files:
+        filepath = os.path.join(ROLES_DIR, filename)
+        season_name = os.path.splitext(filename)[0]
+        roles = _read_season_file(filepath)
+        total_files += 1
+
+        for role_name in roles:
+            key = make_role_key(role_name, season_name)
+            expected_keys.add(key)
+
+    # Добавляем новые (с ID)
+    added = 0
+    for key in expected_keys:
+        if key not in data:
+            season = get_role_season_from_key(key)
+            new_id = get_next_id(data)
+            data[key] = {
+                'id': new_id,
+                'status': 'свободна',
+                'owner_id': None,
+                'username': None,
+                'season': season,
+                'extra': ''
+            }
+            added += 1
+            logger.info(f"➕ Новая роль '{key}' (ID: {new_id})")
+
+    # Удаляем лишние + освобождаем ID
+    removed = 0
+    kept = 0
+    for key in list(data.keys()):
+        if key in expected_keys:
+            continue
+
+        role_info = data[key]
+        if not isinstance(role_info, dict):
+            continue
+
+        owner_id = role_info.get('owner_id')
+        if owner_id:
+            logger.warning(f"⚠️ Роль '{key}' не в файлах, но занята — оставляю")
+            kept += 1
+            continue
+
+        # Освобождаем ID
+        rid = role_info.get('id')
+        if isinstance(rid, int):
+            add_free_id(rid)
+            logger.info(f"🆔 ID {rid} освобождён (роль '{key}' удалена)")
+
+        del data[key]
+        removed += 1
+        logger.info(f"➖ Удалена роль '{key}'")
+
+    if added > 0 or removed > 0:
+        save_roles_status(data)
+
+    logger.info(f"🔄 Синхронизация: файлов {total_files}, +{added}, -{removed}, сохранено {kept}")
+    return {'added': added, 'removed': removed, 'kept': kept, 'total_files': total_files}
+
+
+def rename_season(old_name: str, new_name: str) -> int:
+    data = load_roles_status()
+    new_data = {}
+    count = 0
+
+    for role_key, role_info in data.items():
+        if isinstance(role_info, dict) and role_info.get('season') == old_name:
+            short_name = format_role_display(role_key)
+            new_key = make_role_key(short_name, new_name)
+            role_info['season'] = new_name
+            new_data[new_key] = role_info
+            count += 1
+        else:
+            new_data[role_key] = role_info
+
+    if count > 0:
+        save_roles_status(new_data)
+        logger.info(f"✅ Сезон '{old_name}' → '{new_name}': {count} ролей")
+
+    return count

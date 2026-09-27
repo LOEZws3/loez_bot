@@ -7,6 +7,7 @@ from .rest_commands import router as rest_commands_router
 from .settings_commands import router as settings_commands_router
 from .diagnostic_commands import router as diagnostic_commands_router
 from .apply_handlers import router as apply_router
+from .clear_me import router as clear_me_router
 from .chat_member import router as chat_member_router
 
 routers = [
@@ -19,5 +20,6 @@ routers = [
     settings_commands_router,
     diagnostic_commands_router,
     apply_router,
+    clear_me_router,
     chat_member_router,
 ]

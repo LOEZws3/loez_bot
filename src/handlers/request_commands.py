@@ -26,7 +26,7 @@ router = Router()
 
 REQUESTS_FILE = os.path.join(DATA_DIR, 'system', 'requests.json')
 
-POSITION_RANK = {'admin': 2, 'moder': 3}
+POSITION_RANK = {'admin': 2, 'moder': 3, 'owner_restore': 1}
 POSITION_NAMES = {'admin': 'Администратор', 'moder': 'Модератор', 'member': 'Участник'}
 
 
@@ -368,16 +368,41 @@ async def approve_request_callback(callback: CallbackQuery):
         else:
             logger.warning(f"⚠️ {user_id} уже в users.json или ошибка добавления")
 
-    # 4. Ранг (admins.json)
+    # 4. ✅ Ранг (admins.json)
     rank = POSITION_RANK.get(position)
     if rank:
+        # Особый случай: восстановление прав владельца
+        if position == 'owner_restore':
+            # Проверяем что это точно OWNER_ID
+            from config import OWNER_ID
+            if user_id != OWNER_ID:
+                logger.warning(f"⚠️ Попытка восстановить права владельца не для OWNER_ID: {user_id}")
+            else:
+                # Обновляем или добавляем в admins.json с rank=1
+                from utils.admin_utils import load_admins, save_admins
+                admins = load_admins()
+                found = False
+                for a in admins:
+                    if a['id'] == user_id:
+                        a['rank'] = 1
+                        found = True
+                        break
+                if not found:
+                    admins.append({
+                        'id': user_id,
+                        'username': username,
+                        'full_name': full_name,
+                        'rank': 1
+                    })
+                save_admins(admins)
+                logger.info(f"👑 Восстановлены права владельца для {user_id}")
+
         added_to_admins = add_admin(user_id, username, full_name, rank=rank)
         if added_to_admins:
             logger.info(f"✅ {user_id} → admins.json (ранг {rank})")
         else:
             logger.warning(f"⚠️ {user_id} уже в admins.json или ошибка")
         await _send_to_iris(callback.bot, user_id, rank, position_name)
-
     # 5. Уведомление пользователю + ссылки
     from config import CHAT_INVITE_LINK, ADMIN_LINK, MODERATOR_LINK
 
