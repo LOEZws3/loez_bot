@@ -10,52 +10,19 @@ from aiogram.fsm.state import State, StatesGroup
 from config import GENERAL_CHAT_ID, DATA_DIR
 from utils.admin_utils import is_owner
 from utils.role_utils import get_closed_mode, set_closed_mode
+from utils.settings_utils import (
+    load_settings, save_settings, reset_settings,
+    DEFAULT_SETTINGS,
+)
 
 logger = logging.getLogger(__name__)
 router = Router()
-
-SETTINGS_FILE = os.path.join(DATA_DIR, 'system', 'system_settings.json')
 
 
 # ======================== FSM ========================
 
 class WaitingForSetting(StatesGroup):
     value = State()
-
-
-# ======================== ЗАГРУЗКА / СОХРАНЕНИЕ ========================
-
-def load_settings():
-    """Загружает настройки"""
-    if not os.path.exists(SETTINGS_FILE):
-        return _default_settings()
-    try:
-        with open(SETTINGS_FILE, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
-        return _default_settings()
-
-
-def save_settings(settings):
-    """Сохраняет настройки"""
-    os.makedirs(os.path.dirname(SETTINGS_FILE), exist_ok=True)
-    with open(SETTINGS_FILE, 'w', encoding='utf-8') as f:
-        json.dump(settings, f, indent=4)
-
-
-def _default_settings():
-    return {
-        "closed_mode": False,
-        "reminder_enabled": True,
-        "max_rest_days": 14,
-        "call_cooldown": 20,
-        "callfal_cooldown": 30,
-        "welcome_enabled": True,
-        "auto_rest_removal": True,
-        "forward_enabled": False,
-        "anonymous_mode": False,
-        "max_role_changes": 1
-    }
 
 
 # ======================== МЕНЮ ========================
@@ -108,7 +75,7 @@ async def cmd_settings(message: Message):
                 callback_data="settings_callfal_cooldown"
             )
         ],
-            [
+        [
             InlineKeyboardButton(
                 text=f"📅 Макс. рест: {settings['max_rest_days']} дн.",
                 callback_data="settings_max_rest"
@@ -116,8 +83,14 @@ async def cmd_settings(message: Message):
         ],
         [
             InlineKeyboardButton(
-                text=f"🔄 Макс. смен роли: {settings.get('max_role_changes', 3)}",
+                text=f"🔄 Макс. смен роли: {settings.get('max_role_changes', 1)}",
                 callback_data="settings_max_role_changes"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text=f"📊 Норма сообщений: {settings.get('messages_norm', 70)}",
+                callback_data="settings_messages_norm"
             )
         ],
         [
@@ -206,7 +179,7 @@ async def settings_callback(callback: CallbackQuery, state: FSMContext):
         )
         await callback.message.delete()
         return
-    
+
     elif action == "max_role_changes":
         await state.set_state(WaitingForSetting.value)
         await state.update_data(setting_name='max_role_changes')
@@ -214,6 +187,18 @@ async def settings_callback(callback: CallbackQuery, state: FSMContext):
             "🔄 <b>Изменить максимальное количество смен роли</b>\n\n"
             "Введите новое значение (от 0 до 20):\n"
             "0 — смены роли запрещены",
+            parse_mode="HTML"
+        )
+        await callback.message.delete()
+        return
+
+    elif action == "messages_norm":
+        await state.set_state(WaitingForSetting.value)
+        await state.update_data(setting_name='messages_norm')
+        await callback.message.answer(
+            "📊 <b>Изменить норму сообщений в неделю</b>\n\n"
+            "Введите новое значение (от 1 до 1000):\n"
+            "Это число сообщений, которое юзер должен набрать за неделю.",
             parse_mode="HTML"
         )
         await callback.message.delete()
@@ -229,13 +214,14 @@ async def settings_callback(callback: CallbackQuery, state: FSMContext):
             f"⏱️ Кулдаун кала: {settings['call_cooldown']} сек\n"
             f"⏱️ Кулдаун кал-фал: {settings['callfal_cooldown']} сек\n"
             f"📅 Макс. рест: {settings['max_rest_days']} дн.\n"
-            f"🔄 Макс. смен роли: {settings.get('max_role_changes', 3)}"
+            f"🔄 Макс. смен роли: {settings.get('max_role_changes', 1)}\n"
+            f"📊 Норма сообщений: {settings.get('messages_norm', 70)}"
         )
         await callback.message.answer(text, parse_mode="HTML")
         return
 
     elif action == "reset":
-        save_settings(_default_settings())
+        reset_settings()
         set_closed_mode(False)
         await callback.answer("✅ Настройки сброшены!")
 
@@ -249,7 +235,7 @@ async def settings_callback(callback: CallbackQuery, state: FSMContext):
     await cmd_settings(callback.message)
 
 
-# ======================== ВВОД ЧИСЛА (ТОЛЬКО В FSM) ========================
+# ======================== ВВОД ЧИСЛА ========================
 
 @router.message(WaitingForSetting.value, F.text.regexp(r'^\d+$'))
 async def settings_value_input(message: Message, state: FSMContext):
@@ -301,10 +287,19 @@ async def settings_value_input(message: Message, state: FSMContext):
             await message.answer(f"✅ Макс. смен роли изменён на {value}.")
         else:
             await message.answer("❌ Значение вне диапазона (0-20).")
+
+    elif setting_name == 'messages_norm':
+        if 1 <= value <= 1000:
+            settings['messages_norm'] = value
+            save_settings(settings)
+            await message.answer(f"✅ Норма сообщений изменена на {value}.")
+        else:
+            await message.answer("❌ Значение вне диапазона (1-1000).")
+
     await state.clear()
 
 
-# ======================== ОТМЕНА (если пользователь передумал) ========================
+# ======================== ОТМЕНА ========================
 
 @router.message(WaitingForSetting.value, Command('cancel'))
 async def cancel_setting(message: Message, state: FSMContext):

@@ -86,12 +86,11 @@ def _get_active_request(user_id: int):
 
 def _get_max_role_changes() -> int:
     try:
-        from handlers.settings_commands import load_settings
-        settings = load_settings()
-        return int(settings.get('max_role_changes', 3))
+        from utils.settings_utils import get_max_role_changes
+        return get_max_role_changes()
     except Exception as e:
         logger.error(f"Ошибка чтения лимита смен роли: {e}")
-        return 3
+        return 1
 
 
 # ======================== ПРОВЕРКА ТАЙМАУТА ========================

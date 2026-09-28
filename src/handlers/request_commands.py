@@ -18,7 +18,9 @@ from utils.user_utils import (
 from utils.role_utils import (
     load_roles_status, save_roles_status,
     get_role_by_name, update_role_status,
+    update_role_status_by_id,
     get_user_role as get_user_role_name,
+    get_user_role_key,
 )
 
 logger = logging.getLogger(__name__)
@@ -66,14 +68,43 @@ def _get_pending() -> list:
 
 
 def _get_max_role_changes() -> int:
-    """Возвращает лимит смен роли из настроек"""
     try:
-        from handlers.settings_commands import load_settings
-        settings = load_settings()
-        return int(settings.get('max_role_changes', 3))
+        from utils.settings_utils import get_max_role_changes
+        return get_max_role_changes()
     except Exception as e:
         logger.error(f"Ошибка чтения лимита смен роли: {e}")
-        return 3
+        return 1
+
+
+# ======================== ВСПОМОГАТЕЛЬНАЯ: ЗАНЯТЬ/ОСВОБОДИТЬ РОЛЬ ========================
+
+def _occupy_role(role_id: int, user_id: int, username: str) -> bool:
+    """Занимает роль по ID: ставит статус 'занята' + владельца."""
+    status_data = load_roles_status()
+    for role_key, role_info in status_data.items():
+        if isinstance(role_info, dict) and role_info.get('id') == role_id:
+            role_info['status'] = 'занята'
+            role_info['owner_id'] = user_id
+            role_info['username'] = username
+            save_roles_status(status_data)
+            logger.info(f"✅ Роль '{role_key}' (ID {role_id}) занята юзером {user_id}")
+            return True
+    logger.warning(f"⚠️ Роль с ID {role_id} не найдена")
+    return False
+
+
+def _free_role_by_id(role_id: int) -> bool:
+    """Освобождает роль по ID."""
+    status_data = load_roles_status()
+    for role_key, role_info in status_data.items():
+        if isinstance(role_info, dict) and role_info.get('id') == role_id:
+            role_info['status'] = 'свободна'
+            role_info['owner_id'] = None
+            role_info['username'] = None
+            save_roles_status(status_data)
+            logger.info(f"✅ Роль '{role_key}' (ID {role_id}) освобождена")
+            return True
+    return False
 
 
 # ======================== ИРИС ========================
@@ -184,10 +215,9 @@ async def reject_with_reason(message: Message, state: FSMContext):
         requests[request_id]['updated_at'] = datetime.now().isoformat()
         _save_requests(requests)
 
-        role_name = requests[request_id].get('role')
-        season = requests[request_id].get('season')
-        if role_name and season:
-            update_role_status(role_name, season, "свободна")
+        role_id = requests[request_id].get('role_id')
+        if role_id:
+            _free_role_by_id(role_id)
 
         await message.answer(f"✅ Заявка #{request_id} отклонена.\nПричина: {html.escape(reason)}")
     else:
@@ -267,11 +297,9 @@ async def view_request(callback: CallbackQuery):
         f"🏷️ Должность: {safe_position}"
     )
 
-    # ✅ Показываем старую роль, если есть
     if old_role:
         text += f"\n\n⚠️ У юзера уже есть роль: <b>{html.escape(old_role)}</b> (будет освобождена)"
 
-    # ✅ Показываем счётчик смен
     try:
         changes = get_changes_count(user_id)
         max_changes = _get_max_role_changes()
@@ -308,6 +336,8 @@ async def approve_request_callback(callback: CallbackQuery):
         return
 
     role_name = request.get('role')
+    role_key = request.get('role_key')
+    role_id = request.get('role_id')
     season = request.get('season')
     user_id = request.get('user_id')
     username = request.get('username', '')
@@ -315,37 +345,42 @@ async def approve_request_callback(callback: CallbackQuery):
     position = request.get('position', 'member')
     position_name = request.get('position_name', POSITION_NAMES.get(position, 'Участник'))
 
-    if not role_name or not season:
-        await callback.message.edit_text("❌ Ошибка: нет роли или сезона.")
+    if not role_name or not season or not role_id:
+        await callback.message.edit_text(
+            f"❌ Ошибка: в заявке нет role_id. Удалите заявку и подайте заново."
+        )
+        logger.error(f"Заявка #{request_id} без role_id: {request}")
         return
 
     # ✅ 0. ОСВОБОЖДАЕМ СТАРУЮ РОЛЬ (если была)
-    old_role = None
+    old_role_key = None
     try:
-        old_role = get_user_role_name(user_id)
+        old_role_key = get_user_role_key(user_id)
     except Exception:
         pass
 
-    if old_role and old_role != role_name:
+    if old_role_key:
+        # Находим ID старой роли
         status_data = load_roles_status()
-        if old_role in status_data:
-            status_data[old_role]['status'] = 'свободна'
-            status_data[old_role]['owner_id'] = None
-            status_data[old_role]['username'] = None
-            save_roles_status(status_data)
-            logger.info(f"🔄 Освобождена старая роль {old_role} у {user_id}")
+        old_role_id = None
+        for rk, rv in status_data.items():
+            if rk == old_role_key and isinstance(rv, dict):
+                old_role_id = rv.get('id')
+                break
 
-        # ✅ Инкремент счётчика смен (если это реально смена)
-        increment_changes_count(user_id)
-        logger.info(f"🔄 Счётчик смен роли для {user_id} увеличен")
+        if old_role_id and old_role_id != role_id:
+            # Освобождаем старую
+            _free_role_by_id(old_role_id)
+            increment_changes_count(user_id)
+            logger.info(f"🔄 Освобождена старая роль '{old_role_key}' у {user_id}")
 
-    # 1. Занимаем новую роль
-    status_data = load_roles_status()
-    if role_name in status_data:
-        status_data[role_name]['status'] = 'занята'
-        status_data[role_name]['owner_id'] = user_id
-        status_data[role_name]['username'] = username
-        save_roles_status(status_data)
+    # 1. ЗАНИМАЕМ НОВУЮ РОЛЬ ПО ID
+    occupied = _occupy_role(role_id, user_id, username)
+    if not occupied:
+        await callback.message.edit_text(
+            f"❌ Не удалось занять роль (ID {role_id}). Возможно, роль удалена."
+        )
+        return
 
     # 2. Обновляем заявку
     requests[request_id]['status'] = 'approved'
@@ -357,28 +392,23 @@ async def approve_request_callback(callback: CallbackQuery):
     existing_user = get_user_by_id(user_id)
 
     if existing_user:
-        # Юзер уже есть — обновляем роль, сохраняем changes_count
         update_user_role(user_id, role_name)
         logger.info(f"✅ {user_id} обновлён в users.json (новая роль {role_name})")
     else:
-        # Новый юзер
         added_to_users = add_user(user_id, username, full_name, role=role_name)
         if added_to_users:
             logger.info(f"✅ {user_id} → users.json (роль {role_name})")
         else:
             logger.warning(f"⚠️ {user_id} уже в users.json или ошибка добавления")
 
-    # 4. ✅ Ранг (admins.json)
+    # 4. Ранг
     rank = POSITION_RANK.get(position)
     if rank:
-        # Особый случай: восстановление прав владельца
         if position == 'owner_restore':
-            # Проверяем что это точно OWNER_ID
             from config import OWNER_ID
             if user_id != OWNER_ID:
                 logger.warning(f"⚠️ Попытка восстановить права владельца не для OWNER_ID: {user_id}")
             else:
-                # Обновляем или добавляем в admins.json с rank=1
                 from utils.admin_utils import load_admins, save_admins
                 admins = load_admins()
                 found = False
@@ -403,7 +433,8 @@ async def approve_request_callback(callback: CallbackQuery):
         else:
             logger.warning(f"⚠️ {user_id} уже в admins.json или ошибка")
         await _send_to_iris(callback.bot, user_id, rank, position_name)
-    # 5. Уведомление пользователю + ссылки
+
+    # 5. Уведомление
     from config import CHAT_INVITE_LINK, ADMIN_LINK, MODERATOR_LINK
 
     invite_text = f"\n\n🔗 <b>Ссылка на вступление в чат:</b>\n{CHAT_INVITE_LINK}"
@@ -459,16 +490,17 @@ async def reject_request_callback(callback: CallbackQuery):
     requests[request_id]['updated_at'] = datetime.now().isoformat()
     _save_requests(requests)
 
-    role_name = request.get('role')
-    season = request.get('season')
-    if role_name and season:
-        update_role_status(role_name, season, "свободна")
+    # Освобождаем роль по ID
+    role_id = request.get('role_id')
+    if role_id:
+        _free_role_by_id(role_id)
 
     user_id = request.get('user_id')
+    role_name = request.get('role', '?')
     try:
         await callback.bot.send_message(
             user_id,
-            f"❌ <b>Ваша заявка на роль '{html.escape(role_name or '?')}' отклонена.</b>",
+            f"❌ <b>Ваша заявка на роль '{html.escape(role_name)}' отклонена.</b>",
             parse_mode="HTML"
         )
     except Exception as e:
