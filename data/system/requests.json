@@ -130,5 +130,61 @@
     "status": "approved",
     "created_at": "2026-09-24T23:07:25.396872",
     "updated_at": "2026-09-24T23:07:44.826784"
+  },
+  "18": {
+    "user_id": 8076284478,
+    "username": "Sedrik_loez",
+    "full_name": "Chedrik SSL",
+    "season": "Межсезонные персонажи",
+    "role": "Седрик",
+    "role_key": "Седрик (Межсезонные персонажи)",
+    "role_id": 228,
+    "position": "owner_restore",
+    "position_name": "👑 Восстановить права владельца",
+    "status": "approved",
+    "created_at": "2026-09-27T21:10:38.514299",
+    "updated_at": "2026-09-27T21:11:44.409878"
+  },
+  "19": {
+    "user_id": 8076284478,
+    "username": "Sedrik_loez",
+    "full_name": "Chedrik SSL",
+    "season": "Последняя реальность",
+    "role": "Груша",
+    "role_key": "Груша (Последняя реальность)",
+    "role_id": 491,
+    "position": "member",
+    "position_name": "Участник",
+    "status": "approved",
+    "created_at": "2026-09-27T21:14:57.775251",
+    "updated_at": "2026-09-27T21:15:14.484016"
+  },
+  "20": {
+    "user_id": 8076284478,
+    "username": "Sedrik_loez",
+    "full_name": "Chedrik SSL",
+    "season": "Последняя реальность",
+    "role": "Груша",
+    "role_key": "Груша (Последняя реальность)",
+    "role_id": 491,
+    "position": "owner_restore",
+    "position_name": "👑 Восстановить права владельца",
+    "status": "approved",
+    "created_at": "2026-09-27T21:21:43.565073",
+    "updated_at": "2026-09-27T21:21:49.691284"
+  },
+  "21": {
+    "user_id": 8076284478,
+    "username": "Sedrik_loez",
+    "full_name": "Chedrik SSL",
+    "season": "Межсезонные персонажи",
+    "role": "Седрик",
+    "role_key": "Седрик (Межсезонные персонажи)",
+    "role_id": 228,
+    "position": "owner_restore",
+    "position_name": "👑 Восстановить права владельца",
+    "status": "approved",
+    "created_at": "2026-09-27T21:33:59.210542",
+    "updated_at": "2026-09-27T21:34:04.710269"
   }
 }

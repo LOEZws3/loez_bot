@@ -7,5 +7,8 @@
     "welcome_enabled": true,
     "auto_rest_removal": true,
     "forward_enabled": false,
-    "anonymous_mode": false
+    "anonymous_mode": false,
+    "max_role_changes": 1,
+    "messages_norm": 70,
+    "norm_auto_message_enabled": true
 }
