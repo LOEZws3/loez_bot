@@ -18,27 +18,10 @@ from handlers import routers
 from proxy_manager import proxy_manager
 from middlewares import RegistrationCheckMiddleware
 
-# ═══════════════════════════════════════════════════════════════════
-# КЛАСС ИСКЛЮЧЕНИЯ ДЛЯ SSL-ОШИБОК ПРОКСИ
-# ═══════════════════════════════════════════════════════════════════
 
 class ProxySSLException(Exception):
-    """Исключение для SSL-ошибок при работе через прокси"""
     pass
 
-
-# ═══════════════════════════════════════════════════════════════════
-# ⚠️  ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ О СИСТЕМЕ ПОДКЛЮЧЕНИЯ
-# ═══════════════════════════════════════════════════════════════════
-#
-#  Данная система подключения (AiohttpSession(proxy=proxy_url))
-#  является РАБОЧЕЙ и СТАБИЛЬНОЙ.
-#
-#  ЗАПРЕЩАЕТСЯ:
-#  1. Добавлять connector, ssl_context или другие параметры в AiohttpSession
-#  2. Использовать aiohttp.ClientSession для подмены сессии
-#  3. Менять способ создания сессии на любой другой
-# ═══════════════════════════════════════════════════════════════════
 
 if sys.platform == 'win32':
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
@@ -237,7 +220,7 @@ async def sync_roles_loop():
     while True:
         try:
             # Текущее время в МСК (UTC+3)
-            now_utc = datetime.datetime.utcnow()
+            now_utc = datetime.datetime.now(datetime.UTC)
             now_msk = now_utc + datetime.timedelta(hours=3)
 
             # Целевое время — 03:33 МСК
@@ -248,6 +231,11 @@ async def sync_roles_loop():
                 target += datetime.timedelta(days=1)
 
             wait_seconds = (target - now_msk).total_seconds()
+
+            # ✅ Защита от двойного запуска: минимум 60 сек
+            if wait_seconds < 60:
+                wait_seconds = 60
+
             logger.info(f"🔄 Синхронизация ролей: следующая через {int(wait_seconds / 60)} мин (в 03:33 МСК)")
 
             await asyncio.sleep(wait_seconds)
@@ -262,13 +250,28 @@ async def sync_roles_loop():
             # Если ошибка — подождём час и попробуем снова
             await asyncio.sleep(3600)
 
+async def expire_warns_loop():
+    """
+    Планировщик проверки истечения варнов.
+    Раз в час удаляет истёкшие варны.
+    """
+    from utils.warns_utils import expire_old_warns
 
+    while True:
+        try:
+            removed = expire_old_warns()
+            if removed > 0:
+                logger.info(f"🕐 Удалено истёкших варнов: {removed}")
+        except Exception as e:
+            logger.error(f"❌ Ошибка в планировщике варнов: {e}")
+
+        await asyncio.sleep(3600)  # каждый час
 async def run_bot():
     global bot
 
     dp = Dispatcher()
 
-    # Подключаем middleware стартового режима
+    # Middleware стартового режима
     dp.message.middleware(RegistrationCheckMiddleware())
     logger.info("✅ Middleware стартового режима подключен")
 
@@ -369,6 +372,8 @@ async def on_startup():
 
     asyncio.create_task(sync_roles_loop())
     logger.info("🔄 Планировщик синхронизации ролей запущен (03:33 МСК)")
+    asyncio.create_task(expire_warns_loop())
+    logger.info("🔄 Планировщик истечения варнов запущен (раз в час)")
 
     await set_bot_commands()
 

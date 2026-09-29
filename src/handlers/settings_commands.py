@@ -19,8 +19,6 @@ logger = logging.getLogger(__name__)
 router = Router()
 
 
-# ======================== FSM ========================
-
 class WaitingForSetting(StatesGroup):
     value = State()
 
@@ -94,6 +92,30 @@ async def cmd_settings(message: Message):
             )
         ],
         [
+            InlineKeyboardButton(
+                text=f"📉 НПНДБ: {settings.get('messages_norm_low', 10)}",
+                callback_data="settings_messages_norm_low"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text=f"{'✅' if settings.get('warns_accumulate', False) else '❌'} Накопление варнов",
+                callback_data="settings_toggle_warns_accumulate"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text=f"🔢 Варнов до бана: {settings.get('warns_to_ban', 3)}",
+                callback_data="settings_warns_to_ban"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text=f"{'✅' if settings.get('warn_notify_admin', True) else '❌'} Уведомлять о 3-м варне",
+                callback_data="settings_toggle_warn_notify"
+            )
+        ],
+        [
             InlineKeyboardButton(text="📊 Показать все настройки", callback_data="settings_show_all")
         ],
         [
@@ -115,7 +137,6 @@ async def cmd_settings(message: Message):
 
 @router.callback_query(F.data.startswith("settings_"))
 async def settings_callback(callback: CallbackQuery, state: FSMContext):
-    """Обработка настроек"""
     await callback.answer()
     user_id = callback.from_user.id
 
@@ -146,6 +167,16 @@ async def settings_callback(callback: CallbackQuery, state: FSMContext):
         settings['auto_rest_removal'] = not settings['auto_rest_removal']
         save_settings(settings)
         await callback.answer(f"Авто-снятие реста: {'включено ✅' if settings['auto_rest_removal'] else 'выключено ❌'}")
+
+    elif action == "toggle_warns_accumulate":
+        settings['warns_accumulate'] = not settings.get('warns_accumulate', False)
+        save_settings(settings)
+        await callback.answer(f"Накопление варнов: {'включено ✅' if settings['warns_accumulate'] else 'выключено ❌'}")
+
+    elif action == "toggle_warn_notify":
+        settings['warn_notify_admin'] = not settings.get('warn_notify_admin', True)
+        save_settings(settings)
+        await callback.answer(f"Уведомлять о 3-м варне: {'вкл ✅' if settings['warn_notify_admin'] else 'выкл ❌'}")
 
     elif action == "call_cooldown":
         await state.set_state(WaitingForSetting.value)
@@ -197,8 +228,30 @@ async def settings_callback(callback: CallbackQuery, state: FSMContext):
         await state.update_data(setting_name='messages_norm')
         await callback.message.answer(
             "📊 <b>Изменить норму сообщений в неделю</b>\n\n"
-            "Введите новое значение (от 1 до 1000):\n"
-            "Это число сообщений, которое юзер должен набрать за неделю.",
+            "Введите новое значение (от 1 до 1000):",
+            parse_mode="HTML"
+        )
+        await callback.message.delete()
+        return
+
+    elif action == "messages_norm_low":
+        await state.set_state(WaitingForSetting.value)
+        await state.update_data(setting_name='messages_norm_low')
+        await callback.message.answer(
+            "📉 <b>Изменить НПНДБ</b>\n\n"
+            "Нижний порог для бана.\n"
+            "Введите новое значение (от 1 до 1000):",
+            parse_mode="HTML"
+        )
+        await callback.message.delete()
+        return
+
+    elif action == "warns_to_ban":
+        await state.set_state(WaitingForSetting.value)
+        await state.update_data(setting_name='warns_to_ban')
+        await callback.message.answer(
+            "🔢 <b>Изменить количество варнов до бана</b>\n\n"
+            "Введите новое значение (от 1 до 10):",
             parse_mode="HTML"
         )
         await callback.message.delete()
@@ -214,8 +267,13 @@ async def settings_callback(callback: CallbackQuery, state: FSMContext):
             f"⏱️ Кулдаун кала: {settings['call_cooldown']} сек\n"
             f"⏱️ Кулдаун кал-фал: {settings['callfal_cooldown']} сек\n"
             f"📅 Макс. рест: {settings['max_rest_days']} дн.\n"
-            f"🔄 Макс. смен роли: {settings.get('max_role_changes', 1)}\n"
-            f"📊 Норма сообщений: {settings.get('messages_norm', 70)}"
+            f"🔄 Макс. смен роли: {settings.get('max_role_changes', 1)}\n\n"
+            f"📊 <b>НОРМА И ЧИСТКА:</b>\n"
+            f"📊 Норма сообщений: {settings.get('messages_norm', 70)}\n"
+            f"📉 НПНДБ: {settings.get('messages_norm_low', 10)}\n"
+            f"{'✅' if settings.get('warns_accumulate', False) else '❌'} Накопление варнов\n"
+            f"🔢 Варнов до бана: {settings.get('warns_to_ban', 3)}\n"
+            f"{'✅' if settings.get('warn_notify_admin', True) else '❌'} Уведомлять о 3-м варне"
         )
         await callback.message.answer(text, parse_mode="HTML")
         return
@@ -231,7 +289,6 @@ async def settings_callback(callback: CallbackQuery, state: FSMContext):
         await callback.message.answer("🔙 Настройки закрыты.")
         return
 
-    # Обновляем меню
     await cmd_settings(callback.message)
 
 
@@ -239,7 +296,6 @@ async def settings_callback(callback: CallbackQuery, state: FSMContext):
 
 @router.message(WaitingForSetting.value, F.text.regexp(r'^\d+$'))
 async def settings_value_input(message: Message, state: FSMContext):
-    """Обработка ввода числа — ТОЛЬКО когда ждём ввод настройки"""
     user_id = message.from_user.id
 
     if not is_owner(user_id):
@@ -296,13 +352,26 @@ async def settings_value_input(message: Message, state: FSMContext):
         else:
             await message.answer("❌ Значение вне диапазона (1-1000).")
 
+    elif setting_name == 'messages_norm_low':
+        if 1 <= value <= 1000:
+            settings['messages_norm_low'] = value
+            save_settings(settings)
+            await message.answer(f"✅ НПНДБ изменён на {value}.")
+        else:
+            await message.answer("❌ Значение вне диапазона (1-1000).")
+
+    elif setting_name == 'warns_to_ban':
+        if 1 <= value <= 10:
+            settings['warns_to_ban'] = value
+            save_settings(settings)
+            await message.answer(f"✅ Варнов до бана: {value}.")
+        else:
+            await message.answer("❌ Значение вне диапазона (1-10).")
+
     await state.clear()
 
 
-# ======================== ОТМЕНА ========================
-
 @router.message(WaitingForSetting.value, Command('cancel'))
 async def cancel_setting(message: Message, state: FSMContext):
-    """Отмена ввода настройки"""
     await state.clear()
     await message.answer("❌ Ввод настройки отменён.")

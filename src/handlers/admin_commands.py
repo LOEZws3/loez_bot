@@ -18,6 +18,8 @@ from utils.role_utils import (
     format_role_display,
     load_roles_status, save_roles_status,
 )
+from utils.norm_utils import get_user_category, get_emoji, get_category_label
+from utils.norm_utils import get_user_category, get_emoji
 from utils.requests_utils import get_request_by_user_id
 from .keyboards import get_main_keyboard
 import logging
@@ -304,6 +306,17 @@ async def _show_user_stats(message: Message, target_id: int, caller_id: int = No
     text += f"🎭 Роль: {html.escape(role) if role else 'нет'}\n"
     text += f"🔄 Смен роли: <b>{changes} / {max_changes}</b>\n"
 
+    # Плашка по норме
+    try:
+        category = get_user_category(target_id)
+        emoji = get_emoji(category)
+        category_label = get_category_label(category)
+        from utils.counters import get_message_count
+        msg_count = get_message_count(target_id)
+        text += f"{emoji} Норма: {category_label} ({msg_count} соо)\n"
+    except Exception as e:
+        logger.error(f"Ошибка получения нормы для {target_id}: {e}")
+
     buttons = [
         [InlineKeyboardButton(
             text="🔄 Сбросить счётчик смен",
@@ -533,7 +546,15 @@ async def cmd_users(message: Message):
         username = f"@{u['username']}" if u['username'] else "без юзернейма"
         role_name = ROLE_NAMES.get(u.get('role', '0'), 'Неизвестно')
         character = get_user_role_from_roles(u['id']) or "Нет роли"
-        text += f"• {html.escape(u['full_name'])} ({username}) – {role_name} ({character}) (ID: <code>{u['id']}</code>)\n"
+
+        # Плашка по норме
+        try:
+            category = get_user_category(u['id'])
+            emoji = get_emoji(category)
+        except Exception:
+            emoji = ''
+
+        text += f"{emoji} • {html.escape(u['full_name'])} ({username}) – {role_name} ({character}) (ID: <code>{u['id']}</code>)\n"
 
     if message.chat.id == GENERAL_CHAT_ID:
         await message.answer(text, parse_mode="HTML")
@@ -749,11 +770,24 @@ async def cmd_finduser(message: Message):
         return
 
     safe_name = html.escape(found['full_name'])
-    text = f"🔍 <b>Информация о пользователе</b>\n\n"
+
+    # Плашка по норме
+    try:
+        category = get_user_category(found['id'])
+        emoji = get_emoji(category)
+        category_label = get_category_label(category)
+    except Exception:
+        emoji = ''
+        category_label = ''
+
+    text = f"🔍 <b>Информация о пользователе</b> {emoji}\n\n"
     text += f"👤 Имя: {safe_name}\n"
     text += f"🔖 Юзернейм: @{found['username']}\n"
     text += f"🆔 ID: <code>{found['id']}</code>\n"
     text += f"🔗 <a href='tg://user?id={found['id']}'>Открыть профиль</a>\n"
+
+    if category_label:
+        text += f"📊 Статус нормы: {category_label}\n"
 
     role = get_user_role_from_roles(found['id'])
     if role:

@@ -29,6 +29,7 @@ from utils.role_utils import (
     get_all_seasons, get_roles_by_season, load_roles_status
 )
 from .keyboards import get_main_keyboard
+from utils.norm_utils import get_user_category, get_emoji
 
 logger = logging.getLogger(__name__)
 router = Router()
@@ -511,7 +512,15 @@ async def cmd_members(message: Message):
         role_index = u.get('role', '0')
         role_name = ROLE_NAMES.get(role_index, 'Неизвестно')
         character = get_user_role_from_roles(u['id']) or "Нет роли"
-        text += f"• [{role_index}] {html.escape(u['full_name'])} ({username}) – {role_name} ({character}) (ID: <code>{u['id']}</code>)\n"
+
+        # Плашка по норме
+        try:
+            category = get_user_category(u['id'])
+            emoji = get_emoji(category)
+        except Exception:
+            emoji = ''
+
+        text += f"{emoji} • [{role_index}] {html.escape(u['full_name'])} ({username}) – {role_name} ({character}) (ID: <code>{u['id']}</code>)\n"
 
     if len(text) > 4000:
         await message.answer(text[:3900], parse_mode="HTML")

@@ -27,11 +27,7 @@ router = Router()
 # ============================================================
 
 async def _check_registration(message: Message) -> bool:
-    """
-    Проверяет что юзер зарегистрирован (есть в users.json).
-    Возвращает True если ОК, False если нет (и сам показывает сообщение).
-    Админов пропускает.
-    """
+    """Проверяет что юзер зарегистрирован (есть в users.json)."""
     user_id = message.from_user.id
 
     if is_admin(user_id):
@@ -41,7 +37,6 @@ async def _check_registration(message: Message) -> bool:
     if user_data:
         return True
 
-    # Не зарегистрирован
     await message.answer(
         "⛔ <b>Вы не зарегистрированы в системе.</b>\n\n"
         "📌 Чтобы получить доступ ко всем кнопкам, подайте заявку через /apply",
@@ -58,49 +53,33 @@ async def _check_registration(message: Message) -> bool:
 def create_seasons_keyboard(seasons: list, callback_prefix: str = "apply_season") -> InlineKeyboardMarkup:
     keyboard = []
     row = []
-
     for i, season in enumerate(seasons):
         row.append(InlineKeyboardButton(text=f"📂 {season}", callback_data=f"{callback_prefix}_{season}"))
         if len(row) == 2:
             keyboard.append(row)
             row = []
-
     if row:
         keyboard.append(row)
-
-    keyboard.append([
-        InlineKeyboardButton(text="❌ Отменить", callback_data="apply_cancel")
-    ])
-
+    keyboard.append([InlineKeyboardButton(text="❌ Отменить", callback_data="apply_cancel")])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
 
 def create_roles_keyboard(roles: list, season: str, callback_prefix: str = "apply_role") -> InlineKeyboardMarkup:
     keyboard = []
-
     for role in roles:
         status_emoji = "✅" if role.get('status') == 'free' else "❌" if role.get('status') == 'occupied' else "⏳"
         button_text = f"{status_emoji} {role['name']}"
-
         if role.get('status') == 'free':
-            keyboard.append([
-                InlineKeyboardButton(
-                    text=button_text,
-                    callback_data=f"{callback_prefix}_{season}_{role['name']}"
-                )
-            ])
+            keyboard.append([InlineKeyboardButton(
+                text=button_text,
+                callback_data=f"{callback_prefix}_{season}_{role['name']}"
+            )])
         else:
-            keyboard.append([
-                InlineKeyboardButton(
-                    text=f"{button_text} 🔒",
-                    callback_data="role_occupied"
-                )
-            ])
-
-    keyboard.append([
-        InlineKeyboardButton(text="🔙 Назад к сезонам", callback_data="apply_back_to_seasons")
-    ])
-
+            keyboard.append([InlineKeyboardButton(
+                text=f"{button_text} 🔒",
+                callback_data="role_occupied"
+            )])
+    keyboard.append([InlineKeyboardButton(text="🔙 Назад к сезонам", callback_data="apply_back_to_seasons")])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
 
@@ -140,7 +119,7 @@ def get_main_keyboard(user_id: int, chat_id: int = None):
 
     admin = is_admin(user_id)
 
-    # ✅ Стартовый режим: незарегистрированным — только базовые кнопки
+    # Стартовый режим
     if not admin:
         user_data = get_user_by_id(user_id)
         if not user_data:
@@ -195,6 +174,12 @@ def get_main_keyboard(user_id: int, chat_id: int = None):
             KeyboardButton(text="👑 Кал-стафф (/callstaff)"),
             KeyboardButton(text="⏳ Список рестов (/restlist)")
         ])
+        buttons.append([
+            KeyboardButton(text="🔍 Проверка нормы (/checknorm)")
+        ])
+        buttons.append([
+            KeyboardButton(text="🔍 Проверка нормы (/checknorm)")
+        ])
 
     buttons.append([
         KeyboardButton(text="🔕 Отписаться от калов (/unregc)"),
@@ -209,7 +194,7 @@ def get_main_keyboard(user_id: int, chat_id: int = None):
 
 
 # ============================================================
-# ОБРАБОТЧИКИ REPLY-КНОПОК (с проверкой регистрации)
+# ОБРАБОТЧИКИ REPLY-КНОПОК
 # ============================================================
 
 @router.message(F.text == "📋 Помощь (/help)")
@@ -218,16 +203,12 @@ async def button_help(message: Message):
         return
     if not await _check_registration(message):
         return
-
-    user_id = message.from_user.id
-    logger.info(f"🔄 [КНОПКА] Помощь от {user_id}")
     try:
         from .base_commands import cmd_help
         await cmd_help(message)
-        logger.info(f"✅ [КНОПКА] Помощь выполнена для {user_id}")
     except Exception as e:
-        logger.error(f"❌ [КНОПКА] Ошибка в Помощь от {user_id}: {e}")
-        await message.answer("❌ Произошла ошибка. Попробуйте позже.")
+        logger.error(f"❌ [КНОПКА] Помощь: {e}")
+        await message.answer("❌ Произошла ошибка.")
 
 
 @router.message(F.text == "📝 Информация (/about)")
@@ -236,16 +217,12 @@ async def button_about(message: Message):
         return
     if not await _check_registration(message):
         return
-
-    user_id = message.from_user.id
-    logger.info(f"🔄 [КНОПКА] Информация от {user_id}")
     try:
         from .base_commands import cmd_about
         await cmd_about(message)
-        logger.info(f"✅ [КНОПКА] Информация выполнена для {user_id}")
     except Exception as e:
-        logger.error(f"❌ [КНОПКА] Ошибка в Информация от {user_id}: {e}")
-        await message.answer("❌ Произошла ошибка. Попробуйте позже.")
+        logger.error(f"❌ [КНОПКА] Информация: {e}")
+        await message.answer("❌ Произошла ошибка.")
 
 
 @router.message(F.text == "📌 Мои данные (/aboutme)")
@@ -254,16 +231,12 @@ async def button_aboutme(message: Message):
         return
     if not await _check_registration(message):
         return
-
-    user_id = message.from_user.id
-    logger.info(f"🔄 [КНОПКА] Мои данные от {user_id}")
     try:
         from .base_commands import cmd_aboutme
         await cmd_aboutme(message)
-        logger.info(f"✅ [КНОПКА] Мои данные выполнены для {user_id}")
     except Exception as e:
-        logger.error(f"❌ [КНОПКА] Ошибка в Мои данные от {user_id}: {e}")
-        await message.answer("❌ Произошла ошибка. Попробуйте позже.")
+        logger.error(f"❌ [КНОПКА] Мои данные: {e}")
+        await message.answer("❌ Произошла ошибка.")
 
 
 @router.message(F.text == "📜 Список ролей (/roles)")
@@ -272,33 +245,24 @@ async def button_roles(message: Message):
         return
     if not await _check_registration(message):
         return
-
-    user_id = message.from_user.id
-    logger.info(f"🔄 [КНОПКА] Список ролей от {user_id}")
     try:
         from .base_commands import cmd_roles
         await cmd_roles(message)
-        logger.info(f"✅ [КНОПКА] Список ролей выполнена для {user_id}")
     except Exception as e:
-        logger.error(f"❌ [КНОПКА] Ошибка в Список ролей от {user_id}: {e}")
-        await message.answer("❌ Произошла ошибка. Попробуйте позже.")
+        logger.error(f"❌ [КНОПКА] Список ролей: {e}")
+        await message.answer("❌ Произошла ошибка.")
 
 
 @router.message(F.text == "✅ Подать заявку (/apply)")
 async def button_apply(message: Message, state: FSMContext):
     if message.chat.id == GENERAL_CHAT_ID:
         return
-    # ⚠️ /apply разрешён незарегистрированным — НЕ проверяем
-
-    user_id = message.from_user.id
-    logger.info(f"🔄 [КНОПКА] Подать заявку от {user_id}")
     try:
         from .apply_handlers import cmd_apply
         await cmd_apply(message, state)
-        logger.info(f"✅ [КНОПКА] Подать заявку выполнена для {user_id}")
     except Exception as e:
-        logger.error(f"❌ [КНОПКА] Ошибка в Подать заявку от {user_id}: {e}")
-        await message.answer("❌ Произошла ошибка. Попробуйте позже.")
+        logger.error(f"❌ [КНОПКА] Подать заявку: {e}")
+        await message.answer("❌ Произошла ошибка.")
 
 
 @router.message(F.text == "🔓 Освободить роль (/free)")
@@ -307,16 +271,12 @@ async def button_free(message: Message):
         return
     if not await _check_registration(message):
         return
-
-    user_id = message.from_user.id
-    logger.info(f"🔄 [КНОПКА] Освободить роль от {user_id}")
     try:
         from .apply_handlers import cmd_free
         await cmd_free(message)
-        logger.info(f"✅ [КНОПКА] Освободить роль выполнена для {user_id}")
     except Exception as e:
-        logger.error(f"❌ [КНОПКА] Ошибка в Освободить роль от {user_id}: {e}")
-        await message.answer("❌ Произошла ошибка. Попробуйте позже.")
+        logger.error(f"❌ [КНОПКА] Освободить роль: {e}")
+        await message.answer("❌ Произошла ошибка.")
 
 
 @router.message(F.text == "⏳ Рест (/rest)")
@@ -325,16 +285,12 @@ async def button_rest(message: Message, state: FSMContext):
         return
     if not await _check_registration(message):
         return
-
-    user_id = message.from_user.id
-    logger.info(f"🔄 [КНОПКА] Рест от {user_id}")
     try:
         from .rest_commands import cmd_rest
         await cmd_rest(message, state)
-        logger.info(f"✅ [КНОПКА] Рест выполнена для {user_id}")
     except Exception as e:
-        logger.error(f"❌ [КНОПКА] Ошибка в Рест от {user_id}: {e}")
-        await message.answer("❌ Произошла ошибка. Попробуйте позже.")
+        logger.error(f"❌ [КНОПКА] Рест: {e}")
+        await message.answer("❌ Произошла ошибка.")
 
 
 @router.message(F.text == "📋 Список участников (/members)")
@@ -343,16 +299,12 @@ async def button_members(message: Message):
         return
     if not await _check_registration(message):
         return
-
-    user_id = message.from_user.id
-    logger.info(f"🔄 [КНОПКА] Список участников от {user_id}")
     try:
         from .base_commands import cmd_members
         await cmd_members(message)
-        logger.info(f"✅ [КНОПКА] Список участников выполнена для {user_id}")
     except Exception as e:
-        logger.error(f"❌ [КНОПКА] Ошибка в Список участников от {user_id}: {e}")
-        await message.answer("❌ Произошла ошибка. Попробуйте позже.")
+        logger.error(f"❌ [КНОПКА] Список участников: {e}")
+        await message.answer("❌ Произошла ошибка.")
 
 
 @router.message(F.text == "👥 Список админов (/admins)")
@@ -361,16 +313,12 @@ async def button_admins(message: Message):
         return
     if not await _check_registration(message):
         return
-
-    user_id = message.from_user.id
-    logger.info(f"🔄 [КНОПКА] Список админов от {user_id}")
     try:
         from .admin_commands import cmd_admins
         await cmd_admins(message)
-        logger.info(f"✅ [КНОПКА] Список админов выполнена для {user_id}")
     except Exception as e:
-        logger.error(f"❌ [КНОПКА] Ошибка в Список админов от {user_id}: {e}")
-        await message.answer("❌ Произошла ошибка. Попробуйте позже.")
+        logger.error(f"❌ [КНОПКА] Список админов: {e}")
+        await message.answer("❌ Произошла ошибка.")
 
 
 @router.message(F.text == "👤 Список участников (/users)")
@@ -379,16 +327,12 @@ async def button_users(message: Message):
         return
     if not await _check_registration(message):
         return
-
-    user_id = message.from_user.id
-    logger.info(f"🔄 [КНОПКА] Список участников от {user_id}")
     try:
         from .admin_commands import cmd_users
         await cmd_users(message)
-        logger.info(f"✅ [КНОПКА] Список участников выполнена для {user_id}")
     except Exception as e:
-        logger.error(f"❌ [КНОПКА] Ошибка в Список участников от {user_id}: {e}")
-        await message.answer("❌ Произошла ошибка. Попробуйте позже.")
+        logger.error(f"❌ [КНОПКА] Список участников: {e}")
+        await message.answer("❌ Произошла ошибка.")
 
 
 @router.message(F.text == "📋 Заявки (/requests)")
@@ -397,16 +341,12 @@ async def button_requests(message: Message):
         return
     if not await _check_registration(message):
         return
-
-    user_id = message.from_user.id
-    logger.info(f"🔄 [КНОПКА] Заявки от {user_id}")
     try:
         from .request_commands import cmd_requests
         await cmd_requests(message)
-        logger.info(f"✅ [КНОПКА] Заявки выполнена для {user_id}")
     except Exception as e:
-        logger.error(f"❌ [КНОПКА] Ошибка в Заявки от {user_id}: {e}")
-        await message.answer("❌ Произошла ошибка. Попробуйте позже.")
+        logger.error(f"❌ [КНОПКА] Заявки: {e}")
+        await message.answer("❌ Произошла ошибка.")
 
 
 @router.message(F.text == "📊 Статистика (/stats)")
@@ -415,16 +355,12 @@ async def button_stats(message: Message):
         return
     if not await _check_registration(message):
         return
-
-    user_id = message.from_user.id
-    logger.info(f"🔄 [КНОПКА] Статистика от {user_id}")
     try:
         from .base_commands import cmd_stats
         await cmd_stats(message)
-        logger.info(f"✅ [КНОПКА] Статистика выполнена для {user_id}")
     except Exception as e:
-        logger.error(f"❌ [КНОПКА] Ошибка в Статистика от {user_id}: {e}")
-        await message.answer("❌ Произошла ошибка. Попробуйте позже.")
+        logger.error(f"❌ [КНОПКА] Статистика: {e}")
+        await message.answer("❌ Произошла ошибка.")
 
 
 @router.message(F.text == "📢 Кал (/call)")
@@ -433,16 +369,12 @@ async def button_call(message: Message):
         return
     if not await _check_registration(message):
         return
-
-    user_id = message.from_user.id
-    logger.info(f"🔄 [КНОПКА] Кал от {user_id}")
     try:
         from .call_commands import cmd_call
         await cmd_call(message)
-        logger.info(f"✅ [КНОПКА] Кал выполнена для {user_id}")
     except Exception as e:
-        logger.error(f"❌ [КНОПКА] Ошибка в Кал от {user_id}: {e}")
-        await message.answer("❌ Произошла ошибка. Попробуйте позже.")
+        logger.error(f"❌ [КНОПКА] Кал: {e}")
+        await message.answer("❌ Произошла ошибка.")
 
 
 @router.message(F.text == "🔊 Кал-фал (/callfal)")
@@ -451,16 +383,12 @@ async def button_callfal(message: Message):
         return
     if not await _check_registration(message):
         return
-
-    user_id = message.from_user.id
-    logger.info(f"🔄 [КНОПКА] Кал-фал от {user_id}")
     try:
         from .call_commands import cmd_callfal
         await cmd_callfal(message)
-        logger.info(f"✅ [КНОПКА] Кал-фал выполнена для {user_id}")
     except Exception as e:
-        logger.error(f"❌ [КНОПКА] Ошибка в Кал-фал от {user_id}: {e}")
-        await message.answer("❌ Произошла ошибка. Попробуйте позже.")
+        logger.error(f"❌ [КНОПКА] Кал-фал: {e}")
+        await message.answer("❌ Произошла ошибка.")
 
 
 @router.message(F.text == "👑 Кал-стафф (/callstaff)")
@@ -469,16 +397,12 @@ async def button_callstaff(message: Message):
         return
     if not await _check_registration(message):
         return
-
-    user_id = message.from_user.id
-    logger.info(f"🔄 [КНОПКА] Кал-стафф от {user_id}")
     try:
         from .call_commands import cmd_callstaff
         await cmd_callstaff(message)
-        logger.info(f"✅ [КНОПКА] Кал-стафф выполнена для {user_id}")
     except Exception as e:
-        logger.error(f"❌ [КНОПКА] Ошибка в Кал-стафф от {user_id}: {e}")
-        await message.answer("❌ Произошла ошибка. Попробуйте позже.")
+        logger.error(f"❌ [КНОПКА] Кал-стафф: {e}")
+        await message.answer("❌ Произошла ошибка.")
 
 
 @router.message(F.text == "⏳ Список рестов (/restlist)")
@@ -487,16 +411,26 @@ async def button_restlist(message: Message):
         return
     if not await _check_registration(message):
         return
-
-    user_id = message.from_user.id
-    logger.info(f"🔄 [КНОПКА] Список рестов от {user_id}")
     try:
         from .rest_commands import cmd_restlist
         await cmd_restlist(message)
-        logger.info(f"✅ [КНОПКА] Список рестов выполнена для {user_id}")
     except Exception as e:
-        logger.error(f"❌ [КНОПКА] Ошибка в Список рестов от {user_id}: {e}")
-        await message.answer("❌ Произошла ошибка. Попробуйте позже.")
+        logger.error(f"❌ [КНОПКА] Список рестов: {e}")
+        await message.answer("❌ Произошла ошибка.")
+
+
+@router.message(F.text == "🔍 Проверка нормы (/checknorm)")
+async def button_checknorm(message: Message):
+    if message.chat.id == GENERAL_CHAT_ID:
+        return
+    if not await _check_registration(message):
+        return
+    try:
+        from .admin_commands import cmd_checknorm
+        await cmd_checknorm(message)
+    except Exception as e:
+        logger.error(f"❌ [КНОПКА] Проверка нормы: {e}")
+        await message.answer("❌ Произошла ошибка.")
 
 
 @router.message(F.text == "🔕 Отписаться от калов (/unregc)")
@@ -505,16 +439,12 @@ async def button_unregc(message: Message):
         return
     if not await _check_registration(message):
         return
-
-    user_id = message.from_user.id
-    logger.info(f"🔄 [КНОПКА] Отписаться от калов от {user_id}")
     try:
         from .call_commands import cmd_unregc
         await cmd_unregc(message)
-        logger.info(f"✅ [КНОПКА] Отписаться от калов выполнена для {user_id}")
     except Exception as e:
-        logger.error(f"❌ [КНОПКА] Ошибка в Отписаться от калов от {user_id}: {e}")
-        await message.answer("❌ Произошла ошибка. Попробуйте позже.")
+        logger.error(f"❌ [КНОПКА] Отписаться: {e}")
+        await message.answer("❌ Произошла ошибка.")
 
 
 @router.message(F.text == "🔔 Подписаться на калы (/regc)")
@@ -523,13 +453,26 @@ async def button_regc(message: Message):
         return
     if not await _check_registration(message):
         return
-
-    user_id = message.from_user.id
-    logger.info(f"🔄 [КНОПКА] Подписаться на калы от {user_id}")
     try:
         from .call_commands import cmd_regc
         await cmd_regc(message)
-        logger.info(f"✅ [КНОПКА] Подписаться на калы выполнена для {user_id}")
     except Exception as e:
-        logger.error(f"❌ [КНОПКА] Ошибка в Подписаться на калы от {user_id}: {e}")
-        await message.answer("❌ Произошла ошибка. Попробуйте позже.")
+        logger.error(f"❌ [КНОПКА] Подписаться: {e}")
+        await message.answer("❌ Произошла ошибка.")
+
+@router.message(F.text == "🔍 Проверка нормы (/checknorm)")
+async def button_checknorm(message: Message):
+    if message.chat.id == GENERAL_CHAT_ID:
+        return
+    if not await _check_registration(message):
+        return
+
+    user_id = message.from_user.id
+    logger.info(f"🔄 [КНОПКА] Проверка нормы от {user_id}")
+    try:
+        from .admin_commands import cmd_checknorm
+        await cmd_checknorm(message)
+        logger.info(f"✅ [КНОПКА] Проверка нормы выполнена для {user_id}")
+    except Exception as e:
+        logger.error(f"❌ [КНОПКА] Ошибка в Проверка нормы от {user_id}: {e}")
+        await message.answer("❌ Произошла ошибка. Попробуйте позже.")       
