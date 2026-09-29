@@ -177,9 +177,6 @@ def get_main_keyboard(user_id: int, chat_id: int = None):
         buttons.append([
             KeyboardButton(text="🔍 Проверка нормы (/checknorm)")
         ])
-        buttons.append([
-            KeyboardButton(text="🔍 Проверка нормы (/checknorm)")
-        ])
 
     buttons.append([
         KeyboardButton(text="🔕 Отписаться от калов (/unregc)"),
@@ -419,18 +416,7 @@ async def button_restlist(message: Message):
         await message.answer("❌ Произошла ошибка.")
 
 
-@router.message(F.text == "🔍 Проверка нормы (/checknorm)")
-async def button_checknorm(message: Message):
-    if message.chat.id == GENERAL_CHAT_ID:
-        return
-    if not await _check_registration(message):
-        return
-    try:
-        from .admin_commands import cmd_checknorm
-        await cmd_checknorm(message)
-    except Exception as e:
-        logger.error(f"❌ [КНОПКА] Проверка нормы: {e}")
-        await message.answer("❌ Произошла ошибка.")
+
 
 
 @router.message(F.text == "🔕 Отписаться от калов (/unregc)")

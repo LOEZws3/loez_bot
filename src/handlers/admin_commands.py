@@ -19,7 +19,6 @@ from utils.role_utils import (
     load_roles_status, save_roles_status,
 )
 from utils.norm_utils import get_user_category, get_emoji, get_category_label
-from utils.norm_utils import get_user_category, get_emoji
 from utils.requests_utils import get_request_by_user_id
 from .keyboards import get_main_keyboard
 import logging
