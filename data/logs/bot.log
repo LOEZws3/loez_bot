@@ -63280,3 +63280,726 @@ aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: BUTTO
 2026-09-28 05:33:00,054 - __main__ - INFO - 🔄 Синхронизация ролей: следующая через 1439 мин (в 03:33 МСК)
 2026-09-28 06:03:47,949 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
 2026-09-28 06:03:47,951 - aiogram.event - INFO - Update id=352513599 is handled. Duration 19 ms by bot id=8888839728
+2026-09-28 06:34:12,491 - aiogram.event - INFO - Update id=352513600 is handled. Duration 537 ms by bot id=8888839728
+2026-09-28 06:34:27,059 - aiogram.event - INFO - Update id=352513601 is handled. Duration 14 ms by bot id=8888839728
+2026-09-28 06:34:45,866 - aiogram.event - INFO - Update id=352513602 is handled. Duration 289 ms by bot id=8888839728
+2026-09-28 06:34:49,712 - aiogram.event - INFO - Update id=352513603 is handled. Duration 190 ms by bot id=8888839728
+2026-09-28 06:34:56,190 - aiogram.event - INFO - Update id=352513604 is handled. Duration 334 ms by bot id=8888839728
+2026-09-28 06:35:04,681 - aiogram.event - INFO - Update id=352513605 is handled. Duration 160 ms by bot id=8888839728
+2026-09-28 06:35:07,617 - aiogram.event - INFO - Update id=352513606 is handled. Duration 146 ms by bot id=8888839728
+2026-09-28 06:35:09,391 - aiogram.event - INFO - Update id=352513607 is handled. Duration 269 ms by bot id=8888839728
+2026-09-28 06:35:15,312 - aiogram.event - INFO - Update id=352513608 is handled. Duration 488 ms by bot id=8888839728
+2026-09-28 06:35:19,655 - aiogram.event - INFO - Update id=352513609 is handled. Duration 137 ms by bot id=8888839728
+2026-09-28 06:35:23,410 - aiogram.event - INFO - Update id=352513610 is handled. Duration 145 ms by bot id=8888839728
+2026-09-28 06:35:26,674 - aiogram.event - INFO - Update id=352513611 is handled. Duration 267 ms by bot id=8888839728
+2026-09-28 06:35:30,262 - aiogram.event - INFO - Update id=352513612 is handled. Duration 367 ms by bot id=8888839728
+2026-09-28 06:35:32,734 - aiogram.event - INFO - Update id=352513613 is handled. Duration 137 ms by bot id=8888839728
+2026-09-28 06:58:51,352 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-28 06:58:51,354 - aiogram.event - INFO - Update id=352513614 is handled. Duration 36 ms by bot id=8888839728
+2026-09-28 08:10:11,514 - handlers.keyboards - INFO - 🔄 [КНОПКА] Помощь от 8076284478
+2026-09-28 08:10:11,949 - handlers.keyboards - INFO - ✅ [КНОПКА] Помощь выполнена для 8076284478
+2026-09-28 08:10:11,951 - aiogram.event - INFO - Update id=352513615 is handled. Duration 451 ms by bot id=8888839728
+2026-09-28 08:10:14,644 - aiogram.event - INFO - Update id=352513616 is handled. Duration 299 ms by bot id=8888839728
+2026-09-28 08:10:20,201 - aiogram.event - INFO - Update id=352513617 is handled. Duration 180 ms by bot id=8888839728
+2026-09-28 09:34:37,717 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-28 09:34:37,718 - aiogram.event - INFO - Update id=352513618 is handled. Duration 18 ms by bot id=8888839728
+2026-09-28 09:34:44,820 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-28 09:34:44,822 - aiogram.event - INFO - Update id=352513619 is handled. Duration 31 ms by bot id=8888839728
+2026-09-28 09:34:54,267 - handlers.chat_member - INFO - ✅ Пользователь 7461695159 найден в users.json
+2026-09-28 09:34:54,267 - aiogram.event - INFO - Update id=352513620 is handled. Duration 21 ms by bot id=8888839728
+2026-09-28 16:49:42,408 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в users.json
+2026-09-28 16:49:43,040 - handlers.chat_member - INFO - ❌ Пользователь 7355654086 НЕ найден в users.json
+2026-09-28 16:49:43,043 - aiogram.event - INFO - Update id=352513622 is handled. Duration 35 ms by bot id=8888839728
+2026-09-28 16:49:43,514 - handlers.chat_member - INFO - 📨 Напоминание отправлено пользователю 7355654086 (сообщение #10)
+2026-09-28 16:49:43,590 - aiogram.event - INFO - Update id=352513621 is handled. Duration 1464 ms by bot id=8888839728
+2026-09-28 17:21:36,082 - aiogram.event - INFO - Update id=352513623 is handled. Duration 706 ms by bot id=8888839728
+2026-09-28 17:21:38,132 - aiogram.event - INFO - Update id=352513624 is handled. Duration 969 ms by bot id=8888839728
+2026-09-28 17:22:43,662 - handlers.base_commands - INFO - 👤 𝓩𝓚𝓔𝓷𝓰3 нажал /start
+2026-09-28 17:22:43,847 - aiogram.event - INFO - Update id=352513625 is handled. Duration 368 ms by bot id=8888839728
+2026-09-28 17:22:46,983 - handlers.keyboards - INFO - ⛔ [КНОПКА] 5365691888 не зарегистрирован — доступ заблокирован
+2026-09-28 17:22:46,992 - aiogram.event - INFO - Update id=352513626 is handled. Duration 198 ms by bot id=8888839728
+2026-09-28 17:22:48,595 - handlers.keyboards - INFO - ⛔ [КНОПКА] 5365691888 не зарегистрирован — доступ заблокирован
+2026-09-28 17:22:48,597 - aiogram.event - INFO - Update id=352513627 is handled. Duration 179 ms by bot id=8888839728
+2026-09-28 17:22:50,615 - aiogram.event - INFO - Update id=352513628 is handled. Duration 328 ms by bot id=8888839728
+2026-09-28 17:22:53,088 - aiogram.event - INFO - Update id=352513629 is handled. Duration 335 ms by bot id=8888839728
+2026-09-28 17:22:56,385 - aiogram.event - INFO - Update id=352513630 is handled. Duration 323 ms by bot id=8888839728
+2026-09-28 17:22:58,120 - aiogram.event - INFO - Update id=352513631 is handled. Duration 210 ms by bot id=8888839728
+2026-09-28 17:23:02,290 - aiogram.event - INFO - Update id=352513632 is handled. Duration 560 ms by bot id=8888839728
+2026-09-28 17:23:04,185 - aiogram.event - INFO - Update id=352513633 is handled. Duration 121 ms by bot id=8888839728
+2026-09-28 17:23:08,739 - aiogram.event - INFO - Update id=352513634 is handled. Duration 563 ms by bot id=8888839728
+2026-09-28 17:23:11,128 - aiogram.event - INFO - Update id=352513635 is handled. Duration 280 ms by bot id=8888839728
+2026-09-28 17:23:15,491 - aiogram.event - INFO - Update id=352513636 is handled. Duration 278 ms by bot id=8888839728
+2026-09-28 17:23:19,115 - aiogram.event - INFO - Update id=352513637 is handled. Duration 388 ms by bot id=8888839728
+2026-09-28 17:23:20,775 - utils.role_utils - INFO - ✅ Данные roles_status.json сохранены
+2026-09-28 17:23:20,781 - utils.role_utils - INFO - ✅ ID 486 (Адольф (Последняя реальность)): свободна -> ожидает
+2026-09-28 17:23:21,183 - handlers.apply_handlers - ERROR - ❌ Не удалось отправить в админ-группу: Telegram server says - Bad Request: chat not found — отправляю в ЛС
+2026-09-28 17:23:21,512 - aiogram.event - INFO - Update id=352513638 is handled. Duration 1032 ms by bot id=8888839728
+2026-09-28 17:23:31,974 - aiogram.event - INFO - Update id=352513639 is handled. Duration 180 ms by bot id=8888839728
+2026-09-28 17:23:33,431 - aiogram.event - INFO - Update id=352513640 is handled. Duration 280 ms by bot id=8888839728
+2026-09-28 17:23:34,631 - utils.role_utils - INFO - ✅ Данные roles_status.json сохранены
+2026-09-28 17:23:34,633 - handlers.request_commands - INFO - ✅ Роль 'Адольф (Последняя реальность)' (ID 486) занята юзером 5365691888
+2026-09-28 17:23:34,661 - handlers.request_commands - INFO - ✅ 5365691888 → users.json (роль Адольф)
+2026-09-28 17:23:34,931 - handlers.request_commands - INFO - Админ 8076284478 одобрил заявку #22
+2026-09-28 17:23:34,942 - aiogram.event - INFO - Update id=352513641 is handled. Duration 482 ms by bot id=8888839728
+2026-09-28 17:23:41,923 - handlers.keyboards - INFO - 🔄 [КНОПКА] Помощь от 5365691888
+2026-09-28 17:23:42,085 - handlers.keyboards - INFO - ✅ [КНОПКА] Помощь выполнена для 5365691888
+2026-09-28 17:23:42,087 - aiogram.event - INFO - Update id=352513642 is handled. Duration 174 ms by bot id=8888839728
+2026-09-28 17:23:45,081 - aiogram.event - INFO - Update id=352513643 is handled. Duration 438 ms by bot id=8888839728
+2026-09-28 17:23:54,699 - aiogram.event - INFO - Update id=352513644 is handled. Duration 279 ms by bot id=8888839728
+2026-09-28 17:23:56,668 - aiogram.event - INFO - Update id=352513645 is handled. Duration 244 ms by bot id=8888839728
+2026-09-28 17:24:04,772 - aiogram.event - INFO - Update id=352513646 is handled. Duration 146 ms by bot id=8888839728
+2026-09-28 17:24:07,535 - aiogram.event - INFO - Update id=352513647 is handled. Duration 246 ms by bot id=8888839728
+2026-09-28 17:24:11,409 - aiogram.event - INFO - Update id=352513648 is handled. Duration 281 ms by bot id=8888839728
+2026-09-28 17:24:22,594 - aiogram.event - INFO - Update id=352513649 is handled. Duration 226 ms by bot id=8888839728
+2026-09-28 17:24:24,159 - aiogram.event - INFO - Update id=352513650 is handled. Duration 350 ms by bot id=8888839728
+2026-09-28 17:24:25,944 - aiogram.event - INFO - Update id=352513651 is handled. Duration 229 ms by bot id=8888839728
+2026-09-28 17:24:27,067 - aiogram.event - INFO - Update id=352513652 is handled. Duration 292 ms by bot id=8888839728
+2026-09-28 17:24:29,443 - aiogram.event - INFO - Update id=352513653 is handled. Duration 337 ms by bot id=8888839728
+2026-09-28 17:24:42,893 - aiogram.event - INFO - Update id=352513654 is handled. Duration 205 ms by bot id=8888839728
+2026-09-28 17:24:47,552 - aiogram.event - INFO - Update id=352513655 is handled. Duration 318 ms by bot id=8888839728
+2026-09-28 17:24:53,589 - utils.parsers - INFO - 🗑️ Пользователь 5365691888 удалён из users.json
+2026-09-28 17:24:53,626 - utils.role_utils - INFO - ✅ Данные roles_status.json сохранены
+2026-09-28 17:24:53,705 - handlers.clear_me - ERROR - ❌ Не удалось снять тег: 'Bot' object has no attribute 'set_chat_member_tag'
+2026-09-28 17:24:53,730 - handlers.clear_me - INFO - 🧹 CLEARME 5365691888: role=Адольф, requests=2, rest=False, unsub=True
+2026-09-28 17:24:53,867 - aiogram.event - INFO - Update id=352513656 is handled. Duration 375 ms by bot id=8888839728
+2026-09-28 17:25:48,537 - handlers.base_commands - INFO - 👤 𝓩𝓚𝓔𝓷𝓰3 нажал /start
+2026-09-28 17:25:48,803 - aiogram.event - INFO - Update id=352513657 is handled. Duration 303 ms by bot id=8888839728
+2026-09-28 17:26:04,355 - handlers.keyboards - INFO - ⛔ [КНОПКА] 5365691888 не зарегистрирован — доступ заблокирован
+2026-09-28 17:26:04,356 - aiogram.event - INFO - Update id=352513658 is handled. Duration 134 ms by bot id=8888839728
+2026-09-28 17:26:11,367 - handlers.keyboards - INFO - ⛔ [КНОПКА] 5365691888 не зарегистрирован — доступ заблокирован
+2026-09-28 17:26:11,369 - aiogram.event - INFO - Update id=352513659 is handled. Duration 359 ms by bot id=8888839728
+2026-09-28 17:26:24,136 - handlers.keyboards - INFO - 🔄 [КНОПКА] Подать заявку от 5365691888
+2026-09-28 17:26:24,357 - handlers.keyboards - INFO - ✅ [КНОПКА] Подать заявку выполнена для 5365691888
+2026-09-28 17:26:24,358 - aiogram.event - INFO - Update id=352513660 is handled. Duration 228 ms by bot id=8888839728
+2026-09-28 17:26:36,456 - aiogram.event - INFO - Update id=352513661 is handled. Duration 322 ms by bot id=8888839728
+2026-09-28 17:26:47,608 - aiogram.event - INFO - Update id=352513662 is handled. Duration 500 ms by bot id=8888839728
+2026-09-28 17:26:56,492 - aiogram.event - INFO - Update id=352513663 is handled. Duration 689 ms by bot id=8888839728
+2026-09-28 17:27:05,996 - utils.role_utils - INFO - ✅ Данные roles_status.json сохранены
+2026-09-28 17:27:05,997 - utils.role_utils - INFO - ✅ ID 355 (Облачко (Сердце вселенной)): свободна -> ожидает
+2026-09-28 17:27:06,388 - handlers.apply_handlers - ERROR - ❌ Не удалось отправить в админ-группу: Telegram server says - Bad Request: chat not found — отправляю в ЛС
+2026-09-28 17:27:06,829 - aiogram.event - INFO - Update id=352513664 is handled. Duration 1086 ms by bot id=8888839728
+2026-09-28 17:27:42,787 - aiogram.event - INFO - Update id=352513665 is handled. Duration 186 ms by bot id=8888839728
+2026-09-28 17:27:44,719 - aiogram.event - INFO - Update id=352513666 is handled. Duration 267 ms by bot id=8888839728
+2026-09-28 17:27:47,154 - utils.role_utils - INFO - ✅ Данные roles_status.json сохранены
+2026-09-28 17:27:47,156 - handlers.request_commands - INFO - ✅ Роль 'Облачко (Сердце вселенной)' (ID 355) занята юзером 5365691888
+2026-09-28 17:27:47,162 - handlers.request_commands - INFO - ✅ 5365691888 → users.json (роль Облачко)
+2026-09-28 17:27:47,526 - handlers.request_commands - INFO - Админ 8076284478 одобрил заявку #22
+2026-09-28 17:27:47,536 - aiogram.event - INFO - Update id=352513667 is handled. Duration 672 ms by bot id=8888839728
+2026-09-28 17:27:57,937 - handlers.keyboards - INFO - 🔄 [КНОПКА] Помощь от 5365691888
+2026-09-28 17:27:58,081 - handlers.keyboards - INFO - ✅ [КНОПКА] Помощь выполнена для 5365691888
+2026-09-28 17:27:58,083 - aiogram.event - INFO - Update id=352513668 is handled. Duration 152 ms by bot id=8888839728
+2026-09-28 17:28:03,338 - aiogram.event - INFO - Update id=352513669 is handled. Duration 226 ms by bot id=8888839728
+2026-09-28 17:28:05,741 - aiogram.event - INFO - Update id=352513670 is handled. Duration 318 ms by bot id=8888839728
+2026-09-28 17:28:07,491 - aiogram.event - INFO - Update id=352513671 is handled. Duration 236 ms by bot id=8888839728
+2026-09-28 17:28:38,448 - aiogram.event - INFO - Update id=352513672 is handled. Duration 319 ms by bot id=8888839728
+2026-09-28 17:28:40,814 - aiogram.event - INFO - Update id=352513673 is handled. Duration 319 ms by bot id=8888839728
+2026-09-28 17:28:47,282 - aiogram.event - INFO - Update id=352513674 is handled. Duration 489 ms by bot id=8888839728
+2026-09-28 17:28:55,555 - aiogram.event - INFO - Update id=352513675 is handled. Duration 328 ms by bot id=8888839728
+2026-09-28 17:28:57,933 - aiogram.event - INFO - Update id=352513676 is handled. Duration 289 ms by bot id=8888839728
+2026-09-28 17:29:07,110 - aiogram.event - INFO - Update id=352513677 is handled. Duration 276 ms by bot id=8888839728
+2026-09-28 17:29:28,174 - aiogram.event - INFO - Update id=352513678 is handled. Duration 233 ms by bot id=8888839728
+2026-09-28 17:29:32,415 - aiogram.event - INFO - Update id=352513679 is handled. Duration 140 ms by bot id=8888839728
+2026-09-28 17:29:47,998 - handlers.base_commands - INFO - 👤 Chedrik SSL нажал /start
+2026-09-28 17:29:48,197 - aiogram.event - INFO - Update id=352513680 is handled. Duration 201 ms by bot id=8888839728
+2026-09-28 17:29:49,866 - handlers.keyboards - INFO - 🔄 [КНОПКА] Помощь от 8076284478
+2026-09-28 17:29:50,025 - handlers.keyboards - INFO - ✅ [КНОПКА] Помощь выполнена для 8076284478
+2026-09-28 17:29:50,026 - aiogram.event - INFO - Update id=352513681 is handled. Duration 164 ms by bot id=8888839728
+2026-09-28 17:29:53,058 - aiogram.event - INFO - Update id=352513682 is handled. Duration 240 ms by bot id=8888839728
+2026-09-28 17:30:10,288 - aiogram.event - INFO - Update id=352513683 is handled. Duration 198 ms by bot id=8888839728
+2026-09-28 17:41:56,339 - aiogram.event - INFO - Update id=352513684 is handled. Duration 324 ms by bot id=8888839728
+2026-09-28 17:42:09,395 - aiogram.event - INFO - Update id=352513685 is handled. Duration 256 ms by bot id=8888839728
+2026-09-28 17:42:25,891 - aiogram.event - INFO - Update id=352513686 is handled. Duration 284 ms by bot id=8888839728
+2026-09-28 17:42:34,738 - aiogram.event - INFO - Update id=352513687 is handled. Duration 148 ms by bot id=8888839728
+2026-09-28 21:33:02,828 - handlers.chat_member - INFO - ✅ Пользователь 8076284478 найден в users.json
+2026-09-28 21:33:02,833 - aiogram.event - INFO - Update id=352513688 is handled. Duration 292 ms by bot id=8888839728
+2026-09-28 21:43:02,447 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-28 21:43:02,449 - aiogram.event - INFO - Update id=352513689 is handled. Duration 76 ms by bot id=8888839728
+2026-09-28 21:53:24,910 - __main__ - INFO - ✅ Middleware стартового режима подключен
+2026-09-28 21:53:24,911 - __main__ - INFO - ✅ Зарегистрировано 11 роутеров
+2026-09-28 21:53:24,911 - __main__ - INFO - ⭐ Приоритетный прокси: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754
+2026-09-28 21:53:25,290 - proxy_manager - INFO - ✅ Загружено 2237 прокси из good_proxies.txt
+2026-09-28 21:53:25,831 - proxy_manager - INFO - 🔄 Кэш устарел (>1200с), обновляем...
+2026-09-28 21:53:25,831 - proxy_manager - INFO - ⭐ Проверяю приоритетный прокси: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754
+2026-09-28 21:53:26,386 - proxy_manager - INFO - ✅ Приоритетный прокси работает: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754 (ср. пинг: 0.553с)
+2026-09-28 21:53:26,392 - proxy_manager - INFO - 💾 Кэш пингов сохранён (1 прокси)
+2026-09-28 21:53:26,399 - proxy_manager - INFO - 🏆 Выбран: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754 (0.553с)
+2026-09-28 21:53:26,478 - __main__ - INFO - 🌐 Используется прокси: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754 (пинг: 0.553с)
+2026-09-28 21:53:30,297 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-28 21:53:30,334 - database - INFO - ✅ Таблицы БД созданы
+2026-09-28 21:53:30,336 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-28 21:53:30,396 - utils.role_utils - INFO - 🔄 Синхронизация: файлов 10, +0, -0, сохранено 0
+2026-09-28 21:53:30,398 - __main__ - INFO - 🔄 Синхронизация ролей при старте: {'added': 0, 'removed': 0, 'kept': 0, 'total_files': 10}
+2026-09-28 21:53:30,400 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-28 21:53:30,402 - __main__ - INFO - 🔄 Планировщик синхронизации ролей запущен (03:33 МСК)
+2026-09-28 21:53:30,415 - __main__ - INFO - 🔄 Синхронизация ролей: следующая через 459 мин (в 03:33 МСК)
+2026-09-28 21:53:30,823 - __main__ - INFO - 📋 Команды бота установлены
+2026-09-28 21:53:30,824 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-28 21:53:30,830 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-28 21:53:30,831 - aiogram.dispatcher - INFO - Start polling
+2026-09-28 21:53:30,933 - aiogram.dispatcher - INFO - Run polling for bot @REG_sf_BOT id=8888839728 - 'REG_ℿλɑɱᴙ Иɕκ℘℩_flood'
+2026-09-28 22:19:15,737 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ClientOSError: [WinError 1236] Подключение к сети было разорвано локальной системой
+2026-09-28 22:19:15,738 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-28 22:19:17,046 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Сетевая папка недоступна. За информацией о разрешении проблем в сети обратитесь к справочной системе Windows]
+2026-09-28 22:19:17,049 - aiogram.dispatcher - WARNING - Sleep for 1.218464 seconds and try again... (tryings = 1, bot id = 8888839728)
+2026-09-28 22:19:18,282 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Сетевая папка недоступна. За информацией о разрешении проблем в сети обратитесь к справочной системе Windows]
+2026-09-28 22:19:18,284 - aiogram.dispatcher - WARNING - Sleep for 1.635394 seconds and try again... (tryings = 2, bot id = 8888839728)
+2026-09-28 22:19:19,927 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Сетевая папка недоступна. За информацией о разрешении проблем в сети обратитесь к справочной системе Windows]
+2026-09-28 22:19:19,932 - aiogram.dispatcher - WARNING - Sleep for 2.150493 seconds and try again... (tryings = 3, bot id = 8888839728)
+2026-09-28 22:19:22,095 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Сетевая папка недоступна. За информацией о разрешении проблем в сети обратитесь к справочной системе Windows]
+2026-09-28 22:19:22,095 - aiogram.dispatcher - WARNING - Sleep for 2.786296 seconds and try again... (tryings = 4, bot id = 8888839728)
+2026-09-28 22:19:24,896 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Сетевая папка недоступна. За информацией о разрешении проблем в сети обратитесь к справочной системе Windows]
+2026-09-28 22:19:24,900 - aiogram.dispatcher - WARNING - Sleep for 3.457974 seconds and try again... (tryings = 5, bot id = 8888839728)
+2026-09-28 22:19:39,365 - aiogram.dispatcher - INFO - Connection established (tryings = 6, bot id = 8888839728)
+2026-09-28 22:43:06,664 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-28 22:43:06,664 - aiogram.event - INFO - Update id=352513690 is handled. Duration 30 ms by bot id=8888839728
+2026-09-28 22:43:20,364 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-28 22:43:20,365 - aiogram.event - INFO - Update id=352513691 is handled. Duration 10 ms by bot id=8888839728
+2026-09-28 23:44:50,351 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-28 23:44:50,352 - aiogram.event - INFO - Update id=352513692 is handled. Duration 82 ms by bot id=8888839728
+2026-09-28 23:54:40,252 - handlers.chat_member - INFO - ✅ Пользователь 5172880884 найден в users.json
+2026-09-28 23:54:40,253 - aiogram.event - INFO - Update id=352513693 is handled. Duration 15 ms by bot id=8888839728
+2026-09-29 00:03:35,723 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - Request timeout error
+2026-09-29 00:03:35,725 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-29 00:03:36,728 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Сетевая папка недоступна. За информацией о разрешении проблем в сети обратитесь к справочной системе Windows]
+2026-09-29 00:03:36,728 - aiogram.dispatcher - WARNING - Sleep for 1.225095 seconds and try again... (tryings = 1, bot id = 8888839728)
+2026-09-29 00:03:37,973 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Сетевая папка недоступна. За информацией о разрешении проблем в сети обратитесь к справочной системе Windows]
+2026-09-29 00:03:37,974 - aiogram.dispatcher - WARNING - Sleep for 1.875134 seconds and try again... (tryings = 2, bot id = 8888839728)
+2026-09-29 00:04:00,896 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:04:00,898 - aiogram.dispatcher - WARNING - Sleep for 2.449395 seconds and try again... (tryings = 3, bot id = 8888839728)
+2026-09-29 00:04:24,391 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:04:24,393 - aiogram.dispatcher - WARNING - Sleep for 3.222184 seconds and try again... (tryings = 4, bot id = 8888839728)
+2026-09-29 00:04:48,659 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:04:48,661 - aiogram.dispatcher - WARNING - Sleep for 4.342187 seconds and try again... (tryings = 5, bot id = 8888839728)
+2026-09-29 00:04:53,025 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Сетевая папка недоступна. За информацией о разрешении проблем в сети обратитесь к справочной системе Windows]
+2026-09-29 00:04:53,025 - aiogram.dispatcher - WARNING - Sleep for 5.006031 seconds and try again... (tryings = 6, bot id = 8888839728)
+2026-09-29 00:04:58,050 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Сетевая папка недоступна. За информацией о разрешении проблем в сети обратитесь к справочной системе Windows]
+2026-09-29 00:04:58,051 - aiogram.dispatcher - WARNING - Sleep for 5.042376 seconds and try again... (tryings = 7, bot id = 8888839728)
+2026-09-29 00:05:03,113 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Сетевая папка недоступна. За информацией о разрешении проблем в сети обратитесь к справочной системе Windows]
+2026-09-29 00:05:03,114 - aiogram.dispatcher - WARNING - Sleep for 5.042179 seconds and try again... (tryings = 8, bot id = 8888839728)
+2026-09-29 00:05:08,170 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Сетевая папка недоступна. За информацией о разрешении проблем в сети обратитесь к справочной системе Windows]
+2026-09-29 00:05:08,171 - aiogram.dispatcher - WARNING - Sleep for 4.855881 seconds and try again... (tryings = 9, bot id = 8888839728)
+2026-09-29 00:05:13,049 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Сетевая папка недоступна. За информацией о разрешении проблем в сети обратитесь к справочной системе Windows]
+2026-09-29 00:05:13,050 - aiogram.dispatcher - WARNING - Sleep for 4.950119 seconds and try again... (tryings = 10, bot id = 8888839728)
+2026-09-29 00:05:18,009 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Сетевая папка недоступна. За информацией о разрешении проблем в сети обратитесь к справочной системе Windows]
+2026-09-29 00:05:18,010 - aiogram.dispatcher - WARNING - Sleep for 4.895728 seconds and try again... (tryings = 11, bot id = 8888839728)
+2026-09-29 00:05:22,958 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Сетевая папка недоступна. За информацией о разрешении проблем в сети обратитесь к справочной системе Windows]
+2026-09-29 00:05:22,967 - aiogram.dispatcher - WARNING - Sleep for 5.098433 seconds and try again... (tryings = 12, bot id = 8888839728)
+2026-09-29 00:05:28,077 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Сетевая папка недоступна. За информацией о разрешении проблем в сети обратитесь к справочной системе Windows]
+2026-09-29 00:05:28,079 - aiogram.dispatcher - WARNING - Sleep for 4.935105 seconds and try again... (tryings = 13, bot id = 8888839728)
+2026-09-29 00:05:33,023 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Сетевая папка недоступна. За информацией о разрешении проблем в сети обратитесь к справочной системе Windows]
+2026-09-29 00:05:33,024 - aiogram.dispatcher - WARNING - Sleep for 5.088051 seconds and try again... (tryings = 14, bot id = 8888839728)
+2026-09-29 00:05:38,126 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Сетевая папка недоступна. За информацией о разрешении проблем в сети обратитесь к справочной системе Windows]
+2026-09-29 00:05:38,132 - aiogram.dispatcher - WARNING - Sleep for 5.204519 seconds and try again... (tryings = 15, bot id = 8888839728)
+2026-09-29 00:05:43,349 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Сетевая папка недоступна. За информацией о разрешении проблем в сети обратитесь к справочной системе Windows]
+2026-09-29 00:05:43,350 - aiogram.dispatcher - WARNING - Sleep for 5.020474 seconds and try again... (tryings = 16, bot id = 8888839728)
+2026-09-29 00:06:09,419 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:06:09,420 - aiogram.dispatcher - WARNING - Sleep for 4.966817 seconds and try again... (tryings = 17, bot id = 8888839728)
+2026-09-29 00:06:35,446 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:06:35,447 - aiogram.dispatcher - WARNING - Sleep for 4.840097 seconds and try again... (tryings = 18, bot id = 8888839728)
+2026-09-29 00:07:01,343 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:07:01,346 - aiogram.dispatcher - WARNING - Sleep for 5.091390 seconds and try again... (tryings = 19, bot id = 8888839728)
+2026-09-29 00:07:27,513 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:07:27,514 - aiogram.dispatcher - WARNING - Sleep for 5.067285 seconds and try again... (tryings = 20, bot id = 8888839728)
+2026-09-29 00:07:53,633 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:07:53,634 - aiogram.dispatcher - WARNING - Sleep for 5.000899 seconds and try again... (tryings = 21, bot id = 8888839728)
+2026-09-29 00:08:19,675 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:08:19,677 - aiogram.dispatcher - WARNING - Sleep for 4.990587 seconds and try again... (tryings = 22, bot id = 8888839728)
+2026-09-29 00:08:45,713 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:08:45,714 - aiogram.dispatcher - WARNING - Sleep for 5.065599 seconds and try again... (tryings = 23, bot id = 8888839728)
+2026-09-29 00:09:11,821 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:09:11,823 - aiogram.dispatcher - WARNING - Sleep for 4.885709 seconds and try again... (tryings = 24, bot id = 8888839728)
+2026-09-29 00:09:37,754 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:09:37,755 - aiogram.dispatcher - WARNING - Sleep for 5.026719 seconds and try again... (tryings = 25, bot id = 8888839728)
+2026-09-29 00:10:03,837 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:10:03,838 - aiogram.dispatcher - WARNING - Sleep for 5.176732 seconds and try again... (tryings = 26, bot id = 8888839728)
+2026-09-29 00:10:30,092 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:10:30,093 - aiogram.dispatcher - WARNING - Sleep for 4.958961 seconds and try again... (tryings = 27, bot id = 8888839728)
+2026-09-29 00:10:56,106 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:10:56,106 - aiogram.dispatcher - WARNING - Sleep for 5.012134 seconds and try again... (tryings = 28, bot id = 8888839728)
+2026-09-29 00:11:22,168 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:11:22,169 - aiogram.dispatcher - WARNING - Sleep for 5.052588 seconds and try again... (tryings = 29, bot id = 8888839728)
+2026-09-29 00:11:48,280 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:11:48,281 - aiogram.dispatcher - WARNING - Sleep for 5.095395 seconds and try again... (tryings = 30, bot id = 8888839728)
+2026-09-29 00:12:14,437 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:12:14,438 - aiogram.dispatcher - WARNING - Sleep for 5.011095 seconds and try again... (tryings = 31, bot id = 8888839728)
+2026-09-29 00:12:40,516 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:12:40,517 - aiogram.dispatcher - WARNING - Sleep for 4.925671 seconds and try again... (tryings = 32, bot id = 8888839728)
+2026-09-29 00:13:06,483 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:13:06,488 - aiogram.dispatcher - WARNING - Sleep for 5.086864 seconds and try again... (tryings = 33, bot id = 8888839728)
+2026-09-29 00:13:32,623 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:13:32,624 - aiogram.dispatcher - WARNING - Sleep for 4.974369 seconds and try again... (tryings = 34, bot id = 8888839728)
+2026-09-29 00:13:58,636 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:13:58,637 - aiogram.dispatcher - WARNING - Sleep for 5.112048 seconds and try again... (tryings = 35, bot id = 8888839728)
+2026-09-29 00:14:24,817 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:14:24,818 - aiogram.dispatcher - WARNING - Sleep for 5.151822 seconds and try again... (tryings = 36, bot id = 8888839728)
+2026-09-29 00:14:51,018 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:14:51,020 - aiogram.dispatcher - WARNING - Sleep for 4.990376 seconds and try again... (tryings = 37, bot id = 8888839728)
+2026-09-29 00:15:17,057 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:15:17,058 - aiogram.dispatcher - WARNING - Sleep for 4.903563 seconds and try again... (tryings = 38, bot id = 8888839728)
+2026-09-29 00:15:43,013 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:15:43,014 - aiogram.dispatcher - WARNING - Sleep for 4.923207 seconds and try again... (tryings = 39, bot id = 8888839728)
+2026-09-29 00:16:08,969 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:16:08,970 - aiogram.dispatcher - WARNING - Sleep for 5.108165 seconds and try again... (tryings = 40, bot id = 8888839728)
+2026-09-29 00:16:35,134 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:16:35,136 - aiogram.dispatcher - WARNING - Sleep for 5.009849 seconds and try again... (tryings = 41, bot id = 8888839728)
+2026-09-29 00:17:01,224 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:17:01,225 - aiogram.dispatcher - WARNING - Sleep for 4.874149 seconds and try again... (tryings = 42, bot id = 8888839728)
+2026-09-29 00:17:27,140 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:17:27,141 - aiogram.dispatcher - WARNING - Sleep for 5.036254 seconds and try again... (tryings = 43, bot id = 8888839728)
+2026-09-29 00:17:53,241 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:17:53,242 - aiogram.dispatcher - WARNING - Sleep for 5.230898 seconds and try again... (tryings = 44, bot id = 8888839728)
+2026-09-29 00:18:19,534 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:18:19,535 - aiogram.dispatcher - WARNING - Sleep for 4.887524 seconds and try again... (tryings = 45, bot id = 8888839728)
+2026-09-29 00:18:45,470 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:18:45,471 - aiogram.dispatcher - WARNING - Sleep for 5.064814 seconds and try again... (tryings = 46, bot id = 8888839728)
+2026-09-29 00:19:11,602 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:19:11,603 - aiogram.dispatcher - WARNING - Sleep for 4.966614 seconds and try again... (tryings = 47, bot id = 8888839728)
+2026-09-29 00:19:37,611 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:19:37,612 - aiogram.dispatcher - WARNING - Sleep for 4.968488 seconds and try again... (tryings = 48, bot id = 8888839728)
+2026-09-29 00:20:03,648 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:20:03,649 - aiogram.dispatcher - WARNING - Sleep for 4.957193 seconds and try again... (tryings = 49, bot id = 8888839728)
+2026-09-29 00:20:29,678 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:20:29,679 - aiogram.dispatcher - WARNING - Sleep for 4.819411 seconds and try again... (tryings = 50, bot id = 8888839728)
+2026-09-29 00:20:55,562 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:20:55,563 - aiogram.dispatcher - WARNING - Sleep for 5.034961 seconds and try again... (tryings = 51, bot id = 8888839728)
+2026-09-29 00:21:21,653 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:21:21,654 - aiogram.dispatcher - WARNING - Sleep for 4.988056 seconds and try again... (tryings = 52, bot id = 8888839728)
+2026-09-29 00:21:47,716 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:21:47,717 - aiogram.dispatcher - WARNING - Sleep for 5.069949 seconds and try again... (tryings = 53, bot id = 8888839728)
+2026-09-29 00:22:13,833 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:22:13,834 - aiogram.dispatcher - WARNING - Sleep for 5.111929 seconds and try again... (tryings = 54, bot id = 8888839728)
+2026-09-29 00:22:39,990 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:22:39,991 - aiogram.dispatcher - WARNING - Sleep for 4.953215 seconds and try again... (tryings = 55, bot id = 8888839728)
+2026-09-29 00:23:06,020 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:23:06,022 - aiogram.dispatcher - WARNING - Sleep for 4.928764 seconds and try again... (tryings = 56, bot id = 8888839728)
+2026-09-29 00:23:32,001 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:23:32,003 - aiogram.dispatcher - WARNING - Sleep for 4.907317 seconds and try again... (tryings = 57, bot id = 8888839728)
+2026-09-29 00:23:57,961 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:23:57,962 - aiogram.dispatcher - WARNING - Sleep for 4.917226 seconds and try again... (tryings = 58, bot id = 8888839728)
+2026-09-29 00:24:23,945 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:24:23,946 - aiogram.dispatcher - WARNING - Sleep for 4.950808 seconds and try again... (tryings = 59, bot id = 8888839728)
+2026-09-29 00:24:49,941 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:24:49,942 - aiogram.dispatcher - WARNING - Sleep for 4.991856 seconds and try again... (tryings = 60, bot id = 8888839728)
+2026-09-29 00:25:15,990 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:25:15,991 - aiogram.dispatcher - WARNING - Sleep for 5.145702 seconds and try again... (tryings = 61, bot id = 8888839728)
+2026-09-29 00:25:42,205 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:25:42,207 - aiogram.dispatcher - WARNING - Sleep for 4.870587 seconds and try again... (tryings = 62, bot id = 8888839728)
+2026-09-29 00:26:08,123 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:26:08,124 - aiogram.dispatcher - WARNING - Sleep for 5.004498 seconds and try again... (tryings = 63, bot id = 8888839728)
+2026-09-29 00:26:34,175 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:26:34,176 - aiogram.dispatcher - WARNING - Sleep for 5.020478 seconds and try again... (tryings = 64, bot id = 8888839728)
+2026-09-29 00:27:00,240 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:27:00,242 - aiogram.dispatcher - WARNING - Sleep for 5.066771 seconds and try again... (tryings = 65, bot id = 8888839728)
+2026-09-29 00:27:26,363 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:27:26,364 - aiogram.dispatcher - WARNING - Sleep for 4.951718 seconds and try again... (tryings = 66, bot id = 8888839728)
+2026-09-29 00:27:52,366 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:27:52,367 - aiogram.dispatcher - WARNING - Sleep for 4.833905 seconds and try again... (tryings = 67, bot id = 8888839728)
+2026-09-29 00:28:18,272 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:28:18,275 - aiogram.dispatcher - WARNING - Sleep for 4.799272 seconds and try again... (tryings = 68, bot id = 8888839728)
+2026-09-29 00:28:44,133 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:28:44,134 - aiogram.dispatcher - WARNING - Sleep for 5.101504 seconds and try again... (tryings = 69, bot id = 8888839728)
+2026-09-29 00:29:10,282 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:29:10,284 - aiogram.dispatcher - WARNING - Sleep for 5.010167 seconds and try again... (tryings = 70, bot id = 8888839728)
+2026-09-29 00:29:36,352 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:29:36,354 - aiogram.dispatcher - WARNING - Sleep for 4.929532 seconds and try again... (tryings = 71, bot id = 8888839728)
+2026-09-29 00:30:02,346 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:30:02,348 - aiogram.dispatcher - WARNING - Sleep for 4.882209 seconds and try again... (tryings = 72, bot id = 8888839728)
+2026-09-29 00:30:28,283 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:30:28,285 - aiogram.dispatcher - WARNING - Sleep for 4.817508 seconds and try again... (tryings = 73, bot id = 8888839728)
+2026-09-29 00:30:54,155 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:30:54,156 - aiogram.dispatcher - WARNING - Sleep for 4.983999 seconds and try again... (tryings = 74, bot id = 8888839728)
+2026-09-29 00:31:20,201 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:31:20,202 - aiogram.dispatcher - WARNING - Sleep for 5.057487 seconds and try again... (tryings = 75, bot id = 8888839728)
+2026-09-29 00:31:46,320 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:31:46,321 - aiogram.dispatcher - WARNING - Sleep for 4.987302 seconds and try again... (tryings = 76, bot id = 8888839728)
+2026-09-29 00:32:12,382 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:32:12,383 - aiogram.dispatcher - WARNING - Sleep for 4.966513 seconds and try again... (tryings = 77, bot id = 8888839728)
+2026-09-29 00:32:38,398 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:32:38,400 - aiogram.dispatcher - WARNING - Sleep for 5.018581 seconds and try again... (tryings = 78, bot id = 8888839728)
+2026-09-29 00:33:04,454 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:33:04,456 - aiogram.dispatcher - WARNING - Sleep for 4.989274 seconds and try again... (tryings = 79, bot id = 8888839728)
+2026-09-29 00:33:30,487 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:33:30,488 - aiogram.dispatcher - WARNING - Sleep for 4.930435 seconds and try again... (tryings = 80, bot id = 8888839728)
+2026-09-29 00:33:56,471 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:33:56,472 - aiogram.dispatcher - WARNING - Sleep for 4.947689 seconds and try again... (tryings = 81, bot id = 8888839728)
+2026-09-29 00:34:22,467 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:34:22,469 - aiogram.dispatcher - WARNING - Sleep for 5.027342 seconds and try again... (tryings = 82, bot id = 8888839728)
+2026-09-29 00:34:48,531 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:34:48,533 - aiogram.dispatcher - WARNING - Sleep for 5.034356 seconds and try again... (tryings = 83, bot id = 8888839728)
+2026-09-29 00:35:14,636 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:35:14,637 - aiogram.dispatcher - WARNING - Sleep for 5.109915 seconds and try again... (tryings = 84, bot id = 8888839728)
+2026-09-29 00:35:40,799 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:35:40,800 - aiogram.dispatcher - WARNING - Sleep for 4.925885 seconds and try again... (tryings = 85, bot id = 8888839728)
+2026-09-29 00:36:06,786 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:36:06,787 - aiogram.dispatcher - WARNING - Sleep for 5.091430 seconds and try again... (tryings = 86, bot id = 8888839728)
+2026-09-29 00:36:32,949 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:36:32,950 - aiogram.dispatcher - WARNING - Sleep for 5.175828 seconds and try again... (tryings = 87, bot id = 8888839728)
+2026-09-29 00:36:59,167 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:36:59,168 - aiogram.dispatcher - WARNING - Sleep for 5.044211 seconds and try again... (tryings = 88, bot id = 8888839728)
+2026-09-29 00:37:25,289 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:37:25,290 - aiogram.dispatcher - WARNING - Sleep for 4.982577 seconds and try again... (tryings = 89, bot id = 8888839728)
+2026-09-29 00:37:51,307 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:37:51,308 - aiogram.dispatcher - WARNING - Sleep for 4.945447 seconds and try again... (tryings = 90, bot id = 8888839728)
+2026-09-29 00:38:17,307 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:38:17,309 - aiogram.dispatcher - WARNING - Sleep for 5.069512 seconds and try again... (tryings = 91, bot id = 8888839728)
+2026-09-29 00:38:43,444 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:38:43,445 - aiogram.dispatcher - WARNING - Sleep for 5.031705 seconds and try again... (tryings = 92, bot id = 8888839728)
+2026-09-29 00:39:09,523 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:39:09,525 - aiogram.dispatcher - WARNING - Sleep for 5.001369 seconds and try again... (tryings = 93, bot id = 8888839728)
+2026-09-29 00:39:35,571 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:39:35,573 - aiogram.dispatcher - WARNING - Sleep for 5.055377 seconds and try again... (tryings = 94, bot id = 8888839728)
+2026-09-29 00:40:01,685 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:40:01,686 - aiogram.dispatcher - WARNING - Sleep for 5.009485 seconds and try again... (tryings = 95, bot id = 8888839728)
+2026-09-29 00:40:27,743 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:40:27,744 - aiogram.dispatcher - WARNING - Sleep for 5.037155 seconds and try again... (tryings = 96, bot id = 8888839728)
+2026-09-29 00:40:53,828 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:40:53,829 - aiogram.dispatcher - WARNING - Sleep for 4.902345 seconds and try again... (tryings = 97, bot id = 8888839728)
+2026-09-29 00:41:19,785 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:41:19,787 - aiogram.dispatcher - WARNING - Sleep for 5.010260 seconds and try again... (tryings = 98, bot id = 8888839728)
+2026-09-29 00:41:45,853 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:41:45,855 - aiogram.dispatcher - WARNING - Sleep for 5.038514 seconds and try again... (tryings = 99, bot id = 8888839728)
+2026-09-29 00:42:11,916 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:42:11,917 - aiogram.dispatcher - WARNING - Sleep for 4.948126 seconds and try again... (tryings = 100, bot id = 8888839728)
+2026-09-29 00:42:37,919 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:42:37,921 - aiogram.dispatcher - WARNING - Sleep for 4.900536 seconds and try again... (tryings = 101, bot id = 8888839728)
+2026-09-29 00:43:03,855 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:43:03,856 - aiogram.dispatcher - WARNING - Sleep for 5.082356 seconds and try again... (tryings = 102, bot id = 8888839728)
+2026-09-29 00:43:29,989 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:43:29,990 - aiogram.dispatcher - WARNING - Sleep for 5.089761 seconds and try again... (tryings = 103, bot id = 8888839728)
+2026-09-29 00:43:56,134 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:43:56,135 - aiogram.dispatcher - WARNING - Sleep for 5.095926 seconds and try again... (tryings = 104, bot id = 8888839728)
+2026-09-29 00:44:22,276 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:44:22,277 - aiogram.dispatcher - WARNING - Sleep for 5.160988 seconds and try again... (tryings = 105, bot id = 8888839728)
+2026-09-29 00:44:48,494 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:44:48,495 - aiogram.dispatcher - WARNING - Sleep for 4.973095 seconds and try again... (tryings = 106, bot id = 8888839728)
+2026-09-29 00:45:14,544 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:45:14,546 - aiogram.dispatcher - WARNING - Sleep for 5.003915 seconds and try again... (tryings = 107, bot id = 8888839728)
+2026-09-29 00:45:40,582 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:45:40,584 - aiogram.dispatcher - WARNING - Sleep for 4.946211 seconds and try again... (tryings = 108, bot id = 8888839728)
+2026-09-29 00:46:06,577 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:46:06,578 - aiogram.dispatcher - WARNING - Sleep for 4.938793 seconds and try again... (tryings = 109, bot id = 8888839728)
+2026-09-29 00:46:32,562 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:46:32,563 - aiogram.dispatcher - WARNING - Sleep for 4.966251 seconds and try again... (tryings = 110, bot id = 8888839728)
+2026-09-29 00:46:58,574 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:46:58,575 - aiogram.dispatcher - WARNING - Sleep for 4.946628 seconds and try again... (tryings = 111, bot id = 8888839728)
+2026-09-29 00:47:24,564 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:47:24,565 - aiogram.dispatcher - WARNING - Sleep for 4.932252 seconds and try again... (tryings = 112, bot id = 8888839728)
+2026-09-29 00:47:50,579 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:47:50,580 - aiogram.dispatcher - WARNING - Sleep for 5.071010 seconds and try again... (tryings = 113, bot id = 8888839728)
+2026-09-29 00:48:16,690 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:48:16,691 - aiogram.dispatcher - WARNING - Sleep for 4.898905 seconds and try again... (tryings = 114, bot id = 8888839728)
+2026-09-29 00:48:42,641 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:48:42,643 - aiogram.dispatcher - WARNING - Sleep for 4.989357 seconds and try again... (tryings = 115, bot id = 8888839728)
+2026-09-29 00:49:08,679 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:49:08,680 - aiogram.dispatcher - WARNING - Sleep for 4.908272 seconds and try again... (tryings = 116, bot id = 8888839728)
+2026-09-29 00:49:34,642 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:49:34,643 - aiogram.dispatcher - WARNING - Sleep for 5.110269 seconds and try again... (tryings = 117, bot id = 8888839728)
+2026-09-29 00:50:00,809 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:50:00,810 - aiogram.dispatcher - WARNING - Sleep for 4.972279 seconds and try again... (tryings = 118, bot id = 8888839728)
+2026-09-29 00:50:26,837 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:50:26,838 - aiogram.dispatcher - WARNING - Sleep for 5.062482 seconds and try again... (tryings = 119, bot id = 8888839728)
+2026-09-29 00:50:52,982 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:50:52,988 - aiogram.dispatcher - WARNING - Sleep for 4.967250 seconds and try again... (tryings = 120, bot id = 8888839728)
+2026-09-29 00:51:19,006 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:51:19,007 - aiogram.dispatcher - WARNING - Sleep for 5.016738 seconds and try again... (tryings = 121, bot id = 8888839728)
+2026-09-29 00:51:45,075 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:51:45,076 - aiogram.dispatcher - WARNING - Sleep for 4.902365 seconds and try again... (tryings = 122, bot id = 8888839728)
+2026-09-29 00:52:11,035 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:52:11,037 - aiogram.dispatcher - WARNING - Sleep for 5.042693 seconds and try again... (tryings = 123, bot id = 8888839728)
+2026-09-29 00:52:37,122 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:52:37,123 - aiogram.dispatcher - WARNING - Sleep for 4.922515 seconds and try again... (tryings = 124, bot id = 8888839728)
+2026-09-29 00:53:03,111 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:53:03,112 - aiogram.dispatcher - WARNING - Sleep for 5.038315 seconds and try again... (tryings = 125, bot id = 8888839728)
+2026-09-29 00:53:29,206 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:53:29,208 - aiogram.dispatcher - WARNING - Sleep for 5.091822 seconds and try again... (tryings = 126, bot id = 8888839728)
+2026-09-29 00:53:55,358 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:53:55,359 - aiogram.dispatcher - WARNING - Sleep for 5.147490 seconds and try again... (tryings = 127, bot id = 8888839728)
+2026-09-29 00:54:21,557 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:54:21,558 - aiogram.dispatcher - WARNING - Sleep for 4.827025 seconds and try again... (tryings = 128, bot id = 8888839728)
+2026-09-29 00:54:47,424 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:54:47,425 - aiogram.dispatcher - WARNING - Sleep for 4.662899 seconds and try again... (tryings = 129, bot id = 8888839728)
+2026-09-29 00:55:13,133 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:55:13,134 - aiogram.dispatcher - WARNING - Sleep for 4.958354 seconds and try again... (tryings = 130, bot id = 8888839728)
+2026-09-29 00:55:39,133 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:55:39,134 - aiogram.dispatcher - WARNING - Sleep for 4.841340 seconds and try again... (tryings = 131, bot id = 8888839728)
+2026-09-29 00:56:05,036 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:56:05,037 - aiogram.dispatcher - WARNING - Sleep for 4.983262 seconds and try again... (tryings = 132, bot id = 8888839728)
+2026-09-29 00:56:31,066 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:56:31,067 - aiogram.dispatcher - WARNING - Sleep for 4.892093 seconds and try again... (tryings = 133, bot id = 8888839728)
+2026-09-29 00:56:57,008 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:56:57,010 - aiogram.dispatcher - WARNING - Sleep for 4.905754 seconds and try again... (tryings = 134, bot id = 8888839728)
+2026-09-29 00:57:22,977 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:57:22,979 - aiogram.dispatcher - WARNING - Sleep for 5.040191 seconds and try again... (tryings = 135, bot id = 8888839728)
+2026-09-29 00:57:49,062 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:57:49,063 - aiogram.dispatcher - WARNING - Sleep for 5.003878 seconds and try again... (tryings = 136, bot id = 8888839728)
+2026-09-29 00:58:15,111 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:58:15,112 - aiogram.dispatcher - WARNING - Sleep for 4.961726 seconds and try again... (tryings = 137, bot id = 8888839728)
+2026-09-29 00:58:41,109 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:58:41,111 - aiogram.dispatcher - WARNING - Sleep for 4.923077 seconds and try again... (tryings = 138, bot id = 8888839728)
+2026-09-29 00:59:07,094 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:59:07,095 - aiogram.dispatcher - WARNING - Sleep for 4.797325 seconds and try again... (tryings = 139, bot id = 8888839728)
+2026-09-29 00:59:32,946 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:59:32,947 - aiogram.dispatcher - WARNING - Sleep for 5.026856 seconds and try again... (tryings = 140, bot id = 8888839728)
+2026-09-29 00:59:59,034 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 00:59:59,036 - aiogram.dispatcher - WARNING - Sleep for 5.070301 seconds and try again... (tryings = 141, bot id = 8888839728)
+2026-09-29 01:00:25,146 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:00:25,147 - aiogram.dispatcher - WARNING - Sleep for 5.074533 seconds and try again... (tryings = 142, bot id = 8888839728)
+2026-09-29 01:00:51,269 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:00:51,270 - aiogram.dispatcher - WARNING - Sleep for 5.102310 seconds and try again... (tryings = 143, bot id = 8888839728)
+2026-09-29 01:01:17,415 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:01:17,416 - aiogram.dispatcher - WARNING - Sleep for 4.990722 seconds and try again... (tryings = 144, bot id = 8888839728)
+2026-09-29 01:01:43,452 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:01:43,458 - aiogram.dispatcher - WARNING - Sleep for 4.904021 seconds and try again... (tryings = 145, bot id = 8888839728)
+2026-09-29 01:02:09,420 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:02:09,421 - aiogram.dispatcher - WARNING - Sleep for 4.877326 seconds and try again... (tryings = 146, bot id = 8888839728)
+2026-09-29 01:02:35,335 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:02:35,336 - aiogram.dispatcher - WARNING - Sleep for 4.715147 seconds and try again... (tryings = 147, bot id = 8888839728)
+2026-09-29 01:03:01,109 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:03:01,110 - aiogram.dispatcher - WARNING - Sleep for 5.083274 seconds and try again... (tryings = 148, bot id = 8888839728)
+2026-09-29 01:03:27,229 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:03:27,230 - aiogram.dispatcher - WARNING - Sleep for 5.104772 seconds and try again... (tryings = 149, bot id = 8888839728)
+2026-09-29 01:03:53,386 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:03:53,388 - aiogram.dispatcher - WARNING - Sleep for 4.959735 seconds and try again... (tryings = 150, bot id = 8888839728)
+2026-09-29 01:04:19,371 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:04:19,372 - aiogram.dispatcher - WARNING - Sleep for 4.848576 seconds and try again... (tryings = 151, bot id = 8888839728)
+2026-09-29 01:04:45,273 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:04:45,273 - aiogram.dispatcher - WARNING - Sleep for 5.026149 seconds and try again... (tryings = 152, bot id = 8888839728)
+2026-09-29 01:05:11,349 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:05:11,351 - aiogram.dispatcher - WARNING - Sleep for 4.986478 seconds and try again... (tryings = 153, bot id = 8888839728)
+2026-09-29 01:05:37,397 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:05:37,398 - aiogram.dispatcher - WARNING - Sleep for 5.067847 seconds and try again... (tryings = 154, bot id = 8888839728)
+2026-09-29 01:06:03,508 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:06:03,510 - aiogram.dispatcher - WARNING - Sleep for 5.016855 seconds and try again... (tryings = 155, bot id = 8888839728)
+2026-09-29 01:06:29,570 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:06:29,571 - aiogram.dispatcher - WARNING - Sleep for 5.087951 seconds and try again... (tryings = 156, bot id = 8888839728)
+2026-09-29 01:06:55,702 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:06:55,703 - aiogram.dispatcher - WARNING - Sleep for 5.042145 seconds and try again... (tryings = 157, bot id = 8888839728)
+2026-09-29 01:07:21,790 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:07:21,791 - aiogram.dispatcher - WARNING - Sleep for 4.961822 seconds and try again... (tryings = 158, bot id = 8888839728)
+2026-09-29 01:07:47,805 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:07:47,806 - aiogram.dispatcher - WARNING - Sleep for 5.001199 seconds and try again... (tryings = 159, bot id = 8888839728)
+2026-09-29 01:08:13,857 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:08:13,857 - aiogram.dispatcher - WARNING - Sleep for 5.092763 seconds and try again... (tryings = 160, bot id = 8888839728)
+2026-09-29 01:08:40,018 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:08:40,018 - aiogram.dispatcher - WARNING - Sleep for 5.044347 seconds and try again... (tryings = 161, bot id = 8888839728)
+2026-09-29 01:09:06,108 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:09:06,110 - aiogram.dispatcher - WARNING - Sleep for 5.110392 seconds and try again... (tryings = 162, bot id = 8888839728)
+2026-09-29 01:09:32,279 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:09:32,283 - aiogram.dispatcher - WARNING - Sleep for 4.977618 seconds and try again... (tryings = 163, bot id = 8888839728)
+2026-09-29 01:09:58,304 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:09:58,305 - aiogram.dispatcher - WARNING - Sleep for 5.087568 seconds and try again... (tryings = 164, bot id = 8888839728)
+2026-09-29 01:10:24,448 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:10:24,449 - aiogram.dispatcher - WARNING - Sleep for 5.114728 seconds and try again... (tryings = 165, bot id = 8888839728)
+2026-09-29 01:10:50,642 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:10:50,648 - aiogram.dispatcher - WARNING - Sleep for 5.122457 seconds and try again... (tryings = 166, bot id = 8888839728)
+2026-09-29 01:11:16,818 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:11:16,823 - aiogram.dispatcher - WARNING - Sleep for 5.016970 seconds and try again... (tryings = 167, bot id = 8888839728)
+2026-09-29 01:11:42,871 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:11:42,873 - aiogram.dispatcher - WARNING - Sleep for 5.199384 seconds and try again... (tryings = 168, bot id = 8888839728)
+2026-09-29 01:12:09,113 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:12:09,114 - aiogram.dispatcher - WARNING - Sleep for 5.106888 seconds and try again... (tryings = 169, bot id = 8888839728)
+2026-09-29 01:12:35,285 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:12:35,286 - aiogram.dispatcher - WARNING - Sleep for 4.995093 seconds and try again... (tryings = 170, bot id = 8888839728)
+2026-09-29 01:13:01,338 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:13:01,340 - aiogram.dispatcher - WARNING - Sleep for 5.103273 seconds and try again... (tryings = 171, bot id = 8888839728)
+2026-09-29 01:13:27,494 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:13:27,495 - aiogram.dispatcher - WARNING - Sleep for 5.141330 seconds and try again... (tryings = 172, bot id = 8888839728)
+2026-09-29 01:13:53,683 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:13:53,683 - aiogram.dispatcher - WARNING - Sleep for 4.857863 seconds and try again... (tryings = 173, bot id = 8888839728)
+2026-09-29 01:14:19,592 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:14:19,593 - aiogram.dispatcher - WARNING - Sleep for 4.933113 seconds and try again... (tryings = 174, bot id = 8888839728)
+2026-09-29 01:14:45,565 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:14:45,566 - aiogram.dispatcher - WARNING - Sleep for 4.920710 seconds and try again... (tryings = 175, bot id = 8888839728)
+2026-09-29 01:15:11,534 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:15:11,535 - aiogram.dispatcher - WARNING - Sleep for 5.063015 seconds and try again... (tryings = 176, bot id = 8888839728)
+2026-09-29 01:15:37,647 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:15:37,648 - aiogram.dispatcher - WARNING - Sleep for 4.931052 seconds and try again... (tryings = 177, bot id = 8888839728)
+2026-09-29 01:16:03,630 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:16:03,631 - aiogram.dispatcher - WARNING - Sleep for 5.174705 seconds and try again... (tryings = 178, bot id = 8888839728)
+2026-09-29 01:16:29,860 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:16:29,861 - aiogram.dispatcher - WARNING - Sleep for 4.956257 seconds and try again... (tryings = 179, bot id = 8888839728)
+2026-09-29 01:16:55,876 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:16:55,877 - aiogram.dispatcher - WARNING - Sleep for 4.924554 seconds and try again... (tryings = 180, bot id = 8888839728)
+2026-09-29 01:17:21,864 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:17:21,872 - aiogram.dispatcher - WARNING - Sleep for 4.952159 seconds and try again... (tryings = 181, bot id = 8888839728)
+2026-09-29 01:17:47,855 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:17:47,856 - aiogram.dispatcher - WARNING - Sleep for 4.857997 seconds and try again... (tryings = 182, bot id = 8888839728)
+2026-09-29 01:18:13,765 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:18:13,767 - aiogram.dispatcher - WARNING - Sleep for 4.902627 seconds and try again... (tryings = 183, bot id = 8888839728)
+2026-09-29 01:18:39,737 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:18:39,738 - aiogram.dispatcher - WARNING - Sleep for 4.937881 seconds and try again... (tryings = 184, bot id = 8888839728)
+2026-09-29 01:19:05,719 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:19:05,721 - aiogram.dispatcher - WARNING - Sleep for 5.020501 seconds and try again... (tryings = 185, bot id = 8888839728)
+2026-09-29 01:19:31,797 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:19:31,798 - aiogram.dispatcher - WARNING - Sleep for 4.893832 seconds and try again... (tryings = 186, bot id = 8888839728)
+2026-09-29 01:19:57,728 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:19:57,730 - aiogram.dispatcher - WARNING - Sleep for 5.054275 seconds and try again... (tryings = 187, bot id = 8888839728)
+2026-09-29 01:20:23,838 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:20:23,839 - aiogram.dispatcher - WARNING - Sleep for 4.989692 seconds and try again... (tryings = 188, bot id = 8888839728)
+2026-09-29 01:20:49,879 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:20:49,880 - aiogram.dispatcher - WARNING - Sleep for 4.735482 seconds and try again... (tryings = 189, bot id = 8888839728)
+2026-09-29 01:21:15,671 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:21:15,672 - aiogram.dispatcher - WARNING - Sleep for 4.969556 seconds and try again... (tryings = 190, bot id = 8888839728)
+2026-09-29 01:21:41,697 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:21:41,698 - aiogram.dispatcher - WARNING - Sleep for 5.055697 seconds and try again... (tryings = 191, bot id = 8888839728)
+2026-09-29 01:22:07,801 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:22:07,802 - aiogram.dispatcher - WARNING - Sleep for 4.917589 seconds and try again... (tryings = 192, bot id = 8888839728)
+2026-09-29 01:22:33,774 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:22:33,775 - aiogram.dispatcher - WARNING - Sleep for 5.145788 seconds and try again... (tryings = 193, bot id = 8888839728)
+2026-09-29 01:22:59,979 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:22:59,980 - aiogram.dispatcher - WARNING - Sleep for 5.026972 seconds and try again... (tryings = 194, bot id = 8888839728)
+2026-09-29 01:23:26,074 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:23:26,076 - aiogram.dispatcher - WARNING - Sleep for 5.030275 seconds and try again... (tryings = 195, bot id = 8888839728)
+2026-09-29 01:23:52,161 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:23:52,162 - aiogram.dispatcher - WARNING - Sleep for 5.071176 seconds and try again... (tryings = 196, bot id = 8888839728)
+2026-09-29 01:24:18,286 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:24:18,287 - aiogram.dispatcher - WARNING - Sleep for 4.852898 seconds and try again... (tryings = 197, bot id = 8888839728)
+2026-09-29 01:24:44,184 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:24:44,185 - aiogram.dispatcher - WARNING - Sleep for 5.097099 seconds and try again... (tryings = 198, bot id = 8888839728)
+2026-09-29 01:25:10,351 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:25:10,352 - aiogram.dispatcher - WARNING - Sleep for 5.023361 seconds and try again... (tryings = 199, bot id = 8888839728)
+2026-09-29 01:25:36,423 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:25:36,424 - aiogram.dispatcher - WARNING - Sleep for 5.005288 seconds and try again... (tryings = 200, bot id = 8888839728)
+2026-09-29 01:26:02,478 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:26:02,480 - aiogram.dispatcher - WARNING - Sleep for 4.949035 seconds and try again... (tryings = 201, bot id = 8888839728)
+2026-09-29 01:26:28,478 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:26:28,479 - aiogram.dispatcher - WARNING - Sleep for 5.096986 seconds and try again... (tryings = 202, bot id = 8888839728)
+2026-09-29 01:26:54,630 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:26:54,632 - aiogram.dispatcher - WARNING - Sleep for 4.909571 seconds and try again... (tryings = 203, bot id = 8888839728)
+2026-09-29 01:27:20,608 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:27:20,609 - aiogram.dispatcher - WARNING - Sleep for 5.125467 seconds and try again... (tryings = 204, bot id = 8888839728)
+2026-09-29 01:27:46,797 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:27:46,798 - aiogram.dispatcher - WARNING - Sleep for 5.238001 seconds and try again... (tryings = 205, bot id = 8888839728)
+2026-09-29 01:28:13,098 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:28:13,099 - aiogram.dispatcher - WARNING - Sleep for 4.973355 seconds and try again... (tryings = 206, bot id = 8888839728)
+2026-09-29 01:28:39,122 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:28:39,123 - aiogram.dispatcher - WARNING - Sleep for 4.933571 seconds and try again... (tryings = 207, bot id = 8888839728)
+2026-09-29 01:29:05,094 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:29:05,095 - aiogram.dispatcher - WARNING - Sleep for 4.983891 seconds and try again... (tryings = 208, bot id = 8888839728)
+2026-09-29 01:29:31,133 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:29:31,134 - aiogram.dispatcher - WARNING - Sleep for 5.089170 seconds and try again... (tryings = 209, bot id = 8888839728)
+2026-09-29 01:29:57,274 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:29:57,275 - aiogram.dispatcher - WARNING - Sleep for 5.241968 seconds and try again... (tryings = 210, bot id = 8888839728)
+2026-09-29 01:30:23,559 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:30:23,559 - aiogram.dispatcher - WARNING - Sleep for 5.053104 seconds and try again... (tryings = 211, bot id = 8888839728)
+2026-09-29 01:30:49,679 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:30:49,681 - aiogram.dispatcher - WARNING - Sleep for 4.949757 seconds and try again... (tryings = 212, bot id = 8888839728)
+2026-09-29 01:31:15,682 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:31:15,682 - aiogram.dispatcher - WARNING - Sleep for 4.883360 seconds and try again... (tryings = 213, bot id = 8888839728)
+2026-09-29 01:31:41,609 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:31:41,610 - aiogram.dispatcher - WARNING - Sleep for 4.937484 seconds and try again... (tryings = 214, bot id = 8888839728)
+2026-09-29 01:32:07,594 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:32:07,595 - aiogram.dispatcher - WARNING - Sleep for 5.031192 seconds and try again... (tryings = 215, bot id = 8888839728)
+2026-09-29 01:32:33,677 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:32:33,678 - aiogram.dispatcher - WARNING - Sleep for 4.863414 seconds and try again... (tryings = 216, bot id = 8888839728)
+2026-09-29 01:32:59,579 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:32:59,580 - aiogram.dispatcher - WARNING - Sleep for 4.967915 seconds and try again... (tryings = 217, bot id = 8888839728)
+2026-09-29 01:33:25,594 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:33:25,595 - aiogram.dispatcher - WARNING - Sleep for 5.106311 seconds and try again... (tryings = 218, bot id = 8888839728)
+2026-09-29 01:33:51,751 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:33:51,752 - aiogram.dispatcher - WARNING - Sleep for 4.822674 seconds and try again... (tryings = 219, bot id = 8888839728)
+2026-09-29 01:34:17,626 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:34:17,627 - aiogram.dispatcher - WARNING - Sleep for 4.978513 seconds and try again... (tryings = 220, bot id = 8888839728)
+2026-09-29 01:34:43,653 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:34:43,654 - aiogram.dispatcher - WARNING - Sleep for 5.011940 seconds and try again... (tryings = 221, bot id = 8888839728)
+2026-09-29 01:35:09,699 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:35:09,700 - aiogram.dispatcher - WARNING - Sleep for 4.783482 seconds and try again... (tryings = 222, bot id = 8888839728)
+2026-09-29 01:35:35,541 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:35:35,542 - aiogram.dispatcher - WARNING - Sleep for 4.948982 seconds and try again... (tryings = 223, bot id = 8888839728)
+2026-09-29 01:36:01,560 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:36:01,561 - aiogram.dispatcher - WARNING - Sleep for 5.062374 seconds and try again... (tryings = 224, bot id = 8888839728)
+2026-09-29 01:36:27,685 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:36:27,686 - aiogram.dispatcher - WARNING - Sleep for 5.086096 seconds and try again... (tryings = 225, bot id = 8888839728)
+2026-09-29 01:36:53,821 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:36:53,822 - aiogram.dispatcher - WARNING - Sleep for 5.145601 seconds and try again... (tryings = 226, bot id = 8888839728)
+2026-09-29 01:37:20,043 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:37:20,045 - aiogram.dispatcher - WARNING - Sleep for 4.968074 seconds and try again... (tryings = 227, bot id = 8888839728)
+2026-09-29 01:37:46,055 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:37:46,056 - aiogram.dispatcher - WARNING - Sleep for 5.219459 seconds and try again... (tryings = 228, bot id = 8888839728)
+2026-09-29 01:38:12,314 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:38:12,315 - aiogram.dispatcher - WARNING - Sleep for 4.831613 seconds and try again... (tryings = 229, bot id = 8888839728)
+2026-09-29 01:38:38,178 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:38:38,179 - aiogram.dispatcher - WARNING - Sleep for 5.103505 seconds and try again... (tryings = 230, bot id = 8888839728)
+2026-09-29 01:39:04,329 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:39:04,330 - aiogram.dispatcher - WARNING - Sleep for 5.185846 seconds and try again... (tryings = 231, bot id = 8888839728)
+2026-09-29 01:39:30,581 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:39:30,582 - aiogram.dispatcher - WARNING - Sleep for 5.065396 seconds and try again... (tryings = 232, bot id = 8888839728)
+2026-09-29 01:39:56,715 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:39:56,716 - aiogram.dispatcher - WARNING - Sleep for 5.105194 seconds and try again... (tryings = 233, bot id = 8888839728)
+2026-09-29 01:40:22,849 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:40:22,850 - aiogram.dispatcher - WARNING - Sleep for 5.213102 seconds and try again... (tryings = 234, bot id = 8888839728)
+2026-09-29 01:40:49,111 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:40:49,112 - aiogram.dispatcher - WARNING - Sleep for 5.053414 seconds and try again... (tryings = 235, bot id = 8888839728)
+2026-09-29 01:41:15,227 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:41:15,228 - aiogram.dispatcher - WARNING - Sleep for 4.889662 seconds and try again... (tryings = 236, bot id = 8888839728)
+2026-09-29 01:41:41,175 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:41:41,176 - aiogram.dispatcher - WARNING - Sleep for 5.000836 seconds and try again... (tryings = 237, bot id = 8888839728)
+2026-09-29 01:42:07,244 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Превышен таймаут семафора]
+2026-09-29 01:42:07,246 - aiogram.dispatcher - WARNING - Sleep for 4.985529 seconds and try again... (tryings = 238, bot id = 8888839728)
+2026-09-29 01:42:29,582 - aiogram.dispatcher - INFO - Connection established (tryings = 239, bot id = 8888839728)
+2026-09-29 01:42:29,675 - handlers.chat_member - INFO - ✅ Пользователь 5279300963 найден в users.json
+2026-09-29 01:42:29,676 - aiogram.event - INFO - Update id=352513697 is handled. Duration 82 ms by bot id=8888839728
+2026-09-29 01:42:29,679 - handlers.chat_member - INFO - ✅ Пользователь 5172880884 найден в users.json
+2026-09-29 01:42:29,681 - aiogram.event - INFO - Update id=352513699 is handled. Duration 84 ms by bot id=8888839728
+2026-09-29 01:42:29,684 - handlers.chat_member - INFO - ✅ Пользователь 5172880884 найден в users.json
+2026-09-29 01:42:29,684 - aiogram.event - INFO - Update id=352513696 is handled. Duration 93 ms by bot id=8888839728
+2026-09-29 01:42:29,687 - handlers.chat_member - INFO - ✅ Пользователь 5279300963 найден в users.json
+2026-09-29 01:42:29,687 - aiogram.event - INFO - Update id=352513695 is handled. Duration 98 ms by bot id=8888839728
+2026-09-29 01:42:29,690 - handlers.chat_member - INFO - ✅ Пользователь 5279300963 найден в users.json
+2026-09-29 01:42:29,691 - aiogram.event - INFO - Update id=352513694 is handled. Duration 104 ms by bot id=8888839728
+2026-09-29 01:42:29,693 - handlers.chat_member - INFO - ✅ Пользователь 5172880884 найден в users.json
+2026-09-29 01:42:29,695 - aiogram.event - INFO - Update id=352513698 is handled. Duration 99 ms by bot id=8888839728
+2026-09-29 01:42:29,697 - handlers.chat_member - INFO - ✅ Пользователь 5279300963 найден в users.json
+2026-09-29 01:42:29,699 - aiogram.event - INFO - Update id=352513700 is handled. Duration 98 ms by bot id=8888839728
+2026-09-29 05:32:59,930 - __main__ - INFO - 🔄 Запуск синхронизации ролей из папки...
+2026-09-29 05:32:59,972 - utils.role_utils - INFO - 🔄 Синхронизация: файлов 10, +0, -0, сохранено 0
+2026-09-29 05:32:59,973 - __main__ - INFO - ✅ Синхронизация завершена: {'added': 0, 'removed': 0, 'kept': 0, 'total_files': 10}
+2026-09-29 05:32:59,975 - __main__ - INFO - 🔄 Синхронизация ролей: следующая через 0 мин (в 03:33 МСК)
+2026-09-29 05:33:00,009 - __main__ - INFO - 🔄 Запуск синхронизации ролей из папки...
+2026-09-29 05:33:00,034 - utils.role_utils - INFO - 🔄 Синхронизация: файлов 10, +0, -0, сохранено 0
+2026-09-29 05:33:00,046 - __main__ - INFO - ✅ Синхронизация завершена: {'added': 0, 'removed': 0, 'kept': 0, 'total_files': 10}
+2026-09-29 05:33:00,057 - __main__ - INFO - 🔄 Синхронизация ролей: следующая через 1439 мин (в 03:33 МСК)
+2026-09-29 06:19:25,345 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ClientOSError: [WinError 1236] Подключение к сети было разорвано локальной системой
+2026-09-29 06:19:25,348 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8888839728)
+2026-09-29 06:19:26,409 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Сетевая папка недоступна. За информацией о разрешении проблем в сети обратитесь к справочной системе Windows]
+2026-09-29 06:19:26,411 - aiogram.dispatcher - WARNING - Sleep for 1.345403 seconds and try again... (tryings = 1, bot id = 8888839728)
+2026-09-29 06:19:27,774 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Сетевая папка недоступна. За информацией о разрешении проблем в сети обратитесь к справочной системе Windows]
+2026-09-29 06:19:27,776 - aiogram.dispatcher - WARNING - Sleep for 1.617550 seconds and try again... (tryings = 2, bot id = 8888839728)
+2026-09-29 06:19:29,410 - aiogram.dispatcher - ERROR - Failed to fetch updates - ProxyConnectionError: [Errno 22] Couldn't connect to proxy 31.59.20.176:6754 [Сетевая папка недоступна. За информацией о разрешении проблем в сети обратитесь к справочной системе Windows]
+2026-09-29 06:19:29,416 - aiogram.dispatcher - WARNING - Sleep for 2.043795 seconds and try again... (tryings = 3, bot id = 8888839728)
+2026-09-29 06:19:41,853 - aiogram.dispatcher - INFO - Connection established (tryings = 4, bot id = 8888839728)
+2026-09-29 06:48:54,606 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-29 06:48:54,606 - aiogram.event - INFO - Update id=352513701 is handled. Duration 23 ms by bot id=8888839728
+2026-09-29 06:48:59,884 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-29 06:48:59,886 - aiogram.event - INFO - Update id=352513702 is handled. Duration 33 ms by bot id=8888839728
+2026-09-29 07:00:10,546 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-29 07:00:10,548 - aiogram.event - INFO - Update id=352513703 is handled. Duration 30 ms by bot id=8888839728
+2026-09-29 07:00:26,873 - handlers.chat_member - INFO - ✅ Пользователь 6036991812 найден в users.json
+2026-09-29 07:00:26,874 - aiogram.event - INFO - Update id=352513704 is handled. Duration 20 ms by bot id=8888839728
+2026-09-29 07:02:55,049 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-29 07:02:55,049 - aiogram.event - INFO - Update id=352513705 is handled. Duration 17 ms by bot id=8888839728
+2026-09-29 07:13:41,061 - handlers.chat_member - INFO - ✅ Пользователь 5779530670 найден в users.json
+2026-09-29 07:13:41,079 - aiogram.event - INFO - Update id=352513706 is handled. Duration 55 ms by bot id=8888839728
+2026-09-29 07:20:20,910 - __main__ - INFO - ✅ Middleware стартового режима подключен
+2026-09-29 07:20:20,912 - __main__ - INFO - ✅ Зарегистрировано 11 роутеров
+2026-09-29 07:20:20,913 - __main__ - INFO - ⭐ Приоритетный прокси: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754
+2026-09-29 07:20:21,039 - proxy_manager - INFO - ✅ Загружено 2237 прокси из good_proxies.txt
+2026-09-29 07:20:21,055 - proxy_manager - INFO - 🔄 Кэш устарел (>1200с), обновляем...
+2026-09-29 07:20:21,055 - proxy_manager - INFO - ⭐ Проверяю приоритетный прокси: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754
+2026-09-29 07:20:21,909 - proxy_manager - INFO - ✅ Приоритетный прокси работает: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754 (ср. пинг: 0.853с)
+2026-09-29 07:20:21,912 - proxy_manager - INFO - 💾 Кэш пингов сохранён (1 прокси)
+2026-09-29 07:20:21,912 - proxy_manager - INFO - 🏆 Выбран: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754 (0.853с)
+2026-09-29 07:20:21,912 - __main__ - INFO - 🌐 Используется прокси: http://aewlavhu:al0rnmua9gj3@31.59.20.176:6754 (пинг: 0.853с)
+2026-09-29 07:20:24,201 - __main__ - INFO - 🚀 Запуск бота...
+2026-09-29 07:20:24,219 - database - INFO - ✅ Таблицы БД созданы
+2026-09-29 07:20:24,221 - __main__ - INFO - ✅ База данных инициализирована
+2026-09-29 07:20:24,312 - utils.role_utils - INFO - 🔄 Синхронизация: файлов 10, +0, -0, сохранено 0
+2026-09-29 07:20:24,313 - __main__ - INFO - 🔄 Синхронизация ролей при старте: {'added': 0, 'removed': 0, 'kept': 0, 'total_files': 10}
+2026-09-29 07:20:24,316 - __main__ - INFO - 🔄 Планировщик рестов запущен
+2026-09-29 07:20:24,319 - __main__ - INFO - 🔄 Планировщик синхронизации ролей запущен (03:33 МСК)
+2026-09-29 07:20:24,327 - __main__ - INFO - 🔄 Синхронизация ролей: следующая через 1332 мин (в 03:33 МСК)
+2026-09-29 07:20:24,753 - __main__ - INFO - 📋 Команды бота установлены
+2026-09-29 07:20:24,755 - __main__ - INFO - ✅ Бот успешно запущен!
+2026-09-29 07:20:24,756 - __main__ - INFO - 🔄 Начинаю поллинг...
+2026-09-29 07:20:24,758 - aiogram.dispatcher - INFO - Start polling
+2026-09-29 07:20:24,868 - aiogram.dispatcher - INFO - Run polling for bot @REG_sf_BOT id=8888839728 - 'REG_ℿλɑɱᴙ Иɕκ℘℩_flood'

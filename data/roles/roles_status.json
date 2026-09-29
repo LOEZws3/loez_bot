@@ -2832,9 +2832,9 @@
     "id": 354
   },
   "Облачко (Сердце вселенной)": {
-    "status": "свободна",
-    "owner_id": null,
-    "username": null,
+    "status": "занята",
+    "owner_id": 5365691888,
+    "username": "ZKEng3",
     "season": "Сердце вселенной",
     "extra": "",
     "id": 355
