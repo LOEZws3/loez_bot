@@ -13,7 +13,6 @@ logger = logging.getLogger(__name__)
 
 SETTINGS_FILE = os.path.join(DATA_DIR, 'system', 'system_settings.json')
 
-
 # ======================== ДЕФОЛТНЫЕ НАСТРОЙКИ ========================
 
 DEFAULT_SETTINGS = {
@@ -38,6 +37,11 @@ DEFAULT_SETTINGS = {
     "warns_to_ban": 3,
     "warn_notify_admin": True,
     "norm_auto_message_enabled": True,
+
+    # Окно чистки (БАГ 9, 02.10.2026)
+    # ВКЛ → /checknorm только с 20:00 до 21:00 МСК
+    # ВЫКЛ → без ограничений
+    "checknorm_time_window_enabled": True,
 }
 
 # ======================== ЗАГРУЗКА / СОХРАНЕНИЕ ========================
@@ -66,7 +70,6 @@ def load_settings() -> dict:
 
     return data
 
-
 def save_settings(settings: dict) -> bool:
     try:
         os.makedirs(os.path.dirname(SETTINGS_FILE), exist_ok=True)
@@ -77,7 +80,6 @@ def save_settings(settings: dict) -> bool:
         logger.error(f"Ошибка сохранения настроек: {e}")
         return False
 
-
 # ======================== УТИЛИТЫ ========================
 
 def get_setting(key: str, default=None):
@@ -86,12 +88,10 @@ def get_setting(key: str, default=None):
         default = DEFAULT_SETTINGS.get(key)
     return settings.get(key, default)
 
-
 def set_setting(key: str, value) -> bool:
     settings = load_settings()
     settings[key] = value
     return save_settings(settings)
-
 
 def toggle_setting(key: str) -> bool:
     settings = load_settings()
@@ -101,43 +101,29 @@ def toggle_setting(key: str) -> bool:
     save_settings(settings)
     return new_value
 
-
 def reset_settings() -> bool:
     return save_settings(dict(DEFAULT_SETTINGS))
-
 
 # ======================== ОБЁРТКИ ========================
 
 def get_messages_norm() -> int:
     return int(get_setting('messages_norm', 70))
 
-
 def get_messages_norm_low() -> int:
     return int(get_setting('messages_norm_low', 10))
-
 
 def get_max_role_changes() -> int:
     return int(get_setting('max_role_changes', 1))
 
-
 def get_warns_accumulate() -> bool:
     return bool(get_setting('warns_accumulate', False))
 
-
 def get_warns_to_ban() -> int:
     return int(get_setting('warns_to_ban', 3))
-
-def get_messages_norm_low() -> int:
-    return int(get_setting('messages_norm_low', 10))
-
-
-def get_warns_accumulate() -> bool:
-    return bool(get_setting('warns_accumulate', False))
-
-
-def get_warns_to_ban() -> int:
-    return int(get_setting('warns_to_ban', 3))
-
 
 def get_warn_notify_admin() -> bool:
     return bool(get_setting('warn_notify_admin', True))
+
+def get_checknorm_time_window_enabled() -> bool:
+    """БАГ 9: ограничение времени запуска /checknorm."""
+    return bool(get_setting('checknorm_time_window_enabled', True))

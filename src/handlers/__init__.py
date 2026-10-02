@@ -8,6 +8,7 @@ from .settings_commands import router as settings_commands_router
 from .diagnostic_commands import router as diagnostic_commands_router
 from .apply_handlers import router as apply_router
 from .clear_me import router as clear_me_router
+from .checknorm_commands import router as checknorm_router
 from .chat_member import router as chat_member_router
 
 routers = [
@@ -21,5 +22,6 @@ routers = [
     diagnostic_commands_router,
     apply_router,
     clear_me_router,
+    checknorm_router,
     chat_member_router,
 ]

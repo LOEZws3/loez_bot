@@ -6,7 +6,8 @@
 {
     "8076284478": {
         "count": 42,
-        "week_start": "2026-09-21"
+        "week_start": "2026-09-21",
+        "joined_at": "2026-08-07T21:11:32.121701"
     }
 }
 """
@@ -22,7 +23,6 @@ logger = logging.getLogger(__name__)
 
 COUNTERS_FILE = os.path.join(DATA_DIR, 'system', 'message_counts.json')
 
-
 def load_counters() -> dict:
     try:
         os.makedirs(os.path.dirname(COUNTERS_FILE), exist_ok=True)
@@ -37,7 +37,6 @@ def load_counters() -> dict:
         logger.error(f"Ошибка чтения message_counts.json: {e}")
         return {}
 
-
 def save_counters(data: dict) -> bool:
     try:
         os.makedirs(os.path.dirname(COUNTERS_FILE), exist_ok=True)
@@ -48,7 +47,6 @@ def save_counters(data: dict) -> bool:
         logger.error(f"Ошибка сохранения message_counts.json: {e}")
         return False
 
-
 def _get_current_week_start() -> str:
     """Дата начала текущей недели (последняя суббота)."""
     today = datetime.date.today()
@@ -56,8 +54,11 @@ def _get_current_week_start() -> str:
     saturday = today - datetime.timedelta(days=days_since_saturday)
     return saturday.isoformat()
 
-
 def increment_message_count(user_id: int) -> bool:
+    """
+    Инкрементит счётчик.
+    ⚠️ joined_at ставит ТОЛЬКО chat_member.py (через set_joined_at).
+    """
     data = load_counters()
     uid_str = str(user_id)
     current_week = _get_current_week_start()
@@ -66,15 +67,14 @@ def increment_message_count(user_id: int) -> bool:
         data[uid_str] = {'count': 0, 'week_start': current_week}
 
     if data[uid_str].get('week_start') != current_week:
+        # Новый week — сохраняем joined_at, если был
+        old_joined = data[uid_str].get('joined_at', '')
         data[uid_str] = {'count': 0, 'week_start': current_week}
-
-    # Автоматически ставим joined_at если первый раз
-    if 'joined_at' not in data[uid_str]:
-        data[uid_str]['joined_at'] = datetime.datetime.now().isoformat()
+        if old_joined:
+            data[uid_str]['joined_at'] = old_joined
 
     data[uid_str]['count'] = int(data[uid_str].get('count', 0)) + 1
     return save_counters(data)
-
 
 def get_message_count(user_id: int) -> int:
     data = load_counters()
@@ -85,7 +85,6 @@ def get_message_count(user_id: int) -> int:
     if data[uid_str].get('week_start') != current_week:
         return 0
     return int(data[uid_str].get('count', 0))
-
 
 def get_all_counts() -> dict:
     """{user_id_str: count} за текущую неделю."""
@@ -102,21 +101,30 @@ def get_all_counts() -> dict:
 
     return result
 
-
 def reset_all_counters() -> bool:
-    """Сбрасывает счётчики для новой недели."""
+    """
+    Сбрасывает счётчики для новой недели.
+    ⚠️ БАГ 2 (02.10.2026): сохраняем joined_at, иначе все станут Нью!
+    """
     data = load_counters()
     current_week = _get_current_week_start()
 
     new_data = {}
-    for uid_str in data.keys():
-        new_data[uid_str] = {'count': 0, 'week_start': current_week}
+    for uid_str, info in data.items():
+        joined_at = ''
+        if isinstance(info, dict):
+            joined_at = info.get('joined_at', '')
+        new_data[uid_str] = {
+            'count': 0,
+            'week_start': current_week,
+            'joined_at': joined_at,
+        }
 
     return save_counters(new_data)
 
-
 def clear_all_counters() -> bool:
     return save_counters({})
+
 def set_joined_at(user_id: int, joined_at: str = None) -> bool:
     """Устанавливает дату первого появления во флуде."""
     if joined_at is None:
@@ -131,7 +139,6 @@ def set_joined_at(user_id: int, joined_at: str = None) -> bool:
     data[uid_str]['joined_at'] = joined_at
     return save_counters(data)
 
-
 def get_joined_at(user_id: int) -> str:
     """Возвращает дату первого появления (ISO) или пустую строку."""
     data = load_counters()
@@ -140,12 +147,11 @@ def get_joined_at(user_id: int) -> str:
         return ''
     return data[uid_str].get('joined_at', '')
 
-
 def is_new_user(user_id: int, days: int = 7) -> bool:
     """True если юзер появился во флуде меньше N дней назад ИЛИ не писал вообще."""
     joined = get_joined_at(user_id)
     if not joined:
-        return True  # не писал — считаем Нью
+        return True
     try:
         joined_dt = datetime.datetime.fromisoformat(joined)
         delta = datetime.datetime.now() - joined_dt

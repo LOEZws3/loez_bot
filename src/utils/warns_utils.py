@@ -8,12 +8,16 @@
         {
             "id": 1,
             "issued_at": "2026-09-28T21:00:00",
-            "expire_at": "2026-10-04T21:00:00",
+            "expire_at": "2026-10-05T21:00:00",
             "issued_by": 8076284478,
-            "reason": "Не набрал норму"
+            "reason": "Не набрал норму",
+            "duration_minutes": 10080
         }
     ]
 }
+
+⚠️ 02.10.2026: перешли на МИНУТЫ (было дни).
+   add_warn(user_id, minutes, ...) — срок в минутах.
 """
 
 import os
@@ -27,6 +31,8 @@ logger = logging.getLogger(__name__)
 
 WARNS_FILE = os.path.join(DATA_DIR, 'system', 'warns.json')
 
+# Дефолт: 7 дней = 10080 минут
+DEFAULT_WARN_MINUTES = 7 * 24 * 60
 
 def load_warns() -> dict:
     try:
@@ -42,7 +48,6 @@ def load_warns() -> dict:
         logger.error(f"Ошибка чтения warns.json: {e}")
         return {}
 
-
 def save_warns(data: dict) -> bool:
     try:
         os.makedirs(os.path.dirname(WARNS_FILE), exist_ok=True)
@@ -53,21 +58,19 @@ def save_warns(data: dict) -> bool:
         logger.error(f"Ошибка сохранения warns.json: {e}")
         return False
 
-
 def get_user_warns(user_id: int) -> list:
     """Все активные варны юзера."""
     data = load_warns()
     return data.get(str(user_id), [])
 
-
 def get_warns_count(user_id: int) -> int:
     """Количество активных варнов."""
     return len(get_user_warns(user_id))
 
-
-def add_warn(user_id: int, days: int, issued_by: int, reason: str = "") -> dict:
+def add_warn(user_id: int, minutes: int, issued_by: int, reason: str = "") -> dict:
     """
-    Добавляет варн юзеру. days — срок в днях.
+    Добавляет варн юзеру.
+    minutes — срок в МИНУТАХ (02.10.2026: было дни).
     Возвращает созданный варн.
     """
     data = load_warns()
@@ -76,7 +79,7 @@ def add_warn(user_id: int, days: int, issued_by: int, reason: str = "") -> dict:
         data[uid_str] = []
 
     now = datetime.datetime.now()
-    expire_at = now + datetime.timedelta(days=days)
+    expire_at = now + datetime.timedelta(minutes=minutes)
 
     # Генерируем id
     existing_ids = [w.get('id', 0) for w in data[uid_str] if isinstance(w, dict)]
@@ -88,12 +91,12 @@ def add_warn(user_id: int, days: int, issued_by: int, reason: str = "") -> dict:
         'expire_at': expire_at.isoformat(),
         'issued_by': issued_by,
         'reason': reason,
+        'duration_minutes': minutes,
     }
     data[uid_str].append(warn)
     save_warns(data)
-    logger.info(f"⚠️ Варн #{new_id} выдан {user_id} на {days} дней")
+    logger.info(f"⚠️ Варн #{new_id} выдан {user_id} на {minutes} мин")
     return warn
-
 
 def remove_warn(user_id: int, warn_id: int) -> bool:
     """Удаляет конкретный варн."""
@@ -108,7 +111,6 @@ def remove_warn(user_id: int, warn_id: int) -> bool:
         return True
     return False
 
-
 def clear_user_warns(user_id: int) -> bool:
     """Удаляет все варны юзера."""
     data = load_warns()
@@ -118,7 +120,6 @@ def clear_user_warns(user_id: int) -> bool:
         save_warns(data)
         return True
     return True
-
 
 def expire_old_warns() -> int:
     """Удаляет истёкшие варны. Возвращает количество удалённых."""
@@ -155,7 +156,6 @@ def expire_old_warns() -> int:
         logger.info(f"🕐 Удалено истёкших варнов: {removed}")
 
     return removed
-
 
 def get_last_warn_number(user_id: int, limit: int = 3) -> str:
     """

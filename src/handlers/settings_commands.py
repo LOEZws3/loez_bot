@@ -18,10 +18,8 @@ from utils.settings_utils import (
 logger = logging.getLogger(__name__)
 router = Router()
 
-
 class WaitingForSetting(StatesGroup):
     value = State()
-
 
 # ======================== МЕНЮ ========================
 
@@ -116,6 +114,13 @@ async def cmd_settings(message: Message):
             )
         ],
         [
+            # ⚠️ 02.10.2026: новая настройка (БАГ 9)
+            InlineKeyboardButton(
+                text=f"{'✅' if settings.get('checknorm_time_window_enabled', True) else '❌'} Окно чистки",
+                callback_data="settings_toggle_checknorm_window"
+            )
+        ],
+        [
             InlineKeyboardButton(text="📊 Показать все настройки", callback_data="settings_show_all")
         ],
         [
@@ -131,7 +136,6 @@ async def cmd_settings(message: Message):
         parse_mode="HTML",
         reply_markup=keyboard
     )
-
 
 # ======================== ОБРАБОТКА НАЖАТИЙ ========================
 
@@ -177,6 +181,14 @@ async def settings_callback(callback: CallbackQuery, state: FSMContext):
         settings['warn_notify_admin'] = not settings.get('warn_notify_admin', True)
         save_settings(settings)
         await callback.answer(f"Уведомлять о 3-м варне: {'вкл ✅' if settings['warn_notify_admin'] else 'выкл ❌'}")
+
+    elif action == "toggle_checknorm_window":
+        # ⚠️ 02.10.2026: новая настройка (БАГ 9)
+        settings['checknorm_time_window_enabled'] = not settings.get('checknorm_time_window_enabled', True)
+        save_settings(settings)
+        await callback.answer(
+            f"Окно чистки: {'вкл ✅' if settings['checknorm_time_window_enabled'] else 'выкл ❌'}"
+        )
 
     elif action == "call_cooldown":
         await state.set_state(WaitingForSetting.value)
@@ -273,7 +285,9 @@ async def settings_callback(callback: CallbackQuery, state: FSMContext):
             f"📉 НПНДБ: {settings.get('messages_norm_low', 10)}\n"
             f"{'✅' if settings.get('warns_accumulate', False) else '❌'} Накопление варнов\n"
             f"🔢 Варнов до бана: {settings.get('warns_to_ban', 3)}\n"
-            f"{'✅' if settings.get('warn_notify_admin', True) else '❌'} Уведомлять о 3-м варне"
+            f"{'✅' if settings.get('warn_notify_admin', True) else '❌'} Уведомлять о 3-м варне\n"
+            # ⚠️ 02.10.2026: новая настройка (БАГ 9)
+            f"{'✅' if settings.get('checknorm_time_window_enabled', True) else '❌'} Окно чистки (20:00–21:00 МСК)"
         )
         await callback.message.answer(text, parse_mode="HTML")
         return
@@ -290,7 +304,6 @@ async def settings_callback(callback: CallbackQuery, state: FSMContext):
         return
 
     await cmd_settings(callback.message)
-
 
 # ======================== ВВОД ЧИСЛА ========================
 
@@ -369,7 +382,6 @@ async def settings_value_input(message: Message, state: FSMContext):
             await message.answer("❌ Значение вне диапазона (1-10).")
 
     await state.clear()
-
 
 @router.message(WaitingForSetting.value, Command('cancel'))
 async def cancel_setting(message: Message, state: FSMContext):

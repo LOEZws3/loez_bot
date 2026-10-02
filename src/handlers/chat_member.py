@@ -20,14 +20,43 @@ router = Router()
 # Счётчик для напоминалки незарегистрированным (в памяти)
 message_counter = {}
 
+# ======================== ПАРСЕР ВАРНОВ/БАНОВ ========================
+# ⚠️ 02.10.2026: перешли на МИНУТЫ.
+# Поддерживаем единицы (русские):
+#   мин, м       — минуты
+#   ч, час, часов — часы (× 60)
+#   д, дней, день — дни (× 1440)
+#   н, нед, недель — недели (× 10080)
+#   мес, месяц, месяцев — месяцы (× 43200 = 30 дней)
+#   г, год, лет  — годы (× 525600 = 365 дней)
+# Если срок не указан → 7 дней = 10080 минут
+
+WARN_PATTERN = re.compile(
+    r'^(варн|бан)\s+@?(\S+)'
+    r'(?:\s+(\d+)\s*'
+    r'(мин|м|ч|час|часов|д|день|дней|н|нед|недель|мес|месяц|месяцев|г|год|лет)'
+    r')?'
+    r'(?:\s+(.+))?$',
+    re.IGNORECASE
+)
+
+# Коэффициенты перевода в минуты
+_UNIT_TO_MINUTES = {
+    'мин': 1, 'м': 1,
+    'ч': 60, 'час': 60, 'часов': 60,
+    'д': 1440, 'день': 1440, 'дней': 1440,
+    'н': 10080, 'нед': 10080, 'недель': 10080,
+    'мес': 43200, 'месяц': 43200, 'месяцев': 43200,
+    'г': 525600, 'год': 525600, 'лет': 525600,
+}
+
+DEFAULT_WARN_MINUTES = 7 * 24 * 60  # 7 дней
 
 def get_message_count(user_id: int) -> int:
     return message_counter.get(user_id, 0)
 
-
 def set_message_count(user_id: int, count: int):
     message_counter[user_id] = count
-
 
 def check_user_registration(user_id: int) -> bool:
     """Проверяет, есть ли пользователь в users.json"""
@@ -42,7 +71,6 @@ def check_user_registration(user_id: int) -> bool:
         logger.error(f"Ошибка при проверке пользователя {user_id}: {e}")
         return False
 
-
 def _is_user_in_rest(user_id: int) -> bool:
     """Проверяет, в ресте ли юзер."""
     try:
@@ -55,28 +83,30 @@ def _is_user_in_rest(user_id: int) -> bool:
     except Exception:
         return False
 
+def _parse_duration_to_minutes(num_str: str, unit: str) -> int:
+    """Переводит '6 д' → 8640 минут."""
+    try:
+        num = int(num_str)
+    except (ValueError, TypeError):
+        return DEFAULT_WARN_MINUTES
 
-# ======================== ПАРСЕР ВАРНОВ/БАНОВ ========================
-
-# Форматы:
-# - варн @username 6д [причина]
-# - варн @username 6ч [причина]
-# - варн @username [причина]  (без срока = 6 дней)
-# - бан @username [причина]
-WARN_PATTERN = re.compile(
-    r'^(варн|бан)\s+@?(\S+)(?:\s+(\d+)\s*([дч]))?(?:\s+(.+))?$',
-    re.IGNORECASE
-)
-
+    unit_lower = (unit or '').lower().strip()
+    multiplier = _UNIT_TO_MINUTES.get(unit_lower, 1440)  # дефолт — дни
+    return num * multiplier
 
 async def _try_parse_warn_command(message: types.Message) -> bool:
     """
     Проверяет: сообщение это команда варн/бан?
     Если да — парсит, сохраняет в warns.json.
+    ⚠️ БАГ 6 (02.10.2026): только во флуд-чате.
     Возвращает True если обработал.
     """
     text = (message.text or '').strip()
     if not text:
+        return False
+
+    # БАГ 6: только во флуде
+    if message.chat.id != GENERAL_CHAT_ID:
         return False
 
     # Только для админов/модераторов
@@ -96,12 +126,11 @@ async def _try_parse_warn_command(message: types.Message) -> bool:
     duration_unit = match.group(4)
     reason = (match.group(5) or '').strip()
 
-    # Находим юзера по username
+    # Находим юзера по username / ID
     target_id = None
     if target_str.isdigit():
         target_id = int(target_str)
     else:
-        # Ищем по username
         try:
             from utils.user_utils import load_users
             for u in load_users():
@@ -112,83 +141,71 @@ async def _try_parse_warn_command(message: types.Message) -> bool:
             pass
 
     if not target_id:
-        # Если не нашли — не обрабатываем (пусть это сделает Iris)
         return False
 
     if action == 'бан':
-        # Бан — сохраняем как варн навсегда + логируем
-        logger.info(f"🚫 Пойман БАН @{target_str} (ID {target_id}) от админа {user_id}. Причина: {reason}")
+        logger.info(f"🚫 Пойман БАН @{target_str} (ID {target_id}) от {user_id}. Причина: {reason}")
         # TODO: логика бана (очистка + Iris)
         return True
 
     if action == 'варн':
-        # Определяем срок
-        if duration_num and duration_unit == 'д':
-            days = int(duration_num)
-        elif duration_num and duration_unit == 'ч':
-            days = max(1, int(duration_num) // 24)
+        if duration_num and duration_unit:
+            minutes = _parse_duration_to_minutes(duration_num, duration_unit)
         else:
-            days = 6  # по умолчанию
+            minutes = DEFAULT_WARN_MINUTES  # 7 дней
 
-        add_warn(target_id, days=days, issued_by=user_id, reason=reason or "Нарушение")
-        logger.info(f"⚠️ Пойман ВАРН @{target_str} (ID {target_id}) на {days} дней от {user_id}. Причина: {reason}")
+        add_warn(target_id, minutes=minutes, issued_by=user_id,
+                 reason=reason or "Нарушение")
+        logger.info(f"⚠️ ВАРН @{target_str} (ID {target_id}) на {minutes} мин от {user_id}. Причина: {reason}")
         return True
 
     return False
-
 
 # ======================== ОСНОВНОЙ ОБРАБОТЧИК ========================
 
 @router.message()
 async def handle_message(message: types.Message):
     """Обработчик всех сообщений"""
-    # Пропускаем команды (не перехватываем /stats, /diag, /apply и т.д.)
     if message.text and message.text.startswith('/'):
         return
 
-    # Работаем только во флуд-чате
     if message.chat.type in ['group', 'supergroup']:
         if message.chat.id != GENERAL_CHAT_ID:
             return
     else:
-        # В ЛС ничего не делаем
         return
 
     user_id = message.from_user.id
 
-    # ========== Парсер варн/бан команд ==========
+    # ========== Парсер варн/бан ==========
     try:
         if await _try_parse_warn_command(message):
-            return  # команда обработана, не считаем как сообщение
+            return
     except Exception as e:
         logger.error(f"❌ Ошибка парсера варнов: {e}")
 
-    # ========== Счётчик для нормы (только для зарегистрированных) ==========
+    # ========== Счётчик нормы ==========
     is_registered = check_user_registration(user_id)
 
     if is_registered:
-        # Записываем joined_at если первый раз (авто)
+        # Ставим joined_at при первом сообщении (единственное место!)
         if not get_joined_at(user_id):
             set_joined_at(user_id)
             logger.info(f"📅 Установлен joined_at для {user_id}")
 
-        # Проверяем рест
         if _is_user_in_rest(user_id):
-            logger.debug(f"⏳ {user_id} в ресте — сообщение не считаем")
+            logger.debug(f"⏳ {user_id} в ресте — не считаем")
         else:
-            # Проверяем Нью
             if is_new_user(user_id, days=7):
-                logger.debug(f"👶 {user_id} Нью (<7 дней) — в норму не считаем")
+                logger.debug(f"👶 {user_id} Нью (<7 дней) — не считаем")
             else:
-                # Обычный юзер — считаем в норму
                 increment_message_count(user_id)
 
-        # Сбрасываем напоминалку если была
         if user_id in message_counter:
             message_counter[user_id] = 0
         return
 
-    # ========== Напоминалка для незарегистрированных ==========
+    # ========== Напоминалка ==========
     count = get_message_count(user_id) + 1
     set_message_count(user_id, count)
 
@@ -205,8 +222,7 @@ async def handle_message(message: types.Message):
         except Exception as e:
             logger.error(f"Ошибка отправки напоминания: {e}")
 
-
-# ======================== ПРИВЕТСТВИЕ НОВЫХ ========================
+# ======================== ПРИВЕТСТВИЕ ========================
 
 @router.my_chat_member()
 async def on_user_join(update: ChatMemberUpdated):
@@ -237,12 +253,11 @@ async def on_user_join(update: ChatMemberUpdated):
         except Exception as e:
             logger.error(f"Ошибка приветствия: {e}")
 
-
 # ======================== СБРОС СЧЁТЧИКА ========================
 
 @router.message(Command("reset_counter"))
 async def reset_counter_command(message: types.Message):
-    """Команда для сброса счётчика напоминалки (только для владельца)"""
+    """Сброс счётчика напоминалки (только владелец)"""
     if not is_owner(message.from_user.id):
         await message.reply("⛔ У вас нет прав для использования этой команды.")
         return
@@ -255,6 +270,5 @@ async def reset_counter_command(message: types.Message):
         await message.reply(f"✅ Счётчик для {user_id} сброшен.")
     else:
         await message.reply(f"⚠️ Пользователь {user_id} не найден в счётчике.")
-
 
 __all__ = ['router']

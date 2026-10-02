@@ -4,6 +4,7 @@ import asyncio
 import logging
 import os
 import datetime
+import time
 from aiogram import Bot, Dispatcher
 from aiogram.types import BotCommand
 from aiogram.client.session.aiohttp import AiohttpSession
@@ -266,6 +267,185 @@ async def expire_warns_loop():
             logger.error(f"❌ Ошибка в планировщике варнов: {e}")
 
         await asyncio.sleep(3600)  # каждый час
+
+async def norm_reminder_loop():
+    """
+    Напоминание админам о чистке.
+    Каждую субботу в 19:00 МСК.
+    """
+    global bot
+
+    from utils.admin_utils import load_admins
+    from config import ADMIN_GROUP_ID
+
+    while True:
+        try:
+            now_utc = datetime.datetime.now(datetime.UTC)
+            now_msk = now_utc + datetime.timedelta(hours=3)
+
+            # Целевое время — суббота 19:00 МСК
+            # weekday(): 0=Пн, ..., 5=Сб, 6=Вс
+            days_until_saturday = (5 - now_msk.weekday()) % 7
+            target = now_msk.replace(hour=19, minute=0, second=0, microsecond=0) + datetime.timedelta(days=days_until_saturday)
+
+            if now_msk >= target:
+                target += datetime.timedelta(days=7)
+
+            wait_seconds = (target - now_msk).total_seconds()
+            if wait_seconds < 60:
+                wait_seconds = 60
+
+            logger.info(f"🕖 Напоминание о чистке: следующее через {int(wait_seconds / 60)} мин (в сб 19:00 МСК)")
+            await asyncio.sleep(wait_seconds)
+
+            # Отправляем напоминание
+            text = (
+                "🕖 <b>19:00 — время чистки!</b>\n\n"
+                "Запустите /checknorm чтобы проверить норму."
+            )
+
+            sent = False
+            if ADMIN_GROUP_ID and bot:
+                try:
+                    await bot.send_message(ADMIN_GROUP_ID, text, parse_mode="HTML")
+                    sent = True
+                    logger.info(f"📨 Напоминание о чистке отправлено в админ-группу")
+                except Exception as e:
+                    logger.error(f"❌ Не удалось отправить в группу: {e}")
+
+            if not sent and bot:
+                admins = load_admins()
+                for admin in admins:
+                    if admin.get('rank') not in [1, 2]:
+                        continue
+                    try:
+                        await bot.send_message(admin['id'], text, parse_mode="HTML")
+                    except Exception as e:
+                        logger.error(f"❌ Не удалось уведомить {admin['id']}: {e}")
+
+        except Exception as e:
+            logger.error(f"❌ Ошибка в напоминании о чистке: {e}")
+            await asyncio.sleep(3600)
+
+
+async def norm_reset_loop():
+    """
+    Сброс счётчиков нормы.
+    БАГ 9 (02.10.2026):
+      - Если /checknorm запущена → ждём завершения (макс до 21:15 МСК)
+      - Если не запущена → сброс в 21:00 МСК
+    """
+    from utils.counters import reset_all_counters
+    from handlers.checknorm_commands import _has_active_sessions
+
+    while True:
+        try:
+            now_utc = datetime.datetime.now(datetime.UTC)
+            now_msk = now_utc + datetime.timedelta(hours=3)
+
+            days_until_saturday = (5 - now_msk.weekday()) % 7
+            target_21 = now_msk.replace(hour=21, minute=0, second=0, microsecond=0) + datetime.timedelta(days=days_until_saturday)
+
+            if now_msk >= target_21:
+                target_21 += datetime.timedelta(days=7)
+
+            wait_seconds = (target_21 - now_msk).total_seconds()
+            if wait_seconds < 60:
+                wait_seconds = 60
+
+            logger.info(f"🔄 Сброс счётчиков: следующая проверка через {int(wait_seconds / 60)} мин (21:00 МСК)")
+            await asyncio.sleep(wait_seconds)
+
+            # Ждём завершения активных чисток (макс 15 мин)
+            waited = 0
+            while _has_active_sessions() and waited < 900:
+                logger.info("⏳ Активная чистка — ждём завершения...")
+                await asyncio.sleep(60)
+                waited += 60
+
+            reset_all_counters()
+            logger.info("✅ Счётчики сброшены (21:00 МСК)")
+
+        except Exception as e:
+            logger.error(f"❌ Ошибка в сбросе счётчиков: {e}")
+            await asyncio.sleep(3600)
+
+
+async def check_kicked_loop():
+    """
+    Проверка кикнутых юзеров из флуда.
+    Раз в минуту.
+    """
+    global bot
+
+    from config import GENERAL_CHAT_ID
+
+    while True:
+        try:
+            await asyncio.sleep(60)
+
+            if not bot:
+                continue
+
+            from utils.user_utils import load_users, remove_user
+            from utils.admin_utils import load_admins, save_admins
+            from utils.role_utils import load_roles_status, save_roles_status
+
+            users = load_users()
+            if not users:
+                continue
+
+            kicked_ids = []
+
+            for u in users:
+                uid = u.get('id')
+                if not uid:
+                    continue
+                try:
+                    member = await bot.get_chat_member(GENERAL_CHAT_ID, uid)
+                    if member.status in ['left', 'kicked']:
+                        kicked_ids.append(uid)
+                except Exception:
+                    pass
+                await asyncio.sleep(0.05)  # rate limit
+
+            if not kicked_ids:
+                continue
+
+            # Удаляем из users.json
+            for uid in kicked_ids:
+                remove_user(uid)
+
+            # Удаляем из admins.json
+            admins = load_admins()
+            new_admins = [a for a in admins if a['id'] not in kicked_ids]
+            if len(new_admins) != len(admins):
+                save_admins(new_admins)
+
+            # Освобождаем роли
+            status_data = load_roles_status()
+            changed = False
+            for role_key, role_info in status_data.items():
+                if isinstance(role_info, dict) and role_info.get('owner_id') in kicked_ids:
+                    role_info['status'] = 'свободна'
+                    role_info['owner_id'] = None
+                    role_info['username'] = None
+                    changed = True
+            if changed:
+                save_roles_status(status_data)
+
+            logger.info(f"🧹 Кикнуты и удалены: {kicked_ids}")
+
+        except Exception as e:
+            logger.error(f"❌ Ошибка проверки кикнутых: {e}")
+
+
+
+
+
+
+
+
 async def run_bot():
     global bot
 
@@ -374,6 +554,14 @@ async def on_startup():
     logger.info("🔄 Планировщик синхронизации ролей запущен (03:33 МСК)")
     asyncio.create_task(expire_warns_loop())
     logger.info("🔄 Планировщик истечения варнов запущен (раз в час)")
+    asyncio.create_task(norm_reminder_loop())
+    logger.info("🔄 Напоминание о чистке запущено (сб 19:00 МСК)")
+
+    asyncio.create_task(norm_reset_loop())
+    logger.info("🔄 Сброс счётчиков запущен (сб 20:00/21:00 МСК)")
+
+    asyncio.create_task(check_kicked_loop())
+    logger.info("🔄 Проверка кикнутых запущена (раз в минуту)")
 
     await set_bot_commands()
 
