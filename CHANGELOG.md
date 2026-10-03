@@ -1,6 +1,69 @@
 # 📋 История изменений проекта LoezF_Bot
 
 Все значимые изменения, добавления и исправления в боте.
+## [8.0.1] - 2026-10-03
+
+### 🩹 Исправления багов 1-9
+
+**settings_utils.py:**
+- БАГ 1: убраны дубли функций `get_messages_norm_low`,
+  `get_warns_accumulate`, `get_warns_to_ban` (были объявлены дважды)
+- Добавлена настройка `checknorm_time_window_enabled`
+- Добавлена обёртка `get_checknorm_time_window_enabled()`
+
+**counters.py:**
+- БАГ 2: `reset_all_counters` теперь СОХРАНЯЕТ `joined_at`
+  (иначе после субботы все юзеры становились «Нью»)
+- БАГ 7: `increment_message_count` НЕ ставит `joined_at`
+  (это делает ТОЛЬКО `chat_member.py`)
+- `increment_message_count` сохраняет `joined_at` при смене недели
+
+**warns_utils.py:**
+- БАГ 4: переход на МИНУТЫ (было дни)
+- `add_warn(user_id, minutes, ...)` — сигнатура с минутами
+- Поле `duration_minutes` в варне
+
+**chat_member.py:**
+- БАГ 4: парсер варн/бан → МИНУТЫ
+  Поддержка единиц: мин, ч, д/дней, н, мес, г
+- БАГ 6: `_try_parse_warn_command` — ТОЛЬКО ВО ФЛУДЕ
+  (раньше перехватывал из ЛС)
+- БАГ 7: `set_joined_at` остаётся ЗДЕСЬ (единственное место!)
+- Дефолт варна: 7 дней = 10080 минут
+
+**checknorm_commands.py:**
+- БАГ 3: `WARN_MINUTES_ACCUMULATE = 21 * 24 * 60` (было 9 дней!)
+- БАГ 9: проверка окна чистки (20:00–21:00 МСК)
+- Импорт `get_checknorm_time_window_enabled`
+- Функция `_has_active_sessions()` (для main.py)
+- Сроки в МИНУТАХ:
+  - `WARN_MINUTES_DEFAULT = 6 * 24 * 60` (6 дней)
+  - `WARN_MINUTES_ACCUMULATE = 21 * 24 * 60` (21 день)
+  - `BAN_MINUTES = 90 * 24 * 60` (90 дней)
+
+**settings_commands.py:**
+- Добавлена кнопка "Окно чистки" (после "Уведомлять о 3-м варне")
+- Добавлен обработчик `toggle_checknorm_window`
+- Добавлена строка в "Показать все настройки"
+
+**main.py:**
+- БАГ 9: `norm_reset_loop` переписан
+  Сброс ТОЛЬКО в 21:00 МСК
+  Если есть `ACTIVE_SESSIONS` — ждём до 15 минут
+
+**.gitignore:**
+- Компромисс (02.10.2026):
+  - Трекаем: `!data/roles/roles_status.json`, `!data/roles/*.txt`,
+    `!data/system/free_role_ids.json`
+  - Игнорим: `bot.log`, `*.pyc`, `__pycache__`, `users.json`,
+    `admins.json`, `requests.json`, `system_settings.json`,
+    `warns.json`, `message_counts.json`, `proxy_pings_cache.json`
+
+### 🗑️ Удалено
+
+- `src/utils/system_utils.py` — дублировал `settings_utils.py`
+
+---
 
 ## [7.4.0] - 2026-09-26
 

@@ -1,6 +1,6 @@
 ═══════════════════════════════════════════════════════════════════
 🤖 LoezF_Bot — ГАЙД ДЛЯ РАЗРАБОТЧИКОВ
-(ОБНОВЛЕН 02.10.2026, ВЕРСИЯ 8.0.0)
+(ОБНОВЛЕН 03.10.2026, ВЕРСИЯ 8.0.1)
 ═══════════════════════════════════════════════════════════════════
 
 ═══════════════════════════════════════════════════════════════════
@@ -34,7 +34,9 @@ LoezF_Bot — Telegram-бот для управления приёмом нов�
 ✅ Система нормы сообщений + /checknorm
 ✅ Авто-проверка кикнутых участников
 ✅ Авто-напоминание о чистке (сб 19:00 МСК)
-✅ Авто-сброс счётчиков (сб 20:00/21:00 МСК)
+✅ Авто-сброс счётчиков (сб 21:00 МСК)
+✅ Варны в МИНУТАХ (гибкие единицы: мин/ч/д/н/мес/г)
+✅ Окно чистки (20:00–21:00 МСК, настраиваемое)
 
 🔹 ТЕХНОЛОГИИ:
 🐍 Python 3.14.4
@@ -128,15 +130,79 @@ main.py — точка входа
 4. Ждать, пока владелец пришлёт содержимое.
 5. Работать только с тем, что прислано.
 
+✅ РАЗРЕШЕНО:
+- Читать файл, если владелец явно сказал "читай X" или дал ссылку
+- Читать Raw-ссылку из раздела "RAW-ССЫЛКИ" в конце GFA
+- Использовать API-ссылку из дерева, если Raw не работает
+
+📌 ЦЕЛЬ: экономия контекста чата + чтение актуального кода.
+
 ═══════════════════════════════════════════════════════════════════
+📌 ГЛАВНОЕ ПРАВИЛО РАБОТЫ AI
+═══════════════════════════════════════════════════════════════════
+
+✅ ПРАВИЛЬНЫЙ АЛГОРИТМ:
+
+1. Прочитать этот гайд полностью
+2. Запросить нужные файлы (Raw-ссылки в одной плашке)
+3. ПЕРЕД запросом — попросить владельца закоммитить правки
+4. Дождаться, пока владелец пришлёт содержимое
+5. ПОНЯТЬ, какие функции уже есть
+6. ПРОЧИТАТЬ НАЧАЛО ФАЙЛА (импорты!)
+7. Объяснить:
+   - В чем проблема
+   - Что делать
+   - Почему
+   - Что изменится
+8. Дождаться согласия
+9. Только после согласия — дать код
+
+🔴 ТИПИЧНЫЕ ОШИБКИ AI:
+❌ Не читать гайд перед ответом
+❌ Игнорировать ссылки на файлы
+❌ Предлагать менять .env
+❌ Предлагать менять систему прокси
+❌ Писать код вслепую
+❌ Переписывать файлы без согласия
+❌ Не проверять наличие функций
+❌ Не объяснять изменения
+❌ Не читать начало файла
+❌ Использовать InlineKeyboardButton без text=
+❌ Использовать F.text == "/команда" вместо Command
+❌ Тянуть дерево репозитория
+❌ Запрашивать файлы без код-блока
+❌ Обновлять библиотеки без теста
+❌ Забывать про коммит перед запросом
+
+═══════════════════════════════════════════════════════════════════
+🗑️ ПРАВИЛА УДАЛЕНИЯ КОДА
+═══════════════════════════════════════════════════════════════════
+
+⚠️ УДАЛЯТЬ КОД РАЗРЕШЕНО ТОЛЬКО В КРАЙНИХ СЛУЧАЯХ!
+
+📌 ЕСЛИ НУЖНО УДАЛИТЬ:
+1. ПРЕДУПРЕДИТЬ
+2. ОПИСАТЬ, ЧТО удаляешь
+3. ОБЪЯСНИТЬ, ПОЧЕМУ
+4. УКАЗАТЬ замену
+5. ДОЖДАТЬСЯ подтверждения
+
+❌ НЕЛЬЗЯ:
+Молча удалять функции/классы/переменные
+Удалять комментарии и логирование
+Удалять используемые импорты═══════════════════════════════════════════════════════════════════
 ⚠️ КРИТИЧЕСКИЕ ПРАВИЛА AIOGRAM 3.x
 ═══════════════════════════════════════════════════════════════════
 
 ❌ InlineKeyboardButton("текст", callback_data="...") — НЕ РАБОТАЕТ!
 ✅ InlineKeyboardButton(text="текст", callback_data="...") — правильно
 
-❌ @router.message(F.text == "/apply") — не работает!
+❌ @router.message(F.text == "/apply") — не работает для команд!
 ✅ @router.message(Command("apply")) — правильно
+
+❌ InlineKeyboardButton(callback_data="...") без text= — упадёт с ошибкой:
+"BaseModel.init() takes 1 positional argument but 2 were given"
+✅ Всегда передавать text= именованным аргументом
 
 ❌ callback_data длиннее 64 байт — Telegram отклоняет!
 ✅ Для длинных данных используй ID или индексы, не текст.
@@ -144,6 +210,9 @@ main.py — точка входа
 📌 ВАЖНО: callback_data = 64 БАЙТА. Русские буквы = 2 байта.
 Пример: "apply_role_Анна Виктория Розалинда ||| (Точка невозврата)"
 = 107 байт = ОШИБКА. Используй ID роли.
+
+📌 Причина: в aiogram 3.x InlineKeyboardButton — Pydantic BaseModel,
+который принимает ТОЛЬКО именованные аргументы.
 
 ═══════════════════════════════════════════════════════════════════
 🔒 ЗАФИКСИРОВАННЫЕ ВЕРСИИ БИБЛИОТЕК (НЕ ОБНОВЛЯТЬ!)
@@ -156,6 +225,10 @@ main.py — точка входа
 📌 ПРИЧИНА:
 Эксперимент 18.09.2026: один и тот же прокси прод-бот принял,
 а тест-бот с обновлёнными библиотеками — нет.
+На версиях aiogram 3.31 + aiohttp 3.14.3 + python-socks 3.1.1
+подключение через SOCKS/HTTP-прокси падает с ошибкой
+"In order to use aiohttp client for proxy requests, install aiohttp-socks"
+(хотя aiohttp-socks установлен).
 
 📌 РАБОЧИЙ НАБОР (ПРОД = ТЕСТ):
 
@@ -200,6 +273,11 @@ pip install --no-deps "aiogram==3.17.0" "aiohttp==3.13.5" ...
 ❌ Ставить "последние версии" без теста
 ❌ pip install --upgrade
 
+📌 ЕСЛИ НУЖНО ОБНОВИТЬ:
+1. Сначала на тестовой копии (LoEZF_Bot_test)
+2. Проверить, что прокси работает
+3. Только потом — на проде
+
 ═══════════════════════════════════════════════════════════════════
 📂 СИСТЕМА ПРОКСИ (НЕ ТРОГАТЬ!)
 ═══════════════════════════════════════════════════════════════════
@@ -219,6 +297,7 @@ proxy_system (отдельный проект) → good_proxies.txt → loez_bot
 
 📌 ФОРМАТ good_proxies.txt:
 ip:port|дата время
+Пример: 47.250.11.111:1081|2026-09-15 17:00:06
 
 📌 ПРИОРИТЕТНЫЙ ПРОКСИ (из .env):
 PRIORITY_PROXY=http://ЛОГИН:ПАРОЛЬ@IP:ПОРТ
@@ -234,11 +313,14 @@ BAD_PROXY_TTL = 600 (soft-blacklist)
 
 📌 SOFT-BLACKLIST:
 mark_proxy_bad() НЕ удаляет навсегда, а помечает на 10 минут.
-Через 10 минут прокси снова доступен.
+Через 10 минут прокси снова доступен. is_proxy_bad() проверяет статус.
 
 📌 ДВОЙНАЯ ПРОВЕРКА ПРИОРИТЕТНОГО:
 1-я попытка: PING_TIMEOUT=5
 2-я (если 1-я провалилась): timeout=10
+
+📌 КЭШ ПИНГОВ:
+data/system/proxy_pings_cache.json
 
 📌 АЛГОРИТМ:
 1. Загружает прокси из good_proxies.txt
@@ -276,7 +358,7 @@ mark_proxy_bad() НЕ удаляет навсегда, а помечает на 
 Нет записи — подписан (по умолчанию подписаны все).
 ⚠️ Раньше был .txt со списком [] — перешли на .json со словарём.
 
-📌 data/users/message_counts.json:
+📌 data/system/message_counts.json:
 {
 "8076284478": {
 "count": 15,
@@ -289,22 +371,25 @@ mark_proxy_bad() НЕ удаляет навсегда, а помечает на 
 - joined_at — дата первого появления во флуде
 - Если week_start != текущая неделя → count возвращается 0
 - joined_at НЕ обновляется при сбросе недели (сохраняется)
+⚠️ joined_at ставит ТОЛЬКО chat_member.py (не counters.py!)
 
-📌 data/users/warns.json:
+📌 data/system/warns.json:
 {
 "8076284478": [
 {
 "id": 1,
 "issued_at": "2026-09-28T21:00:00",
-"expire_at": "2026-10-04T21:00:00",
+"expire_at": "2026-10-05T21:00:00",
 "issued_by": 8076284478,
-"reason": "Не набрал норму"
+"reason": "Не набрал норму",
+"duration_minutes": 10080
 }
 ]
 }
 - Ключ — user_id_str
 - Значение — список варнов
 - expire_at — когда истечёт
+- duration_minutes — срок в МИНУТАХ (02.10.2026: было дни)
 - Фоновая проверка удаляет истёкшие раз в час
 
 📌 data/admins/admins.json:
@@ -351,15 +436,20 @@ mark_proxy_bad() НЕ удаляет навсегда, а помечает на 
 "messages_norm_low": 10,
 "warns_accumulate": false,
 "warns_to_ban": 3,
-"warn_notify_admin": true
+"warn_notify_admin": true,
+"norm_auto_message_enabled": true,
+"checknorm_time_window_enabled": true
 }
 
-НОВЫЕ НАСТРОЙКИ (30.09.2026):
+НАСТРОЙКИ НОРМЫ И ЧИСТКИ (30.09–02.10.2026):
 - messages_norm: 70 (норма сообщений в неделю)
 - messages_norm_low: 10 (НПНДБ — нижний порог для бана)
 - warns_accumulate: false (накопление варнов)
 - warns_to_ban: 3 (сколько варнов до бана)
 - warn_notify_admin: true (уведомлять о 3-м варне)
+- norm_auto_message_enabled: true (авто-сообщение в ЛС при норме,
+  на будущее)
+- checknorm_time_window_enabled: true (окно чистки 20:00–21:00 МСК)
 
 📌 data/roles/roles_status.json — словарь {ключ: {...}}:
 {
@@ -383,6 +473,10 @@ mark_proxy_bad() НЕ удаляет навсегда, а помечает на 
 ⛔ НЕЛЬЗЯ использовать [] (список) — только {} (словарь)!
 ⛔ Пустой файл должен быть {} (2 байта), а не []
 
+📌 ТИПИЧНАЯ ОШИБКА:
+'list' object has no attribute 'items' — возникает, если файл
+содержит []. Исправить: заменить содержимое на {}
+
 📌 EXTRA ПОЛЕ:
 extra = "-993" — если пусто (нет реста)
 extra = "2026-09-20" — если рест до этой даты
@@ -400,6 +494,67 @@ DATA_DIR = str(BASE_DIR / 'data')
 Расположение: data/logs/bot.log
 Задаётся в config.py → LOG_FILE_PATH
 main.py импортирует LOG_FILE_PATH из config.
+НЕ создавать log_dir = "logs" в main.py (устаревший подход).
+
+📌 ПРИЧИНА: относительные пути зависят от рабочей директории.
+
+═══════════════════════════════════════════════════════════════════
+⭐ СИСТЕМА РАНГОВ ПРИ ОДОБРЕНИИ ЗАЯВОК
+═══════════════════════════════════════════════════════════════════
+
+При одобрении заявки (approve_req_<id>):
+
+1. Если у юзера БЫЛА старая роль:
+   - Освобождаем её в roles_status.json
+   - Инкрементируем changes_count
+2. Занимаем новую роль
+3. Обновляем/добавляем в users.json (обновление роли, not add)
+4. В зависимости от должности:
+   - Администратор (position="admin") → admins.json, ранг = 2
+   - Модератор (position="moder") → admins.json, ранг = 3
+   - Участник (position="member") → только users.json
+5. Отправляем юзеру уведомление + ссылки:
+   - CHAT_INVITE_LINK — всем
+   - ADMIN_LINK — если rank 1, 2
+   - MODERATOR_LINK — если rank 3
+
+📌 Функции добавления:
+add_user(user_id, username, full_name, role, extra, changes_count)
+add_admin(user_id, username, full_name, rank)
+
+📌 TODO: интеграция с ИРИС (@iris_moon_bot)
+Пока заглушка _send_to_iris() — логирует, но не отправляет.
+
+═══════════════════════════════════════════════════════════════════
+🔄 СИСТЕМА СМЕНЫ РОЛИ (26.09.2026)
+═══════════════════════════════════════════════════════════════════
+
+📌 СЦЕНАРИЙ:
+Юзер с ролью A подаёт заявку на роль B.
+
+📌 ЧТО ПРОИСХОДИТ:
+
+1. В cmd_apply: проверка лимита смен
+   - Если changes_count >= max_role_changes → отказ
+   - Владельцы (rank 1) не ограничены
+
+2. В process_submit: если у юзера есть роль:
+   - Показать предупреждение "У вас уже есть роль X"
+   - Кнопки "Да, продолжить" / "Отмена"
+   - Состояние FSM: confirming_replace
+
+3. В approve_request_callback (админ одобряет):
+   - Освободить старую роль A
+   - Инкрементировать changes_count
+   - Занять роль B
+   - Обновить users.json
+
+📌 ПРАВИЛА ЛИМИТА:
+- Лимит общий (max_role_changes в настройках)
+- Счётчик у каждого свой (changes_count в users.json)
+- НЕ сбрасывается при освобождении роли
+- Админ может сбросить через /userstats → кнопка
+- Владельцы (rank 1) не ограничены
 
 ═══════════════════════════════════════════════════════════════════
 🔄 СИСТЕМА УНИКАЛЬНЫХ ID РОЛЕЙ (30.09.2026)
@@ -448,20 +603,28 @@ update_role_status_by_id(role_id, status) — обновить статус по
 📌 ФАЙЛЫ:
 - utils/counters.py — счётчики
 - utils/norm_utils.py — категории
-- utils/warns_utils.py — варны
+- utils/warns_utils.py — варны (в МИНУТАХ!)
 - handlers/checknorm_commands.py — команда /checknorm
 
 📌 ФОНОВЫЕ ЦИКЛЫ:
 - 19:00 МСК суббота — напоминание админам о чистке
-- 20:00/21:00 МСК суббота — сброс счётчиков
+- 21:00 МСК суббота — сброс счётчиков (после завершения
+  чисток, макс 21:15)
 - Раз в час — истечение варнов
 - Раз в минуту — проверка кикнутых
+- 03:33 МСК ежедневно — синхронизация ролей
 
 ═══════════════════════════════════════════════════════════════════
-📢 ЧИСТКА /CHECKNORM (30.09.2026)
+📢 ЧИСТКА /CHECKNORM (30.09.2026, обновлено 02.10.2026)
 ═══════════════════════════════════════════════════════════════════
 
 📌 КОМАНДА: /checknorm (только во флуде, rank 1-2)
+
+📌 ОКНО ЧИСТКИ (БАГ 9, 02.10.2026):
+Если настройка checknorm_time_window_enabled = True:
+- /checknorm доступна ТОЛЬКО с 20:00 до 21:00 МСК
+- Вне окна → "⏰ Чистка доступна только с 20:00 до 21:00 МСК."
+Если False → без ограничений.
 
 📌 АЛГОРИТМ:
 1. Запуск → показ списка с кнопками ✅/❌
@@ -473,28 +636,166 @@ update_role_status_by_id(role_id, status) — обновить статус по
 7. Админ копирует и выдаёт вручную (Iris не принимает
    сообщения от ботов)
 
-📌 ФОРМАТ КОМАНД В ЛС:
+📌 ФОРМАТ КОМАНД В ЛС (в ДНЯХ, для Iris):
 Варн 6 дней @username
 Неактив
----
+
 Бан 90 дней @username
 Неактив
+
+📌 СРОКИ ВАРНОВ (в МИНУТАХ):
+- Обычный варн: 6 дней = 8640 минут
+- При warns_accumulate=True: 21 день = 30240 минут
+- Бан: 90 дней = 129600 минут
 
 📌 КУЛДАУН: rank 1 — без, rank 2 — 5 минут
 📌 ТАЙМАУТ FSM: 15 минут
 
 ═══════════════════════════════════════════════════════════════════
-🗑️ УДАЛЁННЫЕ ФАЙЛЫ
+📝 ПАРСЕР ВАРНОВ/БАНОВ ИЗ ЧАТА (02.10.2026)
+═══════════════════════════════════════════════════════════════════
+
+📌 ФОРМАТ КОМАНД В ЧАТЕ (только во флуде, только админы):
+варн @username 6д причина
+варн @username 12ч причина
+варн @username причина          (без срока = 7 дней)
+бан @username причина
+
+📌 ПОДДЕРЖИВАЕМЫЕ ЕДИНИЦЫ (русские):
+- мин, м — минуты
+- ч, час, часов — часы
+- д, день, дней — дни
+- н, нед, недель — недели
+- мес, месяц, месяцев — месяцы (30 дней)
+- г, год, лет — годы (365 дней)
+
+📌 ДЕФОЛТ: 7 дней = 10080 минут (если срок не указан)
+
+📌 ФАЙЛ: src/handlers/chat_member.py → _try_parse_warn_command
+📌 ТОЛЬКО ВО ФЛУДЕ (БАГ 6, 02.10.2026)
+
+═══════════════════════════════════════════════════════════════════
+📢 НАПОМИНАЛКА (НЕ УДАЛЯТЬ!)
+═══════════════════════════════════════════════════════════════════
+
+📌 ОПИСАНИЕ:
+Когда юзер пишет в чат, бот проверяет, есть ли он в users.json.
+Если нет — каждое 5-е сообщение напоминает о регистрации.
+
+📌 ВАЖНО: chat_member.py ПРОПУСКАЕТ команды:
+if message.text and message.text.startswith('/'):
+return
+
+📌 АЛГОРИТМ:
+1. При каждом сообщении (не команде) проверка регистрации
+2. Счётчик увеличивается для незарегистрированных
+3. На 5-м сообщении — напоминание
+
+⛔ НЕ УДАЛЯТЬ chat_member_router!
+⛔ ОБЯЗАТЕЛЬНО ставить ПОСЛЕ keyboards_router!
+
+═══════════════════════════════════════════════════════════════════
+👑 УПРАВЛЕНИЕ АДМИНИСТРАТОРАМИ
+═══════════════════════════════════════════════════════════════════
+
+📌 СТРУКТУРА РАНГОВ (НЕ МЕНЯТЬ!):
+
+1 — Владелец (нельзя понизить/удалить)
+2 — Админ
+3 — Модератор
+
+📌 ФАЙЛ: data/admins/admins.json
+Формат: {"user_id": {"username": "...", "full_name": "...", "rank": N}}
+
+═══════════════════════════════════════════════════════════════════
+🔍 ДИАГНОСТИКА
+═══════════════════════════════════════════════════════════════════
+
+📌 КОМАНДЫ:
+/diag — полная диагностика
+/check_chats — диагностика чатов
+
+📌 ЧТО ПРОВЕРЯЕТ /diag:
+Информация о боте, файлы, БД, токен, ID чатов, прокси
+═══════════════════════════════════════════════════════════════════
+🗑️ УДАЛЁННЫЕ ФАЙЛЫ (не искать, не восстанавливать)
 ═══════════════════════════════════════════════════════════════════
 
 ❌ role_commands.py — удалён (функции в apply_handlers.py)
+
 ❌ data/system_settings.json (в корне data/) — удалён
-❌ data/roles_status.json (в корне data/) — перенесён в data/roles/
-❌ data/users/unsubscribed_calls.txt — заменён на .json
-❌ src/test_connect.py — удалён
-❌ src/**/pycache/ — удалены
-❌ apply_states_router — убран из __init__.py
+Актуальный: data/system/system_settings.json
+
+❌ data/roles_status.json (в корне data/) — перенесён
+Актуальный: data/roles/roles_status.json
+
+❌ data/users/unsubscribed_calls.txt — удалён
+Актуальный: data/users/unsubscribed_calls.json
+
+❌ src/test_connect.py — удалён (пустой файл)
+
+❌ src/pycache/, src/handlers/pycache/, src/utils/pycache/ — удалены
+
+❌ apply_states_router — убран из __init__.py (не используется)
+
 ❌ src/utils/system_utils.py — удалён (дублировал settings_utils)
+
+═══════════════════════════════════════════════════════════════════
+🔧 ИЗМЕНЕНИЯ ВЕРСИИ 8.0.1 (02–03.10.2026)
+═══════════════════════════════════════════════════════════════════
+
+🩹 ИСПРАВЛЕНИЯ (баги 1-9):
+
+📄 settings_utils.py:
+- БАГ 1: убраны ДУБЛИ функций
+  (get_messages_norm_low, get_warns_accumulate, get_warns_to_ban
+   были объявлены дважды)
+- + checknorm_time_window_enabled в DEFAULT_SETTINGS
+- + обёртка get_checknorm_time_window_enabled()
+
+📄 counters.py:
+- БАГ 2: reset_all_counters СОХРАНЯЕТ joined_at
+  (иначе после субботы все станут «Нью»)
+- БАГ 7: increment_message_count НЕ ставит joined_at
+  (это делает ТОЛЬКО chat_member.py)
+- increment_message_count сохраняет joined_at при смене недели
+
+📄 warns_utils.py:
+- БАГ 4: переход на МИНУТЫ (было дни)
+  add_warn(user_id, minutes, ...)
+- duration_minutes в варне
+
+📄 chat_member.py:
+- БАГ 4: парсер варн/бан → МИНУТЫ
+  Поддержка: мин, ч, д/дней, н, мес, г
+- БАГ 6: _try_parse_warn_command — ТОЛЬКО ВО ФЛУДЕ
+- БАГ 7: set_joined_at остаётся ЗДЕСЬ (единственное место!)
+- Дефолт варна: 7 дней
+
+📄 checknorm_commands.py:
+- БАГ 3: WARN_MINUTES_ACCUMULATE = 21 * 24 * 60 (было 9 дней!)
+- БАГ 9: проверка окна чистки (20:00–21:00 МСК)
+- Импорт get_checknorm_time_window_enabled
+- Функция _has_active_sessions() (для main.py)
+- Сроки в МИНУТАХ: WARN_MINUTES_DEFAULT = 6 * 24 * 60,
+  WARN_MINUTES_ACCUMULATE = 21 * 24 * 60, BAN_MINUTES = 90 * 24 * 60
+
+📄 settings_commands.py:
+- + кнопка "Окно чистки" (после "Уведомлять о 3-м варне")
+- + обработчик toggle_checknorm_window
+- + строка в "Показать все настройки"
+
+📄 main.py:
+- БАГ 9: norm_reset_loop переписан
+  Сброс ТОЛЬКО в 21:00 МСК
+  Если есть ACTIVE_SESSIONS — ждём до 15 минут
+
+📄 .gitignore (КОМПРОМИСС, 02.10.2026):
+- Трекаем: !data/roles/roles_status.json, !data/roles/*.txt,
+  !data/system/free_role_ids.json
+- Игнорим: bot.log, *.pyc, __pycache__, users.json, admins.json,
+  requests.json, system_settings.json, warns.json,
+  message_counts.json, proxy_pings_cache.json
 
 ═══════════════════════════════════════════════════════════════════
 🔧 ИЗМЕНЕНИЯ ВЕРСИИ 8.0.0 (29.09–02.10.2026)
@@ -565,26 +866,77 @@ update_role_status_by_id(role_id, status) — обновить статус по
 ═══════════════════════════════════════════════════════════════════
 
 ❌ Баг смены роли (роль накладывалась):
-→ ИСПРАВЛЕНО в 7.4.0
+→ ИСПРАВЛЕНО в 7.4.0: при одобрении старая роль освобождается,
+  счётчик changes_count инкрементится.
 
-❌ Клавиатура не реагирует:
-→ Порядок роутеров в __init__.py
-→ keyboards_router ДО chat_member_router
+BaseModel.init() takes 1 positional argument but 2 were given:
+→ InlineKeyboardButton("текст", ...) без text=
+→ Исправить: InlineKeyboardButton(text="текст", ...)
+
+'list' object has no attribute 'items':
+→ requests.json содержит [] вместо {}
+→ Исправить: заменить на {}
+
+cannot use 'dict' as a dict key:
+→ role — это dict (из get_roles_by_season), а используется как строка
+→ Исправить: role.get('name') и role.get('status')
+
+ImportError: cannot import name 'cmd_free' from 'handlers.role_commands':
+→ Файл role_commands.py удалён
+→ Исправить: импортировать из apply_handlers
+
+Напоминалка не работает:
+→ Проверить, что chat_member_router добавлен в init.py
+→ Проверить, что chat_member пропускает команды
+
+Нет рабочих прокси:
+→ Система сама переключается при ошибках (soft-blacklist)
+→ Если USE_PROXY=false в .env — работает без прокси
+→ Если все прокси мёртвые — обновить good_proxies.txt
+
+NameError: name 'types' is not defined:
+→ Добавить: from aiogram import Router, F, types
+
+Цифры в чате меняют настройки:
+→ settings_commands.py использует FSM WaitingForSetting
+→ Числа обрабатываются ТОЛЬКО после нажатия кнопки настройки
+
+Приоритетный прокси мёртв:
+→ Бот сам переключится на пингование good_proxies.txt
+→ Если Webshare — зайти в личный кабинет, взять новый IP
+
+❌ Клавиатура не реагирует / команды молчат:
+→ Порядок роутеров в __init__.py нарушен
+→ chat_member_router (голый @router.message()) перехватывает
+  Reply-кнопки
+→ chat_member_router ДОЛЖЕН быть ПОСЛЕ keyboards_router
 
 ❌ /regc, /unregc, /call, /callfal молчат:
-→ Удалены заглушки из base_commands.py
+→ Заглушки в base_commands.py перехватывают команды
+→ УДАЛИТЬ дубли из base_commands.py
 
-❌ "In order to use aiohttp client... install aiohttp-socks":
-→ Откатить версии к зафиксированному набору
+❌ "In order to use aiohttp client for proxy requests,
+   install aiohttp-socks":
+→ Возникает при обновлённых библиотеках (aiogram 3.31+,
+  aiohttp 3.14+, python-socks 3.x).
+→ Решение: откатить версии к зафиксированному набору.
 
 ❌ joined_at обновлялся каждый раз (29.09.2026):
-→ increment_message_count ставил joined_at каждый раз
-→ ФИКС: убрать эту логику из counters.py
+→ ФИКС: increment_message_count НЕ ставит joined_at
 → joined_at ставит ТОЛЬКО chat_member.py
 
-❌ joined_at терялся при сбросе недели (30.09.2026):
-→ increment_message_count и reset_all_counters не сохраняли
-→ ФИКС: сохранять joined_at перед сбросом
+❌ joined_at терялся при сбросе недели (30.09.2026, БАГ 2):
+→ ФИКС: reset_all_counters сохраняет joined_at
+
+❌ Варн на 9 дней вместо 21 (БАГ 3, 02.10.2026):
+→ ФИКС: WARN_MINUTES_ACCUMULATE = 21 * 24 * 60
+
+❌ Парсер варн/бан перехватывал из ЛС (БАГ 6, 02.10.2026):
+→ ФИКС: только во флуде (GENERAL_CHAT_ID)
+
+❌ Дубли функций в settings_utils.py (БАГ 1, 02.10.2026):
+→ ФИКС: убраны дубли get_messages_norm_low,
+  get_warns_accumulate, get_warns_to_ban
 
 ❌ query is too old / BUTTON_DATA_INVALID:
 → callback_data > 64 байт → использовать ID, не текст
@@ -600,17 +952,35 @@ update_role_status_by_id(role_id, status) — обновить статус по
 → Старый пароль недействителен
 
 ═══════════════════════════════════════════════════════════════════
-⚠️ НИЧЕГО НЕ МЕНЯТЬ!
+⚠️ НИЧЕГО НЕ МЕНЯТЬ! (запрещённые действия)
 ═══════════════════════════════════════════════════════════════════
 
-❌ НЕ МЕНЯТЬ СИСТЕМУ ПОДКЛЮЧЕНИЯ В main.py
-❌ НЕ МЕНЯТЬ СТРУКТУРУ handlers/
-❌ НЕ МЕНЯТЬ ФОРМАТЫ JSON
-❌ НЕ МЕНЯТЬ ПРОВЕРКИ НА ФЛУД
-❌ НЕ МЕНЯТЬ КОМАНДЫ ВО ФЛУДЕ
+❌ НЕ МЕНЯТЬ СИСТЕМУ ПОДКЛЮЧЕНИЯ В main.py:
+Используется только: AiohttpSession(proxy=proxy_url)
+Запрещено: connector, ssl_context, ClientSession
+
+❌ НЕ МЕНЯТЬ СТРУКТУРУ handlers/:
+Каждая команда в своём файле. Не объединять!
+
+❌ НЕ МЕНЯТЬ ФОРМАТЫ JSON:
+Строгие форматы (см. выше)
+
+❌ НЕ МЕНЯТЬ ПРОВЕРКИ НА ФЛУД:
+Все команды (кроме разрешённых) должны проверять:
+if message.chat.id == GENERAL_CHAT_ID: return
+
+❌ НЕ МЕНЯТЬ КОМАНДЫ ВО ФЛУДЕ:
+Разрешены только: /members (количество), /roles (без кнопок),
+/call, /callfal, /hide, /menu
+
 ❌ НЕ ОТКЛЮЧАТЬ ЛОГИРОВАНИЕ
-❌ НЕ УДАЛЯТЬ chat_member_router
-❌ НЕ МЕНЯТЬ СИСТЕМУ РАНГОВ
+
+❌ НЕ УДАЛЯТЬ chat_member_router:
+Обязательно ставить ПОСЛЕ keyboards_router!
+
+❌ НЕ МЕНЯТЬ СИСТЕМУ РАНГОВ:
+1 — Владелец, 2 — Админ, 3 — Модератор
+
 ❌ НЕ ОБНОВЛЯТЬ БИБЛИОТЕКИ БЕЗ ТЕСТА
 
 ═══════════════════════════════════════════════════════════════════
@@ -689,33 +1059,417 @@ LoEZF_Bot/
 └── .env
 
 ═══════════════════════════════════════════════════════════════════
-📋 СПИСОК КОМАНД
+📋 СПИСОК КОМАНД И ИХ НАЗНАЧЕНИЕ
 ═══════════════════════════════════════════════════════════════════
 
-👤 ДЛЯ ВСЕХ (ТОЛЬКО В ЛС):
-/start, /help, /about, /aboutme, /update, /hide, /menu
+👤 КОМАНДЫ ДЛЯ ВСЕХ (ТОЛЬКО В ЛИЧНЫХ СООБЩЕНИЯХ):
+───────────────────────────────────────────────────────────────────
+/start — Приветствие и информация
+/help — Список всех команд
+/about — Информация о флуд-чате
+/aboutme — Данные пользователя
+/update — Проверить статус регистрации
+/hide — Скрыть клавиатуру
+/menu — Показать клавиатуру
 
-⚠️ ТОЛЬКО В ЛС:
-/apply, /free, /cancel_request, /rest, /regc, /unregc, /clearme
+⚠️ КОМАНДЫ ТОЛЬКО В ЛС (НЕ ВО ФЛУДЕ):
+───────────────────────────────────────────────────────────────────
+/apply — Подать заявку на роль
+/free — Освободить свою роль (с подтверждением Да/Нет)
+/cancel_request — Отменить заявку
+/rest — Подать заявку на рест
+/regc — Подписаться на калы
+/unregc — Отписаться от калов
+/clearme — Полная очистка данных юзера
 
-👥 ВЕЗДЕ (ВКЛЮЧАЯ ФЛУД):
-/members, /roles, /call, /callfal, /stats, /checknorm
+👥 КОМАНДЫ ВЕЗДЕ (ВКЛЮЧАЯ ФЛУД):
+───────────────────────────────────────────────────────────────────
+/members — Список участников
+/roles — Список ролей
+/call — Сделать кал (для админов)
+/callfal — Непропускаемый кал (для админов)
+/stats — Статистика (для админов)
+/checknorm — Проверка нормы (для админов, rank 1-2)
 
-🔐 АДМИНСКИЕ:
-/admins, /users, /adduser, /removeuser, /resetuser, /refresh,
-/find, /finduser, /userstats, /findrole, /callstaff
+🔐 АДМИНИСТРАТИВНЫЕ КОМАНДЫ:
+───────────────────────────────────────────────────────────────────
+/admins — Список администраторов
+/users — Список участников
+/adduser — Добавить участника
+/removeuser — Удалить участника
+/resetuser — Сбросить пользователя
+/refresh — Обновить список
+/find — Найти по ID
+/finduser — Найти по юзернейму
+/userstats [ID] — Статистика юзера + сброс счётчика смен
+/findrole — Поиск роли
+/callstaff — Позвать персонал
 
-👑 ВЛАДЕЛЕЦ:
-/promote, /demote, /setrank, /message_all
+👑 УПРАВЛЕНИЕ АДМИНАМИ (ТОЛЬКО ВЛАДЕЛЕЦ):
+───────────────────────────────────────────────────────────────────
+/promote — Повысить
+/demote — Понизить
+/setrank [ID] [ранг] — Назначить ранг (1/2/3)
+/message_all — Рассылка (FSM, HTML с fallback)
 
-📝 ЗАЯВКИ:
-/requests, /approve, /reject
+📝 УПРАВЛЕНИЕ ЗАЯВКАМИ:
+───────────────────────────────────────────────────────────────────
+/requests — Список заявок
+/approve — Одобрить
+/reject — Отклонить
 
-📋 СПИСКИ:
-/roster, /stats, /restlist
+📋 СПИСКИ И СТАТИСТИКА:
+───────────────────────────────────────────────────────────────────
+/roster — Полный список
+/stats — Статистика
+/restlist — Активные ресты
 
-⏳ РЕСТЫ:
-/unrest, /restextend, /setrest
+⏳ УПРАВЛЕНИЕ РЕСТОМ:
+───────────────────────────────────────────────────────────────────
+/unrest — Снять рест
+/restextend — Продлить рест
+/setrest — Установить рест
 
-⚙️ НАСТРОЙКИ:
-/settings, /diag, /check_chats
+⚙️ НАСТРОЙКИ И ДИАГНОСТИКА (ТОЛЬКО ВЛАДЕЛЕЦ):
+───────────────────────────────────────────────────────────────────
+/settings — Меню настроек
+/diag — Диагностика
+/check_chats — Диагностика чатов
+/close — Закрыть набор
+/open — Открыть набор
+
+═══════════════════════════════════════════════════════════════════
+⚙️ НАСТРОЙКИ (меню /settings)
+═══════════════════════════════════════════════════════════════════
+
+🔒 Набор ролей — вкл/выкл приём заявок
+📢 Напоминалка — вкл/выкл напоминаний
+👋 Приветствие — вкл/выкл приветствия
+⏳ Авто-снятие реста — вкл/выкл
+⏱️ Кулдаун кала — от 5 до 120 секунд
+⏱️ Кулдаун кал-фал — от 10 до 300 секунд
+📅 Макс. рест — от 1 до 30 дней
+🔄 Макс. смен роли — от 0 до 20 (26.09)
+📊 Норма сообщений — норма в неделю (30.09)
+📉 НПНДБ — нижний порог для бана (30.09)
+✅ Накопление варнов — вкл/выкл (30.09)
+🔢 Варнов до бана — от 1 до 10 (30.09)
+🔔 Уведомлять о 3-м варне — вкл/выкл (30.09)
+⏰ Окно чистки — вкл/выкл (02.10)
+
+📌 ВАЖНО: числа вводятся ТОЛЬКО после нажатия кнопки настройки.
+Просто цифры в чате НЕ МЕНЯЮТ настройки.
+
+═══════════════════════════════════════════════════════════════════
+📋 ВСЕ ФУНКЦИИ БОТА (СПРАВОЧНИК)
+═══════════════════════════════════════════════════════════════════
+
+📂 handlers/base_commands.py:
+cmd_start, cmd_help, cmd_about, cmd_aboutme
+cmd_members, cmd_roles, cmd_update
+cmd_hide, cmd_menu, cmd_stats
+back_to_menu_from_roles, show_roles_by_season
+
+📂 handlers/apply_handlers.py:
+cmd_apply, cmd_free, cmd_cancel_request
+process_season, process_role, process_position, process_submit
+apply_replace_confirm, _submit_request
+apply_cancel, apply_none, apply_back_to_seasons
+apply_back_to_roles, apply_back_to_position
+free_confirm, free_cancel
+_load_requests, _save_requests, _has_active_request
+_get_active_request, _get_max_role_changes
+_notify_admins
+
+📂 handlers/request_commands.py:
+cmd_requests, cmd_approve, cmd_reject
+reject_with_reason
+refresh_requests, view_request
+approve_request_callback, reject_request_callback
+back_to_requests
+_load_requests, _save_requests, _get_pending
+_get_max_role_changes, _send_to_iris
+
+📂 handlers/admin_commands.py:
+cmd_admins, cmd_users, cmd_adduser, cmd_removeuser
+cmd_resetuser, cmd_find, cmd_finduser, cmd_refresh
+cmd_close, cmd_open, cmd_setrank
+cmd_unregister_admin, cmd_unregister_user
+cmd_message_all, cmd_userstats, cmd_findrole, cmd_callstaff
+_show_user_stats
+reset_changes_callback, confirm_reset_callback
+do_reset_callback, cancel_reset_callback
+MessageAllStates, UserStatsStates
+cmd_register_admin, cmd_register_user
+
+📂 handlers/admin_management.py:
+cmd_promote, cmd_demote, cmd_setrank
+
+📂 handlers/call_commands.py:
+cmd_call, cmd_callfal, cmd_regc, cmd_unregc
+
+📂 handlers/rest_commands.py:
+cmd_rest, cmd_unrest, cmd_restextend, cmd_restlist, cmd_setrest
+
+📂 handlers/settings_commands.py:
+cmd_settings, settings_callback, settings_value_input
+cancel_setting
+load_settings, save_settings, _default_settings
+WaitingForSetting (FSM)
+
+📂 handlers/diagnostic_commands.py:
+cmd_diag, cmd_check_chats
+
+📂 handlers/chat_member.py:
+handle_message, on_user_join, check_user_registration
+_try_parse_warn_command, _parse_duration_to_minutes
+
+📂 handlers/checknorm_commands.py:
+cmd_checknorm, checknorm_toggle, checknorm_preview
+checknorm_edit, checknorm_cancel, checknorm_confirm
+checknorm_send_ls, checknorm_ignore
+_build_checklist_keyboard, _build_preview
+_build_preview_keyboard, _build_commands
+_cleanup_session, _has_active_sessions, _safe_answer
+_get_mention
+CheckNormStates (FSM)
+
+📂 handlers/clear_me.py:
+cmd_clearme, clearme_cancel, clearme_confirm_1
+clearme_final_phrase, clearme_other
+_do_clear, _delete_requests, _delete_rest_request
+_delete_unsubscribed, _free_role
+ClearMeStates (FSM)
+
+📂 handlers/utils.py:
+load_unsubscribed, save_unsubscribed
+is_unsubscribed, add_unsubscribed, remove_unsubscribed
+load_rest_requests, save_rest_requests
+generate_calendar_keyboard
+
+📂 utils/parsers.py:
+load_json, save_json
+load_users, save_users, get_user, add_user, remove_user
+update_user_role
+get_changes_count, increment_changes_count, reset_changes_count
+load_admins, save_admins, get_admin, add_admin
+remove_admin, set_rank
+get_owner_ids, is_owner, is_admin, get_admin_rank
+load_requests, save_requests
+load_settings, save_settings
+load_roles_status, save_roles_status
+
+📂 utils/user_utils.py:
+load_users, save_users, add_user, remove_user
+get_users_count, get_user_by_id, update_user_role
+get_user_role, get_users_by_role, get_role_stats
+get_role_names, get_user_info, is_user_registered
+get_changes_count, increment_changes_count, reset_changes_count
+unsubscribed-функции (старые, не используются)
+
+📂 utils/admin_utils.py:
+load_admins, save_admins
+is_admin, is_owner, get_owner_ids, get_admin_rank
+add_admin, remove_admin, set_rank, get_admin_info
+
+📂 utils/role_utils.py:
+load_roles_status, save_roles_status
+get_seasons_list, get_all_seasons, get_roles_by_season
+get_role_by_name, get_role_info, get_role_status
+is_role_free, update_role_status, free_role
+get_user_role, get_taken_roles, count_taken_roles
+get_all_roles, get_season_stats, get_all_seasons_stats
+get_free_roles_by_season, get_occupied_roles_by_season
+get_system_settings, save_system_settings
+get_closed_mode, set_closed_mode
+sync_roles_from_files
+format_role_display, get_user_role_key
+
+📂 utils/requests_utils.py:
+load_requests, save_requests
+add_request, get_pending_requests, get_request_by_user_id
+get_pending_count, get_requests_count
+
+📂 utils/settings_utils.py:
+load_settings, save_settings, reset_settings
+get_setting, set_setting, toggle_setting
+get_messages_norm, get_messages_norm_low
+get_max_role_changes, get_warns_accumulate, get_warns_to_ban
+get_warn_notify_admin, get_checknorm_time_window_enabled
+DEFAULT_SETTINGS
+
+📂 utils/counters.py:
+load_counters, save_counters
+increment_message_count, get_message_count, get_all_counts
+reset_all_counters, clear_all_counters
+set_joined_at, get_joined_at, is_new_user
+_get_current_week_start
+
+📂 utils/warns_utils.py:
+load_warns, save_warns
+get_user_warns, get_warns_count
+add_warn, remove_warn, clear_user_warns
+expire_old_warns, get_last_warn_number
+
+📂 utils/norm_utils.py:
+get_user_category, get_emoji, get_category_label
+get_all_categorized
+CATEGORY_GOOD, CATEGORY_WARN, CATEGORY_BAN
+CATEGORY_NEW, CATEGORY_REST, CATEGORY_UNKNOWN
+
+📂 utils/role_ids.py:
+load_free_ids, save_free_ids
+get_next_id, add_free_id, get_stats
+
+📂 middlewares/registration_check.py:
+RegistrationCheckMiddleware
+
+═══════════════════════════════════════════════════════════════════
+📋 ИСТОРИЯ ИЗМЕНЕНИЙ
+═══════════════════════════════════════════════════════════════════
+
+Все изменения фиксируются в CHANGELOG.md.
+
+Актуальная версия: 8.0.1
+Дата последнего обновления: 03.10.2026
+
+[8.0.1] - Исправления багов 1-9 (02–03.10.2026):
+- БАГ 1: дубли функций в settings_utils.py
+- БАГ 2: joined_at терялся при сбросе недели (counters.py)
+- БАГ 3: варн на 9 дней вместо 21 (checknorm_commands.py)
+- БАГ 4: парсер варн/бан → МИНУТЫ (chat_member.py, warns_utils.py)
+- БАГ 6: парсер перехватывал из ЛС → только во флуде
+- БАГ 7: joined_at ставит ТОЛЬКО chat_member.py
+- БАГ 9: norm_reset_loop переписан + окно чистки
+- .gitignore: компромисс (трекаем структуру, игрим данные)
+
+[8.0.0] - Система нормы и чистки (29.09–02.10.2026):
+- /checknorm — команда проверки нормы
+- Счётчики сообщений (counters.py, message_counts.json)
+- Варны (warns_utils.py, warns.json)
+- Категории юзеров (norm_utils.py)
+- Уникальные ID ролей (role_ids.py, free_role_ids.json)
+- Централизованные настройки (settings_utils.py)
+- /clearme — очистка данных юзера
+- Стартовый режим (middlewares/)
+- Фоновые циклы (19:00, 21:00, кикнутые, варны, роли)
+- Таймаут подачи заявки (5 минут)
+- Авто-создание ролей из папки
+
+[7.4.0] - Система смены роли:
+- Новая настройка max_role_changes (по умолчанию 3)
+- Поле changes_count в users.json
+- Счётчик смен, лимит, предупреждение при подаче
+- Освобождение старой роли при одобрении
+- Команда /userstats + сброс счётчика админом
+
+Баг-фиксы:
+- Наложение ролей (было — две роли у одного юзера)
+- Уведомления о заявках (admins.txt → admins.json)
+- Подтверждение /free (Да/Нет)
+- Ссылки после одобрения (CHAT_INVITE_LINK + ADMIN/MODERATOR_LINK)
+
+Proxy Manager (переписан):
+- PING_COUNT=1, PING_TIMEOUT=5
+- Soft-blacklist прокси (BAD_PROXY_TTL=600)
+- Двойная проверка приоритетного прокси
+- Подключён Webshare.io
+
+[7.3.0] - Зафиксированы версии библиотек
+[7.2.0] - Порядок роутеров, unsubscribed_calls → .json, /message_all
+[7.1.0] - JSON-формат, приоритетный прокси, FSM настроек
+[7.0.0] - Переход на aiogram 3.x
+[6.2.0] - Фикс role_utils
+[6.1.0] - Правила удаления кода
+[5.5.0] - Управление админами, настройки
+[5.4.1] - Чистка кода
+[5.4.0] - Напоминалка, /update
+[5.3.0] - Система прокси с пингом
+[5.2.0] - Бот-пересыльщик
+[5.1.0] - Рефакторинг, Proxy Manager
+[5.0.0] - Первоначальная структура
+
+═══════════════════════════════════════════════════════════════════
+🔗 RAW-ССЫЛКИ НА ФАЙЛЫ
+═══════════════════════════════════════════════════════════════════
+
+📌 ПРАВИЛО: при запросе файла используй Raw-ссылку.
+✅ ПРАВИЛЬНО: https://raw.githubusercontent.com/...
+❌ НЕПРАВИЛЬНО: https://github.com/.../blob/...
+
+⚠️ ПЕРЕД запросом — попросить владельца закоммитить правки.
+⚠️ AI НЕ тянет дерево сам.
+
+🔗 АКТУАЛЬНОЕ ДЕРЕВО РЕПОЗИТОРИЯ:
+https://api.github.com/repos/LOEZws3/loez_bot/git/trees/main?recursive=1
+
+📂 КОРНЕВЫЕ ФАЙЛЫ:
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/requirements.txt
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/CHANGELOG.md
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/GUIDE_FOR_AI.txt
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/start.bat
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/.gitignore
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/migrate_roles.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/migrate_role_ids.py
+
+📂 src/:
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/main.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/config.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/database.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/proxy_manager.py
+
+📂 src/handlers/:
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/__init__.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/base_commands.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/apply_handlers.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/apply_states.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/admin_commands.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/admin_management.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/request_commands.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/call_commands.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/rest_commands.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/settings_commands.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/diagnostic_commands.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/chat_member.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/keyboards.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/utils.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/checknorm_commands.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/clear_me.py
+
+📂 src/middlewares/:
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/middlewares/__init__.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/middlewares/registration_check.py
+
+📂 src/utils/:
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/__init__.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/parsers.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/role_utils.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/user_utils.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/admin_utils.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/emoji_utils.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/file_utils.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/requests_utils.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/sync_utils.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/user_history.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/settings_utils.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/counters.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/warns_utils.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/norm_utils.py
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/role_ids.py
+
+📂 data/:
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/roles/roles_status.json
+https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/system/free_role_ids.json
+
+═══════════════════════════════════════════════════════════════════
+📞 КОНТАКТЫ
+═══════════════════════════════════════════════════════════════════
+
+Владелец: @Sedrik_loez
+Бот-пересыльщик: @Sedrikai_bot
+Основной бот: @REG_sf_BOT
+
+═══════════════════════════════════════════════════════════════════
+📅 Версия: 8.0.1
+📅 Дата обновления: 03.10.2026
+═══════════════════════════════════════════════════════════════════
