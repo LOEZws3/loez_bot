@@ -7,12 +7,16 @@ from aiogram.types import ChatMemberUpdated
 
 from config import GENERAL_CHAT_ID
 from utils.admin_utils import is_owner, is_admin, get_admin_rank
-from utils.user_utils import get_user_by_id
+from utils.user_utils import (
+    get_user_by_id, get_notify_norm,
+)
 from utils.counters import (
     increment_message_count, get_message_count as get_stored_count,
     set_joined_at, get_joined_at, is_new_user,
+    update_last_message_at, mark_norm_notified, is_norm_notified,
 )
 from utils.warns_utils import add_warn
+from utils.settings_utils import get_messages_norm, get_setting
 
 logger = logging.getLogger(__name__)
 router = Router()
@@ -40,7 +44,6 @@ WARN_PATTERN = re.compile(
     re.IGNORECASE
 )
 
-# Коэффициенты перевода в минуты
 _UNIT_TO_MINUTES = {
     'мин': 1, 'м': 1,
     'ч': 60, 'час': 60, 'часов': 60,
@@ -91,25 +94,18 @@ def _parse_duration_to_minutes(num_str: str, unit: str) -> int:
         return DEFAULT_WARN_MINUTES
 
     unit_lower = (unit or '').lower().strip()
-    multiplier = _UNIT_TO_MINUTES.get(unit_lower, 1440)  # дефолт — дни
+    multiplier = _UNIT_TO_MINUTES.get(unit_lower, 1440)
     return num * multiplier
 
 async def _try_parse_warn_command(message: types.Message) -> bool:
-    """
-    Проверяет: сообщение это команда варн/бан?
-    Если да — парсит, сохраняет в warns.json.
-    ⚠️ БАГ 6 (02.10.2026): только во флуд-чате.
-    Возвращает True если обработал.
-    """
+    """Проверяет: сообщение это команда варн/бан? Только во флуде."""
     text = (message.text or '').strip()
     if not text:
         return False
 
-    # БАГ 6: только во флуде
     if message.chat.id != GENERAL_CHAT_ID:
         return False
 
-    # Только для админов/модераторов
     user_id = message.from_user.id if message.from_user else None
     if not user_id:
         return False
@@ -126,7 +122,6 @@ async def _try_parse_warn_command(message: types.Message) -> bool:
     duration_unit = match.group(4)
     reason = (match.group(5) or '').strip()
 
-    # Находим юзера по username / ID
     target_id = None
     if target_str.isdigit():
         target_id = int(target_str)
@@ -145,14 +140,13 @@ async def _try_parse_warn_command(message: types.Message) -> bool:
 
     if action == 'бан':
         logger.info(f"🚫 Пойман БАН @{target_str} (ID {target_id}) от {user_id}. Причина: {reason}")
-        # TODO: логика бана (очистка + Iris)
         return True
 
     if action == 'варн':
         if duration_num and duration_unit:
             minutes = _parse_duration_to_minutes(duration_num, duration_unit)
         else:
-            minutes = DEFAULT_WARN_MINUTES  # 7 дней
+            minutes = DEFAULT_WARN_MINUTES
 
         add_warn(target_id, minutes=minutes, issued_by=user_id,
                  reason=reason or "Нарушение")
@@ -160,6 +154,45 @@ async def _try_parse_warn_command(message: types.Message) -> bool:
         return True
 
     return False
+
+# ======================== ⚠️ НОВОЕ: ЛС при наборе нормы ========================
+
+async def _maybe_notify_norm(bot, user_id: int):
+    """
+    Проверяет: набрал ли юзер норму, не уведомляли ли его, подписан ли он.
+    Если да — отправляет ЛС и ставит флаг norm_notified.
+    """
+    try:
+        # Глобальная настройка
+        global_enabled = get_setting('norm_auto_message_enabled', True)
+        if not global_enabled:
+            return
+
+        # Локальная подписка
+        if not get_notify_norm(user_id):
+            return
+
+        # Уже уведомляли?
+        if is_norm_notified(user_id):
+            return
+
+        # Набрал норму?
+        norm = get_messages_norm()
+        count = get_stored_count(user_id)
+        if count < norm:
+            return
+
+        # Отправляем ЛС
+        await bot.send_message(
+            user_id,
+            "🎉 <b>Поздравляю! Ты набрал норму за эту неделю!</b>",
+            parse_mode="HTML"
+        )
+        mark_norm_notified(user_id)
+        logger.info(f"📩 Уведомление о норме отправлено {user_id} ({count}/{norm})")
+
+    except Exception as e:
+        logger.error(f"❌ Ошибка уведомления о норме для {user_id}: {e}")
 
 # ======================== ОСНОВНОЙ ОБРАБОТЧИК ========================
 
@@ -188,7 +221,6 @@ async def handle_message(message: types.Message):
     is_registered = check_user_registration(user_id)
 
     if is_registered:
-        # Ставим joined_at при первом сообщении (единственное место!)
         if not get_joined_at(user_id):
             set_joined_at(user_id)
             logger.info(f"📅 Установлен joined_at для {user_id}")
@@ -200,6 +232,9 @@ async def handle_message(message: types.Message):
                 logger.debug(f"👶 {user_id} Нью (<7 дней) — не считаем")
             else:
                 increment_message_count(user_id)
+
+                # ⚠️ НОВОЕ: проверяем норму
+                await _maybe_notify_norm(message.bot, user_id)
 
         if user_id in message_counter:
             message_counter[user_id] = 0
@@ -238,6 +273,13 @@ async def on_user_join(update: ChatMemberUpdated):
 
     user = update.new_chat_member.user
     user_id = user.id
+
+    # ⚠️ НОВОЕ: обновляем last_message_at в истории
+    try:
+        from utils.user_history import set_last_message_at
+        set_last_message_at(user_id)
+    except Exception as e:
+        logger.error(f"❌ Не удалось обновить last_message_at: {e}")
 
     if not check_user_registration(user_id):
         try:

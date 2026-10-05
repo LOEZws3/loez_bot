@@ -18,10 +18,15 @@ import logging
 from aiogram import Router, F, types
 from aiogram.filters import Command
 from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, ReplyKeyboardRemove
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import State, StatesGroup
 
 from config import GENERAL_CHAT_ID
 from utils.admin_utils import get_admin_rank, is_admin, load_admins
-from utils.user_utils import load_users, get_users_count, get_user_by_id, get_role_stats
+from utils.user_utils import (
+    load_users, get_users_count, get_user_by_id, get_role_stats,
+    set_birthday, get_birthday, set_notify_norm, get_notify_norm,
+)
 from utils.requests_utils import get_request_by_user_id, get_pending_count
 from utils.role_utils import (
     get_taken_roles, count_taken_roles,
@@ -43,6 +48,50 @@ ROLE_NAMES = {
     '5': 'Администрация в ресте'
 }
 
+# ============================================================
+# ⚠️ НОВОЕ (05.10.2026): FSM для /setbirthday
+# ============================================================
+
+class SetBirthdayStates(StatesGroup):
+    choosing_day = State()
+    choosing_month = State()
+
+MONTHS_RU = [
+    'январь', 'февраль', 'март', 'апрель', 'май', 'июнь',
+    'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'
+]
+
+def _build_days_keyboard() -> InlineKeyboardMarkup:
+    """Клавиатура выбора дня (1-31, сеткой 7x5)."""
+    buttons = []
+    row = []
+    for day in range(1, 32):
+        row.append(InlineKeyboardButton(
+            text=str(day),
+            callback_data=f"bday_day_{day}"
+        ))
+        if len(row) == 7:
+            buttons.append(row)
+            row = []
+    if row:
+        buttons.append(row)
+    buttons.append([InlineKeyboardButton(text="❌ Отмена", callback_data="bday_cancel")])
+    return InlineKeyboardMarkup(inline_keyboard=buttons)
+
+def _build_months_keyboard() -> InlineKeyboardMarkup:
+    """Клавиатура выбора месяца."""
+    buttons = []
+    for i in range(0, 12, 3):
+        row = []
+        for j in range(3):
+            if i + j < 12:
+                row.append(InlineKeyboardButton(
+                    text=MONTHS_RU[i + j].capitalize(),
+                    callback_data=f"bday_month_{i + j + 1}"
+                ))
+        buttons.append(row)
+    buttons.append([InlineKeyboardButton(text="❌ Отмена", callback_data="bday_cancel")])
+    return InlineKeyboardMarkup(inline_keyboard=buttons)
 
 # ============================================================
 # 🆕 /start
@@ -83,7 +132,6 @@ async def cmd_start(message: Message):
 
     await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
 
-
 # ============================================================
 # 📚 /help — ИНТЕРАКТИВНЫЙ
 # ============================================================
@@ -105,7 +153,6 @@ async def cmd_help(message: Message):
     user_data = get_user_by_id(user_id)
     is_registered = user_data is not None
 
-    # Если НЕ зарегистрирован — показываем только базовые
     if not is_registered:
         buttons = [
             [InlineKeyboardButton(text="👤 Основное", callback_data="help_group_main")]
@@ -119,7 +166,6 @@ async def cmd_help(message: Message):
         await message.answer(text, parse_mode="HTML", reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons))
         return
 
-    # Зарегистрирован — показываем группы
     buttons = [
         [InlineKeyboardButton(text="👤 Для всех", callback_data="help_group_main")],
         [InlineKeyboardButton(text="📝 Заявки", callback_data="help_group_apply")],
@@ -141,7 +187,6 @@ async def cmd_help(message: Message):
 
     await message.answer(text, parse_mode="HTML", reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons))
 
-
 # ============================================================
 # 📚 /help — ОБРАБОТЧИКИ ГРУПП
 # ============================================================
@@ -159,6 +204,8 @@ HELP_GROUPS = {
             "/roles — список ролей\n"
             "/update — проверить статус регистрации\n"
             "/setbirthday — установить дату рождения\n"
+            "/subnorm — подписаться на уведомления о норме\n"
+            "/unsubnorm — отписаться от уведомлений о норме\n"
             "/hide — скрыть клавиатуру\n"
             "/menu — показать клавиатуру"
         )
@@ -231,10 +278,8 @@ HELP_GROUPS = {
     },
 }
 
-
 @router.callback_query(F.data.startswith("help_group_"))
 async def help_group_callback(callback: CallbackQuery):
-    """Показ команды группы"""
     await callback.answer()
 
     if callback.message.chat.id == GENERAL_CHAT_ID:
@@ -258,10 +303,8 @@ async def help_group_callback(callback: CallbackQuery):
         reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
     )
 
-
 @router.callback_query(F.data == "help_back")
 async def help_back_callback(callback: CallbackQuery):
-    """Возврат в главное меню /help"""
     await callback.answer()
 
     if callback.message.chat.id == GENERAL_CHAT_ID:
@@ -308,6 +351,161 @@ async def help_back_callback(callback: CallbackQuery):
 
     await callback.message.edit_text(text, parse_mode="HTML", reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons))
 
+# ============================================================
+# 🎂 НОВОЕ (05.10.2026): /setbirthday
+# ============================================================
+
+@router.message(Command('setbirthday'))
+async def cmd_setbirthday(message: Message, state: FSMContext):
+    """Установка ДР через FSM (день → месяц)."""
+    user_id = message.from_user.id
+
+    if message.chat.id == GENERAL_CHAT_ID:
+        await message.answer("⛔ Эта команда недоступна во флуд-чате.")
+        return
+
+    user_data = get_user_by_id(user_id)
+    if not user_data:
+        await message.answer(
+            "⛔ Для установки ДР нужно сначала зарегистрироваться.\n"
+            "Подайте заявку через /apply."
+        )
+        return
+
+    current = get_birthday(user_id)
+    current_text = f"\n\n📌 Текущая дата: <b>{current}</b>" if current else ""
+
+    await state.set_state(SetBirthdayStates.choosing_day)
+    await message.answer(
+        f"🎂 <b>Установка даты рождения</b>{current_text}\n\n"
+        f"Выберите <b>день</b>:",
+        parse_mode="HTML",
+        reply_markup=_build_days_keyboard()
+    )
+
+@router.callback_query(SetBirthdayStates.choosing_day, F.data.startswith("bday_day_"))
+async def bday_day_chosen(callback: CallbackQuery, state: FSMContext):
+    await callback.answer()
+    try:
+        day = int(callback.data.replace("bday_day_", ""))
+    except ValueError:
+        return
+
+    await state.update_data(bday_day=day)
+    await state.set_state(SetBirthdayStates.choosing_month)
+
+    try:
+        await callback.message.edit_text(
+            f"🎂 <b>Установка даты рождения</b>\n\n"
+            f"День: <b>{day}</b>\n\n"
+            f"Теперь выберите <b>месяц</b>:",
+            parse_mode="HTML",
+            reply_markup=_build_months_keyboard()
+        )
+    except Exception:
+        pass
+
+@router.callback_query(SetBirthdayStates.choosing_month, F.data.startswith("bday_month_"))
+async def bday_month_chosen(callback: CallbackQuery, state: FSMContext):
+    await callback.answer()
+    try:
+        month = int(callback.data.replace("bday_month_", ""))
+    except ValueError:
+        return
+
+    data = await state.get_data()
+    day = data.get('bday_day')
+    if not day:
+        await callback.message.edit_text("❌ Ошибка: день потерян. Начните заново /setbirthday.")
+        await state.clear()
+        return
+
+    user_id = callback.from_user.id
+    birthday = f"{day:02d}.{month:02d}"
+
+    set_birthday(user_id, birthday)
+
+    # Также пишем в users_history
+    try:
+        from utils.user_history import set_birthday as hist_set_birthday
+        hist_set_birthday(user_id, birthday)
+    except Exception as e:
+        logger.error(f"❌ Не удалось сохранить ДР в историю: {e}")
+
+    await state.clear()
+
+    await callback.message.edit_text(
+        f"✅ <b>Дата рождения сохранена!</b>\n\n"
+        f"🎂 {birthday}\n\n"
+        f"📌 Поздравления приходят 00:00 (лично) и 12:00 (в чат).",
+        parse_mode="HTML"
+    )
+    logger.info(f"🎂 {user_id} установил ДР: {birthday}")
+
+@router.callback_query(F.data == "bday_cancel")
+async def bday_cancel(callback: CallbackQuery, state: FSMContext):
+    await callback.answer()
+    await state.clear()
+    try:
+        await callback.message.edit_text("❌ Установка ДР отменена.")
+    except Exception:
+        pass
+
+# ============================================================
+# 🔔 НОВОЕ (05.10.2026): /subnorm, /unsubnorm
+# ============================================================
+
+@router.message(Command('subnorm'))
+async def cmd_subnorm(message: Message):
+    """Подписаться на уведомления о норме."""
+    user_id = message.from_user.id
+
+    if message.chat.id == GENERAL_CHAT_ID:
+        await message.answer("⛔ Только в ЛС.")
+        return
+
+    user_data = get_user_by_id(user_id)
+    if not user_data:
+        await message.answer("⛔ Сначала зарегистрируйтесь (/apply).")
+        return
+
+    if get_notify_norm(user_id):
+        await message.answer("ℹ️ Вы уже подписаны на уведомления о норме.")
+        return
+
+    set_notify_norm(user_id, True)
+    await message.answer(
+        "🔔 <b>Вы подписались на уведомления о норме!</b>\n\n"
+        "Теперь бот напишет вам в ЛС, когда вы наберёте норму за неделю.",
+        parse_mode="HTML"
+    )
+    logger.info(f"🔔 {user_id} подписался на уведомления о норме")
+
+@router.message(Command('unsubnorm'))
+async def cmd_unsubnorm(message: Message):
+    """Отписаться от уведомлений о норме."""
+    user_id = message.from_user.id
+
+    if message.chat.id == GENERAL_CHAT_ID:
+        await message.answer("⛔ Только в ЛС.")
+        return
+
+    user_data = get_user_by_id(user_id)
+    if not user_data:
+        await message.answer("⛔ Сначала зарегистрируйтесь (/apply).")
+        return
+
+    if not get_notify_norm(user_id):
+        await message.answer("ℹ️ Вы уже отписаны от уведомлений о норме.")
+        return
+
+    set_notify_norm(user_id, False)
+    await message.answer(
+        "🔕 <b>Вы отписались от уведомлений о норме.</b>\n\n"
+        "Чтобы подписаться обратно — /subnorm.",
+        parse_mode="HTML"
+    )
+    logger.info(f"🔕 {user_id} отписался от уведомлений о норме")
 
 # ============================================================
 # 📖 /about
@@ -342,9 +540,8 @@ async def cmd_about(message: Message):
 
     await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id), disable_web_page_preview=False)
 
-
 # ============================================================
-# 📖 /aboutme
+# 📖 /aboutme (с ДР и подпиской)
 # ============================================================
 
 @router.message(Command('aboutme'))
@@ -363,17 +560,23 @@ async def cmd_aboutme(message: Message):
     character = get_user_role_from_roles(user.id) or "Не указан"
 
     request = get_request_by_user_id(user.id)
-    status_text = " "
+    status_text = ""
     if request:
         status_map = {
             'pending': '⏳ Ожидает рассмотрения',
             'approved': '✅ Одобрена',
             'rejected': '❌ Отклонена'
         }
-        status_text = f"\n📝 Статус заявки: {status_map.get(request.get('status'), 'Неизвестно')} "
+        status_text = f"\n📝 Статус заявки: {status_map.get(request.get('status'), 'Неизвестно')}"
         if request.get('status') == 'pending':
-            status_text += f"\n📌 Роль: {request.get('role', 'Не указана')} "
-            status_text += f"\n📌 Должность: {request.get('position_name', request.get('position', 'Не указана'))} "
+            status_text += f"\n📌 Роль: {request.get('role', 'Не указана')}"
+            status_text += f"\n📌 Должность: {request.get('position_name', request.get('position', 'Не указана'))}"
+
+    # ⚠️ НОВОЕ: ДР + подписка
+    birthday = get_birthday(user.id)
+    notify_norm = get_notify_norm(user.id)
+    bday_text = f"\n🎂 ДР: <b>{birthday}</b>" if birthday else "\n🎂 ДР: <i>не указан</i> (/setbirthday)"
+    notify_text = f"\n🔔 Уведомления о норме: {'✅ вкл' if notify_norm else '❌ выкл'}"
 
     safe_name = html.escape(user.full_name)
     safe_username = html.escape(user.username if user.username else 'не указан')
@@ -384,11 +587,13 @@ async def cmd_aboutme(message: Message):
         f"🔖 Юзернейм: @{safe_username}\n"
         f"🆔 ID: <code>{user.id}</code>\n"
         f"⭐ Ранг: {rank_name}\n"
-        f"🎭 Персонаж: {character}{status_text}"
+        f"🎭 Персонаж: {character}"
+        f"{bday_text}"
+        f"{notify_text}"
+        f"{status_text}"
     )
 
     await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user.id, message.chat.id))
-
 
 # ============================================================
 # 📖 /update
@@ -438,7 +643,6 @@ async def cmd_update(message: Message):
             parse_mode="HTML"
         )
 
-
 # ============================================================
 # ⌨️ УПРАВЛЕНИЕ КЛАВИАТУРОЙ
 # ============================================================
@@ -458,7 +662,6 @@ async def cmd_hide(message: Message):
     )
     logger.info(f"👤 Пользователь {user_id} скрыл клавиатуру")
 
-
 @router.message(Command('menu'))
 async def cmd_menu(message: Message):
     user_id = message.from_user.id if message.from_user else None
@@ -476,7 +679,6 @@ async def cmd_menu(message: Message):
         reply_markup=get_main_keyboard(user_id, message.chat.id)
     )
     logger.info(f"👤 Пользователь {user_id} показал клавиатуру")
-
 
 # ============================================================
 # ✅ КОМАНДЫ, ДОСТУПНЫЕ ВО ФЛУДЕ
@@ -513,7 +715,6 @@ async def cmd_members(message: Message):
         role_name = ROLE_NAMES.get(role_index, 'Неизвестно')
         character = get_user_role_from_roles(u['id']) or "Нет роли"
 
-        # Плашка по норме
         try:
             category = get_user_category(u['id'])
             emoji = get_emoji(category)
@@ -527,7 +728,6 @@ async def cmd_members(message: Message):
         await message.answer("\n... продолжение ...\n" + text[3900:], parse_mode="HTML")
     else:
         await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
-
 
 @router.message(Command('roles'))
 async def cmd_roles(message: Message):
@@ -585,9 +785,8 @@ async def cmd_roles(message: Message):
         reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
     )
 
-
 # ============================================================
-# 📊 СТАТИСТИКА
+# 📊 СТАТИСТИКА (СТАРАЯ — для обратной совместимости; новая в admin_commands)
 # ============================================================
 
 @router.message(Command('stats'))
@@ -602,74 +801,9 @@ async def cmd_stats(message: Message):
         await message.answer("⛔ Доступ запрещён. Только для администраторов.")
         return
 
-    seasons = get_all_seasons()
-    roles_stats = {"свободна": 0, "занята": 0, "ожидает": 0, "рест": 0, "бронь": 0}
-    total_roles = 0
-    for season in seasons:
-        roles = get_roles_by_season(season)
-        for role in roles:
-            status = role.get('status', 'свободна')
-            if status in roles_stats:
-                roles_stats[status] += 1
-            total_roles += 1
-
-    users = load_users()
-    total_users = len(users)
-    user_role_stats = get_role_stats()
-
-    admins = load_admins()
-    total_admins = len(admins)
-
-    try:
-        from config import USE_PROXY
-        from proxy_manager import proxy_manager
-        proxy_status = "✅ Включён" if USE_PROXY else "❌ Отключён"
-        proxy_count = proxy_manager.get_proxy_count()
-    except Exception:
-        proxy_status = "⚠️ Ошибка"
-        proxy_count = 0
-
-    if message.chat.id == GENERAL_CHAT_ID:
-        text = (
-            f"📊 <b>Статистика</b>\n\n"
-            f"🎭 Роли: {total_roles}\n"
-            f"  🟢 Свободно: {roles_stats['свободна']}\n"
-            f"  🔴 Занято: {roles_stats['занята']}\n"
-            f"  ⏳ Ожидает: {roles_stats['ожидает']}\n"
-            f"👥 Участников: {total_users}"
-        )
-        await message.answer(text, parse_mode="HTML")
-        return
-
-    text = (
-        f"📊 <b>Полная статистика</b>\n\n"
-        f"━━━━━━━━━━━━━━━━━━━━━\n"
-        f"🎭 <b>РОЛИ:</b>\n"
-        f"  Всего: {total_roles}\n"
-        f"  🟢 Свободна: {roles_stats['свободна']}\n"
-        f"  🔴 Занята: {roles_stats['занята']}\n"
-        f"  ⏳ Ожидает: {roles_stats['ожидает']}\n"
-        f"  🔵 Рест: {roles_stats['рест']}\n"
-        f"  🟡 Бронь: {roles_stats['бронь']}\n\n"
-        f"━━━━━━━━━━━━━━━━━━━━━\n"
-        f"👥 <b>УЧАСТНИКИ:</b>\n"
-        f"  Всего: {total_users}\n"
-    )
-
-    for role_idx in sorted(user_role_stats.keys()):
-        role_name = ROLE_NAMES.get(role_idx, f"Роль {role_idx}")
-        text += f"  • {role_name}: {user_role_stats[role_idx]}\n"
-
-    text += (
-        f"\n━━━━━━━━━━━━━━━━━━━━━\n"
-        f"👑 <b>АДМИНЫ:</b> {total_admins}\n\n"
-        f"━━━━━━━━━━━━━━━━━━━━━\n"
-        f"🌐 <b>ПРОКСИ:</b> {proxy_status}\n"
-        f"  • В списке: {proxy_count}\n"
-    )
-
-    await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
-
+    # ⚠️ Делегируем в admin_commands.cmd_stats (новая версия с кнопками)
+    from .admin_commands import cmd_stats as admin_stats
+    await admin_stats(message)
 
 # ============================================================
 # INLINE CALLBACK (роли)
@@ -690,26 +824,21 @@ async def back_to_menu_from_roles(callback: CallbackQuery):
         reply_markup=get_main_keyboard(user_id, callback.message.chat.id)
     )
 
-
 @router.callback_query(F.data.startswith("roles_season_"))
 async def show_roles_by_season(callback: CallbackQuery):
     await callback.answer()
-
     if callback.message.chat.id == GENERAL_CHAT_ID:
-        await callback.answer("⛔ Во флуд-чате эта функция недоступна.")
+        await callback.answer("⛔ Во флуд-чате недоступно.", show_alert=True)
         return
 
     season = callback.data.replace("roles_season_", "")
     roles = get_roles_by_season(season)
 
     if not roles:
-        await callback.message.edit_text(
-            f"📭 В сезоне <b>{html.escape(season)}</b> нет ролей.",
-            parse_mode="HTML"
-        )
+        await callback.message.edit_text(f"📭 В сезоне '{html.escape(season)}' нет ролей.")
         return
 
-    text = f"📋 <b>Сезон: {html.escape(season)}</b>\n\n"
+    text = f"📂 <b>{html.escape(season)}</b>\n\n"
     for role in roles:
         role_name = role.get('name', '?')
         status = role.get('status', 'свободна')
@@ -726,39 +855,21 @@ async def show_roles_by_season(callback: CallbackQuery):
             status_text = "🔴 занята"
         text += f"  • {html.escape(role_name)} — {status_text}\n"
 
-    if len(text) > 4000:
-        await callback.message.edit_text(text[:3900], parse_mode="HTML")
-        await callback.message.answer(
-            "\n... продолжение ...\n" + text[3900:],
-            parse_mode="HTML",
-            reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-                [InlineKeyboardButton(text="🔙 К сезонам", callback_data="back_to_roles_seasons")]
-            ])
-        )
-    else:
-        await callback.message.edit_text(
-            text,
-            parse_mode="HTML",
-            reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-                [InlineKeyboardButton(text="🔙 К сезонам", callback_data="back_to_roles_seasons")]
-            ])
-        )
+    buttons = [
+        [InlineKeyboardButton(text="🔙 Назад к сезонам", callback_data="back_to_seasons_list")],
+        [InlineKeyboardButton(text="🔙 В меню", callback_data="back_to_menu_from_roles")]
+    ]
 
+    await callback.message.edit_text(text, parse_mode="HTML", reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons))
 
-@router.callback_query(F.data == "back_to_roles_seasons")
-async def back_to_roles_seasons(callback: CallbackQuery):
+@router.callback_query(F.data == "back_to_seasons_list")
+async def back_to_seasons_list(callback: CallbackQuery):
     await callback.answer()
-
     if callback.message.chat.id == GENERAL_CHAT_ID:
-        await callback.message.delete()
-        await callback.message.answer("🔙 Вы вернулись.")
+        await callback.answer("⛔ Недоступно.", show_alert=True)
         return
 
     seasons = get_all_seasons()
-    if not seasons:
-        await callback.message.edit_text("📭 Сезоны не найдены.")
-        return
-
     buttons = []
     for season in sorted(seasons):
         roles = get_roles_by_season(season)
@@ -766,15 +877,11 @@ async def back_to_roles_seasons(callback: CallbackQuery):
             text=f"📂 {season} ({len(roles)})",
             callback_data=f"roles_season_{season}"
         )])
-    buttons.append([InlineKeyboardButton(
-        text="🔙 Назад в меню",
-        callback_data="back_to_menu_from_roles"
-    )])
+    buttons.append([InlineKeyboardButton(text="🔙 В меню", callback_data="back_to_menu_from_roles")])
 
     await callback.message.edit_text(
         "📋 <b>Список ролей по сезонам</b>\n\n"
-        "Выберите сезон.\n\n"
-        "🟢 свободна | 🟡 забронирована | 🔴 занята | 🔵 рест | ⏳ ожидает",
+        "Выберите сезон:",
         parse_mode="HTML",
         reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
     )

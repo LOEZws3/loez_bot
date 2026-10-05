@@ -51,6 +51,9 @@ FORWARD_FILE = os.path.join(DATA_DIR, 'system', 'forward_map.json')
 REQUESTS_FILE = os.path.join(DATA_DIR, 'system', 'requests.json')
 SYSTEM_SETTINGS_FILE = os.path.join(DATA_DIR, 'system', 'system_settings.json')
 
+# --- ⚠️ НОВОЕ (05.10.2026): ушедшие юзеры ---
+LEFTOVER_FILE = os.path.join(DATA_DIR, 'system', 'leftdata.json')
+
 # --- Роли (ПЕРЕНЕСЕНО В data/roles/) ---
 ROLES_STATUS_FILE = os.path.join(DATA_DIR, 'roles', 'roles_status.json')
 ROLES_DIR = os.path.join(DATA_DIR, 'roles')
@@ -106,6 +109,7 @@ __all__ = [
     'ADMINS_FILE', 'USERS_FILE',
     'CREATION_FILE', 'FORWARD_FILE',
     'REQUESTS_FILE', 'SYSTEM_SETTINGS_FILE',
+    'LEFTOVER_FILE',
     'ROLES_STATUS_FILE', 'ROLES_DIR', 'USERS_HISTORY_DIR',
     'STARTER_MODE_ALLOWED_COMMANDS',
     'ensure_directories',

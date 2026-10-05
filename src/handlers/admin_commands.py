@@ -6,7 +6,10 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 import asyncio
 import time
-from config import GENERAL_CHAT_ID, OWNER_ID
+import datetime
+import json
+import os
+from config import GENERAL_CHAT_ID, OWNER_ID, DATA_DIR, LEFTOVER_FILE
 from utils.admin_utils import is_admin, is_owner, load_admins, save_admins, get_admin_rank, set_rank, add_admin
 from utils.user_utils import (
     load_users, add_user, remove_user, get_users_count,
@@ -20,6 +23,7 @@ from utils.role_utils import (
 )
 from utils.norm_utils import get_user_category, get_emoji, get_category_label
 from utils.requests_utils import get_request_by_user_id
+from utils.settings_utils import get_messages_norm, get_messages_norm_low
 from .keyboards import get_main_keyboard
 import logging
 
@@ -37,6 +41,247 @@ ROLE_NAMES = {
 
 closed_mode = False
 
+# ============================================================
+# ⚠️ НОВОЕ (05.10.2026): СТАТИСТИКА С КНОПКАМИ
+# ============================================================
+
+def _load_leftdata() -> dict:
+    """Загружает leftdata.json (ушедшие юзеры)."""
+    if not os.path.exists(LEFTOVER_FILE):
+        return {}
+    try:
+        with open(LEFTOVER_FILE, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        if not isinstance(data, dict):
+            return {}
+        return data
+    except (json.JSONDecodeError, IOError):
+        return {}
+
+def _parse_iso(s: str):
+    """Безопасный парсинг ISO-даты."""
+    if not s:
+        return None
+    try:
+        return datetime.datetime.fromisoformat(s)
+    except (ValueError, TypeError):
+        return None
+
+def _count_users_joined_in_period(days: int) -> int:
+    """Сколько юзеров появилось за последние N дней (по joined_at)."""
+    from utils.counters import load_counters
+    data = load_counters()
+    cutoff = datetime.datetime.now() - datetime.timedelta(days=days)
+    count = 0
+    for uid_str, info in data.items():
+        if not isinstance(info, dict):
+            continue
+        joined = _parse_iso(info.get('joined_at', ''))
+        if joined and joined >= cutoff:
+            count += 1
+    return count
+
+def _count_active_in_period(days: int) -> int:
+    """Сколько юзеров писали за последние N дней (по last_message_at)."""
+    from utils.counters import load_counters
+    data = load_counters()
+    cutoff = datetime.datetime.now() - datetime.timedelta(days=days)
+    count = 0
+    for uid_str, info in data.items():
+        if not isinstance(info, dict):
+            continue
+        last = _parse_iso(info.get('last_message_at', ''))
+        if last and last >= cutoff:
+            count += 1
+    return count
+
+def _count_left_in_period(days: int) -> int:
+    """Сколько юзеров ушло за последние N дней (по leftdata.json)."""
+    data = _load_leftdata()
+    cutoff = datetime.datetime.now() - datetime.timedelta(days=days)
+    count = 0
+    for uid_str, info in data.items():
+        if not isinstance(info, dict):
+            continue
+        left_at = _parse_iso(info.get('left_at', ''))
+        if left_at and left_at >= cutoff:
+            count += 1
+    return count
+
+def _get_categories_stats() -> dict:
+    """{good, warn, ban, rest, new} — счётчики по категориям."""
+    from utils.norm_utils import (
+        CATEGORY_GOOD, CATEGORY_WARN, CATEGORY_BAN,
+        CATEGORY_NEW, CATEGORY_REST,
+    )
+    result = {'good': 0, 'warn': 0, 'ban': 0, 'rest': 0, 'new': 0}
+    users = load_users()
+    for u in users:
+        uid = u.get('id')
+        if not uid:
+            continue
+        try:
+            cat = get_user_category(uid)
+            if cat == CATEGORY_GOOD:
+                result['good'] += 1
+            elif cat == CATEGORY_WARN:
+                result['warn'] += 1
+            elif cat == CATEGORY_BAN:
+                result['ban'] += 1
+            elif cat == CATEGORY_REST:
+                result['rest'] += 1
+            elif cat == CATEGORY_NEW:
+                result['new'] += 1
+        except Exception:
+            continue
+    return result
+
+def _build_stats_base_text() -> str:
+    """Базовая статистика (роли, юзеры, админы) — БЕЗ прокси."""
+    from utils.role_utils import get_all_seasons, get_roles_by_season
+
+    seasons = get_all_seasons()
+    roles_stats = {"свободна": 0, "занята": 0, "ожидает": 0, "рест": 0, "бронь": 0}
+    total_roles = 0
+    for season in seasons:
+        roles = get_roles_by_season(season)
+        for role in roles:
+            status = role.get('status', 'свободна')
+            if status in roles_stats:
+                roles_stats[status] += 1
+            total_roles += 1
+
+    users = load_users()
+    total_users = len(users)
+
+    admins = load_admins()
+    total_admins = len(admins)
+
+    text = (
+        f"📊 <b>Статистика (база)</b>\n\n"
+        f"━━━━━━━━━━━━━━━━━━━━━\n"
+        f"🎭 <b>РОЛИ:</b>\n"
+        f"  Всего: {total_roles}\n"
+        f"  🟢 Свободна: {roles_stats['свободна']}\n"
+        f"  🔴 Занята: {roles_stats['занята']}\n"
+        f"  ⏳ Ожидает: {roles_stats['ожидает']}\n"
+        f"  🔵 Рест: {roles_stats['рест']}\n"
+        f"  🟡 Бронь: {roles_stats['бронь']}\n\n"
+        f"━━━━━━━━━━━━━━━━━━━━━\n"
+        f"👥 <b>УЧАСТНИКИ:</b>\n"
+        f"  Всего: {total_users}\n\n"
+        f"━━━━━━━━━━━━━━━━━━━━━\n"
+        f"👑 <b>АДМИНЫ:</b> {total_admins}\n"
+    )
+    return text
+
+def _build_stats_period_text(period: str) -> str:
+    """Статистика за период: day / week / month."""
+    days_map = {'day': 1, 'week': 7, 'month': 30}
+    titles = {'day': 'за день', 'week': 'за неделю', 'month': 'за месяц'}
+    days = days_map.get(period, 7)
+    title = titles.get(period, period)
+
+    cats = _get_categories_stats()
+    joined = _count_users_joined_in_period(days)
+    active = _count_active_in_period(days)
+    left = _count_left_in_period(days)
+    total_users = len(load_users())
+
+    text = (
+        f"📊 <b>Статистика {title}</b>\n\n"
+        f"👥 Всего зарегистрировано: {total_users}\n"
+        f"👶 Нью (пришло за период): {joined}\n\n"
+        f"✅ Хороших: {cats['good']}\n"
+        f"⚠️ Варн: {cats['warn']}\n"
+        f"🚫 Бан: {cats['ban']}\n"
+        f"⏳ В ресте: {cats['rest']}\n"
+        f"👶 Всего Нью: {cats['new']}\n\n"
+        f"📈 Активных за период: {active}\n"
+        f"📉 Ушло (кикнуто): {left}\n"
+    )
+    return text
+
+def _build_stats_keyboard(current_period: str = 'base') -> InlineKeyboardMarkup:
+    """Кнопки периодов."""
+    def mark(p):
+        return "✅ " if current_period == p else ""
+
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [
+            InlineKeyboardButton(text=f"{mark('base')}📊 База", callback_data="stats_period_base"),
+            InlineKeyboardButton(text=f"{mark('day')}📅 День", callback_data="stats_period_day"),
+        ],
+        [
+            InlineKeyboardButton(text=f"{mark('week')}📆 Неделя", callback_data="stats_period_week"),
+            InlineKeyboardButton(text=f"{mark('month')}📈 Месяц", callback_data="stats_period_month"),
+        ],
+        [InlineKeyboardButton(text="🔄 Обновить", callback_data=f"stats_period_{current_period}")],
+    ])
+
+@router.message(Command('stats'))
+async def cmd_stats(message: Message):
+    """Статистика с кнопками."""
+    user_id = message.from_user.id if message.from_user else None
+    if user_id is None:
+        await message.answer("❌ Не удалось определить пользователя.")
+        return
+
+    if not is_admin(user_id):
+        await message.answer("⛔ Доступ запрещён. Только для администраторов.")
+        return
+
+    # Во флуде — краткая версия
+    if message.chat.id == GENERAL_CHAT_ID:
+        from utils.role_utils import get_all_seasons, get_roles_by_season
+        seasons = get_all_seasons()
+        total_roles = 0
+        for season in seasons:
+            total_roles += len(get_roles_by_season(season))
+        total_users = len(load_users())
+        text = (
+            f"📊 <b>Статистика</b>\n\n"
+            f"🎭 Роли: {total_roles}\n"
+            f"👥 Участников: {total_users}"
+        )
+        await message.answer(text, parse_mode="HTML")
+        return
+
+    text = _build_stats_base_text()
+    await message.answer(
+        text,
+        parse_mode="HTML",
+        reply_markup=_build_stats_keyboard('base')
+    )
+
+@router.callback_query(F.data.startswith("stats_period_"))
+async def stats_period_callback(callback: CallbackQuery):
+    await callback.answer()
+
+    user_id = callback.from_user.id
+    if not is_admin(user_id):
+        await callback.answer("⛔ Доступ запрещён.", show_alert=True)
+        return
+
+    if callback.message.chat.id == GENERAL_CHAT_ID:
+        await callback.answer("⛔ В ЛС, пожалуйста.", show_alert=True)
+        return
+
+    period = callback.data.replace("stats_period_", "")
+
+    if period == 'base':
+        text = _build_stats_base_text()
+    else:
+        text = _build_stats_period_text(period)
+
+    try:
+        await callback.message.edit_text(
+            text,
+            parse_mode="HTML",
+            reply_markup=_build_stats_keyboard(period)
+        )
+    except Exception:
+        pass
 
 # ============================================================
 # 🔍 ПОИСК ПО РОЛИ (/findrole)
@@ -86,7 +331,6 @@ async def cmd_findrole(message: Message):
         )])
 
     await message.answer(text, parse_mode="HTML", reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons))
-
 
 @router.callback_query(F.data.startswith("findrole_view_"))
 async def findrole_view(callback: CallbackQuery):
@@ -149,7 +393,6 @@ async def findrole_view(callback: CallbackQuery):
         reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
     )
 
-
 @router.callback_query(F.data.startswith("findrole_delete_yes_"))
 async def findrole_delete_do(callback: CallbackQuery):
     await callback.answer()
@@ -199,7 +442,6 @@ async def findrole_delete_do(callback: CallbackQuery):
     await callback.message.edit_text(response, parse_mode="HTML")
     logger.info(f"Админ {admin_id} удалил роль {role_key} и юзера {owner_id}")
 
-
 @router.callback_query(F.data.startswith("findrole_delete_"))
 async def findrole_delete_confirm(callback: CallbackQuery):
     await callback.answer()
@@ -240,7 +482,6 @@ async def findrole_delete_confirm(callback: CallbackQuery):
         ])
     )
 
-
 @router.callback_query(F.data == "findrole_back")
 async def findrole_back(callback: CallbackQuery):
     await callback.answer()
@@ -248,14 +489,12 @@ async def findrole_back(callback: CallbackQuery):
         "🔍 Для нового поиска используйте /findrole [запрос]"
     )
 
-
 # ============================================================
 # 📊 СТАТИСТИКА ПОЛЬЗОВАТЕЛЯ
 # ============================================================
 
 class UserStatsStates(StatesGroup):
     waiting_for_user_id = State()
-
 
 @router.message(Command('userstats'))
 async def cmd_userstats(message: Message, state: FSMContext):
@@ -277,7 +516,6 @@ async def cmd_userstats(message: Message, state: FSMContext):
         return
 
     await _show_user_stats(message, target_id, caller_id=user_id)
-
 
 async def _show_user_stats(message: Message, target_id: int, caller_id: int = None):
     from utils.user_utils import get_user_by_id
@@ -305,7 +543,6 @@ async def _show_user_stats(message: Message, target_id: int, caller_id: int = No
     text += f"🎭 Роль: {html.escape(role) if role else 'нет'}\n"
     text += f"🔄 Смен роли: <b>{changes} / {max_changes}</b>\n"
 
-    # Плашка по норме
     try:
         category = get_user_category(target_id)
         emoji = get_emoji(category)
@@ -327,7 +564,6 @@ async def _show_user_stats(message: Message, target_id: int, caller_id: int = No
         )],
     ]
 
-    # ✅ Кнопка "Очистить данные" — только владельцу и не для себя
     if caller_id and caller_id == OWNER_ID and caller_id != target_id:
         buttons.append([InlineKeyboardButton(
             text="🗑️ Очистить данные (полностью)",
@@ -337,7 +573,6 @@ async def _show_user_stats(message: Message, target_id: int, caller_id: int = No
     keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
 
     await message.answer(text, parse_mode="HTML", reply_markup=keyboard, disable_web_page_preview=True)
-
 
 @router.callback_query(F.data.startswith("reset_changes_"))
 async def reset_changes_callback(callback: CallbackQuery):
@@ -358,7 +593,6 @@ async def reset_changes_callback(callback: CallbackQuery):
         )
     else:
         await callback.answer("❌ Не удалось сбросить (юзер не найден).", show_alert=True)
-
 
 @router.callback_query(F.data.startswith("confirm_reset_"))
 async def confirm_reset_callback(callback: CallbackQuery):
@@ -383,7 +617,6 @@ async def confirm_reset_callback(callback: CallbackQuery):
             ]
         ])
     )
-
 
 @router.callback_query(F.data.startswith("do_reset_"))
 async def do_reset_callback(callback: CallbackQuery):
@@ -421,12 +654,10 @@ async def do_reset_callback(callback: CallbackQuery):
     await callback.message.edit_text(response, parse_mode="HTML")
     logger.info(f"Админ {admin_id} сбросил пользователя {target_id}")
 
-
 @router.callback_query(F.data == "cancel_reset")
 async def cancel_reset_callback(callback: CallbackQuery):
     await callback.answer()
     await callback.message.edit_text("❌ Сброс отменён.")
-
 
 # ============================================================
 # 📝 РЕГИСТРАЦИЯ И РОЛИ
@@ -468,7 +699,6 @@ async def cmd_register_admin(message: Message):
     else:
         await message.answer("❌ Ошибка регистрации. Попробуйте позже.")
 
-
 @router.message(Command('register_user'))
 async def cmd_register_user(message: Message):
     user = message.from_user
@@ -503,7 +733,6 @@ async def cmd_register_user(message: Message):
     else:
         await message.answer("❌ Ошибка регистрации. Попробуйте позже.")
 
-
 @router.message(Command('admins'))
 async def cmd_admins(message: Message):
     user_id = message.from_user.id
@@ -527,7 +756,6 @@ async def cmd_admins(message: Message):
     else:
         await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
 
-
 @router.message(Command('users'))
 async def cmd_users(message: Message):
     user_id = message.from_user.id
@@ -546,7 +774,6 @@ async def cmd_users(message: Message):
         role_name = ROLE_NAMES.get(u.get('role', '0'), 'Неизвестно')
         character = get_user_role_from_roles(u['id']) or "Нет роли"
 
-        # Плашка по норме
         try:
             category = get_user_category(u['id'])
             emoji = get_emoji(category)
@@ -559,7 +786,6 @@ async def cmd_users(message: Message):
         await message.answer(text, parse_mode="HTML")
     else:
         await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
-
 
 @router.message(Command('adduser'))
 async def cmd_adduser(message: Message):
@@ -595,7 +821,6 @@ async def cmd_adduser(message: Message):
     else:
         await message.answer("❌ Ошибка при добавлении.")
 
-
 @router.message(Command('removeuser'))
 async def cmd_removeuser(message: Message):
     user_id = message.from_user.id
@@ -623,7 +848,6 @@ async def cmd_removeuser(message: Message):
         logger.info(f"Админ {user_id} удалил участника {remove_user_id}")
     else:
         await message.answer(f"❌ Пользователь с ID {remove_user_id} не найден.")
-
 
 @router.message(Command('resetuser'))
 async def cmd_resetuser(message: Message):
@@ -672,7 +896,6 @@ async def cmd_resetuser(message: Message):
     else:
         await message.answer(f"ℹ️ Пользователь {target_id} не найден.")
 
-
 @router.message(Command('refresh'))
 async def cmd_refresh(message: Message):
     user_id = message.from_user.id
@@ -687,7 +910,6 @@ async def cmd_refresh(message: Message):
         await message.answer(text)
     else:
         await message.answer(text, reply_markup=get_main_keyboard(user_id, message.chat.id))
-
 
 @router.message(Command('find'))
 async def cmd_find(message: Message):
@@ -743,332 +965,169 @@ async def cmd_find(message: Message):
     else:
         await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
 
-
 @router.message(Command('finduser'))
 async def cmd_finduser(message: Message):
-    admin_id = message.from_user.id
-    if not is_admin(admin_id):
+    user_id = message.from_user.id
+    if not is_admin(user_id):
         await message.answer("⛔ Доступ запрещён.")
         return
 
     parts = message.text.split(maxsplit=1)
     if len(parts) < 2:
-        await message.answer("❌ Используйте: /finduser [юзернейм]")
+        await message.answer("❌ Используйте: /finduser [@username]")
         return
 
-    username = parts[1].replace('@', '').strip()
+    query = parts[1].strip().lstrip('@').lower()
     users = load_users()
-    found = None
-    for u in users:
-        if u.get('username') and u['username'].lower() == username.lower():
-            found = u
-            break
+    found = [u for u in users if (u.get('username') or '').lower() == query]
 
     if not found:
-        await message.answer(f"❌ Пользователь @{username} не найден.")
+        await message.answer(f"❌ Пользователь с юзернеймом @{html.escape(query)} не найден.")
         return
 
-    safe_name = html.escape(found['full_name'])
-
-    # Плашка по норме
-    try:
-        category = get_user_category(found['id'])
-        emoji = get_emoji(category)
-        category_label = get_category_label(category)
-    except Exception:
-        emoji = ''
-        category_label = ''
-
-    text = f"🔍 <b>Информация о пользователе</b> {emoji}\n\n"
-    text += f"👤 Имя: {safe_name}\n"
-    text += f"🔖 Юзернейм: @{found['username']}\n"
-    text += f"🆔 ID: <code>{found['id']}</code>\n"
-    text += f"🔗 <a href='tg://user?id={found['id']}'>Открыть профиль</a>\n"
-
-    if category_label:
-        text += f"📊 Статус нормы: {category_label}\n"
-
-    role = get_user_role_from_roles(found['id'])
-    if role:
-        text += f"📌 Текущая роль: {html.escape(role)}\n"
-    else:
-        text += f"📌 Роль: не занята\n"
-
-    request = get_request_by_user_id(found['id'])
-    if request and request['status'] == 'pending':
-        text += f"\n📝 <b>Есть активная заявка!</b>\n"
-        text += f"📌 Роль в заявке: {html.escape(request['role'])}\n"
-        text += f"🏷️ Должность: {html.escape(request['position'])}\n"
+    text = f"🔍 <b>Найдено: {len(found)}</b>\n\n"
+    for u in found:
+        role = get_user_role_from_roles(u['id']) or "нет"
+        text += f"• {html.escape(u['full_name'])} – {html.escape(role)} (ID: <code>{u['id']}</code>)\n"
 
     if message.chat.id == GENERAL_CHAT_ID:
         await message.answer(text, parse_mode="HTML")
     else:
-        await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(admin_id, message.chat.id))
-
-
-@router.message(Command('setrank'))
-async def cmd_setrank(message: Message):
-    user_id = message.from_user.id
-    if not is_owner(user_id):
-        await message.answer("⛔ Доступ запрещён. Только для владельца.")
-        return
-
-    parts = message.text.split(maxsplit=2)
-    if len(parts) < 3:
-        await message.answer("❌ Используйте: /setrank [ID] [ранг]\nРанги: 1 - Владелец, 2 - Админ, 3 - Модератор")
-        return
-
-    try:
-        target_id = int(parts[1])
-        rank = int(parts[2])
-    except ValueError:
-        await message.answer("❌ Неверный ID или ранг. Введите числа.")
-        return
-
-    if rank not in [1, 2, 3]:
-        await message.answer("❌ Ранг должен быть 1 (Владелец), 2 (Админ) или 3 (Модератор).")
-        return
-
-    if set_rank(target_id, rank):
-        rank_name = {1: "Владелец", 2: "Админ", 3: "Модератор"}.get(rank)
-        await message.answer(f"✅ Ранг пользователя обновлён: {rank_name}")
-        logger.info(f"Владелец {user_id} назначил ранг {rank} пользователю {target_id}")
-    else:
-        await message.answer("❌ Пользователь не найден в списке администраторов.")
-
+        await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
 
 @router.message(Command('close'))
 async def cmd_close(message: Message):
     user_id = message.from_user.id
     if not is_owner(user_id):
-        await message.answer("⛔ Доступ запрещён. Только для владельца.")
+        await message.answer("⛔ Только для владельца.")
         return
 
-    global closed_mode
-    closed_mode = True
-    await message.answer("🔒 Набор закрыт. Новые заявки не принимаются.")
-
+    from utils.role_utils import set_closed_mode
+    set_closed_mode(True)
+    await message.answer("🔒 Набор ролей закрыт.")
 
 @router.message(Command('open'))
 async def cmd_open(message: Message):
     user_id = message.from_user.id
     if not is_owner(user_id):
-        await message.answer("⛔ Доступ запрещён. Только для владельца.")
+        await message.answer("⛔ Только для владельца.")
         return
 
-    global closed_mode
-    closed_mode = False
-    await message.answer("🔓 Набор открыт. Заявки принимаются.")
+    from utils.role_utils import set_closed_mode
+    set_closed_mode(False)
+    await message.answer("🔓 Набор ролей открыт.")
 
-
-@router.message(Command('unregister_admin'))
-async def cmd_unregister_admin(message: Message):
+@router.message(Command('setrank'))
+async def cmd_setrank(message: Message):
     user_id = message.from_user.id
-    if not is_admin(user_id):
-        await message.answer("⛔ Вы не администратор.")
+    if not is_owner(user_id):
+        await message.answer("⛔ Только для владельца.")
         return
 
-    if is_owner(user_id):
-        await message.answer("⛔ Владелец не может удалить себя. Передайте права другому.")
+    parts = message.text.split()
+    if len(parts) < 3:
+        await message.answer("❌ Используйте: /setrank [ID] [ранг]\nРанг: 1/2/3")
+        return
+
+    try:
+        target_id = int(parts[1])
+        new_rank = int(parts[2])
+    except ValueError:
+        await message.answer("❌ Неверные аргументы.")
+        return
+
+    if new_rank not in [1, 2, 3]:
+        await message.answer("❌ Ранг должен быть 1, 2 или 3.")
+        return
+
+    if target_id == OWNER_ID:
+        await message.answer("⛔ Нельзя изменить ранг главного владельца.")
         return
 
     admins = load_admins()
-    new_admins = [a for a in admins if a['id'] != user_id]
-    save_admins(new_admins)
+    found = False
+    for a in admins:
+        if a['id'] == target_id:
+            a['rank'] = new_rank
+            found = True
+            break
 
-    text = "✅ Вы удалены из списка администраторов."
-    if message.chat.id == GENERAL_CHAT_ID:
-        await message.answer(text)
-    else:
-        await message.answer(text, reply_markup=get_main_keyboard(user_id, message.chat.id))
-    logger.info(f"🔄 АДМИН {message.from_user.full_name} удалил себя")
-
-
-@router.message(Command('unregister_user'))
-async def cmd_unregister_user(message: Message):
-    user_id = message.from_user.id
-    if not remove_user(user_id):
-        await message.answer("⛔ Вы не зарегистрированы как участник.")
+    if not found:
+        await message.answer(f"❌ Пользователь {target_id} не в списке админов.")
         return
 
-    text = "✅ Вы удалены из списка участников."
-    if message.chat.id == GENERAL_CHAT_ID:
-        await message.answer(text)
-    else:
-        await message.answer(text, reply_markup=get_main_keyboard(user_id, message.chat.id))
-    logger.info(f"🔄 УЧАСТНИК {message.from_user.full_name} удалил себя")
-
+    save_admins(admins)
+    await message.answer(f"✅ Ранг пользователя {target_id} изменён на {new_rank}.")
+    logger.info(f"Владелец {user_id} установил ранг {new_rank} для {target_id}")
 
 # ============================================================
-# 📢 РАССЫЛКА /message_all
+# 📢 /message_all — рассылка
 # ============================================================
 
 class MessageAllStates(StatesGroup):
     waiting_for_text = State()
-    waiting_for_confirm = State()
-
-
-_message_all_cooldowns = {}
-
 
 @router.message(Command('message_all'))
 async def cmd_message_all(message: Message, state: FSMContext):
     user_id = message.from_user.id
-
-    if message.chat.id == GENERAL_CHAT_ID:
-        await message.answer("⛔ Эта команда недоступна во флуд-чате.")
+    if not is_owner(user_id):
+        await message.answer("⛔ Только для владельца.")
         return
-
-    rank = get_admin_rank(user_id)
-    if rank != 1:
-        await message.answer("⛔ Только владельцы могут делать рассылку.")
-        return
-
-    now = time.time()
-    last = _message_all_cooldowns.get(user_id, 0)
-    if now - last < 10:
-        remaining = int(10 - (now - last))
-        await message.answer(f"⏳ Подождите {remaining} сек перед новой рассылкой.")
-        return
-
-    _message_all_cooldowns[user_id] = now
 
     await state.set_state(MessageAllStates.waiting_for_text)
     await message.answer(
-        "📢 <b>Рассылка всем участникам</b>\n\n"
-        "Напишите текст сообщения, которое уйдёт каждому юзеру из users.json.\n\n"
-        "Можно использовать HTML-теги (<b>, <i>, <a href=...>).\n"
-        "Если HTML сломается — отправим как обычный текст.",
-        parse_mode="HTML",
-        reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-            [InlineKeyboardButton(text="❌ Отмена", callback_data="message_all_cancel")]
-        ])
+        "📢 <b>Рассылка</b>\n\n"
+        "Отправьте текст сообщения (HTML разрешён).\n"
+        "Для отмены — /cancel",
+        parse_mode="HTML"
     )
 
+@router.message(MessageAllStates.waiting_for_text, Command('cancel'))
+async def cancel_message_all(message: Message, state: FSMContext):
+    await state.clear()
+    await message.answer("❌ Рассылка отменена.")
 
 @router.message(MessageAllStates.waiting_for_text)
-async def message_all_get_text(message: Message, state: FSMContext):
-    text = message.text or message.caption or ""
-    if not text.strip():
-        await message.answer("❌ Пустое сообщение. Напишите текст.")
+async def do_message_all(message: Message, state: FSMContext):
+    user_id = message.from_user.id
+    if not is_owner(user_id):
+        await state.clear()
         return
 
-    await state.update_data(text=text)
-    await state.set_state(MessageAllStates.waiting_for_confirm)
-
-    await message.answer(
-        f"📋 <b>Превью:</b>\n\n{text}\n\n"
-        f"━━━━━━━━━━━━━━━━━━\n"
-        f"Отправить всем?",
-        parse_mode="HTML",
-        reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-            [InlineKeyboardButton(text="✅ Отправить", callback_data="message_all_send")],
-            [InlineKeyboardButton(text="✏️ Изменить", callback_data="message_all_edit")],
-            [InlineKeyboardButton(text="❌ Отмена", callback_data="message_all_cancel")]
-        ])
-    )
-
-
-@router.callback_query(F.data == "message_all_cancel", MessageAllStates.waiting_for_text)
-@router.callback_query(F.data == "message_all_cancel", MessageAllStates.waiting_for_confirm)
-async def message_all_cancel(callback: CallbackQuery, state: FSMContext):
-    await callback.answer()
-    await state.clear()
-    try:
-        await callback.message.edit_text("❌ Рассылка отменена.")
-    except Exception:
-        pass
-
-
-@router.callback_query(F.data == "message_all_edit", MessageAllStates.waiting_for_confirm)
-async def message_all_edit(callback: CallbackQuery, state: FSMContext):
-    await callback.answer()
-    await state.set_state(MessageAllStates.waiting_for_text)
-    try:
-        await callback.message.edit_text(
-            "✏️ Напишите новый текст сообщения:",
-            reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-                [InlineKeyboardButton(text="❌ Отмена", callback_data="message_all_cancel")]
-            ])
-        )
-    except Exception:
-        pass
-
-
-@router.callback_query(F.data == "message_all_send", MessageAllStates.waiting_for_confirm)
-async def message_all_send(callback: CallbackQuery, state: FSMContext):
-    await callback.answer()
-
-    data = await state.get_data()
-    text = data.get('text', '')
-    await state.clear()
-
-    if not text.strip():
-        try:
-            await callback.message.edit_text("❌ Текст потерялся. Начните заново: /message_all")
-        except Exception:
-            pass
+    text = message.html_text or message.text or ""
+    if not text:
+        await message.answer("❌ Пустое сообщение. Отмена.")
+        await state.clear()
         return
-
-    try:
-        await callback.message.edit_text("⏳ Начинаю рассылку...")
-    except Exception:
-        pass
 
     users = load_users()
-    if not users:
-        await callback.message.answer("📭 В users.json нет пользователей.")
-        return
+    sent, failed = 0, 0
 
-    sent = 0
-    errors = 0
-    blocked = 0
-    blocked_users = []
-
-    from aiogram.exceptions import TelegramForbiddenError, TelegramBadRequest
+    await message.answer(f"📢 Начинаю рассылку для {len(users)} юзеров...")
 
     for u in users:
-        target_id = u.get('id')
-        if not target_id:
-            continue
-
         try:
-            await callback.bot.send_message(target_id, text, parse_mode="HTML")
+            await message.bot.send_message(u['id'], text, parse_mode="HTML")
             sent += 1
-        except TelegramForbiddenError:
-            blocked += 1
-            uname = f"@{u.get('username')}" if u.get('username') else "без юзернейма"
-            blocked_users.append(f"{u.get('full_name', '?')} ({uname}, ID: {target_id})")
-            logger.warning(f"🚫 Пользователь {target_id} ({uname}) заблокировал бота")
-        except TelegramBadRequest:
-            try:
-                await callback.bot.send_message(target_id, text)
-                sent += 1
-            except TelegramForbiddenError:
-                blocked += 1
-                uname = f"@{u.get('username')}" if u.get('username') else "без юзернейма"
-                blocked_users.append(f"{u.get('full_name', '?')} ({uname}, ID: {target_id})")
-                logger.warning(f"🚫 Пользователь {target_id} ({uname}) заблокировал бота")
-            except Exception as e:
-                errors += 1
-                logger.error(f"❌ Ошибка отправки {target_id}: {e}")
-        except Exception as e:
-            errors += 1
-            logger.error(f"❌ Ошибка отправки {target_id}: {e}")
+        except Exception:
+            failed += 1
+        await asyncio.sleep(0.05)
 
-        await asyncio.sleep(0.5)
-
-    logger.info(f"📢 Рассылка завершена. Отправлено: {sent}, Ошибок: {errors}, Заблокировали: {blocked}")
-
-    result = (
+    await state.clear()
+    await message.answer(
         f"✅ <b>Рассылка завершена</b>\n\n"
-        f"📨 Отправлено: <b>{sent}</b>\n"
-        f"⚠️ Ошибок: <b>{errors}</b>\n"
-        f"🚫 Заблокировали бота: <b>{blocked}</b>"
+        f"📨 Отправлено: {sent}\n"
+        f"❌ Ошибок: {failed}",
+        parse_mode="HTML"
     )
-    if blocked_users:
-        result += "\n\n<b>Заблокировали:</b>\n" + "\n".join(f"• {html.escape(x)}" for x in blocked_users[:20])
-        if len(blocked_users) > 20:
-            result += f"\n... и ещё {len(blocked_users) - 20}"
+    logger.info(f"Владелец {user_id} сделал рассылку: {sent} ок, {failed} ошибок")
 
-    await callback.message.answer(result, parse_mode="HTML")
+# ============================================================
+# ⚠️ /checknorm (кнопка-заглушка для keyboards.py)
+# ============================================================
+
+@router.message(Command('checknorm'))
+async def cmd_checknorm(message: Message):
+    """Перенаправление в checknorm_commands.py."""
+    from .checknorm_commands import cmd_checknorm as real_cmd
+    await real_cmd(message)

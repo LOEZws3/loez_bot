@@ -7,7 +7,9 @@
     "8076284478": {
         "count": 42,
         "week_start": "2026-09-21",
-        "joined_at": "2026-08-07T21:11:32.121701"
+        "joined_at": "2026-08-07T21:11:32.121701",
+        "last_message_at": "2026-10-05T14:23:11.456789",
+        "norm_notified": false
     }
 }
 """
@@ -58,6 +60,7 @@ def increment_message_count(user_id: int) -> bool:
     """
     Инкрементит счётчик.
     ⚠️ joined_at ставит ТОЛЬКО chat_member.py (через set_joined_at).
+    ⚠️ 05.10.2026: пишет last_message_at.
     """
     data = load_counters()
     uid_str = str(user_id)
@@ -67,13 +70,17 @@ def increment_message_count(user_id: int) -> bool:
         data[uid_str] = {'count': 0, 'week_start': current_week}
 
     if data[uid_str].get('week_start') != current_week:
-        # Новый week — сохраняем joined_at, если был
+        # Новый week — сохраняем joined_at, last_message_at, norm_notified → false
         old_joined = data[uid_str].get('joined_at', '')
+        old_last_msg = data[uid_str].get('last_message_at', '')
         data[uid_str] = {'count': 0, 'week_start': current_week}
         if old_joined:
             data[uid_str]['joined_at'] = old_joined
+        if old_last_msg:
+            data[uid_str]['last_message_at'] = old_last_msg
 
     data[uid_str]['count'] = int(data[uid_str].get('count', 0)) + 1
+    data[uid_str]['last_message_at'] = datetime.datetime.now().isoformat()  # ⚠️ НОВОЕ
     return save_counters(data)
 
 def get_message_count(user_id: int) -> int:
@@ -104,7 +111,8 @@ def get_all_counts() -> dict:
 def reset_all_counters() -> bool:
     """
     Сбрасывает счётчики для новой недели.
-    ⚠️ БАГ 2 (02.10.2026): сохраняем joined_at, иначе все станут Нью!
+    ⚠️ БАГ 2 (02.10.2026): сохраняем joined_at!
+    ⚠️ 05.10.2026: сохраняем last_message_at, сбрасываем norm_notified.
     """
     data = load_counters()
     current_week = _get_current_week_start()
@@ -112,12 +120,16 @@ def reset_all_counters() -> bool:
     new_data = {}
     for uid_str, info in data.items():
         joined_at = ''
+        last_message_at = ''
         if isinstance(info, dict):
             joined_at = info.get('joined_at', '')
+            last_message_at = info.get('last_message_at', '')
         new_data[uid_str] = {
             'count': 0,
             'week_start': current_week,
             'joined_at': joined_at,
+            'last_message_at': last_message_at,
+            'norm_notified': False,  # ⚠️ сбрасываем флаг
         }
 
     return save_counters(new_data)
@@ -137,6 +149,7 @@ def set_joined_at(user_id: int, joined_at: str = None) -> bool:
         data[uid_str] = {'count': 0, 'week_start': _get_current_week_start()}
 
     data[uid_str]['joined_at'] = joined_at
+    data[uid_str]['last_message_at'] = datetime.datetime.now().isoformat()  # ⚠️ НОВОЕ
     return save_counters(data)
 
 def get_joined_at(user_id: int) -> str:
@@ -158,3 +171,42 @@ def is_new_user(user_id: int, days: int = 7) -> bool:
         return delta.days < days
     except (ValueError, TypeError):
         return True
+
+# ======================== ⚠️ НОВОЕ (05.10.2026) ========================
+
+def update_last_message_at(user_id: int) -> bool:
+    """Обновляет время последнего сообщения (без инкремента счётчика)."""
+    data = load_counters()
+    uid_str = str(user_id)
+    if uid_str not in data or not isinstance(data[uid_str], dict):
+        return False
+    data[uid_str]['last_message_at'] = datetime.datetime.now().isoformat()
+    return save_counters(data)
+
+def mark_norm_notified(user_id: int) -> bool:
+    """Помечает, что юзеру уже написали про норму за эту неделю."""
+    data = load_counters()
+    uid_str = str(user_id)
+    if uid_str not in data or not isinstance(data[uid_str], dict):
+        return False
+    data[uid_str]['norm_notified'] = True
+    return save_counters(data)
+
+def is_norm_notified(user_id: int) -> bool:
+    """Проверяет, писали ли уже про норму за эту неделю."""
+    data = load_counters()
+    uid_str = str(user_id)
+    if uid_str not in data or not isinstance(data[uid_str], dict):
+        return False
+    current_week = _get_current_week_start()
+    if data[uid_str].get('week_start') != current_week:
+        return False
+    return bool(data[uid_str].get('norm_notified', False))
+
+def get_last_message_at(user_id: int) -> str:
+    """Возвращает время последнего сообщения (ISO) или пустую строку."""
+    data = load_counters()
+    uid_str = str(user_id)
+    if uid_str not in data or not isinstance(data[uid_str], dict):
+        return ''
+    return data[uid_str].get('last_message_at', '')
