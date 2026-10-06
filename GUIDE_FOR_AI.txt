@@ -1,6 +1,6 @@
 ═══════════════════════════════════════════════════════════════════
 🤖 LoezF_Bot — ГАЙД ДЛЯ РАЗРАБОТЧИКОВ
-(ОБНОВЛЕН 03.10.2026, ВЕРСИЯ 8.0.1)
+(ОБНОВЛЕН 06.10.2026, ВЕРСИЯ 8.1.0)
 ═══════════════════════════════════════════════════════════════════
 
 ═══════════════════════════════════════════════════════════════════
@@ -37,6 +37,10 @@ LoezF_Bot — Telegram-бот для управления приёмом нов�
 ✅ Авто-сброс счётчиков (сб 21:00 МСК)
 ✅ Варны в МИНУТАХ (гибкие единицы: мин/ч/д/н/мес/г)
 ✅ Окно чистки (20:00–21:00 МСК, настраиваемое)
+✅ 🎂 Дни рождения (поздравления 00:00 ЛС + 12:00 флуд)
+✅ 📩 Подписка на уведомления о норме (/subnorm)
+✅ 📊 Расширенный /stats (кнопки: база/день/неделя/месяц)
+✅ 📁 leftdata.json (ушло за период)
 
 🔹 ТЕХНОЛОГИИ:
 🐍 Python 3.14.4
@@ -191,6 +195,7 @@ main.py — точка входа
 Молча удалять функции/классы/переменные
 Удалять комментарии и логирование
 Удалять используемые импорты
+
 ═══════════════════════════════════════════════════════════════════
 ⚠️ КРИТИЧЕСКИЕ ПРАВИЛА AIOGRAM 3.x
 ═══════════════════════════════════════════════════════════════════
@@ -344,11 +349,15 @@ data/system/proxy_pings_cache.json
 "full_name": "Chedrik SSL",
 "role": "Сдерик",
 "extra": "-993",
-"changes_count": 0
+"changes_count": 0,
+"birthday": "15.03",
+"notify_norm": true
 }
 }
-ПОЛЕ changes_count — счётчик смен роли. Не сбрасывается при /free.
-Админ может сбросить через /userstats.
+ПОЛЯ:
+- changes_count — счётчик смен роли. Не сбрасывается при /free.
+- birthday — ДР в формате "ДД.ММ" (или null)
+- notify_norm — подписка на уведомления о норме (по умолчанию true)
 
 📌 data/users/unsubscribed_calls.json:
 {
@@ -364,15 +373,20 @@ data/system/proxy_pings_cache.json
 "8076284478": {
 "count": 15,
 "week_start": "2026-09-26",
-"joined_at": "2026-08-07T21:11:32.121701"
+"joined_at": "2026-08-07T21:11:32.121701",
+"last_message_at": "2026-10-05T14:23:11.456789",
+"norm_notified": false
 }
 }
+ПОЛЯ:
 - count — сколько сообщений за текущую неделю
 - week_start — дата субботы (начало недели)
 - joined_at — дата первого появления во флуде
+- last_message_at — дата последнего сообщения (06.10.2026)
+- norm_notified — флаг «уже поздравили с нормой» (06.10.2026)
 - Если week_start != текущая неделя → count возвращается 0
 - joined_at НЕ обновляется при сбросе недели (сохраняется)
-⚠️ joined_at ставит ТОЛЬКО chat_member.py (не counters.py!)
+- ⚠️ joined_at ставит ТОЛЬКО chat_member.py (не counters.py!)
 
 📌 data/system/warns.json:
 {
@@ -442,15 +456,27 @@ data/system/proxy_pings_cache.json
 "checknorm_time_window_enabled": true
 }
 
-НАСТРОЙКИ НОРМЫ И ЧИСТКИ (30.09–02.10.2026):
+НАСТРОЙКИ НОРМЫ И ЧИСТКИ:
 - messages_norm: 70 (норма сообщений в неделю)
 - messages_norm_low: 10 (НПНДБ — нижний порог для бана)
 - warns_accumulate: false (накопление варнов)
 - warns_to_ban: 3 (сколько варнов до бана)
 - warn_notify_admin: true (уведомлять о 3-м варне)
-- norm_auto_message_enabled: true (авто-сообщение в ЛС при норме,
-  на будущее)
+- norm_auto_message_enabled: true (авто-сообщение в ЛС при норме)
 - checknorm_time_window_enabled: true (окно чистки 20:00–21:00 МСК)
+
+📌 data/system/leftdata.json (НОВОЕ, 06.10.2026):
+{
+"8076284478": {
+"full_name": "Chedrik SSL",
+"role": "Сдерик",
+"left_at": "2026-10-04T15:30:00",
+"reason": "left"
+}
+}
+- Хранит ушедших юзеров (left / kicked)
+- Заполняется в check_kicked_loop (main.py)
+- Используется в /stats для подсчёта «ушло за период»
 
 📌 data/roles/roles_status.json — словарь {ключ: {...}}:
 {
@@ -470,6 +496,24 @@ data/system/proxy_pings_cache.json
 [5, 12, 47]
 Список освободившихся ID. При создании новой роли — берётся
 из этого списка, если пусто — max+1.
+
+📌 data/users_history/{user_id}.json (ОБНОВЛЕНО, 06.10.2026):
+{
+"emoji": "🍗",
+"first_joined": "2026-07-06",
+"last_message_at": "2026-10-05T14:23:11",
+"total_visits": 1,
+"last_left": "26.07.2026 14:21",
+"left_reason": "left",
+"role_id": 42,
+"role_key": "Сдерик (Голос времени)",
+"birthday": "15.03"
+}
+- emoji — ВСЕГДА (генерируется автоматически при первом входе)
+- last_left / left_reason — null, если не уходил
+- role_id / role_key — null, если нет роли
+- birthday — null, если не указан
+- Система эмодзи — emoji_utils.get_user_emoji()
 
 ⛔ НЕЛЬЗЯ использовать [] (список) — только {} (словарь)!
 ⛔ Пустой файл должен быть {} (2 байта), а не []
@@ -520,7 +564,8 @@ main.py импортирует LOG_FILE_PATH из config.
    - MODERATOR_LINK — если rank 3
 
 📌 Функции добавления:
-add_user(user_id, username, full_name, role, extra, changes_count)
+add_user(user_id, username, full_name, role, extra, changes_count,
+         birthday=None, notify_norm=True)
 add_admin(user_id, username, full_name, rank)
 
 📌 TODO: интеграция с ИРИС (@iris_moon_bot)
@@ -614,6 +659,8 @@ update_role_status_by_id(role_id, status) — обновить статус по
 - Раз в час — истечение варнов
 - Раз в минуту — проверка кикнутых
 - 03:33 МСК ежедневно — синхронизация ролей
+- 00:00 МСК ежедневно — ЛС-поздравления с ДР (НОВОЕ)
+- 12:00 МСК ежедневно — поздравление во флуд (НОВОЕ)
 
 ═══════════════════════════════════════════════════════════════════
 📢 ЧИСТКА /CHECKNORM (30.09.2026, обновлено 02.10.2026)
@@ -634,8 +681,7 @@ update_role_status_by_id(role_id, status) — обновить статус по
 4. "📋 Показать итог" → превью
 5. "✅ Подтвердить" → меню "Отправить в ЛС / Отмена"
 6. "📋 Отправить команды в ЛС" → список в ЛС админу
-7. Админ копирует и выдаёт вручную (Iris не принимает
-   сообщения от ботов)
+7. Админ копирует и выдаёт вручную
 
 📌 ФОРМАТ КОМАНД В ЛС (в ДНЯХ, для Iris):
 Варн 6 дней @username
@@ -676,127 +722,213 @@ update_role_status_by_id(role_id, status) — обновить статус по
 📌 ТОЛЬКО ВО ФЛУДЕ (БАГ 6, 02.10.2026)
 
 ═══════════════════════════════════════════════════════════════════
-📢 НАПОМИНАЛКА (НЕ УДАЛЯТЬ!)
+🎂 ДНИ РОЖДЕНИЯ (НОВОЕ, 06.10.2026)
 ═══════════════════════════════════════════════════════════════════
 
-📌 ОПИСАНИЕ:
-Когда юзер пишет в чат, бот проверяет, есть ли он в users.json.
-Если нет — каждое 5-е сообщение напоминает о регистрации.
+📌 КОМАНДА: /setbirthday (только в ЛС)
 
-📌 ВАЖНО: chat_member.py ПРОПУСКАЕТ команды:
-if message.text and message.text.startswith('/'):
-return
+📌 FSM (два шага):
+1. Выбор дня (1-31, кнопки сеткой 7×5)
+2. Выбор месяца (январь-декабрь, кнопки 3×4)
+3. Сохранение → "🎂 ДР: 15.03"
 
-📌 АЛГОРИТМ:
-1. При каждом сообщении (не команде) проверка регистрации
-2. Счётчик увеличивается для незарегистрированных
-3. На 5-м сообщении — напоминание
+📌 ФОРМАТ ХРАНЕНИЯ:
+- users.json → "birthday": "15.03" (ДД.ММ)
+- users_history/{id}.json → "birthday": "15.03" (дублирование)
+- Год НЕ хранится (для поздравлений не нужен)
 
-⛔ НЕ УДАЛЯТЬ chat_member_router!
-⛔ ОБЯЗАТЕЛЬНО ставить ПОСЛЕ keyboards_router!
+📌 ПЛАНИРОВЩИКИ (2 цикла):
+1. birthday_personal_loop (00:00 МСК)
+   - Отправляет ЛС каждому имениннику
+   - Текст: "🎂 Поздравляю вас с вашим днём рождения,
+     {full_name}! Желаем удачи! — LOeZ team"
+2. birthday_group_loop (12:00 МСК)
+   - Отправляет одно сообщение во флуд (GENERAL_CHAT_ID)
+   - Текст: "🎂 Сегодня день рождения у:\n• {full_name} ({role})\n..."
+
+📌 КОГО ПОЗДРАВЛЯТЬ:
+- Только тех, кто есть в users.json (зарегистрированные)
+- Используется parsers.get_users_with_birthday(day, month)
+
+📌 ПЕРЕУСТАНОВКА:
+- Можно переустановить через /setbirthday (перезапишет)
+- Отдельной команды /clearbirthday НЕТ
 
 ═══════════════════════════════════════════════════════════════════
-👑 УПРАВЛЕНИЕ АДМИНИСТРАТОРАМИ
+📩 ПОДПИСКА НА НОРМУ (НОВОЕ, 06.10.2026)
 ═══════════════════════════════════════════════════════════════════
 
-📌 СТРУКТУРА РАНГОВ (НЕ МЕНЯТЬ!):
+📌 ЗАЧЕМ:
+Когда юзер набирает норму (70+ соо) за неделю — бот пишет ему в ЛС.
+Юзер может отписаться, если не хочет получать.
 
-1 — Владелец (нельзя понизить/удалить)
-2 — Админ
-3 — Модератор
-
-📌 ФАЙЛ: data/admins/admins.json
-Формат: {"user_id": {"username": "...", "full_name": "...", "rank": N}}
-
-═══════════════════════════════════════════════════════════════════
-🔍 ДИАГНОСТИКА
-═══════════════════════════════════════════════════════════════════
+📌 ХРАНЕНИЕ:
+- users.json → "notify_norm": true (по умолчанию ВСЕ подписаны)
+- message_counts.json → "norm_notified": false (сбрасывается при reset)
 
 📌 КОМАНДЫ:
-/diag — полная диагностика
-/check_chats — диагностика чатов
+- /subnorm — подписаться
+- /unsubnorm — отписаться
+- Обе команды только в ЛС
 
-📌 ЧТО ПРОВЕРЯЕТ /diag:
-Информация о боте, файлы, БД, токен, ID чатов, прокси
+📌 ГЛОБАЛЬНАЯ НАСТРОЙКА:
+- system_settings.json → "norm_auto_message_enabled": true (по умолчанию)
+- Если false — ЛС-уведомления не отправляются НИКОМУ
+
+📌 ЛОГИКА ОТПРАВКИ (chat_member.py):
+```
+if global_enabled AND user.notify_norm AND not norm_notified:
+    if count >= messages_norm:
+        send_message()
+        mark_norm_notified(user_id)
+```
+
+📌 ТЕКСТ ЛС:
+"🎉 Поздравляю! Ты набрал норму за эту неделю!"
+
+📌 ФАЙЛЫ:
+- handlers/chat_member.py → _maybe_notify_norm
+- utils/counters.py → mark_norm_notified, is_norm_notified
+
+═══════════════════════════════════════════════════════════════════
+📊 РАСШИРЕННЫЙ /STATS (НОВОЕ, 06.10.2026)
+═══════════════════════════════════════════════════════════════════
+
+📌 КОМАНДА: /stats (для админов rank 1-3)
+
+📌 В ФЛУДЕ:
+- Краткая версия БЕЗ кнопок
+- Показывает: роли (всего), участники (всего)
+
+📌 В ЛС:
+- Кнопки: [📊 База] [📅 День] [📆 Неделя] [📈 Месяц] [🔄 Обновить]
+
+📌 СОДЕРЖИМОЕ ПО ПЕРИОДАМ:
+📊 База:
+  - Роли: всего / свободна / занята / ожидает / рест / бронь
+  - Участники: всего
+  - Админы: всего
+  - (⚠️ БЕЗ прокси — убрано 05.10.2026)
+
+📅 День / 📆 Неделя / 📈 Месяц:
+  - Всего зарегистрировано
+  - Нью (пришло за период) — по joined_at
+  - ✅ Хороших / ⚠️ Варн / 🚫 Бан / ⏳ В ресте / 👶 Всего Нью
+  - 📈 Активных за период — по last_message_at
+  - 📉 Ушло (кикнуто) — по leftdata.json
+
+📌 CALLBACK:
+- stats_period_base
+- stats_period_day
+- stats_period_week
+- stats_period_month
+
+📌 ФАЙЛ: handlers/admin_commands.py → cmd_stats, stats_period_callback
+
+═══════════════════════════════════════════════════════════════════
+📁 LEFTDATA.JSON (НОВОЕ, 06.10.2026)
+═══════════════════════════════════════════════════════════════════
+
+📌 ЗАЧЕМ:
+Хранит ушедших юзеров (left / kicked). Используется в /stats
+для подсчёта «ушло за период».
+
+📌 ФАЙЛ: data/system/leftdata.json
+
+📌 ФОРМАТ:
+{
+"8076284478": {
+"full_name": "Chedrik SSL",
+"role": "Сдерик",
+"left_at": "2026-10-04T15:30:00",
+"reason": "left"
+}
+}
+
+📌 ЗАПОЛНЯЕТСЯ:
+- В main.py → check_kicked_loop (при status in ['left', 'kicked'])
+- Функция _save_leftdata() в main.py
+- Дополнительно: users_history.set_left(uid, reason)
+
+📌 ПУТЬ КОНСТАНТЫ:
+- config.py → LEFTOVER_FILE
+
 ═══════════════════════════════════════════════════════════════════
 🗑️ УДАЛЁННЫЕ ФАЙЛЫ (не искать, не восстанавливать)
 ═══════════════════════════════════════════════════════════════════
 
 ❌ role_commands.py — удалён (функции в apply_handlers.py)
-
 ❌ data/system_settings.json (в корне data/) — удалён
-Актуальный: data/system/system_settings.json
-
-❌ data/roles_status.json (в корне data/) — перенесён
-Актуальный: data/roles/roles_status.json
-
-❌ data/users/unsubscribed_calls.txt — удалён
-Актуальный: data/users/unsubscribed_calls.json
-
-❌ src/test_connect.py — удалён (пустой файл)
-
-❌ src/pycache/, src/handlers/pycache/, src/utils/pycache/ — удалены
-
-❌ apply_states_router — убран из __init__.py (не используется)
-
+❌ data/roles_status.json (в корне data/) — перенесён в data/roles/
+❌ data/users/unsubscribed_calls.txt — заменён на .json
+❌ src/test_connect.py — удалён
+❌ src/**/pycache/ — удалены
+❌ apply_states_router — убран из __init__.py
 ❌ src/utils/system_utils.py — удалён (дублировал settings_utils)
+
+═══════════════════════════════════════════════════════════════════
+🔧 ИЗМЕНЕНИЯ ВЕРСИИ 8.1.0 (05–06.10.2026)
+═══════════════════════════════════════════════════════════════════
+
+🎂 ДНИ РОЖДЕНИЯ:
+- /setbirthday — FSM (день → месяц, без года)
+- Поля birthday в users.json и users_history
+- main.py: + birthday_personal_loop (00:00 МСК)
+- main.py: + birthday_group_loop (12:00 МСК)
+- parsers.py: + set_birthday, get_birthday, get_users_with_birthday
+- user_utils.py: обёртки
+- user_history.py: + set_birthday
+- base_commands.py: + cmd_setbirthday + 2 FSM-callback
+
+📩 ПОДПИСКА НА НОРМУ:
+- users.json: + notify_norm
+- message_counts.json: + norm_notified
+- /subnorm, /unsubnorm
+- chat_member.py: _maybe_notify_norm
+- counters.py: + mark_norm_notified, is_norm_notified
+- parsers.py: + set_notify_norm, get_notify_norm
+
+📊 РАСШИРЕННЫЙ /STATS:
+- admin_commands.py: cmd_stats переписан + кнопки
+- _build_stats_base_text, _build_stats_period_text
+- _build_stats_keyboard
+- stats_period_callback
+- В базе: убран показ прокси
+
+📁 LEFTDATA.JSON:
+- config.py: + LEFTOVER_FILE
+- main.py: + _save_leftdata
+- check_kicked_loop: записывает в leftdata.json
+- admin_commands.py: _load_leftdata, _count_left_in_period
+
+🔄 USERS_HISTORY:
+- user_history.py: + set_role, set_last_message_at, set_left
+- Новые поля: role_id, role_key, last_message_at
+
+🔄 MESSAGE_COUNTS:
+- counters.py: + last_message_at, update_last_message_at
+- increment_message_count пишет last_message_at
+- reset_all_counters сохраняет joined_at, last_message_at,
+  сбрасывает norm_notified
+
+📄 BASE_COMMANDS:
+- /help обновлён (setbirthday, subnorm, unsubnorm)
+- /aboutme показывает ДР и статус подписки
+- /stats делегирует в admin_commands
 
 ═══════════════════════════════════════════════════════════════════
 🔧 ИЗМЕНЕНИЯ ВЕРСИИ 8.0.1 (02–03.10.2026)
 ═══════════════════════════════════════════════════════════════════
 
 🩹 ИСПРАВЛЕНИЯ (баги 1-9):
-
-📄 settings_utils.py:
-- БАГ 1: убраны ДУБЛИ функций
-  (get_messages_norm_low, get_warns_accumulate, get_warns_to_ban
-   были объявлены дважды)
-- + checknorm_time_window_enabled в DEFAULT_SETTINGS
-- + обёртка get_checknorm_time_window_enabled()
-
-📄 counters.py:
-- БАГ 2: reset_all_counters СОХРАНЯЕТ joined_at
-  (иначе после субботы все станут «Нью»)
-- БАГ 7: increment_message_count НЕ ставит joined_at
-  (это делает ТОЛЬКО chat_member.py)
-- increment_message_count сохраняет joined_at при смене недели
-
-📄 warns_utils.py:
-- БАГ 4: переход на МИНУТЫ (было дни)
-  add_warn(user_id, minutes, ...)
-- duration_minutes в варне
-
-📄 chat_member.py:
-- БАГ 4: парсер варн/бан → МИНУТЫ
-  Поддержка: мин, ч, д/дней, н, мес, г
-- БАГ 6: _try_parse_warn_command — ТОЛЬКО ВО ФЛУДЕ
-- БАГ 7: set_joined_at остаётся ЗДЕСЬ (единственное место!)
-- Дефолт варна: 7 дней
-
-📄 checknorm_commands.py:
-- БАГ 3: WARN_MINUTES_ACCUMULATE = 21 * 24 * 60 (было 9 дней!)
-- БАГ 9: проверка окна чистки (20:00–21:00 МСК)
-- Импорт get_checknorm_time_window_enabled
-- Функция _has_active_sessions() (для main.py)
-- Сроки в МИНУТАХ: WARN_MINUTES_DEFAULT = 6 * 24 * 60,
-  WARN_MINUTES_ACCUMULATE = 21 * 24 * 60, BAN_MINUTES = 90 * 24 * 60
-
-📄 settings_commands.py:
-- + кнопка "Окно чистки" (после "Уведомлять о 3-м варне")
-- + обработчик toggle_checknorm_window
-- + строка в "Показать все настройки"
-
-📄 main.py:
-- БАГ 9: norm_reset_loop переписан
-  Сброс ТОЛЬКО в 21:00 МСК
-  Если есть ACTIVE_SESSIONS — ждём до 15 минут
-
-📄 .gitignore (КОМПРОМИСС, 02.10.2026):
-- Трекаем: !data/roles/roles_status.json, !data/roles/*.txt,
-  !data/system/free_role_ids.json
-- Игнорим: bot.log, *.pyc, __pycache__, users.json, admins.json,
-  requests.json, system_settings.json, warns.json,
-  message_counts.json, proxy_pings_cache.json
+- БАГ 1: дубли функций в settings_utils.py
+- БАГ 2: joined_at терялся при сбросе недели (counters.py)
+- БАГ 3: варн на 9 дней вместо 21 (checknorm_commands.py)
+- БАГ 4: парсер варн/бан → МИНУТЫ (chat_member.py, warns_utils.py)
+- БАГ 6: парсер перехватывал из ЛС → только во флуде
+- БАГ 7: joined_at ставит ТОЛЬКО chat_member.py
+- БАГ 9: norm_reset_loop переписан + окно чистки
+- .gitignore: компромисс (трекаем структуру, игрим данные)
 
 ═══════════════════════════════════════════════════════════════════
 🔧 ИЗМЕНЕНИЯ ВЕРСИИ 8.0.0 (29.09–02.10.2026)
@@ -820,8 +952,6 @@ return
 - + norm_reset_loop (сб 20:00/21:00 МСК)
 - + check_kicked_loop (раз в минуту)
 - + RegistrationCheckMiddleware
-- Исправлен двойной запуск sync_roles_loop
-- Убран DeprecationWarning (utcnow → now(UTC))
 
 📄 chat_member.py:
 - Счётчик сообщений для зарегистрированных
@@ -833,12 +963,10 @@ return
 - Таймаут подачи заявки (5 минут)
 - callback_data: apply_season_<index>, apply_role_id_<id>
 - Проверка лимита смен роли
-- Опция "Восстановить права владельца" (для OWNER_ID)
 - Предупреждение при смене роли
 
 📄 admin_commands.py:
 - /findrole + /userstats с плашками ⚠️/🚫
-- Дубль импорта norm_utils удалён
 
 📄 base_commands.py:
 - Плашки в /members
@@ -846,29 +974,65 @@ return
 
 📄 settings_commands.py:
 - Группа настроек "Норма и чистка"
-- messages_norm, messages_norm_low, warns_accumulate,
-  warns_to_ban, warn_notify_admin
 
 📄 keyboards.py:
 - Кнопка /checknorm
-- Стартовый режим (урезанная клавиатура для незарегистрированных)
+- Стартовый режим
 
 📄 request_commands.py:
 - Работа с role_id при одобрении
-- Уведомления через ADMIN_GROUP_ID или ЛС админам 1-2
+- Уведомления через ADMIN_GROUP_ID
 
 📄 clear_me.py (НОВЫЙ):
 - /clearme — полная очистка данных юзера
-- Тройное подтверждение (кнопка + ник delete)
-- Владелец может очистить другого через /userstats
+- Тройное подтверждение
 
 ═══════════════════════════════════════════════════════════════════
 🐛 ИЗВЕСТНЫЕ БАГИ И ИХ РЕШЕНИЯ
 ═══════════════════════════════════════════════════════════════════
 
 ❌ Баг смены роли (роль накладывалась):
-→ ИСПРАВЛЕНО в 7.4.0: при одобрении старая роль освобождается,
-  счётчик changes_count инкрементится.
+→ ИСПРАВЛЕНО в 7.4.0
+
+❌ Клавиатура не реагирует:
+→ Порядок роутеров в __init__.py
+→ keyboards_router ДО chat_member_router
+
+❌ /regc, /unregc, /call, /callfal молчат:
+→ Удалены заглушки из base_commands.py
+
+❌ "In order to use aiohttp client... install aiohttp-socks":
+→ Откатить версии к зафиксированному набору
+
+❌ joined_at обновлялся каждый раз (29.09.2026):
+→ ФИКС: increment_message_count НЕ ставит joined_at
+→ joined_at ставит ТОЛЬКО chat_member.py
+
+❌ joined_at терялся при сбросе недели (30.09.2026, БАГ 2):
+→ ФИКС: reset_all_counters сохраняет joined_at
+
+❌ Варн на 9 дней вместо 21 (БАГ 3, 02.10.2026):
+→ ФИКС: WARN_MINUTES_ACCUMULATE = 21 * 24 * 60
+
+❌ Парсер варн/бан перехватывал из ЛС (БАГ 6, 02.10.2026):
+→ ФИКС: только во флуде (GENERAL_CHAT_ID)
+
+❌ Дубли функций в settings_utils.py (БАГ 1, 02.10.2026):
+→ ФИКС: убраны дубли get_messages_norm_low,
+  get_warns_accumulate, get_warns_to_ban
+
+❌ query is too old / BUTTON_DATA_INVALID:
+→ callback_data > 64 байт → использовать ID, не текст
+→ callback.answer() устарел → обернуть в try/except
+
+❌ "chat not found" при отправке в админ-группу:
+→ ADMIN_GROUP_ID неправильный или бот не в группе
+→ Fallback: отправка в ЛС админам
+
+❌ Утечка прокси-пароля в публичный репо (29.09.2026):
+→ GitGuardian нашёл URL с логином:паролем
+→ Пароль сменили в Webshare (01.10.2026)
+→ Старый пароль недействителен
 
 BaseModel.init() takes 1 positional argument but 2 were given:
 → InlineKeyboardButton("текст", ...) без text=
@@ -906,52 +1070,6 @@ NameError: name 'types' is not defined:
 → Бот сам переключится на пингование good_proxies.txt
 → Если Webshare — зайти в личный кабинет, взять новый IP
 
-❌ Клавиатура не реагирует / команды молчат:
-→ Порядок роутеров в __init__.py нарушен
-→ chat_member_router (голый @router.message()) перехватывает
-  Reply-кнопки
-→ chat_member_router ДОЛЖЕН быть ПОСЛЕ keyboards_router
-
-❌ /regc, /unregc, /call, /callfal молчат:
-→ Заглушки в base_commands.py перехватывают команды
-→ УДАЛИТЬ дубли из base_commands.py
-
-❌ "In order to use aiohttp client for proxy requests,
-   install aiohttp-socks":
-→ Возникает при обновлённых библиотеках (aiogram 3.31+,
-  aiohttp 3.14+, python-socks 3.x).
-→ Решение: откатить версии к зафиксированному набору.
-
-❌ joined_at обновлялся каждый раз (29.09.2026):
-→ ФИКС: increment_message_count НЕ ставит joined_at
-→ joined_at ставит ТОЛЬКО chat_member.py
-
-❌ joined_at терялся при сбросе недели (30.09.2026, БАГ 2):
-→ ФИКС: reset_all_counters сохраняет joined_at
-
-❌ Варн на 9 дней вместо 21 (БАГ 3, 02.10.2026):
-→ ФИКС: WARN_MINUTES_ACCUMULATE = 21 * 24 * 60
-
-❌ Парсер варн/бан перехватывал из ЛС (БАГ 6, 02.10.2026):
-→ ФИКС: только во флуде (GENERAL_CHAT_ID)
-
-❌ Дубли функций в settings_utils.py (БАГ 1, 02.10.2026):
-→ ФИКС: убраны дубли get_messages_norm_low,
-  get_warns_accumulate, get_warns_to_ban
-
-❌ query is too old / BUTTON_DATA_INVALID:
-→ callback_data > 64 байт → использовать ID, не текст
-→ callback.answer() устарел → обернуть в try/except
-
-❌ "chat not found" при отправке в админ-группу:
-→ ADMIN_GROUP_ID неправильный или бот не в группе
-→ Fallback: отправка в ЛС админам
-
-❌ Утечка прокси-пароля в публичный репо (29.09.2026):
-→ GitGuardian нашёл URL с логином:паролем
-→ Пароль сменили в Webshare (01.10.2026)
-→ Старый пароль недействителен
-
 ═══════════════════════════════════════════════════════════════════
 ⚠️ НИЧЕГО НЕ МЕНЯТЬ! (запрещённые действия)
 ═══════════════════════════════════════════════════════════════════
@@ -972,7 +1090,7 @@ if message.chat.id == GENERAL_CHAT_ID: return
 
 ❌ НЕ МЕНЯТЬ КОМАНДЫ ВО ФЛУДЕ:
 Разрешены только: /members (количество), /roles (без кнопок),
-/call, /callfal, /hide, /menu
+/call, /callfal, /hide, /menu, /stats (краткая версия)
 
 ❌ НЕ ОТКЛЮЧАТЬ ЛОГИРОВАНИЕ
 
@@ -1004,12 +1122,14 @@ LoEZF_Bot/
 │ │ ├── system_settings.json
 │ │ ├── message_counts.json
 │ │ ├── warns.json
-│ │ └── free_role_ids.json
+│ │ ├── free_role_ids.json
+│ │ └── leftdata.json         ← НОВОЕ (06.10.2026)
 │ ├── users/
 │ │ ├── users.json
 │ │ ├── users.txt (бэкап)
 │ │ └── unsubscribed_calls.json
 │ ├── users_history/
+│ │ └── {user_id}.json
 │ └── logs/bot.log
 ├── src/
 │ ├── handlers/
@@ -1057,6 +1177,7 @@ LoEZF_Bot/
 ├── CHANGELOG.md
 ├── GUIDE_FOR_AI.txt
 ├── start.bat
+├── .gitignore
 └── .env
 
 ═══════════════════════════════════════════════════════════════════
@@ -1066,12 +1187,15 @@ LoEZF_Bot/
 👤 КОМАНДЫ ДЛЯ ВСЕХ (ТОЛЬКО В ЛИЧНЫХ СООБЩЕНИЯХ):
 ───────────────────────────────────────────────────────────────────
 /start — Приветствие и информация
-/help — Список всех команд
+/help — Интерактивная справка
 /about — Информация о флуд-чате
-/aboutme — Данные пользователя
+/aboutme — Данные пользователя (с ДР и подпиской)
 /update — Проверить статус регистрации
 /hide — Скрыть клавиатуру
 /menu — Показать клавиатуру
+/setbirthday — Установить дату рождения           ← НОВОЕ
+/subnorm — Подписаться на уведомления о норме    ← НОВОЕ
+/unsubnorm — Отписаться от уведомлений о норме   ← НОВОЕ
 
 ⚠️ КОМАНДЫ ТОЛЬКО В ЛС (НЕ ВО ФЛУДЕ):
 ───────────────────────────────────────────────────────────────────
@@ -1085,11 +1209,11 @@ LoEZF_Bot/
 
 👥 КОМАНДЫ ВЕЗДЕ (ВКЛЮЧАЯ ФЛУД):
 ───────────────────────────────────────────────────────────────────
-/members — Список участников
-/roles — Список ролей
+/members — Список участников (в флуде — только количество)
+/roles — Список ролей (в флуде — без кнопок)
 /call — Сделать кал (для админов)
 /callfal — Непропускаемый кал (для админов)
-/stats — Статистика (для админов)
+/stats — Статистика (в ЛС — с кнопками периодов)
 /checknorm — Проверка нормы (для админов, rank 1-2)
 
 🔐 АДМИНИСТРАТИВНЫЕ КОМАНДЫ:
@@ -1122,7 +1246,7 @@ LoEZF_Bot/
 📋 СПИСКИ И СТАТИСТИКА:
 ───────────────────────────────────────────────────────────────────
 /roster — Полный список
-/stats — Статистика
+/stats — Статистика (база/день/неделя/месяц)
 /restlist — Активные ресты
 
 ⏳ УПРАВЛЕНИЕ РЕСТОМ:
@@ -1162,6 +1286,50 @@ LoEZF_Bot/
 Просто цифры в чате НЕ МЕНЯЮТ настройки.
 
 ═══════════════════════════════════════════════════════════════════
+📢 НАПОМИНАЛКА (НЕ УДАЛЯТЬ!)
+═══════════════════════════════════════════════════════════════════
+
+📌 ОПИСАНИЕ:
+Когда юзер пишет в чат, бот проверяет, есть ли он в users.json.
+Если нет — каждое 5-е сообщение напоминает о регистрации.
+
+📌 ВАЖНО: chat_member.py ПРОПУСКАЕТ команды:
+if message.text and message.text.startswith('/'):
+return
+
+📌 АЛГОРИТМ:
+1. При каждом сообщении (не команде) проверка регистрации
+2. Счётчик увеличивается для незарегистрированных
+3. На 5-м сообщении — напоминание
+
+⛔ НЕ УДАЛЯТЬ chat_member_router!
+⛔ ОБЯЗАТЕЛЬНО ставить ПОСЛЕ keyboards_router!
+
+═══════════════════════════════════════════════════════════════════
+👑 УПРАВЛЕНИЕ АДМИНИСТРАТОРАМИ
+═══════════════════════════════════════════════════════════════════
+
+📌 СТРУКТУРА РАНГОВ (НЕ МЕНЯТЬ!):
+
+1 — Владелец (нельзя понизить/удалить)
+2 — Админ
+3 — Модератор
+
+📌 ФАЙЛ: data/admins/admins.json
+Формат: {"user_id": {"username": "...", "full_name": "...", "rank": N}}
+
+═══════════════════════════════════════════════════════════════════
+🔍 ДИАГНОСТИКА
+═══════════════════════════════════════════════════════════════════
+
+📌 КОМАНДЫ:
+/diag — полная диагностика
+/check_chats — диагностика чатов
+
+📌 ЧТО ПРОВЕРЯЕТ /diag:
+Информация о боте, файлы, БД, токен, ID чатов, прокси
+
+═══════════════════════════════════════════════════════════════════
 📋 ВСЕ ФУНКЦИИ БОТА (СПРАВОЧНИК)
 ═══════════════════════════════════════════════════════════════════
 
@@ -1169,7 +1337,14 @@ LoEZF_Bot/
 cmd_start, cmd_help, cmd_about, cmd_aboutme
 cmd_members, cmd_roles, cmd_update
 cmd_hide, cmd_menu, cmd_stats
+cmd_setbirthday, bday_day_chosen, bday_month_chosen, bday_cancel
+cmd_subnorm, cmd_unsubnorm
 back_to_menu_from_roles, show_roles_by_season
+back_to_seasons_list
+help_group_callback, help_back_callback
+SetBirthdayStates (FSM)
+_build_days_keyboard, _build_months_keyboard
+HELP_GROUPS
 
 📂 handlers/apply_handlers.py:
 cmd_apply, cmd_free, cmd_cancel_request
@@ -1190,24 +1365,31 @@ approve_request_callback, reject_request_callback
 back_to_requests
 _load_requests, _save_requests, _get_pending
 _get_max_role_changes, _send_to_iris
+_occupy_role, _free_role_by_id
+RejectReason (FSM)
 
 📂 handlers/admin_commands.py:
 cmd_admins, cmd_users, cmd_adduser, cmd_removeuser
 cmd_resetuser, cmd_find, cmd_finduser, cmd_refresh
 cmd_close, cmd_open, cmd_setrank
-cmd_unregister_admin, cmd_unregister_user
+cmd_register_admin, cmd_register_user
 cmd_message_all, cmd_userstats, cmd_findrole, cmd_callstaff
+cmd_stats, stats_period_callback
+_build_stats_base_text, _build_stats_period_text, _build_stats_keyboard
+_get_categories_stats, _count_users_joined_in_period
+_count_active_in_period, _count_left_in_period
+_load_leftdata, _parse_iso
 _show_user_stats
 reset_changes_callback, confirm_reset_callback
 do_reset_callback, cancel_reset_callback
-MessageAllStates, UserStatsStates
-cmd_register_admin, cmd_register_user
+findrole_view, findrole_delete_confirm, findrole_delete_do, findrole_back
+MessageAllStates, UserStatsStates (FSM)
 
 📂 handlers/admin_management.py:
 cmd_promote, cmd_demote, cmd_setrank
 
 📂 handlers/call_commands.py:
-cmd_call, cmd_callfal, cmd_regc, cmd_unregc
+cmd_call, cmd_callfal, cmd_regc, cmd_unregc, cmd_callstaff
 
 📂 handlers/rest_commands.py:
 cmd_rest, cmd_unrest, cmd_restextend, cmd_restlist, cmd_setrest
@@ -1224,6 +1406,9 @@ cmd_diag, cmd_check_chats
 📂 handlers/chat_member.py:
 handle_message, on_user_join, check_user_registration
 _try_parse_warn_command, _parse_duration_to_minutes
+_maybe_notify_norm (06.10.2026)
+_is_user_in_rest
+message_counter (глобальный)
 
 📂 handlers/checknorm_commands.py:
 cmd_checknorm, checknorm_toggle, checknorm_preview
@@ -1234,6 +1419,7 @@ _build_preview_keyboard, _build_commands
 _cleanup_session, _has_active_sessions, _safe_answer
 _get_mention
 CheckNormStates (FSM)
+ACTIVE_SESSIONS, CHECKNORM_STARTED_AT
 
 📂 handlers/clear_me.py:
 cmd_clearme, clearme_cancel, clearme_confirm_1
@@ -1248,11 +1434,24 @@ is_unsubscribed, add_unsubscribed, remove_unsubscribed
 load_rest_requests, save_rest_requests
 generate_calendar_keyboard
 
+📂 handlers/keyboards.py:
+create_seasons_keyboard, create_roles_keyboard
+get_main_keyboard
+cancel_apply, back_to_seasons, role_occupied
+button_help, button_about, button_aboutme, button_roles
+button_apply, button_free, button_rest, button_members
+button_admins, button_users, button_requests, button_stats
+button_call, button_callfal, button_callstaff, button_restlist
+button_unregc, button_regc, button_checknorm
+_check_registration
+
 📂 utils/parsers.py:
 load_json, save_json
 load_users, save_users, get_user, add_user, remove_user
 update_user_role
 get_changes_count, increment_changes_count, reset_changes_count
+set_birthday, get_birthday, get_users_with_birthday         ← НОВОЕ
+set_notify_norm, get_notify_norm                             ← НОВОЕ
 load_admins, save_admins, get_admin, add_admin
 remove_admin, set_rank
 get_owner_ids, is_owner, is_admin, get_admin_rank
@@ -1266,7 +1465,8 @@ get_users_count, get_user_by_id, update_user_role
 get_user_role, get_users_by_role, get_role_stats
 get_role_names, get_user_info, is_user_registered
 get_changes_count, increment_changes_count, reset_changes_count
-unsubscribed-функции (старые, не используются)
+set_birthday, get_birthday, get_users_with_birthday         ← НОВОЕ
+set_notify_norm, get_notify_norm                             ← НОВОЕ
 
 📂 utils/admin_utils.py:
 load_admins, save_admins
@@ -1285,6 +1485,8 @@ get_system_settings, save_system_settings
 get_closed_mode, set_closed_mode
 sync_roles_from_files
 format_role_display, get_user_role_key
+find_roles, update_role_status_by_id
+get_role_by_id
 
 📂 utils/requests_utils.py:
 load_requests, save_requests
@@ -1304,13 +1506,16 @@ load_counters, save_counters
 increment_message_count, get_message_count, get_all_counts
 reset_all_counters, clear_all_counters
 set_joined_at, get_joined_at, is_new_user
+update_last_message_at, mark_norm_notified, is_norm_notified  ← НОВОЕ
+get_last_message_at                                           ← НОВОЕ
 _get_current_week_start
 
 📂 utils/warns_utils.py:
 load_warns, save_warns
 get_user_warns, get_warns_count
-add_warn, remove_warn, clear_user_warns
+add_warn (в МИНУТАХ!), remove_warn, clear_user_warns
 expire_old_warns, get_last_warn_number
+DEFAULT_WARN_MINUTES = 7 * 24 * 60
 
 📂 utils/norm_utils.py:
 get_user_category, get_emoji, get_category_label
@@ -1322,8 +1527,26 @@ CATEGORY_NEW, CATEGORY_REST, CATEGORY_UNKNOWN
 load_free_ids, save_free_ids
 get_next_id, add_free_id, get_stats
 
+📂 utils/user_history.py:
+ensure_history_dir, load_user_history, save_user_history
+update_user_history, get_user_history_field
+set_role, set_birthday, set_last_message_at, set_left   ← НОВОЕ
+
+📂 utils/emoji_utils.py:
+get_random_emoji, get_user_emoji
+SAFE_EMOJIS (список ~200 эмодзи)
+
 📂 middlewares/registration_check.py:
 RegistrationCheckMiddleware
+
+📂 main.py:
+create_bot_with_proxy, switch_to_next_proxy, set_bot_commands
+check_rests_loop, sync_roles_loop, expire_warns_loop
+norm_reminder_loop, norm_reset_loop, check_kicked_loop
+birthday_personal_loop, birthday_group_loop                ← НОВОЕ
+_save_leftdata                                             ← НОВОЕ
+_send_birthday_messages                                    ← НОВОЕ
+run_bot, on_startup, main
 
 ═══════════════════════════════════════════════════════════════════
 📋 ИСТОРИЯ ИЗМЕНЕНИЙ
@@ -1331,18 +1554,42 @@ RegistrationCheckMiddleware
 
 Все изменения фиксируются в CHANGELOG.md.
 
-Актуальная версия: 8.0.1
-Дата последнего обновления: 03.10.2026
+Актуальная версия: 8.1.0
+Дата последнего обновления: 06.10.2026
+
+[8.1.0] - Глобальный апдейт (05–06.10.2026):
+🎂 Дни рождения:
+- /setbirthday (FSM: день → месяц, без года)
+- Поля birthday в users.json и users_history
+- 2 цикла: 00:00 (ЛС) + 12:00 (флуд)
+- Парсер get_users_with_birthday
+
+📩 Подписка на норму:
+- users.json: + notify_norm
+- message_counts.json: + norm_notified
+- /subnorm, /unsubnorm
+- chat_member.py: _maybe_notify_norm
+
+📊 Расширенный /stats:
+- Кнопки: База / День / Неделя / Месяц
+- В базе: убран показ прокси
+
+📁 leftdata.json:
+- Хранит ушедших юзеров
+- Заполняется в check_kicked_loop
+
+🔄 users_history:
+- + role_id, role_key, last_message_at
 
 [8.0.1] - Исправления багов 1-9 (02–03.10.2026):
 - БАГ 1: дубли функций в settings_utils.py
-- БАГ 2: joined_at терялся при сбросе недели (counters.py)
-- БАГ 3: варн на 9 дней вместо 21 (checknorm_commands.py)
-- БАГ 4: парсер варн/бан → МИНУТЫ (chat_member.py, warns_utils.py)
+- БАГ 2: joined_at терялся при сбросе недели
+- БАГ 3: варн на 9 дней вместо 21
+- БАГ 4: парсер варн/бан → МИНУТЫ
 - БАГ 6: парсер перехватывал из ЛС → только во флуде
 - БАГ 7: joined_at ставит ТОЛЬКО chat_member.py
 - БАГ 9: norm_reset_loop переписан + окно чистки
-- .gitignore: компромисс (трекаем структуру, игрим данные)
+- .gitignore: компромисс
 
 [8.0.0] - Система нормы и чистки (29.09–02.10.2026):
 - /checknorm — команда проверки нормы
@@ -1355,7 +1602,6 @@ RegistrationCheckMiddleware
 - Стартовый режим (middlewares/)
 - Фоновые циклы (19:00, 21:00, кикнутые, варны, роли)
 - Таймаут подачи заявки (5 минут)
-- Авто-создание ролей из папки
 
 [7.4.0] - Система смены роли:
 - Новая настройка max_role_changes (по умолчанию 3)
@@ -1363,12 +1609,6 @@ RegistrationCheckMiddleware
 - Счётчик смен, лимит, предупреждение при подаче
 - Освобождение старой роли при одобрении
 - Команда /userstats + сброс счётчика админом
-
-Баг-фиксы:
-- Наложение ролей (было — две роли у одного юзера)
-- Уведомления о заявках (admins.txt → admins.json)
-- Подтверждение /free (Да/Нет)
-- Ссылки после одобрения (CHAT_INVITE_LINK + ADMIN/MODERATOR_LINK)
 
 Proxy Manager (переписан):
 - PING_COUNT=1, PING_TIMEOUT=5
@@ -1471,6 +1711,6 @@ https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/system/free_role_id
 Основной бот: @REG_sf_BOT
 
 ═══════════════════════════════════════════════════════════════════
-📅 Версия: 8.0.1
-📅 Дата обновления: 03.10.2026
+📅 Версия: 8.1.0
+📅 Дата обновления: 06.10.2026
 ═══════════════════════════════════════════════════════════════════

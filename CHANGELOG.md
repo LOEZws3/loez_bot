@@ -1,5 +1,61 @@
 # 📋 История изменений проекта LoezF_Bot
 
+## [8.1.0] - 2026-10-06
+
+### 🌍 Глобальный апдейт — ДР, подписка на норму, расширенный /stats
+
+**🎂 Дни рождения (Функция 9):**
+- `/setbirthday` — FSM (кнопки: день → месяц, без года)
+- Формат хранения: `users.json` → `"birthday": "15.03"`
+- Дублирование в `users_history/{id}.json` → `"birthday": "15.03"`
+- **Планировщик 1:** `birthday_personal_loop` (00:00 МСК) — ЛС каждому имениннику
+- **Планировщик 2:** `birthday_group_loop` (12:00 МСК) — одно сообщение во флуд со всеми
+- Шаблон ЛС: «Поздравляю вас с вашим днём рождения, {full_name}! Желаем удачи! — LOeZ team»
+- Шаблон во флуд: список «• {full_name} ({role})»
+
+**📩 Подписка на уведомления о норме (Функция 7):**
+- Новое поле в `users.json`: `"notify_norm": true` (по умолчанию — все подписаны)
+- `/subnorm` — подписаться
+- `/unsubnorm` — отписаться
+- Триггер в `chat_member.py`: при `count >= messages_norm` → ЛС
+- Флаг `norm_notified` в `message_counts.json` (сбрасывается при reset)
+- Глобальная настройка `norm_auto_message_enabled` (вкл по умолчанию)
+- Текст: «🎉 Поздравляю! Ты набрал норму за эту неделю!»
+
+**📊 Расширенный `/stats` (Функция 2):**
+- Кнопки: «📊 База», «📅 День», «📆 Неделя», «📈 Месяц»
+- База: роли / участники / админы (без прокси)
+- Периоды: нью за период / хороших / варн / бан / рест / активных / ушло
+- В флуде — краткая версия без кнопок
+
+**📁 Новый файл `data/system/leftdata.json`:**
+- Хранит ушедших юзеров: `{user_id: {full_name, role, left_at, reason}}`
+- Заполняется в `check_kicked_loop` при `status in ['left', 'kicked']`
+- Используется в `/stats` для подсчёта «ушло за период»
+
+**🔄 Обновление `users_history/{id}.json`:**
+- Добавлены поля: `role_id`, `role_key`, `birthday`, `last_message_at`
+- Новые обёртки: `set_role`, `set_birthday`, `set_last_message_at`, `set_left`
+
+**🔄 Обновление `message_counts.json`:**
+- Новые поля: `last_message_at`, `norm_notified`
+- `increment_message_count` пишет `last_message_at`
+- `reset_all_counters` сохраняет `joined_at`, `last_message_at`, сбрасывает `norm_notified`
+
+**📄 Обновления файлов:**
+- `config.py`: + `LEFTOVER_FILE`
+- `parsers.py`: + `set_birthday`, `get_birthday`, `set_notify_norm`, `get_notify_norm`, `get_users_with_birthday`
+- `user_utils.py`: обёртки для новых функций
+- `user_history.py`: + `set_role`, `set_birthday`, `set_last_message_at`, `set_left`
+- `counters.py`: + `update_last_message_at`, `mark_norm_notified`, `is_norm_notified`, `get_last_message_at`
+- `chat_member.py`: триггер нормы + `last_message_at` + `set_left`
+- `base_commands.py`: + `/setbirthday`, `/subnorm`, `/unsubnorm`
+- `admin_commands.py`: `/stats` переписан с кнопками
+- `main.py`: + `_save_leftdata`, + `birthday_personal_loop`, + `birthday_group_loop`, + BotCommand
+
+---
+
+
 Все значимые изменения, добавления и исправления в боте.
 ## [8.0.1] - 2026-10-03
 
