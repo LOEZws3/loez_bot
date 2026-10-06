@@ -120,6 +120,65 @@
 - `src/utils/system_utils.py` — дублировал `settings_utils.py`
 
 ---
+## [8.0.0] - 2026-10-02
+
+### 🚀 Система нормы и чистки
+
+**Новые файлы:**
+- `src/utils/settings_utils.py` — централизованные настройки
+- `src/utils/counters.py` — счётчики сообщений
+- `src/utils/warns_utils.py` — работа с варнами
+- `src/utils/norm_utils.py` — категории юзеров по норме
+- `src/utils/role_ids.py` — уникальные ID ролей
+- `src/handlers/checknorm_commands.py` — команда /checknorm
+- `src/handlers/clear_me.py` — команда /clearme
+- `src/middlewares/` — стартовый режим
+- `migrate_role_ids.py` — миграция ID (1 раз)
+- `migrate_roles.py` — миграция ключей "Имя (Сезон)" (1 раз)
+
+**main.py:**
+- + `expire_warns_loop` (раз в час)
+- + `norm_reminder_loop` (сб 19:00 МСК)
+- + `norm_reset_loop` (сб 20:00/21:00 МСК)
+- + `check_kicked_loop` (раз в минуту)
+- + `RegistrationCheckMiddleware`
+
+**chat_member.py:**
+- Счётчик сообщений для зарегистрированных
+- Парсер команд варн/бан из чата
+- Авто-установка joined_at
+- Учёт реста (не считать)
+
+**apply_handlers.py:**
+- Таймаут подачи заявки (5 минут)
+- callback_data: apply_season_<index>, apply_role_id_<id>
+- Проверка лимита смен роли
+- Предупреждение при смене роли
+
+**admin_commands.py:**
+- /findrole + /userstats с плашками ⚠️/🚫
+
+**base_commands.py:**
+- Плашки в /members
+- Импорт norm_utils
+
+**settings_commands.py:**
+- Группа настроек "Норма и чистка"
+
+**keyboards.py:**
+- Кнопка /checknorm
+- Стартовый режим
+
+**request_commands.py:**
+- Работа с role_id при одобрении
+- Уведомления через ADMIN_GROUP_ID
+
+**clear_me.py (НОВЫЙ):**
+- /clearme — полная очистка данных юзера
+- Тройное подтверждение
+
+---
+
 
 ## [7.4.0] - 2026-09-26
 
