@@ -183,12 +183,33 @@ def update_last_message_at(user_id: int) -> bool:
     data[uid_str]['last_message_at'] = datetime.datetime.now().isoformat()
     return save_counters(data)
 
+# ======================== 🔧 ИСПРАВЛЕНО (БАГ ПОВТОРНЫХ УВЕДОМЛЕНИЙ) ========================
+
 def mark_norm_notified(user_id: int) -> bool:
-    """Помечает, что юзеру уже написали про норму за эту неделю."""
+    """
+    Помечает, что юзеру уже написали про норму за эту неделю.
+    🔧 ИСПРАВЛЕНО: если записи нет — создаёт её с текущей неделей.
+    Это предотвращает повторные уведомления из-за гонки данных.
+    """
     data = load_counters()
     uid_str = str(user_id)
+    current_week = _get_current_week_start()
+    
+    # Создаём запись, если её нет (защита от повторных уведомлений)
     if uid_str not in data or not isinstance(data[uid_str], dict):
-        return False
+        data[uid_str] = {'count': 0, 'week_start': current_week}
+    
+    # Сбрасываем week_start если он устарел (началась новая неделя)
+    if data[uid_str].get('week_start') != current_week:
+        data[uid_str]['count'] = 0
+        data[uid_str]['week_start'] = current_week
+    
+    # Сохраняем joined_at если он был
+    if 'joined_at' not in data[uid_str]:
+        old_data = load_counters().get(uid_str, {})
+        if isinstance(old_data, dict) and old_data.get('joined_at'):
+            data[uid_str]['joined_at'] = old_data['joined_at']
+    
     data[uid_str]['norm_notified'] = True
     return save_counters(data)
 

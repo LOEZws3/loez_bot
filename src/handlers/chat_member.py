@@ -155,12 +155,13 @@ async def _try_parse_warn_command(message: types.Message) -> bool:
 
     return False
 
-# ======================== ⚠️ НОВОЕ: ЛС при наборе нормы ========================
+# ======================== 🔧 ИСПРАВЛЕНО: ЛС при наборе нормы ========================
 
 async def _maybe_notify_norm(bot, user_id: int):
     """
     Проверяет: набрал ли юзер норму, не уведомляли ли его, подписан ли он.
     Если да — отправляет ЛС и ставит флаг norm_notified.
+    🔧 ИСПРАВЛЕНО: добавлена проверка результата mark_norm_notified.
     """
     try:
         # Глобальная настройка
@@ -183,12 +184,20 @@ async def _maybe_notify_norm(bot, user_id: int):
             return
 
         # Отправляем ЛС
-        await bot.send_message(
-            user_id,
-            "🎉 <b>Поздравляю! Ты набрал норму за эту неделю!</b>",
-            parse_mode="HTML"
-        )
-        mark_norm_notified(user_id)
+        try:
+            await bot.send_message(
+                user_id,
+                "🎉 <b>Поздравляю! Ты набрал норму за эту неделю!</b>",
+                parse_mode="HTML"
+            )
+        except Exception as send_error:
+            logger.error(f"❌ Не удалось отправить уведомление {user_id}: {send_error}")
+            return
+
+        # 🔧 ИСПРАВЛЕНО: проверяем результат сохранения флага
+        if not mark_norm_notified(user_id):
+            logger.warning(f"⚠️ Не удалось сохранить флаг norm_notified для {user_id} — возможно повторное уведомление!")
+        
         logger.info(f"📩 Уведомление о норме отправлено {user_id} ({count}/{norm})")
 
     except Exception as e:
