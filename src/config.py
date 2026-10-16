@@ -28,6 +28,7 @@ USE_PROXY = os.getenv('USE_PROXY', 'false').lower() == 'true'
 PROXY_DIR = os.getenv('PROXY_DIR', str(SRC_PATH / 'proxies'))
 PROXY_ENABLED = USE_PROXY
 PRIORITY_PROXY = os.getenv('PRIORITY_PROXY', '')
+PRIORITY_PROXY_FALSE_PROTOCOL = os.getenv('PRIORITY_PROXY_False_protocol', '')  # ️ НОВОЕ: прокси для USE_PROXY=false
 
 # --- Логирование ---
 LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')

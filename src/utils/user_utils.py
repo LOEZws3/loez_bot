@@ -32,8 +32,9 @@ def load_users() -> list:
             'role': info.get('role', '0'),
             'extra': info.get('extra', '-993'),
             'changes_count': int(info.get('changes_count', 0)),
-            'birthday': info.get('birthday', None),          # ⚠️ НОВОЕ
-            'notify_norm': bool(info.get('notify_norm', True)),  # ⚠️ НОВОЕ
+            'birthday': info.get('birthday', None),
+            'notify_norm': bool(info.get('notify_norm', True)),
+            'grace_until': info.get('grace_until', None),  # ⚠️ НОВОЕ: льготный период
         })
     return result
 
@@ -49,16 +50,17 @@ def save_users(users: list) -> bool:
             'role': u.get('role', '0'),
             'extra': u.get('extra', '-993'),
             'changes_count': int(u.get('changes_count', 0)),
-            'birthday': u.get('birthday', None),          # ⚠️ НОВОЕ
-            'notify_norm': bool(u.get('notify_norm', True)),  # ⚠️ НОВОЕ
+            'birthday': u.get('birthday', None),
+            'notify_norm': bool(u.get('notify_norm', True)),
+            'grace_until': u.get('grace_until', None),  # ⚠️ НОВОЕ
         }
     return parsers.save_users(data)
 
 def add_user(user_id, username, full_name, role='0', extra='-993',
              changes_count: int = 0,
-             birthday=None, notify_norm: bool = True) -> bool:  # ⚠️ НОВОЕ
+             birthday=None, notify_norm: bool = True, grace_until: str = None) -> bool:
     return parsers.add_user(user_id, username, full_name, role, extra,
-                            changes_count, birthday, notify_norm)
+                            changes_count, birthday, notify_norm, grace_until)
 
 def remove_user(user_id) -> bool:
     return parsers.remove_user(user_id)
@@ -121,7 +123,7 @@ def increment_changes_count(user_id) -> bool:
 def reset_changes_count(user_id) -> bool:
     return parsers.reset_changes_count(user_id)
 
-# ======================== ⚠️ НОВОЕ: ДЕНЬ РОЖДЕНИЯ ========================
+# ======================== ДЕНЬ РОЖДЕНИЯ ========================
 
 def set_birthday(user_id: int, birthday: str) -> bool:
     return parsers.set_birthday(user_id, birthday)
@@ -132,10 +134,16 @@ def get_birthday(user_id: int):
 def get_users_with_birthday(day: int, month: int) -> list:
     return parsers.get_users_with_birthday(day, month)
 
-# ======================== ⚠️ НОВОЕ: ПОДПИСКА НА НОРМУ ========================
+# ======================== ПОДПИСКА НА НОРМУ ========================
 
 def set_notify_norm(user_id: int, value: bool) -> bool:
     return parsers.set_notify_norm(user_id, value)
 
 def get_notify_norm(user_id: int) -> bool:
     return parsers.get_notify_norm(user_id)
+
+# ======================== ЛЬГОТНЫЙ ПЕРИОД (GRACE PERIOD) ========================
+
+def set_grace_period(user_id: int, days: int = 4) -> bool:
+    """Устанавливает льготный период, чтобы синхронизация не удалила пользователя."""
+    return parsers.set_grace_period(user_id, days)

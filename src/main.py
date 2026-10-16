@@ -69,11 +69,17 @@ def _save_leftdata(user_id: int, full_name: str, role: str, reason: str = "left"
         logger.error(f"❌ Ошибка leftdata.json для {user_id}: {e}")
 
 async def create_bot_with_proxy() -> Bot:
+    from config import PRIORITY_PROXY, PRIORITY_PROXY_FALSE_PROTOCOL
+    
     if not USE_PROXY:
-        logger.info("ℹ️ Прокси отключены в настройках")
-        return Bot(token=BOT_TOKEN)
-
-    from config import PRIORITY_PROXY
+        if PRIORITY_PROXY_FALSE_PROTOCOL:
+            # Используем системный прокси (Karing) когда USE_PROXY=false
+            logger.info(f"🌐 Прокси отключены, но задан PRIORITY_PROXY_False_protocol: {PRIORITY_PROXY_FALSE_PROTOCOL}")
+            session = AiohttpSession(proxy=PRIORITY_PROXY_FALSE_PROTOCOL)
+            return Bot(token=BOT_TOKEN, session=session)
+        else:
+            logger.info("ℹ️ Прокси отключены — прямое подключение")
+            return Bot(token=BOT_TOKEN)
 
     proxy_manager.proxy_dir = PROXY_DIR
 

@@ -231,7 +231,6 @@ async def clearme_confirm_1(callback: CallbackQuery, state: FSMContext):
 @router.message(ClearMeStates.waiting_for_final_phrase)
 async def clearme_final_phrase(message: Message, state: FSMContext):
     """Третье подтверждение: ник + delete."""
-    user_id = message.from_user.id
     text = (message.text or "").strip()
 
     data = await state.get_data()
@@ -240,20 +239,33 @@ async def clearme_final_phrase(message: Message, state: FSMContext):
 
     if not target_id:
         await state.clear()
-        await message.answer("❌ Данные потеряны.")
+        await message.answer("❌ Данные потеряны. Начните заново.")
         return
 
-    # Проверка: текст = "<full_name> delete"?
-    user = message.from_user
-    full_name = (user.full_name or 'User').strip()
+    # Определяем, чьё имя проверять
+    if is_self:
+        user = message.from_user
+        name_to_check = (user.full_name or user.first_name or 'User').strip()
+    else:
+        target = get_user_by_id(target_id)
+        name_to_check = (target.get('full_name') if target else 'User').strip()
 
-    expected = f"{full_name} delete".lower().strip()
-    actual = text.lower().strip()
+    # Нормализация: нижний регистр и схлопывание любых пробелов в один
+    import re
+    def normalize(s: str) -> str:
+        return re.sub(r'\s+', ' ', s.lower().strip())
+
+    expected = normalize(f"{name_to_check} delete")
+    actual = normalize(text)
 
     if actual != expected:
         await state.clear()
         await message.answer(
-            "❌ Неверная фраза. Очистка отменена.",
+            f"❌ Неверная фраза. Очистка отменена.\n\n"
+            f"💡 Вы ввели: <code>{actual}</code>\n"
+            f"✅ Ожидалось: <code>{expected}</code>\n\n"
+            f"(Проверьте пробелы и регистр, или просто скопируйте фразу из сообщения выше)",
+            parse_mode="HTML"
         )
         return
 
@@ -261,16 +273,26 @@ async def clearme_final_phrase(message: Message, state: FSMContext):
     report = await _do_clear(message.bot, target_id)
     await state.clear()
 
-    await message.answer(
-        f"✅ <b>Ваши данные очищены.</b>\n\n"
-        f"📌 Освобождена роль: {report['role'] or '—'}\n"
-        f"📝 Удалено заявок: {report['requests']}\n"
-        f"⏳ Заявка на рест: {'удалена' if report['rest'] else '—'}\n"
-        f"📢 Отписка от калов: {'удалена' if report['unsub'] else '—'}\n\n"
-        f"💾 История сохранена.\n\n"
-        f"📌 Чтобы зарегистрироваться заново — используйте /apply.",
-        parse_mode="HTML"
-    )
+    if is_self:
+        await message.answer(
+            f"✅ <b>Ваши данные очищены.</b>\n\n"
+            f"📌 Освобождена роль: {report['role'] or '—'}\n"
+            f"📝 Удалено заявок: {report['requests']}\n"
+            f"⏳ Заявка на рест: {'удалена' if report['rest'] else '—'}\n"
+            f"📢 Отписка от калов: {'удалена' if report['unsub'] else '—'}\n\n"
+            f"💾 История сохранена.\n\n"
+            f"📌 Чтобы зарегистрироваться заново — используйте /apply.",
+            parse_mode="HTML"
+        )
+    else:
+        await message.answer(
+            f"✅ <b>Данные пользователя <code>{target_id}</code> очищены.</b>\n\n"
+            f"📌 Освобождена роль: {report['role'] or '—'}\n"
+            f"📝 Удалено заявок: {report['requests']}\n"
+            f"⏳ Заявка на рест: {'удалена' if report['rest'] else '—'}\n"
+            f"📢 Отписка от калов: {'удалена' if report['unsub'] else '—'}",
+            parse_mode="HTML"
+        )
 
 
 # ======================== CLEAR ДРУГОГО (вызывается из /userstats) ========================

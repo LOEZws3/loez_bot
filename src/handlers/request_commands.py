@@ -388,7 +388,7 @@ async def approve_request_callback(callback: CallbackQuery):
     _save_requests(requests)
 
     # 3. Добавляем/обновляем в users.json
-    from utils.user_utils import get_user_by_id, update_user_role
+    from utils.user_utils import get_user_by_id, update_user_role, add_user, set_grace_period
     existing_user = get_user_by_id(user_id)
 
     if existing_user:
@@ -400,6 +400,10 @@ async def approve_request_callback(callback: CallbackQuery):
             logger.info(f"✅ {user_id} → users.json (роль {role_name})")
         else:
             logger.warning(f"⚠️ {user_id} уже в users.json или ошибка добавления")
+
+    # ⚠️ НОВОЕ: Устанавливаем льготный период 4 дня
+    set_grace_period(user_id, days=4)
+    logger.info(f"⏳ Установлен льготный период (4 дня) для {user_id}")
 
     # 4. Ранг
     rank = POSITION_RANK.get(position)

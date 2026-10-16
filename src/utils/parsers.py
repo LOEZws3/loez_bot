@@ -1,15 +1,12 @@
 """
 Единый модуль работы с JSON-файлами.
 Все данные бота читаются/пишутся ТОЛЬКО через parsers.
-
-Правило: ранги читаются ТОЛЬКО из admins.json.
-OWNER_ID (из .env) — главный владелец.
-Дополнительные владельцы — rank=1 в admins.json.
 """
 
 import os
 import json
 import logging
+from datetime import datetime, timedelta
 from typing import Optional, Dict, List, Any
 
 from config import (
@@ -24,21 +21,17 @@ logger = logging.getLogger(__name__)
 # ======================== БАЗОВЫЕ ФУНКЦИИ ========================
 
 def load_json(path: str, default: Any = None) -> Any:
-    """Универсальная загрузка JSON"""
     if not os.path.exists(path):
         return default if default is not None else {}
-
     try:
         with open(path, 'r', encoding='utf-8') as f:
             data = json.load(f)
     except (json.JSONDecodeError, IOError) as e:
         logger.error(f"❌ Ошибка чтения {path}: {e}")
         return default if default is not None else {}
-
     return data
 
 def save_json(path: str, data: Any) -> bool:
-    """Универсальное сохранение JSON"""
     try:
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, 'w', encoding='utf-8') as f:
@@ -51,7 +44,6 @@ def save_json(path: str, data: Any) -> bool:
 # ======================== ПОЛЬЗОВАТЕЛИ ========================
 
 def load_users() -> Dict[str, dict]:
-    """Загружает users.json → {id: {username, full_name, role, extra, changes_count, birthday, notify_norm}}"""
     data = load_json(USERS_FILE_JSON, default={})
     if not isinstance(data, dict):
         return {}
@@ -61,7 +53,6 @@ def save_users(users: Dict[str, dict]) -> bool:
     return save_json(USERS_FILE_JSON, users)
 
 def get_user(user_id: int) -> Optional[dict]:
-    """Возвращает данные пользователя по ID"""
     users = load_users()
     info = users.get(str(user_id))
     if not info or not isinstance(info, dict):
@@ -73,15 +64,16 @@ def get_user(user_id: int) -> Optional[dict]:
         'role': info.get('role', '0'),
         'extra': info.get('extra', '-993'),
         'changes_count': int(info.get('changes_count', 0)),
-        'birthday': info.get('birthday', None),         # ⚠️ НОВОЕ
-        'notify_norm': bool(info.get('notify_norm', True)),  # ⚠️ НОВОЕ
+        'birthday': info.get('birthday', None),
+        'notify_norm': bool(info.get('notify_norm', True)),
+        'grace_until': info.get('grace_until', None),  # ⚠️ НОВОЕ: льготный период
     }
 
 def add_user(user_id: int, username: str, full_name: str,
              role: str = '0', extra: str = '-993',
              changes_count: int = 0,
-             birthday: str = None, notify_norm: bool = True) -> bool:  # ⚠️ НОВОЕ
-    """Добавляет пользователя"""
+             birthday: str = None, notify_norm: bool = True,
+             grace_until: str = None) -> bool:  # ⚠️ НОВОЕ: grace_until
     users = load_users()
     if str(user_id) in users:
         return False
@@ -91,13 +83,13 @@ def add_user(user_id: int, username: str, full_name: str,
         'role': role or '0',
         'extra': extra or '-993',
         'changes_count': int(changes_count),
-        'birthday': birthday,          # ⚠️ НОВОЕ
-        'notify_norm': bool(notify_norm),  # ⚠️ НОВОЕ
+        'birthday': birthday,
+        'notify_norm': bool(notify_norm),
+        'grace_until': grace_until,  # ⚠️ НОВОЕ
     }
     return save_users(users)
 
 def remove_user(user_id: int) -> bool:
-    """Удаляет пользователя"""
     users = load_users()
     if str(user_id) in users:
         del users[str(user_id)]
@@ -107,7 +99,6 @@ def remove_user(user_id: int) -> bool:
     return False
 
 def update_user_role(user_id: int, new_role: str) -> bool:
-    """Обновляет роль пользователя"""
     users = load_users()
     if str(user_id) in users:
         users[str(user_id)]['role'] = new_role
@@ -115,7 +106,6 @@ def update_user_role(user_id: int, new_role: str) -> bool:
     return False
 
 def get_changes_count(user_id: int) -> int:
-    """Возвращает количество смен роли у пользователя"""
     users = load_users()
     info = users.get(str(user_id))
     if not info or not isinstance(info, dict):
@@ -123,7 +113,6 @@ def get_changes_count(user_id: int) -> int:
     return int(info.get('changes_count', 0))
 
 def increment_changes_count(user_id: int) -> bool:
-    """Увеличивает счётчик смен роли на 1"""
     users = load_users()
     uid_str = str(user_id)
     if uid_str not in users:
@@ -133,7 +122,6 @@ def increment_changes_count(user_id: int) -> bool:
     return save_users(users)
 
 def reset_changes_count(user_id: int) -> bool:
-    """Сбрасывает счётчик смен роли в 0"""
     users = load_users()
     uid_str = str(user_id)
     if uid_str not in users:
@@ -141,10 +129,22 @@ def reset_changes_count(user_id: int) -> bool:
     users[uid_str]['changes_count'] = 0
     return save_users(users)
 
-# ======================== ⚠️ НОВОЕ: ДЕНЬ РОЖДЕНИЯ ========================
+# ======================== ⚠️ НОВОЕ: ЛЬГОТНЫЙ ПЕРИОД ========================
+
+def set_grace_period(user_id: int, days: int = 4) -> bool:
+    """Устанавливает льготный период (grace period) для пользователя, чтобы синхронизация его не удалила."""
+    users = load_users()
+    uid_str = str(user_id)
+    if uid_str not in users:
+        return False
+    
+    grace_until = (datetime.now() + timedelta(days=days)).isoformat()
+    users[uid_str]['grace_until'] = grace_until
+    return save_users(users)
+
+# ======================== ДЕНЬ РОЖДЕНИЯ ========================
 
 def set_birthday(user_id: int, birthday: str) -> bool:
-    """Устанавливает ДР (формат 'ДД.ММ')"""
     users = load_users()
     uid_str = str(user_id)
     if uid_str not in users:
@@ -153,7 +153,6 @@ def set_birthday(user_id: int, birthday: str) -> bool:
     return save_users(users)
 
 def get_birthday(user_id: int) -> Optional[str]:
-    """Возвращает ДР ('ДД.ММ') или None"""
     users = load_users()
     info = users.get(str(user_id))
     if not info or not isinstance(info, dict):
@@ -161,10 +160,6 @@ def get_birthday(user_id: int) -> Optional[str]:
     return info.get('birthday', None)
 
 def get_users_with_birthday(day: int, month: int) -> List[dict]:
-    """
-    Возвращает список юзеров с ДР в указанный день/месяц.
-    Формат birthday: 'ДД.ММ' (например, '15.03').
-    """
     users = load_users()
     result = []
     target = f"{day:02d}.{month:02d}"
@@ -186,10 +181,9 @@ def get_users_with_birthday(day: int, month: int) -> List[dict]:
             })
     return result
 
-# ======================== ⚠️ НОВОЕ: ПОДПИСКА НА НОРМУ ========================
+# ======================== ПОДПИСКА НА НОРМУ ========================
 
 def set_notify_norm(user_id: int, value: bool) -> bool:
-    """Устанавливает подписку на уведомления о норме"""
     users = load_users()
     uid_str = str(user_id)
     if uid_str not in users:
@@ -198,12 +192,12 @@ def set_notify_norm(user_id: int, value: bool) -> bool:
     return save_users(users)
 
 def get_notify_norm(user_id: int) -> bool:
-    """Возвращает True если юзер подписан (по умолчанию True)"""
     users = load_users()
     info = users.get(str(user_id))
     if not info or not isinstance(info, dict):
         return True
     return bool(info.get('notify_norm', True))
+
 
 # ======================== АДМИНИСТРАТОРЫ ========================
 

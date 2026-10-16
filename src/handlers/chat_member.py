@@ -24,6 +24,11 @@ router = Router()
 # Счётчик для напоминалки незарегистрированным (в памяти)
 message_counter = {}
 
+# Счётчик для напоминалки незарегистрированным (в памяти)
+message_counter = {}
+
+# ⚠️ НОВОЕ: Защита от гонки данных при уведомлении о норме
+_notified_norm_users = set()
 # ======================== ПАРСЕР ВАРНОВ/БАНОВ ========================
 # ⚠️ 02.10.2026: перешли на МИНУТЫ.
 # Поддерживаем единицы (русские):
@@ -161,7 +166,7 @@ async def _maybe_notify_norm(bot, user_id: int):
     """
     Проверяет: набрал ли юзер норму, не уведомляли ли его, подписан ли он.
     Если да — отправляет ЛС и ставит флаг norm_notified.
-    🔧 ИСПРАВЛЕНО: добавлена проверка результата mark_norm_notified.
+    ⚠️ ИСПРАВЛЕНИЕ: добавлена защита от гонки данных (in-memory кэш).
     """
     try:
         # Глобальная настройка
@@ -173,8 +178,13 @@ async def _maybe_notify_norm(bot, user_id: int):
         if not get_notify_norm(user_id):
             return
 
-        # Уже уведомляли?
+        # ⚠️ МГНОВЕННАЯ ПРОВЕРКА В ПАМЯТИ (блокирует дубли за миллисекунды)
+        if user_id in _notified_norm_users:
+            return
+
+        # Проверка на диске (резервная)
         if is_norm_notified(user_id):
+            _notified_norm_users.add(user_id)  # Синхронизируем память
             return
 
         # Набрал норму?
@@ -183,6 +193,10 @@ async def _maybe_notify_norm(bot, user_id: int):
         if count < norm:
             return
 
+        # ⚠️ СРАЗУ помечаем как уведомлённого в памяти И на диске ДО отправки сообщения
+        _notified_norm_users.add(user_id)
+        mark_norm_notified(user_id)
+
         # Отправляем ЛС
         try:
             await bot.send_message(
@@ -190,15 +204,9 @@ async def _maybe_notify_norm(bot, user_id: int):
                 "🎉 <b>Поздравляю! Ты набрал норму за эту неделю!</b>",
                 parse_mode="HTML"
             )
+            logger.info(f"📩 Уведомление о норме отправлено {user_id} ({count}/{norm})")
         except Exception as send_error:
             logger.error(f"❌ Не удалось отправить уведомление {user_id}: {send_error}")
-            return
-
-        # 🔧 ИСПРАВЛЕНО: проверяем результат сохранения флага
-        if not mark_norm_notified(user_id):
-            logger.warning(f"⚠️ Не удалось сохранить флаг norm_notified для {user_id} — возможно повторное уведомление!")
-        
-        logger.info(f"📩 Уведомление о норме отправлено {user_id} ({count}/{norm})")
 
     except Exception as e:
         logger.error(f"❌ Ошибка уведомления о норме для {user_id}: {e}")
