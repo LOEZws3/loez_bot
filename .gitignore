@@ -42,6 +42,7 @@ __pycache__/
 dist/
 build/
 *.log
+src/__pycache__/config.cpython-314.pyc
 
 # ============================================================
 # 🔑 Токены и секреты
@@ -76,5 +77,4 @@ logs/
 !data/roles/roles_status.json
 !data/roles/*.txt
 !data/system/free_role_ids.json
-src/__pycache__/config.cpython-314.pyc
 
