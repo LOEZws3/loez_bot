@@ -2264,9 +2264,9 @@
     "id": 283
   },
   "Тим (Последняя реальность)": {
-    "status": "занята",
-    "owner_id": 1118388850,
-    "username": "Timofy09",
+    "status": "свободна",
+    "owner_id": null,
+    "username": null,
     "season": "Последняя реальность",
     "extra": "",
     "id": 284

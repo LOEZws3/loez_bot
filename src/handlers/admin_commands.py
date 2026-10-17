@@ -16,9 +16,8 @@ from utils.user_utils import (
     get_changes_count, reset_changes_count,
 )
 from utils.role_utils import (
-    free_role, get_user_role as get_user_role_from_roles,
-    find_roles, get_role_by_name,
-    format_role_display,
+    free_role, get_user_role as get_user_role_from_roles, get_role_by_id,
+    find_roles, get_role_by_name, format_role_display,
     load_roles_status, save_roles_status,
 )
 from utils.norm_utils import get_user_category, get_emoji, get_category_label
@@ -256,7 +255,10 @@ async def cmd_stats(message: Message):
 
 @router.callback_query(F.data.startswith("stats_period_"))
 async def stats_period_callback(callback: CallbackQuery):
-    await callback.answer()
+    try:
+        await callback.answer()
+    except Exception:
+        pass
 
     user_id = callback.from_user.id
     if not is_admin(user_id):
@@ -323,38 +325,47 @@ async def cmd_findrole(message: Message):
     buttons = []
     for r in results:
         role_name = r['name']
-        role_key = r.get('key', role_name)
+        role_id = r.get('id')
+        if not role_id:
+            continue  # Пропускаем, если нет ID (защита)
         status_emoji = "🟢" if r['status'] == 'свободна' else "🔴" if r['status'] == 'занята' else "⏳"
         buttons.append([InlineKeyboardButton(
             text=f"{status_emoji} {role_name} ({r['season']})",
-            callback_data=f"findrole_view_{role_key}"
+            callback_data=f"findrole_view_{role_id}"  # ✅ Используем ID вместо ключа
         )])
 
     await message.answer(text, parse_mode="HTML", reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons))
 
 @router.callback_query(F.data.startswith("findrole_view_"))
 async def findrole_view(callback: CallbackQuery):
-    await callback.answer()
+    try:
+        await callback.answer()
+    except Exception:
+        pass  # ✅ Игнорируем "query is too old"
+    
     admin_id = callback.from_user.id
 
     if not is_admin(admin_id):
         await callback.answer("⛔ Доступ запрещён.", show_alert=True)
         return
 
-    role_key = callback.data.replace("findrole_view_", "")
-    role_short = format_role_display(role_key)
-
-    status_data = load_roles_status()
-    role = status_data.get(role_key)
-
-    if not role:
-        await callback.message.edit_text(f"❌ Роль '{html.escape(role_short)}' не найдена.")
+    try:
+        role_id = int(callback.data.replace("findrole_view_", ""))
+    except ValueError:
+        await callback.answer("❌ Ошибка ID роли.", show_alert=True)
         return
 
-    status = role.get('status', '?')
-    season = role.get('season', '?')
-    owner_id = role.get('owner_id')
-    username = role.get('username', '')
+    role_info = get_role_by_id(role_id)
+
+    if not role_info:
+        await callback.message.edit_text("❌ Роль не найдена.")
+        return
+
+    role_name = role_info.get('name')
+    status = role_info.get('status', '?')
+    season = role_info.get('season', '?')
+    owner_id = role_info.get('owner_id')
+    username = role_info.get('username', '')
 
     full_name = '—'
     if owner_id:
@@ -366,7 +377,7 @@ async def findrole_view(callback: CallbackQuery):
     status_emoji = "🟢" if status == 'свободна' else "🔴" if status == 'занята' else "⏳"
 
     text = (
-        f"🎭 <b>Роль: {html.escape(role_short)}</b>\n\n"
+        f"🎭 <b>Роль: {html.escape(role_name)}</b>\n\n"
         f"📁 Сезон: {html.escape(season)}\n"
         f"{status_emoji} Статус: {status}\n"
     )
@@ -384,39 +395,104 @@ async def findrole_view(callback: CallbackQuery):
     if owner_id:
         buttons.insert(0, [InlineKeyboardButton(
             text="🗑️ Удалить роль и юзера",
-            callback_data=f"findrole_delete_{role_key}"
+            callback_data=f"findrole_delete_{role_id}"  # ✅ Используем ID
         )])
 
-    await callback.message.edit_text(
-        text,
-        parse_mode="HTML",
-        reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
-    )
+    try:
+        await callback.message.edit_text(
+            text,
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
+        )
+    except Exception:
+        pass
 
-@router.callback_query(F.data.startswith("findrole_delete_yes_"))
-async def findrole_delete_do(callback: CallbackQuery):
-    await callback.answer()
+@router.callback_query(F.data.startswith("findrole_delete_"))
+async def findrole_delete_confirm(callback: CallbackQuery):
+    try:
+        await callback.answer()
+    except Exception:
+        pass  # ✅ Игнорируем "query is too old"
+    
     admin_id = callback.from_user.id
 
     if not is_admin(admin_id):
         await callback.answer("⛔ Доступ запрещён.", show_alert=True)
         return
 
-    role_key = callback.data.replace("findrole_delete_yes_", "")
-    role_short = format_role_display(role_key)
+    try:
+        role_id = int(callback.data.replace("findrole_delete_", ""))
+    except ValueError:
+        await callback.answer("❌ Ошибка ID роли.", show_alert=True)
+        return
 
-    status_data = load_roles_status()
-    role = status_data.get(role_key)
+    role_info = get_role_by_id(role_id)
 
-    if not role or not role.get('owner_id'):
+    if not role_info or not role_info.get('owner_id'):
         await callback.message.edit_text("❌ Роль уже свободна или не найдена.")
         return
 
-    owner_id = int(role.get('owner_id'))
+    owner_id = role_info.get('owner_id')
+    role_name = role_info.get('name')
 
-    status_data[role_key]['status'] = 'свободна'
-    status_data[role_key]['owner_id'] = None
-    status_data[role_key]['username'] = None
+    try:
+        await callback.message.edit_text(
+            f"⚠️ <b>Вы уверены?</b>\n\n"
+            f"Роль: <b>{html.escape(role_name)}</b>\n"
+            f"Владелец ID: <code>{owner_id}</code>\n\n"
+            f"Будет удалено:\n"
+            f"• Роль → статус «свободна»\n"
+            f"• Юзер из users.json\n"
+            f"• Тег в чате\n"
+            f"• Счётчик смен\n\n"
+            f"История (users_history) сохранится.",
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+                [
+                    InlineKeyboardButton(text="✅ Да, удалить", callback_data=f"findrole_delete_yes_{role_id}"),
+                    InlineKeyboardButton(text="❌ Отмена", callback_data="findrole_back")
+                ]
+            ])
+        )
+    except Exception:
+        pass  # ✅ Игнорируем ошибки редактирования истёкшего сообщения
+
+@router.callback_query(F.data.startswith("findrole_delete_yes_"))
+async def findrole_delete_do(callback: CallbackQuery):
+    try:
+        await callback.answer()
+    except Exception:
+        pass
+
+    admin_id = callback.from_user.id
+
+    if not is_admin(admin_id):
+        await callback.answer("⛔ Доступ запрещён.", show_alert=True)
+        return
+
+    try:
+        role_id = int(callback.data.replace("findrole_delete_yes_", ""))
+    except ValueError:
+        await callback.answer("❌ Ошибка ID роли.", show_alert=True)
+        return
+
+    role_info = get_role_by_id(role_id)
+
+    if not role_info or not role_info.get('owner_id'):
+        await callback.message.edit_text("❌ Роль уже свободна или не найдена.")
+        return
+
+    owner_id = int(role_info.get('owner_id'))
+    role_name = role_info.get('name')
+
+    # Освобождаем роль по ID
+    status_data = load_roles_status()
+    for key, info in status_data.items():
+        if isinstance(info, dict) and info.get('id') == role_id:
+            status_data[key]['status'] = 'свободна'
+            status_data[key]['owner_id'] = None
+            status_data[key]['username'] = None
+            break
     save_roles_status(status_data)
 
     removed = remove_user(owner_id)
@@ -432,62 +508,32 @@ async def findrole_delete_do(callback: CallbackQuery):
     except Exception as e:
         logger.error(f"❌ Не удалось удалить тег: {e}")
 
-    response = f"✅ <b>Роль «{html.escape(role_short)}» удалена:</b>\n"
+    response = f"✅ <b>Роль «{html.escape(role_name)}» удалена:</b>\n"
     response += f"• 📌 Роль освобождена\n"
     if removed:
         response += f"• 👤 Юзер <code>{owner_id}</code> удалён из users.json\n"
     response += f"• 🏷️ Тег удалён в чате\n"
     response += f"• 🔄 Счётчик смен сброшен"
 
-    await callback.message.edit_text(response, parse_mode="HTML")
-    logger.info(f"Админ {admin_id} удалил роль {role_key} и юзера {owner_id}")
-
-@router.callback_query(F.data.startswith("findrole_delete_"))
-async def findrole_delete_confirm(callback: CallbackQuery):
-    await callback.answer()
-    admin_id = callback.from_user.id
-
-    if not is_admin(admin_id):
-        await callback.answer("⛔ Доступ запрещён.", show_alert=True)
-        return
-
-    role_key = callback.data.replace("findrole_delete_", "")
-    role_short = format_role_display(role_key)
-
-    status_data = load_roles_status()
-    role = status_data.get(role_key)
-
-    if not role or not role.get('owner_id'):
-        await callback.message.edit_text("❌ Роль уже свободна или не найдена.")
-        return
-
-    owner_id = role.get('owner_id')
-
-    await callback.message.edit_text(
-        f"⚠️ <b>Вы уверены?</b>\n\n"
-        f"Роль: <b>{html.escape(role_short)}</b>\n"
-        f"Владелец ID: <code>{owner_id}</code>\n\n"
-        f"Будет удалено:\n"
-        f"• Роль → статус «свободна»\n"
-        f"• Юзер из users.json\n"
-        f"• Тег в чате\n"
-        f"• Счётчик смен\n\n"
-        f"История (users_history) сохранится.",
-        parse_mode="HTML",
-        reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-            [
-                InlineKeyboardButton(text="✅ Да, удалить", callback_data=f"findrole_delete_yes_{role_key}"),
-                InlineKeyboardButton(text="❌ Отмена", callback_data="findrole_back")
-            ]
-        ])
-    )
+    try:
+        await callback.message.edit_text(response, parse_mode="HTML")
+    except Exception:
+        pass
+        
+    logger.info(f"Админ {admin_id} удалил роль ID {role_id} и юзера {owner_id}")
 
 @router.callback_query(F.data == "findrole_back")
 async def findrole_back(callback: CallbackQuery):
-    await callback.answer()
-    await callback.message.edit_text(
-        "🔍 Для нового поиска используйте /findrole [запрос]"
-    )
+    try:
+        await callback.answer()
+    except Exception:
+        pass
+    try:
+        await callback.message.edit_text(
+            "🔍 Для нового поиска используйте /findrole [запрос]"
+        )
+    except Exception:
+        pass
 
 # ============================================================
 # 📊 СТАТИСТИКА ПОЛЬЗОВАТЕЛЯ
@@ -576,7 +622,11 @@ async def _show_user_stats(message: Message, target_id: int, caller_id: int = No
 
 @router.callback_query(F.data.startswith("reset_changes_"))
 async def reset_changes_callback(callback: CallbackQuery):
-    await callback.answer()
+    try:
+        await callback.answer()
+    except Exception:
+        pass
+    
     admin_id = callback.from_user.id
 
     if not is_admin(admin_id):
@@ -587,16 +637,23 @@ async def reset_changes_callback(callback: CallbackQuery):
 
     if reset_changes_count(target_id):
         logger.info(f"🔄 Админ {admin_id} сбросил счётчик смен роли для {target_id}")
-        await callback.message.edit_text(
-            f"✅ Счётчик смен роли пользователя <code>{target_id}</code> сброшен на 0.",
-            parse_mode="HTML"
-        )
+        try:
+            await callback.message.edit_text(
+                f"✅ Счётчик смен роли пользователя <code>{target_id}</code> сброшен на 0.",
+                parse_mode="HTML"
+            )
+        except Exception:
+            pass
     else:
         await callback.answer("❌ Не удалось сбросить (юзер не найден).", show_alert=True)
 
 @router.callback_query(F.data.startswith("confirm_reset_"))
 async def confirm_reset_callback(callback: CallbackQuery):
-    await callback.answer()
+    try:
+        await callback.answer()
+    except Exception:
+        pass
+    
     admin_id = callback.from_user.id
 
     if not is_admin(admin_id):
@@ -605,22 +662,29 @@ async def confirm_reset_callback(callback: CallbackQuery):
 
     target_id = int(callback.data.replace("confirm_reset_", ""))
 
-    await callback.message.edit_text(
-        f"⚠️ <b>Вы уверены?</b>\n\n"
-        f"Сбросить пользователя <code>{target_id}</code>?\n"
-        f"Роль будет освобождена, юзер удалён из users.json.",
-        parse_mode="HTML",
-        reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-            [
-                InlineKeyboardButton(text="✅ Да, сбросить", callback_data=f"do_reset_{target_id}"),
-                InlineKeyboardButton(text="❌ Отмена", callback_data="cancel_reset")
-            ]
-        ])
-    )
+    try:
+        await callback.message.edit_text(
+            f"⚠️ <b>Вы уверены?</b>\n\n"
+            f"Сбросить пользователя <code>{target_id}</code>?\n"
+            f"Роль будет освобождена, юзер удалён из users.json.",
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+                [
+                    InlineKeyboardButton(text="✅ Да, сбросить", callback_data=f"do_reset_{target_id}"),
+                    InlineKeyboardButton(text="❌ Отмена", callback_data="cancel_reset")
+                ]
+            ])
+        )
+    except Exception:
+        pass
 
 @router.callback_query(F.data.startswith("do_reset_"))
 async def do_reset_callback(callback: CallbackQuery):
-    await callback.answer()
+    try:
+        await callback.answer()
+    except Exception:
+        pass
+    
     admin_id = callback.from_user.id
 
     if not is_admin(admin_id):
@@ -630,7 +694,10 @@ async def do_reset_callback(callback: CallbackQuery):
     target_id = int(callback.data.replace("do_reset_", ""))
 
     if is_admin(target_id):
-        await callback.message.edit_text("⛔ Нельзя сбросить администратора.")
+        try:
+            await callback.message.edit_text("⛔ Нельзя сбросить администратора.")
+        except Exception:
+            pass
         return
 
     try:
@@ -651,13 +718,23 @@ async def do_reset_callback(callback: CallbackQuery):
     if not freed_role and not removed:
         response += "ℹ️ Нечего было сбрасывать.\n"
 
-    await callback.message.edit_text(response, parse_mode="HTML")
+    try:
+        await callback.message.edit_text(response, parse_mode="HTML")
+    except Exception:
+        pass
+        
     logger.info(f"Админ {admin_id} сбросил пользователя {target_id}")
 
 @router.callback_query(F.data == "cancel_reset")
 async def cancel_reset_callback(callback: CallbackQuery):
-    await callback.answer()
-    await callback.message.edit_text("❌ Сброс отменён.")
+    try:
+        await callback.answer()
+    except Exception:
+        pass
+    try:
+        await callback.message.edit_text("❌ Сброс отменён.")
+    except Exception:
+        pass
 
 # ============================================================
 # 📝 РЕГИСТРАЦИЯ И РОЛИ
