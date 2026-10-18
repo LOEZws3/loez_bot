@@ -1753,16 +1753,16 @@
   },
   "Лололошка (Межсезонные персонажи)": {
     "status": "занята",
-    "owner_id": 8007905166,
-    "username": "corpse3",
+    "owner_id": 8658670972,
+    "username": "aleaten",
     "season": "Межсезонные персонажи",
     "extra": "",
     "id": 220
   },
   "JDH (Межсезонные персонажи)": {
     "status": "занята",
-    "owner_id": 5792140520,
-    "username": "Tapka_tp",
+    "owner_id": 8343857957,
+    "username": "qwellous",
     "season": "Межсезонные персонажи",
     "extra": "",
     "id": 221
@@ -2224,9 +2224,9 @@
     "id": 278
   },
   "Клео (Последняя реальность)": {
-    "status": "свободна",
-    "owner_id": null,
-    "username": null,
+    "status": "занята",
+    "owner_id": 6199883963,
+    "username": "Iriska_frog",
     "season": "Последняя реальность",
     "extra": "",
     "id": 279

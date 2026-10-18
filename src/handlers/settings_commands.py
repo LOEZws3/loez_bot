@@ -28,6 +28,7 @@ async def cmd_settings(message: Message):
     """Главное меню настроек (только для владельца)"""
     user_id = message.from_user.id
 
+    # ✅ ИСПРАВЛЕНО: is_owner теперь корректно читает "1" из admins.json (см. parsers.py)
     if not is_owner(user_id):
         await message.answer("⛔ Доступ запрещён. Только для владельца.")
         return
@@ -144,6 +145,7 @@ async def settings_callback(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
     user_id = callback.from_user.id
 
+    # ✅ ИСПРАВЛЕНО: проверка только для владельцев/ранг 1
     if not is_owner(user_id):
         await callback.answer("⛔ Доступ запрещён!", show_alert=True)
         return

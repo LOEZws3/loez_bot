@@ -459,8 +459,9 @@ async def findrole_delete_confirm(callback: CallbackQuery):
 
 @router.callback_query(F.data.startswith("findrole_delete_yes_"))
 async def findrole_delete_do(callback: CallbackQuery):
+    # ✅ ИСПРАВЛЕНО: сразу отвечаем на callback, чтобы кнопка "отжалась"
     try:
-        await callback.answer()
+        await callback.answer("⏳ Удаляю...")
     except Exception:
         pass
 
@@ -479,7 +480,10 @@ async def findrole_delete_do(callback: CallbackQuery):
     role_info = get_role_by_id(role_id)
 
     if not role_info or not role_info.get('owner_id'):
-        await callback.message.edit_text("❌ Роль уже свободна или не найдена.")
+        try:
+            await callback.message.edit_text("❌ Роль уже свободна или не найдена.")
+        except Exception:
+            pass
         return
 
     owner_id = int(role_info.get('owner_id'))
@@ -502,23 +506,24 @@ async def findrole_delete_do(callback: CallbackQuery):
     except Exception:
         pass
 
-    try:
-        await callback.bot.set_chat_member_tag(chat_id=GENERAL_CHAT_ID, user_id=owner_id, tag="")
-        logger.info(f"🏷️ Удалён тег у пользователя {owner_id}")
-    except Exception as e:
-        logger.error(f"❌ Не удалось удалить тег: {e}")
+    # ❌ ИСПРАВЛЕНО: удалён несуществующий метод set_chat_member_tag
+    logger.info(f"ℹ️ Тег у {owner_id} не удалён: Telegram Bot API не поддерживает set_chat_member_tag")
 
     response = f"✅ <b>Роль «{html.escape(role_name)}» удалена:</b>\n"
     response += f"• 📌 Роль освобождена\n"
     if removed:
         response += f"• 👤 Юзер <code>{owner_id}</code> удалён из users.json\n"
-    response += f"• 🏷️ Тег удалён в чате\n"
+    response += f"• 🏷️ Тег в чате: <i>не поддерживается API</i>\n"
     response += f"• 🔄 Счётчик смен сброшен"
 
+    # ✅ ИСПРАВЛЕНО: fallback, если edit_text упадёт
     try:
         await callback.message.edit_text(response, parse_mode="HTML")
     except Exception:
-        pass
+        try:
+            await callback.message.answer(response, parse_mode="HTML")
+        except Exception:
+            pass
         
     logger.info(f"Админ {admin_id} удалил роль ID {role_id} и юзера {owner_id}")
 
@@ -680,8 +685,9 @@ async def confirm_reset_callback(callback: CallbackQuery):
 
 @router.callback_query(F.data.startswith("do_reset_"))
 async def do_reset_callback(callback: CallbackQuery):
+    # ✅ ИСПРАВЛЕНО: сразу отвечаем на callback
     try:
-        await callback.answer()
+        await callback.answer("⏳ Сбрасываю...")
     except Exception:
         pass
     
@@ -700,11 +706,8 @@ async def do_reset_callback(callback: CallbackQuery):
             pass
         return
 
-    try:
-        await callback.bot.set_chat_member_tag(chat_id=GENERAL_CHAT_ID, user_id=target_id, tag="")
-        logger.info(f"🏷️ Удалён тег у пользователя {target_id}")
-    except Exception as e:
-        logger.error(f"❌ Не удалось удалить тег: {e}")
+    # ❌ ИСПРАВЛЕНО: удалён несуществующий метод set_chat_member_tag
+    logger.info(f"ℹ️ Тег у {target_id} не удалён: Telegram Bot API не поддерживает set_chat_member_tag")
 
     old_role = get_user_role_from_roles(target_id)
     freed_role = free_role(target_id) if old_role else None
@@ -718,10 +721,14 @@ async def do_reset_callback(callback: CallbackQuery):
     if not freed_role and not removed:
         response += "ℹ️ Нечего было сбрасывать.\n"
 
+    # ✅ ИСПРАВЛЕНО: fallback
     try:
         await callback.message.edit_text(response, parse_mode="HTML")
     except Exception:
-        pass
+        try:
+            await callback.message.answer(response, parse_mode="HTML")
+        except Exception:
+            pass
         
     logger.info(f"Админ {admin_id} сбросил пользователя {target_id}")
 
@@ -948,11 +955,8 @@ async def cmd_resetuser(message: Message):
         await message.answer("⛔ Нельзя сбросить администратора.")
         return
 
-    try:
-        await message.bot.set_chat_member_tag(chat_id=GENERAL_CHAT_ID, user_id=target_id, tag="")
-        logger.info(f"🏷️ Удалён тег у пользователя {target_id}")
-    except Exception as e:
-        logger.error(f"❌ Не удалось удалить тег: {e}")
+    # ❌ ИСПРАВЛЕНО: удалён несуществующий метод set_chat_member_tag
+    logger.info(f"ℹ️ Тег у {target_id} не удалён: Telegram Bot API не поддерживает set_chat_member_tag")
 
     old_role = get_user_role_from_roles(target_id)
     freed_role = free_role(target_id) if old_role else None

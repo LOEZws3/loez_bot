@@ -137,7 +137,7 @@ def set_grace_period(user_id: int, days: int = 4) -> bool:
     uid_str = str(user_id)
     if uid_str not in users:
         return False
-    
+
     grace_until = (datetime.now() + timedelta(days=days)).isoformat()
     users[uid_str]['grace_until'] = grace_until
     return save_users(users)
@@ -197,7 +197,6 @@ def get_notify_norm(user_id: int) -> bool:
     if not info or not isinstance(info, dict):
         return True
     return bool(info.get('notify_norm', True))
-
 
 # ======================== АДМИНИСТРАТОРЫ ========================
 
@@ -272,10 +271,12 @@ def get_owner_ids() -> List[int]:
 
     admins = load_admins()
     for uid_str, info in admins.items():
-        if isinstance(info, dict) and info.get('rank') == 1:
+        if isinstance(info, dict):
             try:
-                owners.add(int(uid_str))
-            except ValueError:
+                # ✅ ИСПРАВЛЕНО: приводим к int, чтобы "1" (строка) тоже срабатывало
+                if int(info.get('rank', 0)) == 1:
+                    owners.add(int(uid_str))
+            except (ValueError, TypeError):
                 continue
 
     return list(owners)

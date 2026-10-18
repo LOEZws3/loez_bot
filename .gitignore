@@ -78,3 +78,4 @@ logs/
 !data/roles/*.txt
 !data/system/free_role_ids.json
 
+src/bot.db
