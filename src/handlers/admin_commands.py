@@ -10,7 +10,7 @@ import datetime
 import json
 import os
 from config import GENERAL_CHAT_ID, OWNER_ID, DATA_DIR, LEFTOVER_FILE
-from utils.admin_utils import is_admin, is_owner, load_admins, save_admins, get_admin_rank, set_rank, add_admin
+from utils.admin_utils import is_admin, is_owner, load_admins, get_admin_rank, add_admin
 from utils.user_utils import (
     load_users, add_user, remove_user, get_users_count,
     get_changes_count, reset_changes_count,
@@ -336,7 +336,7 @@ async def cmd_findrole(message: Message):
 
     await message.answer(text, parse_mode="HTML", reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons))
 
-@router.callback_query(F.data.startswith("findrole_view_"))
+@router.callback_query(F.data.regexp(r"^findrole_view_\d+$"))
 async def findrole_view(callback: CallbackQuery):
     try:
         await callback.answer()
@@ -407,13 +407,101 @@ async def findrole_view(callback: CallbackQuery):
     except Exception:
         pass
 
-@router.callback_query(F.data.startswith("findrole_delete_"))
+# ✅ ВАЖНО: специфичный хендлер (yes) — ВСЕГДА СТРОГО ПЕРЕД общим (delete).
+# Иначе общий startswith("findrole_delete_") перехватит "findrole_delete_yes_123"
+# и упадёт на int("yes_123") → ValueError.
+
+@router.callback_query(F.data.regexp(r"^findrole_delete_yes_\d+$"))
+async def findrole_delete_do(callback: CallbackQuery):
+    # ✅ Отладочный лог: если его нет в логах — хендлер не вызван (фильтр)
+    logger.info(f"🔵 [findrole_delete_do] ENTERED, data={callback.data}, user={callback.from_user.id}")
+
+    # ✅ Сразу отвечаем на callback, чтобы кнопка "отжалась" и юзер увидел спиннер
+    try:
+        await callback.answer("⏳ Удаляю...")
+    except Exception:
+        pass
+
+    admin_id = callback.from_user.id
+
+    if not is_admin(admin_id):
+        await callback.answer("⛔ Доступ запрещён.", show_alert=True)
+        return
+
+    try:
+        role_id = int(callback.data.replace("findrole_delete_yes_", ""))
+    except ValueError:
+        await callback.answer("❌ Ошибка ID роли.", show_alert=True)
+        return
+
+    logger.info(f"🔵 [findrole_delete_do] role_id={role_id}")
+
+    role_info = get_role_by_id(role_id)
+
+    if not role_info or not role_info.get('owner_id'):
+        try:
+            await callback.message.edit_text("❌ Роль уже свободна или не найдена.")
+        except Exception:
+            pass
+        return
+
+    owner_id = int(role_info.get('owner_id'))
+    role_name = role_info.get('name')
+
+    logger.info(f"🔵 [findrole_delete_do] Удаляем роль '{role_name}' (ID {role_id}) у юзера {owner_id}")
+
+    # Освобождаем роль по ID
+    status_data = load_roles_status()
+    for key, info in status_data.items():
+        if isinstance(info, dict) and info.get('id') == role_id:
+            status_data[key]['status'] = 'свободна'
+            status_data[key]['owner_id'] = None
+            status_data[key]['username'] = None
+            break
+    save_roles_status(status_data)
+
+    removed = remove_user(owner_id)
+
+    try:
+        reset_changes_count(owner_id)
+    except Exception:
+        pass
+
+    # ❌ УДАЛЕНО: вызов несуществующего метода set_chat_member_tag
+    logger.info(f"ℹ️ Тег у {owner_id} не удалён: Telegram Bot API не поддерживает set_chat_member_tag")
+
+    response = f"✅ <b>Роль «{html.escape(role_name)}» удалена:</b>\n"
+    response += f"• 📌 Роль освобождена\n"
+    if removed:
+        response += f"• 👤 Юзер <code>{owner_id}</code> удалён из users.json\n"
+    response += f"• 🏷️ Тег в чате: <i>не поддерживается API</i>\n"
+    response += f"• 🔄 Счётчик смен сброшен"
+
+    # ✅ Гарантированный фидбэк: пробуем edit_text, если падает — отправляем новое сообщение
+    try:
+        await callback.message.edit_text(response, parse_mode="HTML")
+        logger.info(f"✅ [findrole_delete_do] Сообщение обновлено (edit_text)")
+    except Exception as e:
+        logger.warning(f"⚠️ [findrole_delete_do] edit_text упал: {e}. Пробуем answer().")
+        try:
+            await callback.message.answer(response, parse_mode="HTML")
+            logger.info(f"✅ [findrole_delete_do] Отправлено новое сообщение (answer)")
+        except Exception as e2:
+            logger.error(f"❌ [findrole_delete_do] answer тоже упал: {e2}")
+
+    logger.info(f"Админ {admin_id} удалил роль ID {role_id} и юзера {owner_id}")
+
+
+# ✅ Общий хендлер (окно подтверждения) — ПОСЛЕ специфичного
+@router.callback_query(F.data.regexp(r"^findrole_delete_\d+$"))
 async def findrole_delete_confirm(callback: CallbackQuery):
+    logger.info(f"🔵 [findrole_delete_confirm] ENTERED, data={callback.data}")
+
     try:
         await callback.answer()
     except Exception:
-        pass  # ✅ Игнорируем "query is too old"
-    
+        pass
+
     admin_id = callback.from_user.id
 
     if not is_admin(admin_id):
@@ -454,78 +542,9 @@ async def findrole_delete_confirm(callback: CallbackQuery):
                 ]
             ])
         )
-    except Exception:
-        pass  # ✅ Игнорируем ошибки редактирования истёкшего сообщения
+    except Exception as e:
+        logger.warning(f"⚠️ [findrole_delete_confirm] edit_text упал: {e}")
 
-@router.callback_query(F.data.startswith("findrole_delete_yes_"))
-async def findrole_delete_do(callback: CallbackQuery):
-    # ✅ ИСПРАВЛЕНО: сразу отвечаем на callback, чтобы кнопка "отжалась"
-    try:
-        await callback.answer("⏳ Удаляю...")
-    except Exception:
-        pass
-
-    admin_id = callback.from_user.id
-
-    if not is_admin(admin_id):
-        await callback.answer("⛔ Доступ запрещён.", show_alert=True)
-        return
-
-    try:
-        role_id = int(callback.data.replace("findrole_delete_yes_", ""))
-    except ValueError:
-        await callback.answer("❌ Ошибка ID роли.", show_alert=True)
-        return
-
-    role_info = get_role_by_id(role_id)
-
-    if not role_info or not role_info.get('owner_id'):
-        try:
-            await callback.message.edit_text("❌ Роль уже свободна или не найдена.")
-        except Exception:
-            pass
-        return
-
-    owner_id = int(role_info.get('owner_id'))
-    role_name = role_info.get('name')
-
-    # Освобождаем роль по ID
-    status_data = load_roles_status()
-    for key, info in status_data.items():
-        if isinstance(info, dict) and info.get('id') == role_id:
-            status_data[key]['status'] = 'свободна'
-            status_data[key]['owner_id'] = None
-            status_data[key]['username'] = None
-            break
-    save_roles_status(status_data)
-
-    removed = remove_user(owner_id)
-
-    try:
-        reset_changes_count(owner_id)
-    except Exception:
-        pass
-
-    # ❌ ИСПРАВЛЕНО: удалён несуществующий метод set_chat_member_tag
-    logger.info(f"ℹ️ Тег у {owner_id} не удалён: Telegram Bot API не поддерживает set_chat_member_tag")
-
-    response = f"✅ <b>Роль «{html.escape(role_name)}» удалена:</b>\n"
-    response += f"• 📌 Роль освобождена\n"
-    if removed:
-        response += f"• 👤 Юзер <code>{owner_id}</code> удалён из users.json\n"
-    response += f"• 🏷️ Тег в чате: <i>не поддерживается API</i>\n"
-    response += f"• 🔄 Счётчик смен сброшен"
-
-    # ✅ ИСПРАВЛЕНО: fallback, если edit_text упадёт
-    try:
-        await callback.message.edit_text(response, parse_mode="HTML")
-    except Exception:
-        try:
-            await callback.message.answer(response, parse_mode="HTML")
-        except Exception:
-            pass
-        
-    logger.info(f"Админ {admin_id} удалил роль ID {role_id} и юзера {owner_id}")
 
 @router.callback_query(F.data == "findrole_back")
 async def findrole_back(callback: CallbackQuery):
@@ -685,7 +704,7 @@ async def confirm_reset_callback(callback: CallbackQuery):
 
 @router.callback_query(F.data.startswith("do_reset_"))
 async def do_reset_callback(callback: CallbackQuery):
-    # ✅ ИСПРАВЛЕНО: сразу отвечаем на callback
+    # ✅ Сразу отвечаем на callback
     try:
         await callback.answer("⏳ Сбрасываю...")
     except Exception:
@@ -706,7 +725,7 @@ async def do_reset_callback(callback: CallbackQuery):
             pass
         return
 
-    # ❌ ИСПРАВЛЕНО: удалён несуществующий метод set_chat_member_tag
+    # ❌ УДАЛЕНО: вызов несуществующего метода set_chat_member_tag
     logger.info(f"ℹ️ Тег у {target_id} не удалён: Telegram Bot API не поддерживает set_chat_member_tag")
 
     old_role = get_user_role_from_roles(target_id)
@@ -721,7 +740,6 @@ async def do_reset_callback(callback: CallbackQuery):
     if not freed_role and not removed:
         response += "ℹ️ Нечего было сбрасывать.\n"
 
-    # ✅ ИСПРАВЛЕНО: fallback
     try:
         await callback.message.edit_text(response, parse_mode="HTML")
     except Exception:
@@ -955,7 +973,7 @@ async def cmd_resetuser(message: Message):
         await message.answer("⛔ Нельзя сбросить администратора.")
         return
 
-    # ❌ ИСПРАВЛЕНО: удалён несуществующий метод set_chat_member_tag
+    # ❌ УДАЛЕНО: вызов несуществующего метода set_chat_member_tag
     logger.info(f"ℹ️ Тег у {target_id} не удалён: Telegram Bot API не поддерживает set_chat_member_tag")
 
     old_role = get_user_role_from_roles(target_id)
@@ -1098,49 +1116,6 @@ async def cmd_open(message: Message):
     set_closed_mode(False)
     await message.answer("🔓 Набор ролей открыт.")
 
-@router.message(Command('setrank'))
-async def cmd_setrank(message: Message):
-    user_id = message.from_user.id
-    if not is_owner(user_id):
-        await message.answer("⛔ Только для владельца.")
-        return
-
-    parts = message.text.split()
-    if len(parts) < 3:
-        await message.answer("❌ Используйте: /setrank [ID] [ранг]\nРанг: 1/2/3")
-        return
-
-    try:
-        target_id = int(parts[1])
-        new_rank = int(parts[2])
-    except ValueError:
-        await message.answer("❌ Неверные аргументы.")
-        return
-
-    if new_rank not in [1, 2, 3]:
-        await message.answer("❌ Ранг должен быть 1, 2 или 3.")
-        return
-
-    if target_id == OWNER_ID:
-        await message.answer("⛔ Нельзя изменить ранг главного владельца.")
-        return
-
-    admins = load_admins()
-    found = False
-    for a in admins:
-        if a['id'] == target_id:
-            a['rank'] = new_rank
-            found = True
-            break
-
-    if not found:
-        await message.answer(f"❌ Пользователь {target_id} не в списке админов.")
-        return
-
-    save_admins(admins)
-    await message.answer(f"✅ Ранг пользователя {target_id} изменён на {new_rank}.")
-    logger.info(f"Владелец {user_id} установил ранг {new_rank} для {target_id}")
-
 # ============================================================
 # 📢 /message_all — рассылка
 # ============================================================
@@ -1210,5 +1185,5 @@ async def do_message_all(message: Message, state: FSMContext):
 @router.message(Command('checknorm'))
 async def cmd_checknorm(message: Message):
     """Перенаправление в checknorm_commands.py."""
-    from .checknorm_commands import cmd_checknorm as real_cmd
+    from .checknorm_commands import checknorm_handler as real_cmd
     await real_cmd(message)

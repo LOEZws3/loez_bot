@@ -4,14 +4,13 @@ import logging
 from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message
-from config import BOT_TOKEN, GENERAL_CHAT_ID, ADMIN_GROUP_ID, DATA_DIR
+from config import BOT_TOKEN, GENERAL_CHAT_ID, ADMIN_GROUP_ID, DATA_DIR, ROLES_STATUS_FILE, SYSTEM_SETTINGS_FILE
 from utils.admin_utils import is_owner
 from database import db
 import aiohttp
 
 logger = logging.getLogger(__name__)
 router = Router()
-
 
 @router.message(Command('diag'))
 async def cmd_diag(message: Message):
@@ -35,15 +34,15 @@ async def cmd_diag(message: Message):
     except Exception as e:
         report += f"❌ Ошибка получения данных бота: {e}\n\n"
 
-    # 2. Проверка файлов (АБСОЛЮТНЫЕ ПУТИ)
+    # 2. Проверка файлов (АБСОЛЮТНЫЕ ПУТИ) — ИСПРАВЛЕНО
     report += "📁 <b>Файлы:</b>\n"
     files = [
         (os.path.join(DATA_DIR, 'users', 'users.json'), "Пользователи (JSON)"),
         (os.path.join(DATA_DIR, 'users', 'users.txt'), "Пользователи (TXT legacy)"),
         (os.path.join(DATA_DIR, 'admins', 'admins.json'), "Администраторы (JSON)"),
         (os.path.join(DATA_DIR, 'admins', 'admins.txt'), "Администраторы (TXT legacy)"),
-        (os.path.join(DATA_DIR, 'roles_status.json'), "Статусы ролей"),
-        (os.path.join(DATA_DIR, 'system_settings.json'), "Настройки"),
+        (ROLES_STATUS_FILE, "Статусы ролей"),
+        (SYSTEM_SETTINGS_FILE, "Настройки"),
         (os.path.join(DATA_DIR, 'system', 'requests.json'), "Заявки"),
         (os.path.join(DATA_DIR, '..', 'src', 'bot.db'), "База данных"),
     ]
@@ -79,7 +78,6 @@ async def cmd_diag(message: Message):
         report += f"\n⚠️ Ошибка проверки прокси: {e}\n"
 
     await message.answer(report, parse_mode="HTML")
-
 
 @router.message(Command('check_chats'))
 async def cmd_check_chats(message: Message):

@@ -21,131 +21,54 @@ router = Router()
 class WaitingForSetting(StatesGroup):
     value = State()
 
-# ======================== МЕНЮ ========================
+def _build_settings_keyboard(settings):
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=f"{'✅' if not settings['closed_mode'] else '❌'} Набор ролей", callback_data="settings_toggle_closed")],
+        [InlineKeyboardButton(text=f"{'✅' if settings['reminder_enabled'] else '❌'} Напоминалка", callback_data="settings_toggle_reminder")],
+        [InlineKeyboardButton(text=f"{'✅' if settings['welcome_enabled'] else '❌'} Приветствие", callback_data="settings_toggle_welcome")],
+        [InlineKeyboardButton(text=f"{'✅' if settings['auto_rest_removal'] else '❌'} Авто-снятие реста", callback_data="settings_toggle_auto_rest")],
+        [InlineKeyboardButton(text=f"⏱️ Кулдаун кала: {settings['call_cooldown']}с", callback_data="settings_call_cooldown")],
+        [InlineKeyboardButton(text=f"⏱️ Кулдаун кал-фал: {settings['callfal_cooldown']}с", callback_data="settings_callfal_cooldown")],
+        [InlineKeyboardButton(text=f"📅 Макс. рест: {settings['max_rest_days']} дн.", callback_data="settings_max_rest")],
+        [InlineKeyboardButton(text=f"🔄 Макс. смен роли: {settings.get('max_role_changes', 1)}", callback_data="settings_max_role_changes")],
+        [InlineKeyboardButton(text=f"📊 Норма сообщений: {settings.get('messages_norm', 70)}", callback_data="settings_messages_norm")],
+        [InlineKeyboardButton(text=f"📉 НПНДБ: {settings.get('messages_norm_low', 10)}", callback_data="settings_messages_norm_low")],
+        [InlineKeyboardButton(text=f"{'✅' if settings.get('warns_accumulate', False) else '❌'} Накопление варнов", callback_data="settings_toggle_warns_accumulate")],
+        [InlineKeyboardButton(text=f"🔢 Варнов до бана: {settings.get('warns_to_ban', 3)}", callback_data="settings_warns_to_ban")],
+        [InlineKeyboardButton(text=f"{'✅' if settings.get('warn_notify_admin', True) else '❌'} Уведомлять о 3-м варне", callback_data="settings_toggle_warn_notify")],
+        [InlineKeyboardButton(text=f"{'✅' if settings.get('checknorm_time_window_enabled', True) else '❌'} Окно чистки", callback_data="settings_toggle_checknorm_window")],
+        [InlineKeyboardButton(text="📊 Показать все настройки", callback_data="settings_show_all")],
+        [InlineKeyboardButton(text="🔄 Сбросить настройки", callback_data="settings_reset"), InlineKeyboardButton(text="🔙 Закрыть", callback_data="settings_close")]
+    ])
 
 @router.message(Command('settings'))
 async def cmd_settings(message: Message):
-    """Главное меню настроек (только для владельца)"""
     user_id = message.from_user.id
 
-    # ✅ ИСПРАВЛЕНО: is_owner теперь корректно читает "1" из admins.json (см. parsers.py)
     if not is_owner(user_id):
         await message.answer("⛔ Доступ запрещён. Только для владельца.")
         return
 
     settings = load_settings()
 
-    keyboard = InlineKeyboardMarkup(inline_keyboard=[
-        [
-            InlineKeyboardButton(
-                text=f"{'✅' if not settings['closed_mode'] else '❌'} Набор ролей",
-                callback_data="settings_toggle_closed"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                text=f"{'✅' if settings['reminder_enabled'] else '❌'} Напоминалка",
-                callback_data="settings_toggle_reminder"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                text=f"{'✅' if settings['welcome_enabled'] else '❌'} Приветствие",
-                callback_data="settings_toggle_welcome"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                text=f"{'✅' if settings['auto_rest_removal'] else '❌'} Авто-снятие реста",
-                callback_data="settings_toggle_auto_rest"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                text=f"⏱️ Кулдаун кала: {settings['call_cooldown']}с",
-                callback_data="settings_call_cooldown"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                text=f"⏱️ Кулдаун кал-фал: {settings['callfal_cooldown']}с",
-                callback_data="settings_callfal_cooldown"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                text=f"📅 Макс. рест: {settings['max_rest_days']} дн.",
-                callback_data="settings_max_rest"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                text=f"🔄 Макс. смен роли: {settings.get('max_role_changes', 1)}",
-                callback_data="settings_max_role_changes"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                text=f"📊 Норма сообщений: {settings.get('messages_norm', 70)}",
-                callback_data="settings_messages_norm"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                text=f"📉 НПНДБ: {settings.get('messages_norm_low', 10)}",
-                callback_data="settings_messages_norm_low"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                text=f"{'✅' if settings.get('warns_accumulate', False) else '❌'} Накопление варнов",
-                callback_data="settings_toggle_warns_accumulate"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                text=f"🔢 Варнов до бана: {settings.get('warns_to_ban', 3)}",
-                callback_data="settings_warns_to_ban"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                text=f"{'✅' if settings.get('warn_notify_admin', True) else '❌'} Уведомлять о 3-м варне",
-                callback_data="settings_toggle_warn_notify"
-            )
-        ],
-        [
-            # ⚠️ 02.10.2026: новая настройка (БАГ 9)
-            InlineKeyboardButton(
-                text=f"{'✅' if settings.get('checknorm_time_window_enabled', True) else '❌'} Окно чистки",
-                callback_data="settings_toggle_checknorm_window"
-            )
-        ],
-        [
-            InlineKeyboardButton(text="📊 Показать все настройки", callback_data="settings_show_all")
-        ],
-        [
-            InlineKeyboardButton(text="🔄 Сбросить настройки", callback_data="settings_reset"),
-            InlineKeyboardButton(text="🔙 Закрыть", callback_data="settings_close")
-        ]
-    ])
-
     await message.answer(
         "⚙️ <b>Главное меню настроек</b>\n\n"
         "Нажмите на кнопку для изменения параметра.\n"
         "✅ — включено | ❌ — выключено",
         parse_mode="HTML",
-        reply_markup=keyboard
+        reply_markup=_build_settings_keyboard(settings)
     )
-
-# ======================== ОБРАБОТКА НАЖАТИЙ ========================
 
 @router.callback_query(F.data.startswith("settings_"))
 async def settings_callback(callback: CallbackQuery, state: FSMContext):
-    await callback.answer()
+    # Отвечаем один раз, чтобы убрать часики
+    try:
+        await callback.answer()
+    except Exception:
+        pass
+
     user_id = callback.from_user.id
 
-    # ✅ ИСПРАВЛЕНО: проверка только для владельцев/ранг 1
     if not is_owner(user_id):
         await callback.answer("⛔ Доступ запрещён!", show_alert=True)
         return
@@ -153,121 +76,104 @@ async def settings_callback(callback: CallbackQuery, state: FSMContext):
     settings = load_settings()
     action = callback.data.replace("settings_", "")
 
+    # ====== Флаги (галочка/крестик) ======
     if action == "toggle_closed":
         settings['closed_mode'] = not settings['closed_mode']
         save_settings(settings)
         set_closed_mode(settings['closed_mode'])
-        await callback.answer(f"Набор ролей: {'открыт ✅' if not settings['closed_mode'] else 'закрыт ❌'}")
+        await callback.answer(f"✅ Настройка изменена: Набор ролей — {'открыт' if not settings['closed_mode'] else 'закрыт'}")
+        await callback.message.edit_reply_markup(reply_markup=_build_settings_keyboard(settings))
+        return
 
     elif action == "toggle_reminder":
         settings['reminder_enabled'] = not settings['reminder_enabled']
         save_settings(settings)
-        await callback.answer(f"Напоминалка: {'включена ✅' if settings['reminder_enabled'] else 'выключена ❌'}")
+        await callback.answer(f"✅ Настройка изменена: Напоминалка — {'включена' if settings['reminder_enabled'] else 'выключена'}")
+        await callback.message.edit_reply_markup(reply_markup=_build_settings_keyboard(settings))
+        return
 
     elif action == "toggle_welcome":
         settings['welcome_enabled'] = not settings['welcome_enabled']
         save_settings(settings)
-        await callback.answer(f"Приветствие: {'включено ✅' if settings['welcome_enabled'] else 'выключено ❌'}")
+        await callback.answer(f"✅ Настройка изменена: Приветствие — {'включено' if settings['welcome_enabled'] else 'выключено'}")
+        await callback.message.edit_reply_markup(reply_markup=_build_settings_keyboard(settings))
+        return
 
     elif action == "toggle_auto_rest":
         settings['auto_rest_removal'] = not settings['auto_rest_removal']
         save_settings(settings)
-        await callback.answer(f"Авто-снятие реста: {'включено ✅' if settings['auto_rest_removal'] else 'выключено ❌'}")
+        await callback.answer(f"✅ Настройка изменена: Авто-снятие реста — {'включено' if settings['auto_rest_removal'] else 'выключено'}")
+        await callback.message.edit_reply_markup(reply_markup=_build_settings_keyboard(settings))
+        return
 
     elif action == "toggle_warns_accumulate":
         settings['warns_accumulate'] = not settings.get('warns_accumulate', False)
         save_settings(settings)
-        await callback.answer(f"Накопление варнов: {'включено ✅' if settings['warns_accumulate'] else 'выключено ❌'}")
+        await callback.answer(f"✅ Настройка изменена: Накопление варнов — {'включено' if settings['warns_accumulate'] else 'выключено'}")
+        await callback.message.edit_reply_markup(reply_markup=_build_settings_keyboard(settings))
+        return
 
     elif action == "toggle_warn_notify":
         settings['warn_notify_admin'] = not settings.get('warn_notify_admin', True)
         save_settings(settings)
-        await callback.answer(f"Уведомлять о 3-м варне: {'вкл ✅' if settings['warn_notify_admin'] else 'выкл ❌'}")
+        await callback.answer(f"✅ Настройка изменена: Уведомлять о 3-м варне — {'вкл' if settings['warn_notify_admin'] else 'выкл'}")
+        await callback.message.edit_reply_markup(reply_markup=_build_settings_keyboard(settings))
+        return
 
     elif action == "toggle_checknorm_window":
-        # ⚠️ 02.10.2026: новая настройка (БАГ 9)
         settings['checknorm_time_window_enabled'] = not settings.get('checknorm_time_window_enabled', True)
         save_settings(settings)
-        await callback.answer(
-            f"Окно чистки: {'вкл ✅' if settings['checknorm_time_window_enabled'] else 'выкл ❌'}"
-        )
+        await callback.answer(f"✅ Настройка изменена: Окно чистки — {'вкл' if settings['checknorm_time_window_enabled'] else 'выкл'}")
+        await callback.message.edit_reply_markup(reply_markup=_build_settings_keyboard(settings))
+        return
 
+    # ====== Ввод чисел ======
     elif action == "call_cooldown":
         await state.set_state(WaitingForSetting.value)
         await state.update_data(setting_name='call_cooldown')
-        await callback.message.answer(
-            "⏱️ <b>Изменить кулдаун кала</b>\n\n"
-            "Введите новое значение в секундах (от 5 до 120):",
-            parse_mode="HTML"
-        )
+        await callback.message.answer("⏱️ <b>Изменить кулдаун кала</b>\n\nВведите новое значение в секундах (от 5 до 120):", parse_mode="HTML")
         await callback.message.delete()
         return
 
     elif action == "callfal_cooldown":
         await state.set_state(WaitingForSetting.value)
         await state.update_data(setting_name='callfal_cooldown')
-        await callback.message.answer(
-            "⏱️ <b>Изменить кулдаун кал-фал</b>\n\n"
-            "Введите новое значение в секундах (от 10 до 300):",
-            parse_mode="HTML"
-        )
+        await callback.message.answer("⏱️ <b>Изменить кулдаун кал-фал</b>\n\nВведите новое значение в секундах (от 10 до 300):", parse_mode="HTML")
         await callback.message.delete()
         return
 
     elif action == "max_rest":
         await state.set_state(WaitingForSetting.value)
         await state.update_data(setting_name='max_rest_days')
-        await callback.message.answer(
-            "📅 <b>Изменить максимальную длительность реста</b>\n\n"
-            "Введите новое значение в днях (от 1 до 30):",
-            parse_mode="HTML"
-        )
+        await callback.message.answer("📅 <b>Изменить максимальную длительность реста</b>\n\nВведите новое значение в днях (от 1 до 30):", parse_mode="HTML")
         await callback.message.delete()
         return
 
     elif action == "max_role_changes":
         await state.set_state(WaitingForSetting.value)
         await state.update_data(setting_name='max_role_changes')
-        await callback.message.answer(
-            "🔄 <b>Изменить максимальное количество смен роли</b>\n\n"
-            "Введите новое значение (от 0 до 20):\n"
-            "0 — смены роли запрещены",
-            parse_mode="HTML"
-        )
+        await callback.message.answer("🔄 <b>Изменить максимальное количество смен роли</b>\n\nВведите новое значение (от 0 до 20):\n0 — смены роли запрещены", parse_mode="HTML")
         await callback.message.delete()
         return
 
     elif action == "messages_norm":
         await state.set_state(WaitingForSetting.value)
         await state.update_data(setting_name='messages_norm')
-        await callback.message.answer(
-            "📊 <b>Изменить норму сообщений в неделю</b>\n\n"
-            "Введите новое значение (от 1 до 1000):",
-            parse_mode="HTML"
-        )
+        await callback.message.answer("📊 <b>Изменить норму сообщений в неделю</b>\n\nВведите новое значение (от 1 до 1000):", parse_mode="HTML")
         await callback.message.delete()
         return
 
     elif action == "messages_norm_low":
         await state.set_state(WaitingForSetting.value)
         await state.update_data(setting_name='messages_norm_low')
-        await callback.message.answer(
-            "📉 <b>Изменить НПНДБ</b>\n\n"
-            "Нижний порог для бана.\n"
-            "Введите новое значение (от 1 до 1000):",
-            parse_mode="HTML"
-        )
+        await callback.message.answer("📉 <b>Изменить НПНДБ</b>\n\nНижний порог для бана.\nВведите новое значение (от 1 до 1000):", parse_mode="HTML")
         await callback.message.delete()
         return
 
     elif action == "warns_to_ban":
         await state.set_state(WaitingForSetting.value)
         await state.update_data(setting_name='warns_to_ban')
-        await callback.message.answer(
-            "🔢 <b>Изменить количество варнов до бана</b>\n\n"
-            "Введите новое значение (от 1 до 10):",
-            parse_mode="HTML"
-        )
+        await callback.message.answer("🔢 <b>Изменить количество варнов до бана</b>\n\nВведите новое значение (от 1 до 10):", parse_mode="HTML")
         await callback.message.delete()
         return
 
@@ -288,7 +194,6 @@ async def settings_callback(callback: CallbackQuery, state: FSMContext):
             f"{'✅' if settings.get('warns_accumulate', False) else '❌'} Накопление варнов\n"
             f"🔢 Варнов до бана: {settings.get('warns_to_ban', 3)}\n"
             f"{'✅' if settings.get('warn_notify_admin', True) else '❌'} Уведомлять о 3-м варне\n"
-            # ⚠️ 02.10.2026: новая настройка (БАГ 9)
             f"{'✅' if settings.get('checknorm_time_window_enabled', True) else '❌'} Окно чистки (20:00–21:00 МСК)"
         )
         await callback.message.answer(text, parse_mode="HTML")
@@ -298,16 +203,15 @@ async def settings_callback(callback: CallbackQuery, state: FSMContext):
         reset_settings()
         set_closed_mode(False)
         await callback.answer("✅ Настройки сброшены!")
+        settings = load_settings()
+        await callback.message.edit_reply_markup(reply_markup=_build_settings_keyboard(settings))
+        return
 
     elif action == "close":
         await state.clear()
         await callback.message.delete()
         await callback.message.answer("🔙 Настройки закрыты.")
         return
-
-    await cmd_settings(callback.message)
-
-# ======================== ВВОД ЧИСЛА ========================
 
 @router.message(WaitingForSetting.value, F.text.regexp(r'^\d+$'))
 async def settings_value_input(message: Message, state: FSMContext):
@@ -331,7 +235,7 @@ async def settings_value_input(message: Message, state: FSMContext):
         if 5 <= value <= 120:
             settings['call_cooldown'] = value
             save_settings(settings)
-            await message.answer(f"✅ Кулдаун кала изменён на {value} сек.")
+            await message.answer(f"✅ Настройка изменена: Кулдаун кала — {value} сек.")
         else:
             await message.answer("❌ Значение вне диапазона (5-120).")
 
@@ -339,7 +243,7 @@ async def settings_value_input(message: Message, state: FSMContext):
         if 10 <= value <= 300:
             settings['callfal_cooldown'] = value
             save_settings(settings)
-            await message.answer(f"✅ Кулдаун кал-фал изменён на {value} сек.")
+            await message.answer(f"✅ Настройка изменена: Кулдаун кал-фал — {value} сек.")
         else:
             await message.answer("❌ Значение вне диапазона (10-300).")
 
@@ -347,7 +251,7 @@ async def settings_value_input(message: Message, state: FSMContext):
         if 1 <= value <= 30:
             settings['max_rest_days'] = value
             save_settings(settings)
-            await message.answer(f"✅ Макс. рест изменён на {value} дн.")
+            await message.answer(f"✅ Настройка изменена: Макс. рест — {value} дн.")
         else:
             await message.answer("❌ Значение вне диапазона (1-30).")
 
@@ -355,7 +259,7 @@ async def settings_value_input(message: Message, state: FSMContext):
         if 0 <= value <= 20:
             settings['max_role_changes'] = value
             save_settings(settings)
-            await message.answer(f"✅ Макс. смен роли изменён на {value}.")
+            await message.answer(f"✅ Настройка изменена: Макс. смен роли — {value}.")
         else:
             await message.answer("❌ Значение вне диапазона (0-20).")
 
@@ -363,7 +267,7 @@ async def settings_value_input(message: Message, state: FSMContext):
         if 1 <= value <= 1000:
             settings['messages_norm'] = value
             save_settings(settings)
-            await message.answer(f"✅ Норма сообщений изменена на {value}.")
+            await message.answer(f"✅ Настройка изменена: Норма сообщений — {value}.")
         else:
             await message.answer("❌ Значение вне диапазона (1-1000).")
 
@@ -371,7 +275,7 @@ async def settings_value_input(message: Message, state: FSMContext):
         if 1 <= value <= 1000:
             settings['messages_norm_low'] = value
             save_settings(settings)
-            await message.answer(f"✅ НПНДБ изменён на {value}.")
+            await message.answer(f"✅ Настройка изменена: НПНДБ — {value}.")
         else:
             await message.answer("❌ Значение вне диапазона (1-1000).")
 
@@ -379,7 +283,7 @@ async def settings_value_input(message: Message, state: FSMContext):
         if 1 <= value <= 10:
             settings['warns_to_ban'] = value
             save_settings(settings)
-            await message.answer(f"✅ Варнов до бана: {value}.")
+            await message.answer(f"✅ Настройка изменена: Варнов до бана — {value}.")
         else:
             await message.answer("❌ Значение вне диапазона (1-10).")
 

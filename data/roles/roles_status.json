@@ -1752,9 +1752,9 @@
     "id": 219
   },
   "Лололошка (Межсезонные персонажи)": {
-    "status": "занята",
-    "owner_id": 8658670972,
-    "username": "aleaten",
+    "status": "свободна",
+    "owner_id": null,
+    "username": null,
     "season": "Межсезонные персонажи",
     "extra": "",
     "id": 220

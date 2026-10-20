@@ -273,9 +273,10 @@ def get_owner_ids() -> List[int]:
     for uid_str, info in admins.items():
         if isinstance(info, dict):
             try:
-                # ✅ ИСПРАВЛЕНО: приводим к int, чтобы "1" (строка) тоже срабатывало
+                # ✅ ИСПРАВЛЕНО: защита от нечисловых ключей
+                uid_int = int(uid_str)
                 if int(info.get('rank', 0)) == 1:
-                    owners.add(int(uid_str))
+                    owners.add(uid_int)
             except (ValueError, TypeError):
                 continue
 
