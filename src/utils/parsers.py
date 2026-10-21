@@ -18,6 +18,15 @@ from config import (
 
 logger = logging.getLogger(__name__)
 
+# ======================== ⚠️ НОВОЕ: ЛОГГЕР ДЛЯ ДЕЙСТВИЙ АДМИНОВ ========================
+admin_logger = logging.getLogger('admin_actions')
+admin_logger.setLevel(logging.INFO)
+admin_log_path = os.path.join(DATA_DIR, 'logs', 'admin_actions.log')
+os.makedirs(os.path.dirname(admin_log_path), exist_ok=True)
+admin_handler = logging.FileHandler(admin_log_path, encoding='utf-8')
+admin_handler.setFormatter(logging.Formatter('%(asctime)s - %(message)s'))
+admin_logger.addHandler(admin_handler)
+
 # ======================== БАЗОВЫЕ ФУНКЦИИ ========================
 
 def load_json(path: str, default: Any = None) -> Any:
@@ -66,14 +75,14 @@ def get_user(user_id: int) -> Optional[dict]:
         'changes_count': int(info.get('changes_count', 0)),
         'birthday': info.get('birthday', None),
         'notify_norm': bool(info.get('notify_norm', True)),
-        'grace_until': info.get('grace_until', None),  # ⚠️ НОВОЕ: льготный период
+        'grace_until': info.get('grace_until', None),
     }
 
 def add_user(user_id: int, username: str, full_name: str,
              role: str = '0', extra: str = '-993',
              changes_count: int = 0,
              birthday: str = None, notify_norm: bool = True,
-             grace_until: str = None) -> bool:  # ⚠️ НОВОЕ: grace_until
+             grace_until: str = None) -> bool:
     users = load_users()
     if str(user_id) in users:
         return False
@@ -85,7 +94,7 @@ def add_user(user_id: int, username: str, full_name: str,
         'changes_count': int(changes_count),
         'birthday': birthday,
         'notify_norm': bool(notify_norm),
-        'grace_until': grace_until,  # ⚠️ НОВОЕ
+        'grace_until': grace_until,
     }
     return save_users(users)
 
@@ -273,7 +282,6 @@ def get_owner_ids() -> List[int]:
     for uid_str, info in admins.items():
         if isinstance(info, dict):
             try:
-                # ✅ ИСПРАВЛЕНО: защита от нечисловых ключей
                 uid_int = int(uid_str)
                 if int(info.get('rank', 0)) == 1:
                     owners.add(uid_int)

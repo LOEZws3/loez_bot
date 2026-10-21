@@ -1,7 +1,10 @@
-aiogram==3.17.0
+aiogram==3.23.0
 requests==2.31.0
 beautifulsoup4==4.12.2
 lxml==6.1.1
 python-dotenv==1.0.0
 aiosqlite==0.19.0
 pydantic==2.12.0
+matplotlib==3.10.8
+scipy==1.16.1
+winotify==1.1.0

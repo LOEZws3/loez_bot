@@ -31,10 +31,8 @@ REQUESTS_FILE = os.path.join(DATA_DIR, 'system', 'requests.json')
 POSITION_RANK = {'admin': 2, 'moder': 3, 'owner_restore': 1}
 POSITION_NAMES = {'admin': 'Администратор', 'moder': 'Модератор', 'member': 'Участник'}
 
-
 class RejectReason(StatesGroup):
     waiting_for_reason = State()
-
 
 # ======================== РАБОТА С ЗАЯВКАМИ ========================
 
@@ -50,7 +48,6 @@ def _load_requests() -> dict:
         return {}
     return data
 
-
 def _save_requests(requests: dict) -> bool:
     try:
         with open(REQUESTS_FILE, 'w', encoding='utf-8') as f:
@@ -60,12 +57,10 @@ def _save_requests(requests: dict) -> bool:
         logger.error(f"Ошибка сохранения requests.json: {e}")
         return False
 
-
 def _get_pending() -> list:
     requests = _load_requests()
     return [(rid, req) for rid, req in requests.items()
             if isinstance(req, dict) and req.get('status') == 'pending']
-
 
 def _get_max_role_changes() -> int:
     try:
@@ -75,11 +70,9 @@ def _get_max_role_changes() -> int:
         logger.error(f"Ошибка чтения лимита смен роли: {e}")
         return 1
 
-
 # ======================== ВСПОМОГАТЕЛЬНАЯ: ЗАНЯТЬ/ОСВОБОДИТЬ РОЛЬ ========================
 
 def _occupy_role(role_id: int, user_id: int, username: str) -> bool:
-    """Занимает роль по ID: ставит статус 'занята' + владельца."""
     status_data = load_roles_status()
     for role_key, role_info in status_data.items():
         if isinstance(role_info, dict) and role_info.get('id') == role_id:
@@ -92,9 +85,7 @@ def _occupy_role(role_id: int, user_id: int, username: str) -> bool:
     logger.warning(f"⚠️ Роль с ID {role_id} не найдена")
     return False
 
-
 def _free_role_by_id(role_id: int) -> bool:
-    """Освобождает роль по ID."""
     status_data = load_roles_status()
     for role_key, role_info in status_data.items():
         if isinstance(role_info, dict) and role_info.get('id') == role_id:
@@ -106,13 +97,10 @@ def _free_role_by_id(role_id: int) -> bool:
             return True
     return False
 
-
 # ======================== ИРИС ========================
 
 async def _send_to_iris(bot, user_id: int, rank: int, position_name: str):
-    """TODO: Заглушка для @iris_moon_bot"""
     logger.info(f"🔔 [ИРИС-ЗАГЛУШКА] Повысить {user_id} до ранга {rank} ({position_name})")
-
 
 # ======================== КОМАНДЫ ========================
 
@@ -143,7 +131,6 @@ async def cmd_requests(message: Message):
         reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
     )
 
-
 @router.message(Command('approve'))
 async def cmd_approve(message: Message):
     if not is_admin(message.from_user.id):
@@ -168,7 +155,6 @@ async def cmd_approve(message: Message):
     await message.answer(
         f"ℹ️ Используйте /requests → выберите заявку → «Одобрить»."
     )
-
 
 @router.message(Command('reject'))
 async def cmd_reject(message: Message, state: FSMContext):
@@ -195,11 +181,9 @@ async def cmd_reject(message: Message, state: FSMContext):
     await state.set_state(RejectReason.waiting_for_reason)
     await message.answer("📝 Напишите причину отклонения заявки:")
 
-
 @router.message(RejectReason.waiting_for_reason)
 async def reject_with_reason(message: Message, state: FSMContext):
     reason = (message.text or "")[:500]
-
     data = await state.get_data()
     request_id = data.get('request_id')
 
@@ -219,12 +203,24 @@ async def reject_with_reason(message: Message, state: FSMContext):
         if role_id:
             _free_role_by_id(role_id)
 
+        # ⚠️ НОВОЕ: отправляем причину юзеру
+        user_id = requests[request_id].get('user_id')
+        if user_id:
+            try:
+                await message.bot.send_message(
+                    user_id,
+                    f"❌ <b>Ваша заявка отклонена.</b>\n\n"
+                    f"📌 Причина: {html.escape(reason)}",
+                    parse_mode="HTML"
+                )
+            except Exception as e:
+                logger.error(f"Не удалось отправить причину {user_id}: {e}")
+
         await message.answer(f"✅ Заявка #{request_id} отклонена.\nПричина: {html.escape(reason)}")
     else:
         await message.answer(f"❌ Заявка #{request_id} уже обработана.")
 
     await state.clear()
-
 
 # ======================== INLINE-ОБРАБОТЧИКИ ========================
 
@@ -255,7 +251,6 @@ async def refresh_requests(callback: CallbackQuery):
         parse_mode="HTML",
         reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
     )
-
 
 @router.callback_query(F.data.startswith("view_req_"))
 async def view_request(callback: CallbackQuery):
@@ -317,7 +312,6 @@ async def view_request(callback: CallbackQuery):
 
     await callback.message.edit_text(text, parse_mode="HTML", reply_markup=keyboard)
 
-
 @router.callback_query(F.data.startswith("approve_req_"))
 async def approve_request_callback(callback: CallbackQuery):
     await callback.answer()
@@ -352,7 +346,6 @@ async def approve_request_callback(callback: CallbackQuery):
         logger.error(f"Заявка #{request_id} без role_id: {request}")
         return
 
-    # ✅ 0. ОСВОБОЖДАЕМ СТАРУЮ РОЛЬ (если была)
     old_role_key = None
     try:
         old_role_key = get_user_role_key(user_id)
@@ -360,7 +353,6 @@ async def approve_request_callback(callback: CallbackQuery):
         pass
 
     if old_role_key:
-        # Находим ID старой роли
         status_data = load_roles_status()
         old_role_id = None
         for rk, rv in status_data.items():
@@ -369,12 +361,10 @@ async def approve_request_callback(callback: CallbackQuery):
                 break
 
         if old_role_id and old_role_id != role_id:
-            # Освобождаем старую
             _free_role_by_id(old_role_id)
             increment_changes_count(user_id)
             logger.info(f"🔄 Освобождена старая роль '{old_role_key}' у {user_id}")
 
-    # 1. ЗАНИМАЕМ НОВУЮ РОЛЬ ПО ID
     occupied = _occupy_role(role_id, user_id, username)
     if not occupied:
         await callback.message.edit_text(
@@ -382,12 +372,10 @@ async def approve_request_callback(callback: CallbackQuery):
         )
         return
 
-    # 2. Обновляем заявку
     requests[request_id]['status'] = 'approved'
     requests[request_id]['updated_at'] = datetime.now().isoformat()
     _save_requests(requests)
 
-    # 3. Добавляем/обновляем в users.json
     from utils.user_utils import get_user_by_id, update_user_role, add_user, set_grace_period
     existing_user = get_user_by_id(user_id)
 
@@ -401,11 +389,9 @@ async def approve_request_callback(callback: CallbackQuery):
         else:
             logger.warning(f"⚠️ {user_id} уже в users.json или ошибка добавления")
 
-    # ⚠️ НОВОЕ: Устанавливаем льготный период 4 дня
     set_grace_period(user_id, days=4)
     logger.info(f"⏳ Установлен льготный период (4 дня) для {user_id}")
 
-    # 4. Ранг
     rank = POSITION_RANK.get(position)
     if rank:
         if position == 'owner_restore':
@@ -438,7 +424,6 @@ async def approve_request_callback(callback: CallbackQuery):
             logger.warning(f"⚠️ {user_id} уже в admins.json или ошибка")
         await _send_to_iris(callback.bot, user_id, rank, position_name)
 
-    # 5. Уведомление
     from config import CHAT_INVITE_LINK, ADMIN_LINK, MODERATOR_LINK
 
     invite_text = f"\n\n🔗 <b>Ссылка на вступление в чат:</b>\n{CHAT_INVITE_LINK}"
@@ -448,13 +433,22 @@ async def approve_request_callback(callback: CallbackQuery):
     elif rank == 3:
         invite_text += f"\n\n🛡️ <b>Ссылка для модераторов:</b>\n{MODERATOR_LINK}"
 
+    # ⚠️ НОВОЕ: Капс-сообщение о завершении регистрации
+    complete_reg_text = (
+        "\n\n⚠️ <b>ВАЖНО! ВЫПОЛНИТЕ КОМАНДЫ ДЛЯ ЗАВЕРШЕНИЯ РЕГИСТРАЦИИ:</b>\n"
+        "1️⃣ Напишите /start (чтобы обновить меню)\n"
+        "2️⃣ Напишите /update (чтобы подтвердить данные)\n"
+        "3️⃣ Напишите /setbirthday, если не указали дату рождения"
+    )
+
     try:
         await callback.bot.send_message(
             user_id,
             f"✅ <b>Заявка одобрена!</b>\n\n"
             f"📌 Роль: <b>{html.escape(role_name)}</b>\n"
             f"🏷️ Должность: <b>{html.escape(position_name)}</b>"
-            + invite_text,
+            + invite_text
+            + complete_reg_text,
             parse_mode="HTML",
             disable_web_page_preview=True
         )
@@ -472,9 +466,8 @@ async def approve_request_callback(callback: CallbackQuery):
 
     logger.info(f"Админ {admin_id} одобрил заявку #{request_id}")
 
-
 @router.callback_query(F.data.startswith("reject_req_"))
-async def reject_request_callback(callback: CallbackQuery):
+async def reject_request_callback(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
     admin_id = callback.from_user.id
 
@@ -490,33 +483,15 @@ async def reject_request_callback(callback: CallbackQuery):
         await callback.message.edit_text("❌ Заявка уже обработана.")
         return
 
-    requests[request_id]['status'] = 'rejected'
-    requests[request_id]['updated_at'] = datetime.now().isoformat()
-    _save_requests(requests)
-
-    # Освобождаем роль по ID
-    role_id = request.get('role_id')
-    if role_id:
-        _free_role_by_id(role_id)
-
-    user_id = request.get('user_id')
-    role_name = request.get('role', '?')
-    try:
-        await callback.bot.send_message(
-            user_id,
-            f"❌ <b>Ваша заявка на роль '{html.escape(role_name)}' отклонена.</b>",
-            parse_mode="HTML"
-        )
-    except Exception as e:
-        logger.error(f"Уведомление {user_id}: {e}")
-
+    # ⚠️ НОВОЕ: Запрашиваем причину через FSM
+    await state.update_data(request_id=request_id)
+    await state.set_state(RejectReason.waiting_for_reason)
+    
     await callback.message.edit_text(
-        f"❌ <b>Заявка #{request_id} отклонена.</b>",
+        f"📝 <b>Заявка #{request_id}</b>\n\n"
+        f"Напишите причину отклонения (или отправьте /cancel для отмены):",
         parse_mode="HTML"
     )
-
-    logger.info(f"Админ {admin_id} отклонил заявку #{request_id}")
-
 
 @router.callback_query(F.data == "back_to_requests")
 async def back_to_requests(callback: CallbackQuery):

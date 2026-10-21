@@ -42,6 +42,9 @@ DEFAULT_SETTINGS = {
     # ВКЛ → /checknorm только с 20:00 до 21:00 МСК
     # ВЫКЛ → без ограничений
     "checknorm_time_window_enabled": True,
+
+    # ⚠️ НОВОЕ: Проверка полноты профиля
+    "require_profile_completeness": True,
 }
 
 # ======================== ЗАГРУЗКА / СОХРАНЕНИЕ ========================

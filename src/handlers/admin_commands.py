@@ -1,7 +1,7 @@
 import html
 from aiogram import Router, F
 from aiogram.filters import Command
-from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, FSInputFile
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 import asyncio
@@ -9,8 +9,13 @@ import time
 import datetime
 import json
 import os
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+import numpy as np
+
 from config import GENERAL_CHAT_ID, OWNER_ID, DATA_DIR, LEFTOVER_FILE
-from utils.admin_utils import is_admin, is_owner, load_admins, get_admin_rank, add_admin
+from utils.admin_utils import is_admin, is_owner, load_admins, save_admins, get_admin_rank, set_rank, add_admin
 from utils.user_utils import (
     load_users, add_user, remove_user, get_users_count,
     get_changes_count, reset_changes_count,
@@ -23,6 +28,7 @@ from utils.role_utils import (
 from utils.norm_utils import get_user_category, get_emoji, get_category_label
 from utils.requests_utils import get_request_by_user_id
 from utils.settings_utils import get_messages_norm, get_messages_norm_low
+from utils.counters import load_counters
 from .keyboards import get_main_keyboard
 import logging
 
@@ -41,11 +47,10 @@ ROLE_NAMES = {
 closed_mode = False
 
 # ============================================================
-# ⚠️ НОВОЕ (05.10.2026): СТАТИСТИКА С КНОПКАМИ
+# ⚠️ НОВОЕ: СТАТИСТИКА С КНОПКАМИ
 # ============================================================
 
 def _load_leftdata() -> dict:
-    """Загружает leftdata.json (ушедшие юзеры)."""
     if not os.path.exists(LEFTOVER_FILE):
         return {}
     try:
@@ -58,7 +63,6 @@ def _load_leftdata() -> dict:
         return {}
 
 def _parse_iso(s: str):
-    """Безопасный парсинг ISO-даты."""
     if not s:
         return None
     try:
@@ -67,7 +71,6 @@ def _parse_iso(s: str):
         return None
 
 def _count_users_joined_in_period(days: int) -> int:
-    """Сколько юзеров появилось за последние N дней (по joined_at)."""
     from utils.counters import load_counters
     data = load_counters()
     cutoff = datetime.datetime.now() - datetime.timedelta(days=days)
@@ -81,7 +84,6 @@ def _count_users_joined_in_period(days: int) -> int:
     return count
 
 def _count_active_in_period(days: int) -> int:
-    """Сколько юзеров писали за последние N дней (по last_message_at)."""
     from utils.counters import load_counters
     data = load_counters()
     cutoff = datetime.datetime.now() - datetime.timedelta(days=days)
@@ -95,7 +97,6 @@ def _count_active_in_period(days: int) -> int:
     return count
 
 def _count_left_in_period(days: int) -> int:
-    """Сколько юзеров ушло за последние N дней (по leftdata.json)."""
     data = _load_leftdata()
     cutoff = datetime.datetime.now() - datetime.timedelta(days=days)
     count = 0
@@ -108,7 +109,6 @@ def _count_left_in_period(days: int) -> int:
     return count
 
 def _get_categories_stats() -> dict:
-    """{good, warn, ban, rest, new} — счётчики по категориям."""
     from utils.norm_utils import (
         CATEGORY_GOOD, CATEGORY_WARN, CATEGORY_BAN,
         CATEGORY_NEW, CATEGORY_REST,
@@ -136,7 +136,6 @@ def _get_categories_stats() -> dict:
     return result
 
 def _build_stats_base_text() -> str:
-    """Базовая статистика (роли, юзеры, админы) — БЕЗ прокси."""
     from utils.role_utils import get_all_seasons, get_roles_by_season
 
     seasons = get_all_seasons()
@@ -175,7 +174,6 @@ def _build_stats_base_text() -> str:
     return text
 
 def _build_stats_period_text(period: str) -> str:
-    """Статистика за период: day / week / month."""
     days_map = {'day': 1, 'week': 7, 'month': 30}
     titles = {'day': 'за день', 'week': 'за неделю', 'month': 'за месяц'}
     days = days_map.get(period, 7)
@@ -202,7 +200,6 @@ def _build_stats_period_text(period: str) -> str:
     return text
 
 def _build_stats_keyboard(current_period: str = 'base') -> InlineKeyboardMarkup:
-    """Кнопки периодов."""
     def mark(p):
         return "✅ " if current_period == p else ""
 
@@ -215,12 +212,12 @@ def _build_stats_keyboard(current_period: str = 'base') -> InlineKeyboardMarkup:
             InlineKeyboardButton(text=f"{mark('week')}📆 Неделя", callback_data="stats_period_week"),
             InlineKeyboardButton(text=f"{mark('month')}📈 Месяц", callback_data="stats_period_month"),
         ],
+        [InlineKeyboardButton(text="📈 График активности (365 дней)", callback_data="stats_graph_365")],
         [InlineKeyboardButton(text="🔄 Обновить", callback_data=f"stats_period_{current_period}")],
     ])
 
 @router.message(Command('stats'))
 async def cmd_stats(message: Message):
-    """Статистика с кнопками."""
     user_id = message.from_user.id if message.from_user else None
     if user_id is None:
         await message.answer("❌ Не удалось определить пользователя.")
@@ -230,7 +227,6 @@ async def cmd_stats(message: Message):
         await message.answer("⛔ Доступ запрещён. Только для администраторов.")
         return
 
-    # Во флуде — краткая версия
     if message.chat.id == GENERAL_CHAT_ID:
         from utils.role_utils import get_all_seasons, get_roles_by_season
         seasons = get_all_seasons()
@@ -285,6 +281,80 @@ async def stats_period_callback(callback: CallbackQuery):
     except Exception:
         pass
 
+@router.callback_query(F.data == "stats_graph_365")
+async def stats_graph_365_callback(callback: CallbackQuery):
+    try:
+        await callback.answer("⏳ Строю график...")
+    except Exception:
+        pass
+
+    user_id = callback.from_user.id
+    if not is_admin(user_id):
+        await callback.answer("⛔ Доступ запрещён.", show_alert=True)
+        return
+
+    if callback.message.chat.id == GENERAL_CHAT_ID:
+        await callback.answer("⛔ В ЛС, пожалуйста.", show_alert=True)
+        return
+
+    try:
+        from utils.counters import get_norm_history
+        history = get_norm_history()
+        
+        if not history:
+            await callback.message.answer("📭 Пока нет данных для графика. Подождите, пока пройдёт первая неделя.")
+            return
+
+        # Сортируем недели
+        weeks = sorted(history.keys())
+        
+        # Для каждой недели суммируем все сообщения всех юзеров
+        y_values = []
+        labels = []
+        for week in weeks:
+            total_msgs = sum(history[week].values())
+            y_values.append(total_msgs)
+            # Превращаем "2026-10-19" в "19.10"
+            dt = datetime.datetime.strptime(week, "%Y-%m-%d")
+            labels.append(dt.strftime("%d.%m"))
+
+        days_x = np.arange(len(weeks))
+
+        # Отрисовка
+        plt.figure(figsize=(12, 6))
+        plt.bar(days_x, y_values, color='#84cc16', width=0.6)
+
+        # Оформление
+        plt.title("Общее количество сообщений за неделю (365 дней)", fontsize=16, pad=15)
+        plt.ylabel("Сообщений", fontsize=12)
+        
+        # Настройка оси X
+        if len(labels) > 12:
+            step = len(labels) // 12
+            plt.xticks(days_x[::step], labels[::step], fontsize=10, rotation=45)
+        else:
+            plt.xticks(days_x, labels, fontsize=10, rotation=45)
+        
+        plt.grid(axis='y', linestyle='--', alpha=0.5)
+        plt.gca().spines['top'].set_visible(False)
+        plt.gca().spines['right'].set_visible(False)
+
+        filepath = os.path.join(DATA_DIR, f"temp_stats_graph.png")
+        plt.savefig(filepath, bbox_inches='tight')
+        plt.close()
+
+        photo = FSInputFile(filepath)
+        await callback.message.answer_photo(
+            photo,
+            caption="📈 <b>Активность за неделю (сумма сообщений)</b>\n\n"
+                    f"<i>(На основе сохранённой истории норм)</i>",
+            parse_mode="HTML"
+        )
+        os.remove(filepath)
+
+    except Exception as e:
+        logger.error(f"❌ Ошибка генерации графика: {e}")
+        await callback.message.answer(f"❌ Ошибка: {e}")
 # ============================================================
 # 🔍 ПОИСК ПО РОЛИ (/findrole)
 # ============================================================
@@ -292,7 +362,6 @@ async def stats_period_callback(callback: CallbackQuery):
 @router.message(Command('findrole'))
 async def cmd_findrole(message: Message):
     user_id = message.from_user.id
-
     if not is_admin(user_id):
         await message.answer("⛔ Доступ запрещён.")
         return
@@ -327,11 +396,11 @@ async def cmd_findrole(message: Message):
         role_name = r['name']
         role_id = r.get('id')
         if not role_id:
-            continue  # Пропускаем, если нет ID (защита)
+            continue
         status_emoji = "🟢" if r['status'] == 'свободна' else "🔴" if r['status'] == 'занята' else "⏳"
         buttons.append([InlineKeyboardButton(
             text=f"{status_emoji} {role_name} ({r['season']})",
-            callback_data=f"findrole_view_{role_id}"  # ✅ Используем ID вместо ключа
+            callback_data=f"findrole_view_{role_id}"
         )])
 
     await message.answer(text, parse_mode="HTML", reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons))
@@ -341,10 +410,9 @@ async def findrole_view(callback: CallbackQuery):
     try:
         await callback.answer()
     except Exception:
-        pass  # ✅ Игнорируем "query is too old"
+        pass
     
     admin_id = callback.from_user.id
-
     if not is_admin(admin_id):
         await callback.answer("⛔ Доступ запрещён.", show_alert=True)
         return
@@ -356,7 +424,6 @@ async def findrole_view(callback: CallbackQuery):
         return
 
     role_info = get_role_by_id(role_id)
-
     if not role_info:
         await callback.message.edit_text("❌ Роль не найдена.")
         return
@@ -395,7 +462,7 @@ async def findrole_view(callback: CallbackQuery):
     if owner_id:
         buttons.insert(0, [InlineKeyboardButton(
             text="🗑️ Удалить роль и юзера",
-            callback_data=f"findrole_delete_{role_id}"  # ✅ Используем ID
+            callback_data=f"findrole_delete_{role_id}"
         )])
 
     try:
@@ -407,23 +474,16 @@ async def findrole_view(callback: CallbackQuery):
     except Exception:
         pass
 
-# ✅ ВАЖНО: специфичный хендлер (yes) — ВСЕГДА СТРОГО ПЕРЕД общим (delete).
-# Иначе общий startswith("findrole_delete_") перехватит "findrole_delete_yes_123"
-# и упадёт на int("yes_123") → ValueError.
-
 @router.callback_query(F.data.regexp(r"^findrole_delete_yes_\d+$"))
 async def findrole_delete_do(callback: CallbackQuery):
-    # ✅ Отладочный лог: если его нет в логах — хендлер не вызван (фильтр)
     logger.info(f"🔵 [findrole_delete_do] ENTERED, data={callback.data}, user={callback.from_user.id}")
 
-    # ✅ Сразу отвечаем на callback, чтобы кнопка "отжалась" и юзер увидел спиннер
     try:
         await callback.answer("⏳ Удаляю...")
     except Exception:
         pass
 
     admin_id = callback.from_user.id
-
     if not is_admin(admin_id):
         await callback.answer("⛔ Доступ запрещён.", show_alert=True)
         return
@@ -434,10 +494,7 @@ async def findrole_delete_do(callback: CallbackQuery):
         await callback.answer("❌ Ошибка ID роли.", show_alert=True)
         return
 
-    logger.info(f"🔵 [findrole_delete_do] role_id={role_id}")
-
     role_info = get_role_by_id(role_id)
-
     if not role_info or not role_info.get('owner_id'):
         try:
             await callback.message.edit_text("❌ Роль уже свободна или не найдена.")
@@ -448,9 +505,6 @@ async def findrole_delete_do(callback: CallbackQuery):
     owner_id = int(role_info.get('owner_id'))
     role_name = role_info.get('name')
 
-    logger.info(f"🔵 [findrole_delete_do] Удаляем роль '{role_name}' (ID {role_id}) у юзера {owner_id}")
-
-    # Освобождаем роль по ID
     status_data = load_roles_status()
     for key, info in status_data.items():
         if isinstance(info, dict) and info.get('id') == role_id:
@@ -467,7 +521,6 @@ async def findrole_delete_do(callback: CallbackQuery):
     except Exception:
         pass
 
-    # ❌ УДАЛЕНО: вызов несуществующего метода set_chat_member_tag
     logger.info(f"ℹ️ Тег у {owner_id} не удалён: Telegram Bot API не поддерживает set_chat_member_tag")
 
     response = f"✅ <b>Роль «{html.escape(role_name)}» удалена:</b>\n"
@@ -477,22 +530,16 @@ async def findrole_delete_do(callback: CallbackQuery):
     response += f"• 🏷️ Тег в чате: <i>не поддерживается API</i>\n"
     response += f"• 🔄 Счётчик смен сброшен"
 
-    # ✅ Гарантированный фидбэк: пробуем edit_text, если падает — отправляем новое сообщение
     try:
         await callback.message.edit_text(response, parse_mode="HTML")
-        logger.info(f"✅ [findrole_delete_do] Сообщение обновлено (edit_text)")
-    except Exception as e:
-        logger.warning(f"⚠️ [findrole_delete_do] edit_text упал: {e}. Пробуем answer().")
+    except Exception:
         try:
             await callback.message.answer(response, parse_mode="HTML")
-            logger.info(f"✅ [findrole_delete_do] Отправлено новое сообщение (answer)")
-        except Exception as e2:
-            logger.error(f"❌ [findrole_delete_do] answer тоже упал: {e2}")
-
+        except Exception:
+            pass
+        
     logger.info(f"Админ {admin_id} удалил роль ID {role_id} и юзера {owner_id}")
 
-
-# ✅ Общий хендлер (окно подтверждения) — ПОСЛЕ специфичного
 @router.callback_query(F.data.regexp(r"^findrole_delete_\d+$"))
 async def findrole_delete_confirm(callback: CallbackQuery):
     logger.info(f"🔵 [findrole_delete_confirm] ENTERED, data={callback.data}")
@@ -503,7 +550,6 @@ async def findrole_delete_confirm(callback: CallbackQuery):
         pass
 
     admin_id = callback.from_user.id
-
     if not is_admin(admin_id):
         await callback.answer("⛔ Доступ запрещён.", show_alert=True)
         return
@@ -515,7 +561,6 @@ async def findrole_delete_confirm(callback: CallbackQuery):
         return
 
     role_info = get_role_by_id(role_id)
-
     if not role_info or not role_info.get('owner_id'):
         await callback.message.edit_text("❌ Роль уже свободна или не найдена.")
         return
@@ -545,7 +590,6 @@ async def findrole_delete_confirm(callback: CallbackQuery):
     except Exception as e:
         logger.warning(f"⚠️ [findrole_delete_confirm] edit_text упал: {e}")
 
-
 @router.callback_query(F.data == "findrole_back")
 async def findrole_back(callback: CallbackQuery):
     try:
@@ -569,7 +613,6 @@ class UserStatsStates(StatesGroup):
 @router.message(Command('userstats'))
 async def cmd_userstats(message: Message, state: FSMContext):
     user_id = message.from_user.id
-
     if not is_admin(user_id):
         await message.answer("⛔ Доступ запрещён.")
         return
@@ -652,7 +695,6 @@ async def reset_changes_callback(callback: CallbackQuery):
         pass
     
     admin_id = callback.from_user.id
-
     if not is_admin(admin_id):
         await callback.answer("⛔ Доступ запрещён.", show_alert=True)
         return
@@ -679,7 +721,6 @@ async def confirm_reset_callback(callback: CallbackQuery):
         pass
     
     admin_id = callback.from_user.id
-
     if not is_admin(admin_id):
         await callback.answer("⛔ Доступ запрещён.", show_alert=True)
         return
@@ -704,14 +745,12 @@ async def confirm_reset_callback(callback: CallbackQuery):
 
 @router.callback_query(F.data.startswith("do_reset_"))
 async def do_reset_callback(callback: CallbackQuery):
-    # ✅ Сразу отвечаем на callback
     try:
         await callback.answer("⏳ Сбрасываю...")
     except Exception:
         pass
     
     admin_id = callback.from_user.id
-
     if not is_admin(admin_id):
         await callback.answer("⛔ Доступ запрещён.", show_alert=True)
         return
@@ -725,7 +764,6 @@ async def do_reset_callback(callback: CallbackQuery):
             pass
         return
 
-    # ❌ УДАЛЕНО: вызов несуществующего метода set_chat_member_tag
     logger.info(f"ℹ️ Тег у {target_id} не удалён: Telegram Bot API не поддерживает set_chat_member_tag")
 
     old_role = get_user_role_from_roles(target_id)
@@ -973,7 +1011,6 @@ async def cmd_resetuser(message: Message):
         await message.answer("⛔ Нельзя сбросить администратора.")
         return
 
-    # ❌ УДАЛЕНО: вызов несуществующего метода set_chat_member_tag
     logger.info(f"ℹ️ Тег у {target_id} не удалён: Telegram Bot API не поддерживает set_chat_member_tag")
 
     old_role = get_user_role_from_roles(target_id)
@@ -1115,6 +1152,49 @@ async def cmd_open(message: Message):
     from utils.role_utils import set_closed_mode
     set_closed_mode(False)
     await message.answer("🔓 Набор ролей открыт.")
+
+@router.message(Command('setrank'))
+async def cmd_setrank(message: Message):
+    user_id = message.from_user.id
+    if not is_owner(user_id):
+        await message.answer("⛔ Только для владельца.")
+        return
+
+    parts = message.text.split()
+    if len(parts) < 3:
+        await message.answer("❌ Используйте: /setrank [ID] [ранг]\nРанг: 1/2/3")
+        return
+
+    try:
+        target_id = int(parts[1])
+        new_rank = int(parts[2])
+    except ValueError:
+        await message.answer("❌ Неверные аргументы.")
+        return
+
+    if new_rank not in [1, 2, 3]:
+        await message.answer("❌ Ранг должен быть 1, 2 или 3.")
+        return
+
+    if target_id == OWNER_ID:
+        await message.answer("⛔ Нельзя изменить ранг главного владельца.")
+        return
+
+    admins = load_admins()
+    found = False
+    for a in admins:
+        if a['id'] == target_id:
+            a['rank'] = new_rank
+            found = True
+            break
+
+    if not found:
+        await message.answer(f"❌ Пользователь {target_id} не в списке админов.")
+        return
+
+    save_admins(admins)
+    await message.answer(f"✅ Ранг пользователя {target_id} изменён на {new_rank}.")
+    logger.info(f"Владелец {user_id} установил ранг {new_rank} для {target_id}")
 
 # ============================================================
 # 📢 /message_all — рассылка

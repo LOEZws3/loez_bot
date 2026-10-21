@@ -108,6 +108,65 @@ def get_all_counts() -> dict:
 
     return result
 
+NORM_HISTORY_FILE = os.path.join(DATA_DIR, 'system', 'norm_history.json')
+
+def save_weekly_norm_history() -> bool:
+    """Сохраняет текущие счётчики в историю перед сбросом."""
+    data = load_counters()
+    current_week = _get_current_week_start()
+    
+    # Собираем только тех, у кого count > 0
+    week_stats = {}
+    for uid_str, info in data.items():
+        if not isinstance(info, dict):
+            continue
+        if info.get('week_start') == current_week:
+            count = int(info.get('count', 0))
+            if count > 0:
+                week_stats[uid_str] = count
+
+    if not week_stats:
+        return True
+
+    # Загружаем историю
+    history = {}
+    if os.path.exists(NORM_HISTORY_FILE):
+        try:
+            with open(NORM_HISTORY_FILE, 'r', encoding='utf-8') as f:
+                history = json.load(f)
+            if not isinstance(history, dict):
+                history = {}
+        except Exception:
+            history = {}
+
+    # Сохраняем под датой начала недели
+    history[current_week] = week_stats
+    
+    # Ограничиваем историю 52 неделями (1 год)
+    keys = sorted(history.keys())
+    if len(keys) > 52:
+        for k in keys[:-52]:
+            del history[k]
+
+    try:
+        with open(NORM_HISTORY_FILE, 'w', encoding='utf-8') as f:
+            json.dump(history, f, ensure_ascii=False, indent=2)
+        logger.info(f"📊 Сохранена история нормы за неделю {current_week} ({len(week_stats)} юзеров)")
+        return True
+    except Exception as e:
+        logger.error(f"❌ Ошибка сохранения norm_history.json: {e}")
+        return False
+
+def get_norm_history() -> dict:
+    """Возвращает историю нормы."""
+    if not os.path.exists(NORM_HISTORY_FILE):
+        return {}
+    try:
+        with open(NORM_HISTORY_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
 def reset_all_counters() -> bool:
     """
     Сбрасывает счётчики для новой недели.

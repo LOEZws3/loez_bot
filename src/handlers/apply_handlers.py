@@ -34,6 +34,8 @@ REQUESTS_FILE = os.path.join(DATA_DIR, 'system', 'requests.json')
 # Таймаут подачи заявки — 5 минут (300 секунд)
 APPLY_TIMEOUT = 300
 
+# ⚠️ НОВОЕ: Rate-limit (1 минута)
+_last_apply_time = {}
 
 class ApplyStates(StatesGroup):
     choosing_season = State()
@@ -41,7 +43,6 @@ class ApplyStates(StatesGroup):
     choosing_position = State()
     confirming = State()
     confirming_replace = State()
-
 
 # ======================== ЗАГРУЗКА / СОХРАНЕНИЕ ========================
 
@@ -57,7 +58,6 @@ def _load_requests() -> dict:
         return {}
     return data
 
-
 def _save_requests(requests: dict) -> bool:
     try:
         with open(REQUESTS_FILE, 'w', encoding='utf-8') as f:
@@ -67,7 +67,6 @@ def _save_requests(requests: dict) -> bool:
         logger.error(f"Ошибка сохранения requests.json: {e}")
         return False
 
-
 def _has_active_request(user_id: int) -> bool:
     requests = _load_requests()
     for req_id, req in requests.items():
@@ -75,14 +74,12 @@ def _has_active_request(user_id: int) -> bool:
             return True
     return False
 
-
 def _get_active_request(user_id: int):
     requests = _load_requests()
     for req_id, req in requests.items():
         if isinstance(req, dict) and req.get('user_id') == user_id and req.get('status') == 'pending':
             return req_id, req
     return None, None
-
 
 def _get_max_role_changes() -> int:
     try:
@@ -92,19 +89,14 @@ def _get_max_role_changes() -> int:
         logger.error(f"Ошибка чтения лимита смен роли: {e}")
         return 1
 
-
 # ======================== ПРОВЕРКА ТАЙМАУТА ========================
 
 async def _check_timeout(callback: CallbackQuery, state: FSMContext) -> bool:
-    """
-    Проверяет не истёк ли таймаут подачи заявки (5 минут).
-    Возвращает True если всё ок, False если таймаут истёк.
-    """
     data = await state.get_data()
     started_at = data.get('started_at')
 
     if not started_at:
-        return True  # нет таймера — ок
+        return True
 
     elapsed = time.time() - started_at
     if elapsed > APPLY_TIMEOUT:
@@ -119,11 +111,9 @@ async def _check_timeout(callback: CallbackQuery, state: FSMContext) -> bool:
             pass
         logger.info(f"⏰ Таймаут подачи заявки для {callback.from_user.id}")
         return False
-
     return True
 
-
-# ======================== КЛАВИАТУРЫ (по ID) ========================
+# ======================== КЛАВИАТУРЫ ========================
 
 def create_apply_keyboard(seasons: list) -> InlineKeyboardMarkup:
     sorted_seasons = sorted(seasons)
@@ -139,9 +129,7 @@ def create_apply_keyboard(seasons: list) -> InlineKeyboardMarkup:
     buttons.append([InlineKeyboardButton(text="❌ Отмена", callback_data="apply_cancel")])
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
-
 def create_role_keyboard(roles: list) -> InlineKeyboardMarkup:
-    """callback_data: apply_role_id_<id> — стабильно, никогда не сломается."""
     buttons = []
     for role in roles:
         role_name = role.get('name', '?')
@@ -169,7 +157,6 @@ def create_role_keyboard(roles: list) -> InlineKeyboardMarkup:
     buttons.append([InlineKeyboardButton(text="❌ Отмена", callback_data="apply_cancel")])
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
-
 def create_position_keyboard(user_id: int = None) -> InlineKeyboardMarkup:
     buttons = [
         [InlineKeyboardButton(text="👑 Администратор", callback_data="apply_position_admin")],
@@ -185,7 +172,6 @@ def create_position_keyboard(user_id: int = None) -> InlineKeyboardMarkup:
     buttons.append([InlineKeyboardButton(text="❌ Отмена", callback_data="apply_cancel")])
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
-
 # ======================== КОМАНДЫ ========================
 
 @router.message(Command("apply"))
@@ -195,6 +181,15 @@ async def cmd_apply(message: types.Message, state: FSMContext):
     if message.chat.id == GENERAL_CHAT_ID:
         await message.answer("⛔ Эта команда недоступна во флуд-чате.")
         return
+
+    # ⚠️ НОВОЕ: Rate-limit (1 минута)
+    now = time.time()
+    last_time = _last_apply_time.get(user_id)
+    if last_time and (now - last_time) < 60:
+        wait_sec = int(60 - (now - last_time))
+        await message.answer(f"⏳ Пожалуйста, подождите {wait_sec} сек. перед подачей новой заявки.")
+        return
+    _last_apply_time[user_id] = now
 
     if _has_active_request(user_id):
         await message.answer(
@@ -221,7 +216,6 @@ async def cmd_apply(message: types.Message, state: FSMContext):
         await message.answer("❌ Сезоны не найдены.")
         return
 
-    # ✅ Запускаем таймер
     await state.set_state(ApplyStates.choosing_season)
     await state.update_data(started_at=time.time())
 
@@ -232,11 +226,9 @@ async def cmd_apply(message: types.Message, state: FSMContext):
         reply_markup=create_apply_keyboard(seasons)
     )
 
-
 @router.callback_query(F.data.startswith("apply_season_"))
 async def process_season(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
-
     if not await _check_timeout(callback, state):
         return
 
@@ -277,11 +269,9 @@ async def process_season(callback: CallbackQuery, state: FSMContext):
         if "message is not modified" not in str(e):
             raise
 
-
 @router.callback_query(F.data.startswith("apply_role_id_"))
 async def process_role(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
-
     if not await _check_timeout(callback, state):
         return
 
@@ -319,11 +309,9 @@ async def process_role(callback: CallbackQuery, state: FSMContext):
         else:
             raise
 
-
 @router.callback_query(F.data.startswith("apply_position_"))
 async def process_position(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
-
     if not await _check_timeout(callback, state):
         return
 
@@ -359,11 +347,9 @@ async def process_position(callback: CallbackQuery, state: FSMContext):
         ])
     )
 
-
 @router.callback_query(F.data == "apply_submit")
 async def process_submit(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
-
     if not await _check_timeout(callback, state):
         return
 
@@ -388,18 +374,14 @@ async def process_submit(callback: CallbackQuery, state: FSMContext):
 
     await _submit_request(callback, state, data, user_id)
 
-
 @router.callback_query(F.data == "apply_replace_confirm")
 async def apply_replace_confirm(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
-
     if not await _check_timeout(callback, state):
         return
-
     data = await state.get_data()
     user_id = callback.from_user.id
     await _submit_request(callback, state, data, user_id)
-
 
 async def _submit_request(callback: CallbackQuery, state: FSMContext, data: dict, user_id: int):
     requests = _load_requests()
@@ -428,7 +410,6 @@ async def _submit_request(callback: CallbackQuery, state: FSMContext, data: dict
 
     _save_requests(requests)
 
-    # Обновляем статус по ID
     if role_id:
         update_role_status_by_id(role_id, "ожидает")
 
@@ -445,11 +426,9 @@ async def _submit_request(callback: CallbackQuery, state: FSMContext, data: dict
 
     await _notify_admins(callback.bot, request_id, requests[str(request_id)])
 
-
 @router.callback_query(F.data == "apply_none")
 async def apply_none(callback: CallbackQuery):
     await callback.answer("❌ Эта роль уже занята!", show_alert=True)
-
 
 @router.callback_query(F.data == "apply_cancel")
 async def apply_cancel(callback: CallbackQuery, state: FSMContext):
@@ -457,11 +436,9 @@ async def apply_cancel(callback: CallbackQuery, state: FSMContext):
     await state.clear()
     await callback.message.edit_text("❌ Подача заявки отменена.")
 
-
 @router.callback_query(F.data == "apply_back_to_seasons")
 async def back_to_seasons(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
-
     if not await _check_timeout(callback, state):
         return
 
@@ -472,11 +449,9 @@ async def back_to_seasons(callback: CallbackQuery, state: FSMContext):
         reply_markup=create_apply_keyboard(seasons)
     )
 
-
 @router.callback_query(F.data == "apply_back_to_roles")
 async def back_to_roles(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
-
     if not await _check_timeout(callback, state):
         return
 
@@ -493,11 +468,9 @@ async def back_to_roles(callback: CallbackQuery, state: FSMContext):
         reply_markup=create_role_keyboard(roles)
     )
 
-
 @router.callback_query(F.data == "apply_back_to_position")
 async def back_to_position(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
-
     if not await _check_timeout(callback, state):
         return
 
@@ -506,7 +479,6 @@ async def back_to_position(callback: CallbackQuery, state: FSMContext):
         "Выберите должность:",
         reply_markup=create_position_keyboard(callback.from_user.id)
     )
-
 
 # ======================== /free ========================
 
@@ -519,7 +491,6 @@ async def cmd_free(message: types.Message):
         return
 
     role_short = get_user_role_short(user_id)
-
     if not role_short:
         await message.answer("❌ У вас нет активной роли.")
         return
@@ -536,7 +507,6 @@ async def cmd_free(message: types.Message):
             ]
         ])
     )
-
 
 @router.callback_query(F.data == "free_confirm")
 async def free_confirm(callback: CallbackQuery):
@@ -575,12 +545,10 @@ async def free_confirm(callback: CallbackQuery):
     else:
         await callback.message.edit_text("❌ Ошибка сохранения.")
 
-
 @router.callback_query(F.data == "free_cancel")
 async def free_cancel(callback: CallbackQuery):
     await callback.answer()
     await callback.message.edit_text("❌ Освобождение роли отменено.")
-
 
 # ======================== /cancel_request ========================
 
@@ -609,7 +577,6 @@ async def cmd_cancel_request(message: types.Message):
     await message.answer(
         f"✅ Заявка #{request_id} на роль «{request.get('role')}» отменена."
     )
-
 
 # ======================== УВЕДОМЛЕНИЕ АДМИНОВ ========================
 
