@@ -795,7 +795,7 @@ async def cmd_stats(message: Message):
         await message.answer("⛔ Доступ запрещён. Только для администраторов.")
         return
 
-    from .admin_commands import cmd_stats as admin_stats
+    from .admin_stats import cmd_stats as admin_stats
     await admin_stats(message)
 
 @router.callback_query(F.data == "back_to_menu_from_roles")

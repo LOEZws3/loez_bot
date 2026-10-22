@@ -581,7 +581,9 @@ async def birthday_group_loop():
 
 # ======================== ⚠️ НОВОЕ: ГЛОБАЛЬНЫЙ ERROR HANDLER ========================
 
-async def on_error(event, exception: Exception):
+async def on_error(event, exception: Exception = None):
+    if exception is None:
+        return
     """
     Глобальный обработчик ошибок.
     Логирует ошибку, пишет в errors.txt, показывает уведомление Windows и отвечает юзеру.

@@ -311,7 +311,7 @@ async def button_admins(message: Message):
     if not await _check_registration(message):
         return
     try:
-        from .admin_commands import cmd_admins
+        from .admin_users import cmd_admins
         await cmd_admins(message)
     except Exception as e:
         logger.error(f"❌ [КНОПКА] Список админов: {e}")
@@ -325,7 +325,7 @@ async def button_users(message: Message):
     if not await _check_registration(message):
         return
     try:
-        from .admin_commands import cmd_users
+        from .admin_users import cmd_users
         await cmd_users(message)
     except Exception as e:
         logger.error(f"❌ [КНОПКА] Список участников: {e}")
@@ -456,7 +456,7 @@ async def button_checknorm(message: Message):
     user_id = message.from_user.id
     logger.info(f"🔄 [КНОПКА] Проверка нормы от {user_id}")
     try:
-        from .admin_commands import cmd_checknorm
+        from .admin_users import cmd_checknorm
         await cmd_checknorm(message)
         logger.info(f"✅ [КНОПКА] Проверка нормы выполнена для {user_id}")
     except Exception as e:

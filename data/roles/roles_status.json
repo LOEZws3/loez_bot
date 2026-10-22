@@ -488,9 +488,9 @@
     "id": 61
   },
   "Эбардо (Голос времени)": {
-    "status": "занята",
-    "owner_id": 8365616736,
-    "username": "NiBlazeme",
+    "status": "свободна",
+    "owner_id": null,
+    "username": null,
     "season": "Голос времени",
     "extra": "",
     "id": 62
@@ -728,9 +728,9 @@
     "id": 91
   },
   "Люциус (Игра бога)": {
-    "status": "занята",
-    "owner_id": 7156943971,
-    "username": "Lentaawel",
+    "status": "свободна",
+    "owner_id": null,
+    "username": null,
     "season": "Игра бога",
     "extra": "",
     "id": 92
