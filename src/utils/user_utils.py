@@ -147,3 +147,6 @@ def get_notify_norm(user_id: int) -> bool:
 def set_grace_period(user_id: int, days: int = 4) -> bool:
     """Устанавливает льготный период, чтобы синхронизация не удалила пользователя."""
     return parsers.set_grace_period(user_id, days)
+
+def set_rest_status(user_id: int, rest: bool, end_date: str = None) -> bool:
+    return parsers.set_rest_status(user_id, rest, end_date)

@@ -76,13 +76,16 @@ def get_user(user_id: int) -> Optional[dict]:
         'birthday': info.get('birthday', None),
         'notify_norm': bool(info.get('notify_norm', True)),
         'grace_until': info.get('grace_until', None),
+        'rest': bool(info.get('rest', False)),               # ⚠️ НОВОЕ
+        'rest_end_date': info.get('rest_end_date', None),    # ⚠️ НОВОЕ
     }
 
 def add_user(user_id: int, username: str, full_name: str,
              role: str = '0', extra: str = '-993',
              changes_count: int = 0,
              birthday: str = None, notify_norm: bool = True,
-             grace_until: str = None) -> bool:
+             grace_until: str = None,
+             rest: bool = False, rest_end_date: str = None) -> bool:  # ⚠️ НОВОЕ
     users = load_users()
     if str(user_id) in users:
         return False
@@ -95,6 +98,8 @@ def add_user(user_id: int, username: str, full_name: str,
         'birthday': birthday,
         'notify_norm': bool(notify_norm),
         'grace_until': grace_until,
+        'rest': bool(rest),                 # ⚠️ НОВОЕ
+        'rest_end_date': rest_end_date,     # ⚠️ НОВОЕ
     }
     return save_users(users)
 
@@ -370,3 +375,15 @@ def load_roles_status() -> dict:
 
 def save_roles_status(roles: dict) -> bool:
     return save_json(ROLES_STATUS_FILE, roles)
+# ======================== РЕСТЫ ========================
+
+def set_rest_status(user_id: int, rest: bool, end_date: str = None) -> bool:
+    """Устанавливает статус реста и дату окончания в users.json."""
+    users = load_users()
+    uid_str = str(user_id)
+    if uid_str not in users:
+        return False
+    
+    users[uid_str]['rest'] = bool(rest)
+    users[uid_str]['rest_end_date'] = end_date if rest else None
+    return save_users(users)

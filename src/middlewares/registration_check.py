@@ -14,7 +14,6 @@ from utils.user_utils import get_user_by_id
 
 logger = logging.getLogger(__name__)
 
-
 class RegistrationCheckMiddleware(BaseMiddleware):
     """
     Пропускает только разрешённые команды для незарегистрированных.
@@ -47,11 +46,11 @@ class RegistrationCheckMiddleware(BaseMiddleware):
 
         # Админов и владельцев не трогаем
         try:
-            from utils.admin_utils import is_admin
-            if is_admin(user_id):
+            from utils.admin_utils import is_admin, is_owner
+            if is_admin(user_id) or is_owner(user_id):
                 return await handler(event, data)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error(f"Middleware: ошибка проверки админа {user_id}: {e}")
 
         # Зарегистрирован? (есть в users.json)
         try:
@@ -62,7 +61,6 @@ class RegistrationCheckMiddleware(BaseMiddleware):
             logger.error(f"Middleware: ошибка проверки юзера {user_id}: {e}")
 
         # Не зарегистрирован — проверяем команду
-        # /start /help /about /aboutme /apply /setbirthday /update
         command = text.split()[0].split('@')[0].lower()
 
         if command in STARTER_MODE_ALLOWED_COMMANDS:

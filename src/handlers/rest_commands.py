@@ -14,6 +14,7 @@ from utils.role_utils import (
     load_roles_status, save_roles_status,
     get_all_seasons, get_roles_by_season,
 )
+from utils.user_utils import set_rest_status  # ⚠️ НОВОЕ
 from .keyboards import get_main_keyboard
 from .utils import (
     generate_calendar_keyboard,
@@ -29,19 +30,15 @@ router = Router()
 REST_COOLDOWN = {}
 REST_COOLDOWN_SECONDS = 15
 
-
 class RestRequestStates(StatesGroup):
     waiting_for_date = State()
     waiting_for_reason = State()
 
-
 class SetRestStates(StatesGroup):
-    """FSM для /setrest — админ ставит рест вручную"""
     choosing_season = State()
     choosing_role = State()
     choosing_date = State()
     waiting_for_reason = State()
-
 
 # ======================== ПОДАЧА ЗАЯВКИ ========================
 
@@ -91,7 +88,6 @@ async def cmd_rest(message: Message, state: FSMContext):
         reply_markup=keyboard
     )
 
-
 @router.callback_query(F.data == "cancel_rest_request")
 async def cancel_rest_request(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
@@ -100,7 +96,6 @@ async def cancel_rest_request(callback: CallbackQuery, state: FSMContext):
         await callback.message.edit_text("❌ Отменено.")
     except Exception:
         pass
-
 
 @router.callback_query(F.data.startswith("rest_cal_"))
 async def rest_calendar_handler(callback: CallbackQuery, state: FSMContext):
@@ -151,12 +146,10 @@ async def rest_calendar_handler(callback: CallbackQuery, state: FSMContext):
             await callback.answer("❌ Дата должна быть в будущем.", show_alert=True)
             return
 
-        # Проверяем — это /rest или /setrest?
         state_data = await state.get_data()
         is_setrest = state_data.get('setrest_mode', False)
 
         if is_setrest:
-            # Режим /setrest
             await state.update_data(rest_days=(selected_date - today).days, rest_until=selected_date.isoformat())
             await state.set_state(SetRestStates.waiting_for_reason)
             await callback.answer()
@@ -168,7 +161,6 @@ async def rest_calendar_handler(callback: CallbackQuery, state: FSMContext):
             )
             return
         else:
-            # Режим /rest (обычная подача)
             days = (selected_date - today).days
             await state.update_data(rest_days=days, rest_until=selected_date.isoformat())
             await state.set_state(RestRequestStates.waiting_for_reason)
@@ -188,11 +180,16 @@ async def rest_calendar_handler(callback: CallbackQuery, state: FSMContext):
 
     await callback.answer()
 
-
 @router.message(RestRequestStates.waiting_for_reason)
 async def rest_reason_handler(message: Message, state: FSMContext):
     user_id = message.from_user.id
-    reason = (message.text or "")[:200]
+    reason = (message.text or "").strip()
+
+    if not reason:
+        await message.answer("❌ Причина не может быть пустой. Напишите причину реста:")
+        return
+
+    reason = reason[:200]
 
     data = await state.get_data()
     role_name = data.get('role_name')
@@ -264,7 +261,6 @@ async def rest_reason_handler(message: Message, state: FSMContext):
             except Exception as e:
                 logger.error(f"❌ Не удалось уведомить админа {admin['id']}: {e}")
 
-
 # ======================== ОДОБРЕНИЕ / ОТКЛОНЕНИЕ ========================
 
 @router.callback_query(F.data.startswith("rest_approve_"))
@@ -290,11 +286,24 @@ async def rest_approve(callback: CallbackQuery):
     role_name = req.get('role_name')
     rest_until = req.get('rest_until')
 
+    # Обновляем roles_status.json
     status_data = load_roles_status()
-    if role_name in status_data:
-        status_data[role_name]['status'] = 'рест'
-        status_data[role_name]['extra'] = rest_until
+    found = False
+    for key, info in status_data.items():
+        if isinstance(info, dict) and info.get('owner_id') == user_id:
+            info['status'] = 'рест'
+            info['extra'] = rest_until
+            found = True
+            break
+            
+    if found:
         save_roles_status(status_data)
+        logger.info(f"✅ Роль юзера {user_id} переведена в рест до {rest_until}")
+    else:
+        logger.warning(f"⚠️ Роль юзера {user_id} не найдена в roles_status.json")
+
+    # ⚠️ НОВОЕ: Обновляем users.json
+    set_rest_status(user_id, True, rest_until)
 
     update_rest_request(user_id, 'status', 'approved')
 
@@ -314,10 +323,10 @@ async def rest_approve(callback: CallbackQuery):
         f"👤 <code>{user_id}</code>\n"
         f"🎭 {html.escape(role_name)}\n"
         f"📅 До: {datetime.date.fromisoformat(rest_until).strftime('%d.%m.%Y')}",
-        parse_mode="HTML"
+        parse_mode="HTML",
+        reply_markup=None
     )
     logger.info(f"Админ {admin_id} одобрил рест для {user_id}")
-
 
 @router.callback_query(F.data.startswith("rest_reject_"))
 async def rest_reject(callback: CallbackQuery):
@@ -355,16 +364,15 @@ async def rest_reject(callback: CallbackQuery):
         f"❌ <b>Заявка на рест отклонена</b>\n\n"
         f"👤 <code>{user_id}</code>\n"
         f"🎭 {html.escape(role_name or '?')}",
-        parse_mode="HTML"
+        parse_mode="HTML",
+        reply_markup=None
     )
     logger.info(f"Админ {admin_id} отклонил рест для {user_id}")
-
 
 # ======================== /SETREST — АДМИН СТАВИТ РЕСТ ========================
 
 @router.message(Command('setrest'))
 async def cmd_setrest(message: Message, state: FSMContext):
-    """Админ вручную ставит рест на роль"""
     user_id = message.from_user.id
 
     if not is_admin(user_id):
@@ -379,7 +387,6 @@ async def cmd_setrest(message: Message, state: FSMContext):
         await message.answer("⛔ Эта команда недоступна во флуд-чате.")
         return
 
-    # Показываем сезоны
     seasons = get_all_seasons()
     if not seasons:
         await message.answer("📭 Сезоны не найдены.")
@@ -403,7 +410,6 @@ async def cmd_setrest(message: Message, state: FSMContext):
         reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
     )
 
-
 @router.callback_query(F.data == "setrest_cancel")
 async def setrest_cancel(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
@@ -413,10 +419,8 @@ async def setrest_cancel(callback: CallbackQuery, state: FSMContext):
     except Exception:
         pass
 
-
 @router.callback_query(F.data.startswith("setrest_season_"))
 async def setrest_season(callback: CallbackQuery, state: FSMContext):
-    """Выбор сезона → показываем роли"""
     await callback.answer()
 
     if not is_admin(callback.from_user.id):
@@ -426,7 +430,6 @@ async def setrest_season(callback: CallbackQuery, state: FSMContext):
     season = callback.data.replace("setrest_season_", "")
     roles = get_roles_by_season(season)
 
-    # Показываем только занятые
     occupied = [r for r in roles if r.get('status') == 'занята']
 
     if not occupied:
@@ -456,7 +459,6 @@ async def setrest_season(callback: CallbackQuery, state: FSMContext):
         reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
     )
 
-
 @router.callback_query(F.data == "setrest_back_to_seasons")
 async def setrest_back_to_seasons(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
@@ -483,10 +485,8 @@ async def setrest_back_to_seasons(callback: CallbackQuery, state: FSMContext):
         reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
     )
 
-
 @router.callback_query(F.data.startswith("setrest_role_"))
 async def setrest_role(callback: CallbackQuery, state: FSMContext):
-    """Роль выбрана → календарь"""
     await callback.answer()
 
     if not is_admin(callback.from_user.id):
@@ -525,10 +525,8 @@ async def setrest_role(callback: CallbackQuery, state: FSMContext):
         reply_markup=keyboard
     )
 
-
 @router.message(SetRestStates.waiting_for_reason)
 async def setrest_reason_handler(message: Message, state: FSMContext):
-    """Причина реста для /setrest"""
     user_id = message.from_user.id
 
     if not is_admin(user_id):
@@ -550,7 +548,6 @@ async def setrest_reason_handler(message: Message, state: FSMContext):
 
     await state.clear()
 
-    # Ставим рест
     status_data = load_roles_status()
     if role_name not in status_data:
         await message.answer(f"❌ Роль «{html.escape(role_name)}» не найдена.")
@@ -560,7 +557,9 @@ async def setrest_reason_handler(message: Message, state: FSMContext):
     status_data[role_name]['extra'] = rest_until
     save_roles_status(status_data)
 
-    # Сохраняем в rest_requests.json
+    # ⚠️ НОВОЕ: Обновляем users.json
+    set_rest_status(int(owner_id), True, rest_until)
+
     add_rest_request(int(owner_id), {
         'user_id': int(owner_id),
         'role_name': role_name,
@@ -572,7 +571,6 @@ async def setrest_reason_handler(message: Message, state: FSMContext):
         'created_at': datetime.datetime.now().isoformat()
     })
 
-    # Уведомляем владельца
     try:
         await message.bot.send_message(
             int(owner_id),
@@ -595,12 +593,9 @@ async def setrest_reason_handler(message: Message, state: FSMContext):
     )
     logger.info(f"Админ {user_id} поставил рест на роль {role_name} до {rest_until}")
 
-
 @router.message(Command('skip'), SetRestStates.waiting_for_reason)
 async def setrest_skip_reason(message: Message, state: FSMContext):
-    """Пропустить ввод причины"""
     await setrest_reason_handler(message, state)
-
 
 # ======================== /RESTLIST ========================
 
@@ -634,8 +629,8 @@ async def cmd_restlist(message: Message):
     else:
         await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
 
-
 # ======================== /UNREST ========================
+
 
 @router.message(Command('unrest'))
 async def cmd_unrest(message: Message):
@@ -646,27 +641,59 @@ async def cmd_unrest(message: Message):
 
     parts = message.text.split(maxsplit=1)
     if len(parts) < 2:
-        await message.answer("❌ Используйте: /unrest [имя роли]")
+        await message.answer("❌ Используйте: /unrest [ID роли или ID юзера]")
         return
 
-    role_name = parts[1].strip()
-    role_data = get_role_by_name(role_name)
-
-    if not role_data:
-        await message.answer(f"❌ Роль «{html.escape(role_name)}» не найдена.")
+    query = parts[1].strip()
+    
+    # Ищем роль по ID роли или по ID владельца
+    status_data = load_roles_status()
+    found_key = None
+    
+    # 1. Проверяем, не ID ли это роли
+    try:
+        role_id = int(query)
+        for key, info in status_data.items():
+            if isinstance(info, dict) and info.get('id') == role_id:
+                found_key = key
+                break
+    except ValueError:
+        # Если это не число, значит ввели не ID
+        await message.answer("❌ Неверный формат. Введите числовой ID роли или юзера.")
         return
+
+    # 2. Если по ID роли не нашли, проверяем, не ID ли это владельца
+    if not found_key:
+        try:
+            owner_id = int(query)
+            for key, info in status_data.items():
+                if isinstance(info, dict) and info.get('owner_id') == owner_id:
+                    found_key = key
+                    break
+        except ValueError:
+            pass
+
+    if not found_key:
+        await message.answer(f"❌ Роль с ID {query} не найдена (ни по ID роли, ни по ID владельца).")
+        return
+
+    role_data = status_data[found_key]
+    role_name = format_role_display(found_key)
 
     if role_data.get('status') != 'рест':
         await message.answer(f"❌ Роль «{html.escape(role_name)}» не в ресте.")
         return
 
-    status_data = load_roles_status()
-    status_data[role_name]['status'] = 'занята'
-    status_data[role_name]['extra'] = ''
+    # Снимаем рест
+    status_data[found_key]['status'] = 'занята'
+    status_data[found_key]['extra'] = ''
 
     if save_roles_status(status_data):
         owner_id = role_data.get('owner_id')
         if owner_id:
+            # ⚠️ НОВОЕ: Очищаем рест в users.json
+            set_rest_status(int(owner_id), False)
+
             try:
                 await message.bot.send_message(
                     owner_id,
@@ -681,10 +708,9 @@ async def cmd_unrest(message: Message):
             remove_rest_request(int(owner_id))
 
         await message.answer(f"✅ Рест с роли «{html.escape(role_name)}» снят.")
-        logger.info(f"Админ {user_id} снял рест с {role_name}")
+        logger.info(f"Админ {user_id} снял рест с {role_name} (ID роли/юзера: {query})")
     else:
         await message.answer("❌ Ошибка при снятии реста.")
-
 
 # ======================== /RESTEXTEND ========================
 
@@ -736,6 +762,9 @@ async def cmd_restextend(message: Message):
     if save_roles_status(status_data):
         owner_id = role_data.get('owner_id')
         if owner_id:
+            # ⚠️ НОВОЕ: Обновляем дату реста в users.json
+            set_rest_status(int(owner_id), True, new_extra)
+
             try:
                 await message.bot.send_message(
                     owner_id,

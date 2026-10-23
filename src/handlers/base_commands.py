@@ -577,6 +577,13 @@ async def cmd_aboutme(message: Message):
     bday_text = f"\n🎂 ДР: <b>{birthday}</b>" if birthday else "\n🎂 ДР: <i>не указан</i> (/setbirthday)"
     notify_text = f"\n🔔 Уведомления о норме: {'✅ вкл' if notify_norm else '❌ выкл'}"
 
+    # ⚠️ НОВОЕ: Проверка реста
+    user_data = get_user_by_id(user.id)
+    rest_text = ""
+    if user_data and user_data.get('rest'):
+        rest_end = user_data.get('rest_end_date', '?')
+        rest_text = f"\n⏳ <b>В ресте до:</b> {rest_end}"
+
     safe_name = html.escape(user.full_name)
     safe_username = html.escape(user.username if user.username else 'не указан')
 
@@ -589,6 +596,7 @@ async def cmd_aboutme(message: Message):
         f"🎭 Персонаж: {character}"
         f"{bday_text}"
         f"{notify_text}"
+        f"{rest_text}"
         f"{status_text}"
     )
 
