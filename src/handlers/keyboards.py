@@ -1,11 +1,3 @@
-# ============================================================
-# ⚠️ ВАЖНОЕ ПРАВИЛО ДЛЯ КЛАВИАТУРЫ
-# ============================================================
-# 
-# Во флуд-чате (GENERAL_CHAT_ID) клавиатура НЕ ПОКАЗЫВАЕТСЯ!
-# Все кнопки и меню должны быть доступны ТОЛЬКО в личных сообщениях.
-# ============================================================
-
 import os
 import json
 import logging
@@ -21,13 +13,7 @@ from utils.user_utils import get_user_by_id
 logger = logging.getLogger(__name__)
 router = Router()
 
-
-# ============================================================
-# ПРОВЕРКА РЕГИСТРАЦИИ (для кнопок)
-# ============================================================
-
 async def _check_registration(message: Message) -> bool:
-    """Проверяет что юзер зарегистрирован (есть в users.json)."""
     user_id = message.from_user.id
 
     if is_admin(user_id):
@@ -45,11 +31,6 @@ async def _check_registration(message: Message) -> bool:
     logger.info(f"⛔ [КНОПКА] {user_id} не зарегистрирован — доступ заблокирован")
     return False
 
-
-# ============================================================
-# INLINE-КЛАВИАТУРЫ (для /apply)
-# ============================================================
-
 def create_seasons_keyboard(seasons: list, callback_prefix: str = "apply_season") -> InlineKeyboardMarkup:
     keyboard = []
     row = []
@@ -62,7 +43,6 @@ def create_seasons_keyboard(seasons: list, callback_prefix: str = "apply_season"
         keyboard.append(row)
     keyboard.append([InlineKeyboardButton(text="❌ Отменить", callback_data="apply_cancel")])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
-
 
 def create_roles_keyboard(roles: list, season: str, callback_prefix: str = "apply_role") -> InlineKeyboardMarkup:
     keyboard = []
@@ -82,11 +62,6 @@ def create_roles_keyboard(roles: list, season: str, callback_prefix: str = "appl
     keyboard.append([InlineKeyboardButton(text="🔙 Назад к сезонам", callback_data="apply_back_to_seasons")])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
-
-# ============================================================
-# INLINE CALLBACK-ОБРАБОТЧИКИ
-# ============================================================
-
 @router.callback_query(F.data == "apply_cancel")
 async def cancel_apply(callback: CallbackQuery):
     await callback.answer()
@@ -95,31 +70,22 @@ async def cancel_apply(callback: CallbackQuery):
         "Вы можете подать новую заявку через /apply"
     )
 
-
 @router.callback_query(F.data == "apply_back_to_seasons")
 async def back_to_seasons(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
     from .apply_handlers import cmd_apply
     await cmd_apply(callback.message, state)
 
-
 @router.callback_query(F.data == "role_occupied")
 async def role_occupied(callback: CallbackQuery):
     await callback.answer("❌ Эта роль уже занята или находится в обработке", show_alert=True)
 
-
-# ============================================================
-# REPLY-КЛАВИАТУРА
-# ============================================================
-
 def get_main_keyboard(user_id: int, chat_id: int = None):
-    """Главная клавиатура. Для незарегистрированных — урезанная."""
     if chat_id == GENERAL_CHAT_ID:
         return None
 
     admin = is_admin(user_id)
 
-    # Стартовый режим
     if not admin:
         user_data = get_user_by_id(user_id)
         if not user_data:
@@ -189,11 +155,6 @@ def get_main_keyboard(user_id: int, chat_id: int = None):
         row_width=2
     )
 
-
-# ============================================================
-# ОБРАБОТЧИКИ REPLY-КНОПОК
-# ============================================================
-
 @router.message(F.text == "📋 Помощь (/help)")
 async def button_help(message: Message):
     if message.chat.id == GENERAL_CHAT_ID:
@@ -206,7 +167,6 @@ async def button_help(message: Message):
     except Exception as e:
         logger.error(f"❌ [КНОПКА] Помощь: {e}")
         await message.answer("❌ Произошла ошибка.")
-
 
 @router.message(F.text == "📝 Информация (/about)")
 async def button_about(message: Message):
@@ -221,7 +181,6 @@ async def button_about(message: Message):
         logger.error(f"❌ [КНОПКА] Информация: {e}")
         await message.answer("❌ Произошла ошибка.")
 
-
 @router.message(F.text == "📌 Мои данные (/aboutme)")
 async def button_aboutme(message: Message):
     if message.chat.id == GENERAL_CHAT_ID:
@@ -234,7 +193,6 @@ async def button_aboutme(message: Message):
     except Exception as e:
         logger.error(f"❌ [КНОПКА] Мои данные: {e}")
         await message.answer("❌ Произошла ошибка.")
-
 
 @router.message(F.text == "📜 Список ролей (/roles)")
 async def button_roles(message: Message):
@@ -249,7 +207,6 @@ async def button_roles(message: Message):
         logger.error(f"❌ [КНОПКА] Список ролей: {e}")
         await message.answer("❌ Произошла ошибка.")
 
-
 @router.message(F.text == "✅ Подать заявку (/apply)")
 async def button_apply(message: Message, state: FSMContext):
     if message.chat.id == GENERAL_CHAT_ID:
@@ -260,7 +217,6 @@ async def button_apply(message: Message, state: FSMContext):
     except Exception as e:
         logger.error(f"❌ [КНОПКА] Подать заявку: {e}")
         await message.answer("❌ Произошла ошибка.")
-
 
 @router.message(F.text == "🔓 Освободить роль (/free)")
 async def button_free(message: Message):
@@ -275,7 +231,6 @@ async def button_free(message: Message):
         logger.error(f"❌ [КНОПКА] Освободить роль: {e}")
         await message.answer("❌ Произошла ошибка.")
 
-
 @router.message(F.text == "⏳ Рест (/rest)")
 async def button_rest(message: Message, state: FSMContext):
     if message.chat.id == GENERAL_CHAT_ID:
@@ -288,7 +243,6 @@ async def button_rest(message: Message, state: FSMContext):
     except Exception as e:
         logger.error(f"❌ [КНОПКА] Рест: {e}")
         await message.answer("❌ Произошла ошибка.")
-
 
 @router.message(F.text == "📋 Список участников (/members)")
 async def button_members(message: Message):
@@ -303,7 +257,6 @@ async def button_members(message: Message):
         logger.error(f"❌ [КНОПКА] Список участников: {e}")
         await message.answer("❌ Произошла ошибка.")
 
-
 @router.message(F.text == "👥 Список админов (/admins)")
 async def button_admins(message: Message):
     if message.chat.id == GENERAL_CHAT_ID:
@@ -316,7 +269,6 @@ async def button_admins(message: Message):
     except Exception as e:
         logger.error(f"❌ [КНОПКА] Список админов: {e}")
         await message.answer("❌ Произошла ошибка.")
-
 
 @router.message(F.text == "👤 Список участников (/users)")
 async def button_users(message: Message):
@@ -331,7 +283,6 @@ async def button_users(message: Message):
         logger.error(f"❌ [КНОПКА] Список участников: {e}")
         await message.answer("❌ Произошла ошибка.")
 
-
 @router.message(F.text == "📋 Заявки (/requests)")
 async def button_requests(message: Message):
     if message.chat.id == GENERAL_CHAT_ID:
@@ -344,7 +295,6 @@ async def button_requests(message: Message):
     except Exception as e:
         logger.error(f"❌ [КНОПКА] Заявки: {e}")
         await message.answer("❌ Произошла ошибка.")
-
 
 @router.message(F.text == "📊 Статистика (/stats)")
 async def button_stats(message: Message):
@@ -359,7 +309,6 @@ async def button_stats(message: Message):
         logger.error(f"❌ [КНОПКА] Статистика: {e}")
         await message.answer("❌ Произошла ошибка.")
 
-
 @router.message(F.text == "📢 Кал (/call)")
 async def button_call(message: Message):
     if message.chat.id == GENERAL_CHAT_ID:
@@ -372,7 +321,6 @@ async def button_call(message: Message):
     except Exception as e:
         logger.error(f"❌ [КНОПКА] Кал: {e}")
         await message.answer("❌ Произошла ошибка.")
-
 
 @router.message(F.text == "🔊 Кал-фал (/callfal)")
 async def button_callfal(message: Message):
@@ -387,7 +335,6 @@ async def button_callfal(message: Message):
         logger.error(f"❌ [КНОПКА] Кал-фал: {e}")
         await message.answer("❌ Произошла ошибка.")
 
-
 @router.message(F.text == "👑 Кал-стафф (/callstaff)")
 async def button_callstaff(message: Message):
     if message.chat.id == GENERAL_CHAT_ID:
@@ -400,7 +347,6 @@ async def button_callstaff(message: Message):
     except Exception as e:
         logger.error(f"❌ [КНОПКА] Кал-стафф: {e}")
         await message.answer("❌ Произошла ошибка.")
-
 
 @router.message(F.text == "⏳ Список рестов (/restlist)")
 async def button_restlist(message: Message):
@@ -415,10 +361,6 @@ async def button_restlist(message: Message):
         logger.error(f"❌ [КНОПКА] Список рестов: {e}")
         await message.answer("❌ Произошла ошибка.")
 
-
-
-
-
 @router.message(F.text == "🔕 Отписаться от калов (/unregc)")
 async def button_unregc(message: Message):
     if message.chat.id == GENERAL_CHAT_ID:
@@ -431,7 +373,6 @@ async def button_unregc(message: Message):
     except Exception as e:
         logger.error(f"❌ [КНОПКА] Отписаться: {e}")
         await message.answer("❌ Произошла ошибка.")
-
 
 @router.message(F.text == "🔔 Подписаться на калы (/regc)")
 async def button_regc(message: Message):
@@ -456,9 +397,10 @@ async def button_checknorm(message: Message):
     user_id = message.from_user.id
     logger.info(f"🔄 [КНОПКА] Проверка нормы от {user_id}")
     try:
-        from .admin_users import cmd_checknorm
+        # ⚠️ Исправлено: импортируем напрямую из checknorm_commands
+        from .checknorm_commands import cmd_checknorm
         await cmd_checknorm(message)
         logger.info(f"✅ [КНОПКА] Проверка нормы выполнена для {user_id}")
     except Exception as e:
         logger.error(f"❌ [КНОПКА] Ошибка в Проверка нормы от {user_id}: {e}")
-        await message.answer("❌ Произошла ошибка. Попробуйте позже.")       
+        await message.answer("❌ Произошла ошибка. Попробуйте позже.")

@@ -1,23 +1,18 @@
 import html
-import datetime
-import asyncio
-import json
-import os
 from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 
-from config import GENERAL_CHAT_ID, OWNER_ID, DATA_DIR, LEFTOVER_FILE
-from utils.admin_utils import is_admin, is_owner, load_admins, save_admins, get_admin_rank, add_admin
+from config import GENERAL_CHAT_ID, OWNER_ID
+from utils.admin_utils import is_admin, is_owner, load_admins, get_admin_rank, add_admin
 from utils.user_utils import (
     load_users, add_user, remove_user, get_users_count,
     get_changes_count, reset_changes_count,
 )
 from utils.role_utils import (
     free_role, get_user_role as get_user_role_from_roles,
-    load_roles_status, save_roles_status,
 )
 from utils.norm_utils import get_user_category, get_emoji, get_category_label
 from utils.requests_utils import get_request_by_user_id
@@ -586,49 +581,6 @@ async def cmd_open(message: Message):
     set_closed_mode(False)
     await message.answer("🔓 Набор ролей открыт.")
 
-@router.message(Command('setrank'))
-async def cmd_setrank(message: Message):
-    user_id = message.from_user.id
-    if not is_owner(user_id):
-        await message.answer("⛔ Только для владельца.")
-        return
-
-    parts = message.text.split()
-    if len(parts) < 3:
-        await message.answer("❌ Используйте: /setrank [ID] [ранг]\nРанг: 1/2/3")
-        return
-
-    try:
-        target_id = int(parts[1])
-        new_rank = int(parts[2])
-    except ValueError:
-        await message.answer("❌ Неверные аргументы.")
-        return
-
-    if new_rank not in [1, 2, 3]:
-        await message.answer("❌ Ранг должен быть 1, 2 или 3.")
-        return
-
-    if target_id == OWNER_ID:
-        await message.answer("⛔ Нельзя изменить ранг главного владельца.")
-        return
-
-    admins = load_admins()
-    found = False
-    for a in admins:
-        if a['id'] == target_id:
-            a['rank'] = new_rank
-            found = True
-            break
-
-    if not found:
-        await message.answer(f"❌ Пользователь {target_id} не в списке админов.")
-        return
-
-    save_admins(admins)
-    await message.answer(f"✅ Ранг пользователя {target_id} изменён на {new_rank}.")
-    logger.info(f"Владелец {user_id} установил ранг {new_rank} для {target_id}")
-
 # ============================================================
 # 📢 /message_all — рассылка
 # ============================================================
@@ -690,13 +642,3 @@ async def do_message_all(message: Message, state: FSMContext):
         parse_mode="HTML"
     )
     logger.info(f"Владелец {user_id} сделал рассылку: {sent} ок, {failed} ошибок")
-
-# ============================================================
-# ⚠️ /checknorm (кнопка-заглушка для keyboards.py)
-# ============================================================
-
-@router.message(Command('checknorm'))
-async def cmd_checknorm(message: Message):
-    """Перенаправление в checknorm_commands.py."""
-    from .checknorm_commands import checknorm_handler as real_cmd
-    await real_cmd(message)

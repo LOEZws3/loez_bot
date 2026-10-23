@@ -672,7 +672,7 @@ async def run_bot():
                 bot = await create_bot_with_proxy()
             await on_startup()
             try:
-                await dp.start_polling(bot, skip_updates=True)
+                await dp.start_polling(bot, skip_updates=False)
             except ProxySSLException as ssl_error:
                 logger.error(f"❌ SSL: {ssl_error}")
                 try:
