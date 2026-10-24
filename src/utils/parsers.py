@@ -1,8 +1,3 @@
-"""
-Единый модуль работы с JSON-файлами.
-Все данные бота читаются/пишутся ТОЛЬКО через parsers.
-"""
-
 import os
 import json
 import logging
@@ -15,6 +10,8 @@ from config import (
     REQUESTS_FILE, SYSTEM_SETTINGS_FILE,
     ROLES_STATUS_FILE,
 )
+
+from utils.role_utils import format_role_display  # ⚠️ ДОБАВЛЕН ИМПОРТ
 
 logger = logging.getLogger(__name__)
 

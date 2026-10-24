@@ -13,7 +13,9 @@ from utils.role_utils import (
     get_role_by_name, update_role_status,
     load_roles_status, save_roles_status,
     get_all_seasons, get_roles_by_season,
+    format_role_display,  # ⚠️ ДОБАВИТЬ
 )
+
 from utils.user_utils import set_rest_status  # ⚠️ НОВОЕ
 from .keyboards import get_main_keyboard
 from .utils import (
@@ -649,16 +651,17 @@ async def cmd_unrest(message: Message):
     # Ищем роль по ID роли или по ID владельца
     status_data = load_roles_status()
     found_key = None
-    
+    role_data = None
+
     # 1. Проверяем, не ID ли это роли
     try:
         role_id = int(query)
         for key, info in status_data.items():
             if isinstance(info, dict) and info.get('id') == role_id:
                 found_key = key
+                role_data = info
                 break
     except ValueError:
-        # Если это не число, значит ввели не ID
         await message.answer("❌ Неверный формат. Введите числовой ID роли или юзера.")
         return
 
@@ -669,19 +672,19 @@ async def cmd_unrest(message: Message):
             for key, info in status_data.items():
                 if isinstance(info, dict) and info.get('owner_id') == owner_id:
                     found_key = key
+                    role_data = info
                     break
         except ValueError:
             pass
 
-    if not found_key:
+    if not found_key or not role_data:
         await message.answer(f"❌ Роль с ID {query} не найдена (ни по ID роли, ни по ID владельца).")
         return
 
-    role_data = status_data[found_key]
     role_name = format_role_display(found_key)
 
     if role_data.get('status') != 'рест':
-        await message.answer(f"❌ Роль «{html.escape(role_name)}» не в ресте.")
+        await message.answer(f"❌ Роль «{html.escape(role_name)}» не в ресте (статус: {role_data.get('status', '?')}).")
         return
 
     # Снимаем рест
@@ -691,7 +694,7 @@ async def cmd_unrest(message: Message):
     if save_roles_status(status_data):
         owner_id = role_data.get('owner_id')
         if owner_id:
-            # ⚠️ НОВОЕ: Очищаем рест в users.json
+            # ⚠️ Очищаем рест в users.json
             set_rest_status(int(owner_id), False)
 
             try:

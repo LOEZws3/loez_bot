@@ -204,91 +204,75 @@ async def set_bot_commands():
             logger.warning(f"⚠️ Не удалось установить команды бота: {e}")
 
 async def check_rests_loop():
-    """Планировщик рестов."""
+    """Планировщик рестов: проверяет users.json и снимает истёкшие ресты."""
     global bot
     from utils.role_utils import load_roles_status, save_roles_status
+    from utils.user_utils import load_users, set_rest_status, get_user_by_id
 
     while True:
         try:
             today = datetime.date.today().isoformat()
-            roles = load_roles_status()
-            expired = []
+            
+            # 1. Загружаем всех юзеров из users.json
+            users = load_users()
+            expired_rest_users = []
+            
+            for u in users:
+                uid = u.get('id')
+                if not uid:
+                    continue
+                    
+                # Если у юзера есть рест и дата окончания прошла
+                if u.get('rest') and u.get('rest_end_date'):
+                    if u['rest_end_date'] <= today:
+                        expired_rest_users.append(uid)
 
-            for role_name, role_data in roles.items():
-                if not isinstance(role_data, dict):
-                    continue
-                if role_data.get('status') != 'рест':
-                    continue
-                extra = role_data.get('extra', '')
-                if not extra:
-                    continue
-                if extra <= today:
-                    expired.append(role_name)
+            if expired_rest_users:
+                # 2. Снимаем рест в users.json
+                for uid in expired_rest_users:
+                    set_rest_status(uid, False)
+                    logger.info(f"🔔 Рест снят у юзера {uid} (истекла дата)")
 
-            if expired:
+                # 3. Снимаем рест в roles_status.json (ставим 'занята')
                 status_data = load_roles_status()
-                for role_name in expired:
-                    status_data[role_name]['status'] = 'занята'
-                    status_data[role_name]['extra'] = ''
-                save_roles_status(status_data)
-                logger.info(f"🔔 Снято рестов: {len(expired)} — {', '.join(expired)}")
+                changed = False
+                for role_key, role_info in status_data.items():
+                    if not isinstance(role_info, dict):
+                        continue
+                    owner_id = role_info.get('owner_id')
+                    if owner_id in expired_rest_users and role_info.get('status') == 'рест':
+                        role_info['status'] = 'занята'
+                        role_info['extra'] = ''
+                        changed = True
+                        
+                if changed:
+                    save_roles_status(status_data)
+                    logger.info(f"🔔 В roles_status.json обновлены роли для {len(expired_rest_users)} юзеров")
 
-                for role_name in expired:
-                    owner_id = status_data[role_name].get('owner_id')
-                    if owner_id and bot:
+                # 4. Уведомляем юзеров
+                if bot:
+                    for uid in expired_rest_users:
                         try:
+                            # Ищем имя роли для уведомления
+                            role_name = "ваша роль"
+                            for role_key, role_info in status_data.items():
+                                if isinstance(role_info, dict) and role_info.get('owner_id') == uid:
+                                    from utils.role_utils import format_role_display
+                                    role_name = format_role_display(role_key)
+                                    break
+                                    
                             await bot.send_message(
-                                owner_id,
+                                uid,
                                 f"🔔 <b>Ваш рест закончился!</b>\n\n"
                                 f"🎭 Роль: <b>{role_name}</b>\n"
                                 f"Теперь вы снова активны.",
                                 parse_mode="HTML"
                             )
                         except Exception as e:
-                            error_msg = str(e).lower()
-                            if "proxy" in error_msg or "connection" in error_msg or "timeout" in error_msg:
-                                await switch_to_next_proxy()
+                            logger.error(f"❌ Не удалось уведомить {uid}: {e}")
+
         except Exception as e:
             logger.error(f"❌ Ошибка в планировщике рестов: {e}")
-
-        # ⚠️ НОВОЕ: Автосвобождение ролей (48 часов)
-        try:
-            from config import REQUESTS_FILE
-            if os.path.exists(REQUESTS_FILE):
-                with open(REQUESTS_FILE, 'r', encoding='utf-8') as f:
-                    reqs = json.load(f)
-                changed = False
-                now = datetime.datetime.now()
-                for rid, r in reqs.items():
-                    if isinstance(r, dict) and r.get('status') == 'pending':
-                        created = r.get('created_at')
-                        if created:
-                            try:
-                                created_dt = datetime.datetime.fromisoformat(created)
-                                if (now - created_dt).total_seconds() > 48 * 3600:
-                                    r['status'] = 'rejected'
-                                    r['reason'] = 'Автоотклонение: истекло 48 часов'
-                                    r['updated_at'] = now.isoformat()
-                                    role_id = r.get('role_id')
-                                    if role_id:
-                                        from utils.role_utils import load_roles_status, save_roles_status
-                                        sd = load_roles_status()
-                                        for k, v in sd.items():
-                                            if isinstance(v, dict) and v.get('id') == role_id:
-                                                v['status'] = 'свободна'
-                                                v['owner_id'] = None
-                                                v['username'] = None
-                                                break
-                                        save_roles_status(sd)
-                                    changed = True
-                                    logger.info(f"⏰ Автоотклонена заявка #{rid} (48 часов)")
-                            except Exception:
-                                pass
-                if changed:
-                    with open(REQUESTS_FILE, 'w', encoding='utf-8') as f:
-                        json.dump(reqs, f, ensure_ascii=False, indent=2)
-        except Exception as e:
-            logger.error(f"❌ Ошибка автосвобождения ролей: {e}")
 
         await asyncio.sleep(60)
 

@@ -113,10 +113,14 @@ async def cmd_start(message: Message):
 
     if message.chat.id == GENERAL_CHAT_ID:
         await message.answer("⛔ Эта команда недоступна во флуд-чате.")
-        logger.info(f"⛔ Команда /start заблокирована во флуде от {user_id}")
         return
 
     logger.info(f"👤 {message.from_user.full_name} нажал /start")
+
+    # ⚠️ НОВОЕ: Проверяем, был ли юзер раньше
+    from utils.user_history import load_user_history
+    history = load_user_history(user_id)
+    is_returning = bool(history)  # Если история не пустая — значит, он уже был
 
     request = get_request_by_user_id(user_id)
     status_text = ""
@@ -129,8 +133,15 @@ async def cmd_start(message: Message):
             status_text = "\n\n❌ Ваша заявка отклонена. Попробуйте подать новую."
 
     safe_name = html.escape(message.from_user.full_name)
+    
+    # ⚠️ НОВОЕ: Разные приветствия
+    if is_returning:
+        greeting = f"👋 <b>С возвращением, {safe_name}!</b>\n\n"
+    else:
+        greeting = f"👋 Добро пожаловать, <b>{safe_name}</b>!\n\n"
+
     text = (
-        f"👋 Добро пожаловать, <b>{safe_name}</b>!\n\n"
+        greeting +
         f"Я бот для управления ролями и заявками.\n"
         f"Если у вас есть вопросы — напишите <b>@Sedrikai_bot</b> (бот-пересыльщик), "
         f"и ближайший освободившийся администратор ответит вам, как только сможет.\n\n"

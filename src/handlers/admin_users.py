@@ -643,3 +643,47 @@ async def do_message_all(message: Message, state: FSMContext):
         parse_mode="HTML"
     )
     logger.info(f"Владелец {user_id} сделал рассылку: {sent} ок, {failed} ошибок")
+@router.message(Command('sync_norm'))
+async def cmd_sync_norm(message: Message):
+    """Ручное начисление нормы (только владелец)"""
+    user_id = message.from_user.id
+    if not is_owner(user_id):
+        await message.answer("⛔ Только для владельца.")
+        return
+
+    parts = message.text.split()
+    if len(parts) < 3:
+        await message.answer("❌ Используйте: /sync_norm [дни] [сообщений_в_день]\nПример: /sync_norm 2 15")
+        return
+
+    try:
+        days = int(parts[1])
+        msgs_per_day = int(parts[2])
+    except ValueError:
+        await message.answer("❌ Неверные аргументы. Введите числа.")
+        return
+
+    total_to_add = days * msgs_per_day
+    
+    from utils.counters import load_counters, save_counters
+    from utils.user_utils import load_users
+    
+    counters = load_counters()
+    users = load_users()
+    count_added = 0
+    
+    for u in users:
+        uid_str = str(u['id'])
+        if uid_str in counters:
+            counters[uid_str]['count'] = counters[uid_str].get('count', 0) + total_to_add
+            count_added += 1
+            
+    save_counters(counters)
+    
+    await message.answer(
+        f"✅ <b>Синхронизация завершена</b>\n\n"
+        f"📊 Начислено: <b>{total_to_add}</b> сообщений\n"
+        f"👥 Юзеров затронуто: <b>{count_added}</b>",
+        parse_mode="HTML"
+    )
+    logger.info(f"Владелец {user_id} начислил {total_to_add} сообщений для {count_added} юзеров")

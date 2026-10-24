@@ -9,7 +9,7 @@ from aiogram import BaseMiddleware
 from aiogram.types import Message, CallbackQuery
 from typing import Callable, Dict, Any, Awaitable
 
-from config import GENERAL_CHAT_ID, STARTER_MODE_ALLOWED_COMMANDS
+from config import GENERAL_CHAT_ID, STARTER_MODE_ALLOWED_COMMANDS, OWNER_ID
 from utils.user_utils import get_user_by_id
 
 logger = logging.getLogger(__name__)
@@ -44,13 +44,9 @@ class RegistrationCheckMiddleware(BaseMiddleware):
         if not user_id:
             return await handler(event, data)
 
-        # Админов и владельцев не трогаем
-        try:
-            from utils.admin_utils import is_admin, is_owner
-            if is_admin(user_id) or is_owner(user_id):
-                return await handler(event, data)
-        except Exception as e:
-            logger.error(f"Middleware: ошибка проверки админа {user_id}: {e}")
+        # ⚠️ ЖЕЛЕЗОБЕТОННЫЙ ОБХОД: Владелец проходит всегда
+        if user_id == OWNER_ID:
+            return await handler(event, data)
 
         # Зарегистрирован? (есть в users.json)
         try:

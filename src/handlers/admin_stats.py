@@ -172,6 +172,7 @@ def _build_stats_keyboard(current_period: str = 'base') -> InlineKeyboardMarkup:
         return "✅ " if current_period == p else ""
 
     return InlineKeyboardMarkup(inline_keyboard=[
+                [InlineKeyboardButton(text="🏆 Топ недели", callback_data="stats_top_week")],
         [
             InlineKeyboardButton(text=f"{mark('base')}📊 База", callback_data="stats_period_base"),
             InlineKeyboardButton(text=f"{mark('day')}📅 День", callback_data="stats_period_day"),
@@ -315,3 +316,34 @@ async def stats_graph_365_callback(callback: CallbackQuery):
     except Exception as e:
         logger.error(f"❌ Ошибка генерации графика: {e}")
         await callback.message.answer(f"❌ Ошибка: {e}")
+@router.callback_query(F.data == "stats_top_week")
+async def stats_top_week_callback(callback: CallbackQuery):
+    try:
+        await callback.answer()
+    except Exception:
+        pass
+
+    user_id = callback.from_user.id
+    if not is_admin(user_id):
+        await callback.answer("⛔ Доступ запрещён.", show_alert=True)
+        return
+
+    from utils.counters import get_all_counts
+    from utils.user_utils import get_user_by_id
+
+    counts = get_all_counts()
+    # Сортируем по убыванию и берём топ-5
+    sorted_users = sorted(counts.items(), key=lambda x: x[1], reverse=True)[:5]
+
+    if not sorted_users:
+        await callback.message.answer("📭 Пока нет данных.")
+        return
+
+    text = "🏆 <b>Топ-5 активных юзеров за неделю</b>\n\n"
+    for i, (uid_str, count) in enumerate(sorted_users, 1):
+        uid = int(uid_str)
+        user_data = get_user_by_id(uid)
+        name = user_data.get('full_name', f'ID {uid}') if user_data else f'ID {uid}'
+        text += f"{i}. {html.escape(name)} — <b>{count}</b> соо\n"
+
+    await callback.message.answer(text, parse_mode="HTML")
