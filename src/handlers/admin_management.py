@@ -1,4 +1,5 @@
 import html
+import logging
 from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message
@@ -7,9 +8,9 @@ from utils.admin_utils import (
     is_admin, is_owner, get_admin_rank, load_admins, add_admin, remove_admin, set_rank, get_admin_info
 )
 from .keyboards import get_main_keyboard
-import logging
 
 logger = logging.getLogger(__name__)
+admin_logger = logging.getLogger('admin_actions')  # ⚠️ Логгер для действий админов
 router = Router()
 
 @router.message(Command('promote'))
@@ -37,6 +38,7 @@ async def cmd_promote(message: Message):
 
     if add_admin(target_id, "", f"User {target_id}", 2):
         await message.answer(f"✅ Пользователь <code>{target_id}</code> повышен до администратора!", parse_mode="HTML")
+        admin_logger.info(f"👑 Владелец {user_id} повысил {target_id} до администратора (ранг 2)")
         logger.info(f"👑 Владелец {user_id} повысил {target_id} до администратора")
     else:
         await message.answer("❌ Ошибка при добавлении администратора.")
@@ -70,6 +72,7 @@ async def cmd_demote(message: Message):
 
     if remove_admin(target_id):
         await message.answer(f"✅ Пользователь <code>{target_id}</code> понижен из администраторов.", parse_mode="HTML")
+        admin_logger.info(f"👑 Владелец {user_id} понизил {target_id}")
         logger.info(f"👑 Владелец {user_id} понизил {target_id}")
     else:
         await message.answer("❌ Ошибка при понижении администратора.")
@@ -114,6 +117,7 @@ async def cmd_setrank(message: Message):
                 f"✅ Пользователь <code>{target_id}</code> добавлен с рангом <b>{rank_names.get(rank)}</b>",
                 parse_mode="HTML"
             )
+            admin_logger.info(f"👑 Владелец {user_id} назначил ранг {rank} новому пользователю {target_id}")
             logger.info(f"👑 Владелец {user_id} назначил ранг {rank} новому пользователю {target_id}")
         else:
             await message.answer("❌ Ошибка при добавлении ранга.")
@@ -126,6 +130,7 @@ async def cmd_setrank(message: Message):
             f"✅ Ранг пользователя <code>{target_id}</code> изменён на <b>{rank_names.get(rank)}</b>",
             parse_mode="HTML"
         )
+        admin_logger.info(f"👑 Владелец {user_id} назначил ранг {rank} пользователю {target_id}")
         logger.info(f"👑 Владелец {user_id} назначил ранг {rank} пользователю {target_id}")
     else:
         await message.answer("❌ Ошибка при назначении ранга.")

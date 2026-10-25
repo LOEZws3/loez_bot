@@ -115,12 +115,33 @@ async def cmd_start(message: Message):
         await message.answer("⛔ Эта команда недоступна во флуд-чате.")
         return
 
-    logger.info(f"👤 {message.from_user.full_name} нажал /start")
+    user = get_user_by_id(user_id)
+    
+    # ⚠️ Проверка политики конфиденциальности
+    if not user or not user.get('agreed_to_privacy', False):
+        from config import PRIVACY_POLICY_URL, TERMS_OF_USE_URL
+        
+        keyboard = InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text="📄 Политика конфиденциальности", url=PRIVACY_POLICY_URL)],
+            [InlineKeyboardButton(text="📜 Правила пользования", url=TERMS_OF_USE_URL)],
+            [InlineKeyboardButton(text="✅ Я согласен", callback_data="agree_privacy")]
+        ])
+        
+        await message.answer(
+            "👋 <b>Добро пожаловать!</b>\n\n"
+            "Перед началом работы, пожалуйста, ознакомьтесь с:\n"
+            "• Политикой конфиденциальности\n"
+            "• Правилами пользования\n\n"
+            "Нажимая «✅ Я согласен», вы подтверждаете, что прочитали и принимаете эти условия.",
+            parse_mode="HTML",
+            reply_markup=keyboard
+        )
+        return
 
-    # ⚠️ НОВОЕ: Проверяем, был ли юзер раньше
+    # Если согласился — показываем стандартное приветствие
     from utils.user_history import load_user_history
     history = load_user_history(user_id)
-    is_returning = bool(history)  # Если история не пустая — значит, он уже был
+    is_returning = bool(history)
 
     request = get_request_by_user_id(user_id)
     status_text = ""
@@ -134,7 +155,6 @@ async def cmd_start(message: Message):
 
     safe_name = html.escape(message.from_user.full_name)
     
-    # ⚠️ НОВОЕ: Разные приветствия
     if is_returning:
         greeting = f"👋 <b>С возвращением, {safe_name}!</b>\n\n"
     else:
@@ -149,6 +169,40 @@ async def cmd_start(message: Message):
     )
 
     await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
+
+
+@router.callback_query(F.data == "agree_privacy")
+async def agree_privacy_callback(callback: CallbackQuery):
+    await callback.answer()
+    user_id = callback.from_user.id
+    
+    from utils.user_utils import get_user_by_id, add_user, set_agreed_to_privacy
+    
+    # Если юзера нет — создаём его (с ролью "0")
+    user = get_user_by_id(user_id)
+    if not user:
+        add_user(
+            user_id,
+            callback.from_user.username or '',
+            callback.from_user.full_name or '',
+            role='0'
+        )
+    
+    # Ставим флаг согласия
+    set_agreed_to_privacy(user_id, True)
+    
+    try:
+        await callback.message.delete()
+    except Exception:
+        pass
+    
+    await callback.message.answer(
+        "✅ <b>Спасибо! Вы приняли условия.</b>\n\n"
+        "Теперь вы можете пользоваться ботом.\n"
+        "Нажмите /start чтобы продолжить.",
+        parse_mode="HTML"
+    )
+    logger.info(f"👤 {user_id} согласился с политикой конфиденциальности")
 
 # ============================================================
 # 📚 /help
@@ -246,7 +300,9 @@ HELP_GROUPS = {
             "📌 Для админов:\n"
             "/restlist — список активных рестов\n"
             "/unrest — снять рест\n"
-            "/restextend — продлить рест"
+            "/restextend — продлить рест\n"
+            "/setrest — поставить рест\n"
+            "/giverest [ID] [дней] — отправить в рест за юзера"
         )
     },
     "calls": {
@@ -276,7 +332,8 @@ HELP_GROUPS = {
             "/findrole [запрос] — найти роль\n"
             "/userstats [ID] — статистика пользователя\n"
             "/stats — статистика бота\n"
-            "/check_chats — диагностика чатов"
+            "/check_chats — диагностика чатов\n"
+            "/sync_norm [дни] [сообщений] — начислить норму"
         )
     },
     "owner": {

@@ -274,7 +274,6 @@ async def _check_profile_completeness(message: types.Message, user_id: int):
         logger.error(f"❌ Ошибка проверки профиля {user_id}: {e}")
 
 # ======================== ОСНОВНОЙ ОБРАБОТЧИК ========================
-
 @router.message()
 async def handle_message(message: types.Message):
     """Обработчик всех сообщений"""
@@ -296,38 +295,33 @@ async def handle_message(message: types.Message):
     except Exception as e:
         logger.error(f"❌ Ошибка парсера варнов: {e}")
 
-    # ========== Счётчик нормы и проверки ==========
-    is_registered = check_user_registration(user_id)
+    # ⚠️ Проверка: Если юзер в ресте — не трогаем
+    user = get_user_by_id(user_id)
+    if user and user.get('rest', False):
+        logger.debug(f"⏳ {user_id} в ресте — пропускаем все проверки")
+        return
 
-    if is_registered:
-        # ⚠️ НОВОЕ: Проверка полноты профиля
+    # ⚠️ Если юзер полностью зарегистрирован — считаем сообщения
+    if user and user.get('is_fully_registered', False):
+        # Логика для зарегистрированных
         await _check_profile_completeness(message, user_id)
-        
-        # ⚠️ НОВОЕ: Сбор алиасов (старых ников)
-        _update_aliases(
-            user_id, 
-            message.from_user.username or '', 
-            message.from_user.full_name or ''
-        )
+        _update_aliases(user_id, message.from_user.username or '', message.from_user.full_name or '')
 
         if not get_joined_at(user_id):
             set_joined_at(user_id)
             logger.info(f"📅 Установлен joined_at для {user_id}")
 
-        if _is_user_in_rest(user_id):
-            logger.debug(f"⏳ {user_id} в ресте — не считаем")
+        if is_new_user(user_id, days=7):
+            logger.debug(f"👶 {user_id} Нью (<7 дней) — не считаем")
         else:
-            if is_new_user(user_id, days=7):
-                logger.debug(f"👶 {user_id} Нью (<7 дней) — не считаем")
-            else:
-                increment_message_count(user_id)
-                await _maybe_notify_norm(message.bot, user_id)
+            increment_message_count(user_id)
+            await _maybe_notify_norm(message.bot, user_id)
 
         if user_id in message_counter:
             message_counter[user_id] = 0
         return
 
-    # ========== Напоминалка для незарегистрированных ==========
+    # ========== Напоминалка для незарегистрированных (нет роли) ==========
     count = get_message_count(user_id) + 1
     set_message_count(user_id, count)
 
@@ -343,7 +337,6 @@ async def handle_message(message: types.Message):
             logger.info(f"📨 Напоминание отправлено {user_id} (#{count})")
         except Exception as e:
             logger.error(f"Ошибка отправки напоминания: {e}")
-
 # ======================== ПРИВЕТСТВИЕ ========================
 
 @router.my_chat_member()

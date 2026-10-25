@@ -407,7 +407,9 @@ async def _submit_request(callback: CallbackQuery, state: FSMContext, data: dict
         'created_at': datetime.now().isoformat(),
         'updated_at': datetime.now().isoformat()
     }
-
+    # ⚠️ Ставим флаг, что заявка подана
+    from utils.user_utils import set_apply_sent
+    set_apply_sent(user_id, True)
     _save_requests(requests)
 
     if role_id:

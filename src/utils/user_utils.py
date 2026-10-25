@@ -147,6 +147,37 @@ def get_notify_norm(user_id: int) -> bool:
 def set_grace_period(user_id: int, days: int = 4) -> bool:
     """Устанавливает льготный период, чтобы синхронизация не удалила пользователя."""
     return parsers.set_grace_period(user_id, days)
-
+#    ---
 def set_rest_status(user_id: int, rest: bool, end_date: str = None) -> bool:
     return parsers.set_rest_status(user_id, rest, end_date)
+def set_agreed_to_privacy(user_id: int, value: bool = True) -> bool:
+    """Устанавливает флаг согласия с политикой."""
+    users = parsers.load_users()
+    uid_str = str(user_id)
+    if uid_str not in users:
+        return False
+    users[uid_str]['agreed_to_privacy'] = value
+    return parsers.save_users(users)
+def set_fully_registered(user_id: int, value: bool = True) -> bool:
+    users = parsers.load_users()
+    uid_str = str(user_id)
+    if uid_str not in users:
+        return False
+    users[uid_str]['is_fully_registered'] = value
+    return parsers.save_users(users)
+def set_invite_link(user_id: int, link: str, expire_date: str) -> bool:
+    """Сохраняет персональную ссылку и дату её истечения."""
+    users = parsers.load_users()
+    uid_str = str(user_id)
+    if uid_str not in users:
+        return False
+    users[uid_str]['invite_link'] = link
+    users[uid_str]['invite_expire'] = expire_date
+    return parsers.save_users(users)
+def set_apply_sent(user_id: int, value: bool = True) -> bool:
+    users = parsers.load_users()
+    uid_str = str(user_id)
+    if uid_str not in users:
+        return False
+    users[uid_str]['apply_sent'] = value
+    return parsers.save_users(users)

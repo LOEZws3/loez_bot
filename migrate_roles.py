@@ -1,105 +1,71 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-"""
-Скрипт миграции roles_status.json.
-
-Что делает:
-1. Читает data/roles/roles_status.json
-2. Для каждого ключа БЕЗ "(" (скобок): берёт season из данных и переименовывает в "Имя (Сезон)"
-3. Если ключ УЖЕ содержит "(" — оставляет как есть
-4. Сохраняет результат
-5. Делает бэкап старого файла
-
-Запуск: python migrate_roles.py
-"""
-
 import os
 import sys
-import io
 import json
-import shutil
-from datetime import datetime
+import logging
 
-if sys.platform == 'win32':
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+# ⚠️ Добавляем папку src в путь, чтобы импорты работали
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+
+from config import DATA_DIR
+from utils.role_utils import load_roles_status
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+USERS_FILE = os.path.join(DATA_DIR, 'users', 'users.json')
 
 
-def main():
-    # Пути
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dir = os.path.join(base_dir, 'data', 'roles')
-    roles_file = os.path.join(data_dir, 'roles_status.json')
 
-    if not os.path.exists(roles_file):
-        print(f"❌ Файл {roles_file} не найден!")
+def migrate():
+    if not os.path.exists(USERS_FILE):
+        logger.error(f"Файл {USERS_FILE} не найден")
         return
 
-    # Загружаем
-    with open(roles_file, 'r', encoding='utf-8') as f:
-        data = json.load(f)
+    with open(USERS_FILE, 'r', encoding='utf-8') as f:
+        users = json.load(f)
 
-    if not isinstance(data, dict):
-        print("❌ roles_status.json — не словарь!")
-        return
+    status_data = load_roles_status()
+    changes = 0
 
-    # Бэкап
-    backup_file = roles_file + f".backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-    shutil.copy2(roles_file, backup_file)
-    print(f"💾 Бэкап создан: {os.path.basename(backup_file)}")
-
-    # Миграция
-    new_data = {}
-    renamed = 0
-    skipped = 0
-
-    for key, value in data.items():
-        if not isinstance(value, dict):
-            # Странная запись — оставляем как есть
-            new_data[key] = value
+    for uid_str, info in users.items():
+        if not isinstance(info, dict):
             continue
+        uid = int(uid_str)
 
-        # Уже с сезоном в скобках?
-        if '(' in key and ')' in key:
-            new_data[key] = value
-            skipped += 1
-            continue
+        # Ищем роль в roles_status.json
+        role_key = None
+        for key, r_info in status_data.items():
+            if isinstance(r_info, dict) and r_info.get('owner_id') == uid:
+                role_key = key
+                break
 
-        # Берём сезон из данных
-        season = value.get('season', '').strip()
+        if role_key:
+            # Роль есть — ставим флаги и записываем роль
+            from utils.role_utils import format_role_display
+            role_name = format_role_display(role_key)
+            if info.get('role') != role_name:
+                info['role'] = role_name
+                changes += 1
+            if not info.get('is_fully_registered', False):
+                info['is_fully_registered'] = True
+                changes += 1
+            if not info.get('apply_sent', False):
+                info['apply_sent'] = True
+                changes += 1
+            logger.info(f"✅ Юзер {uid} обновлён: роль={role_name}, is_fully_registered=True, apply_sent=True")
+        else:
+            # Роли нет — оставляем как есть, но проверяем agreed_to_privacy
+            if info.get('agreed_to_privacy', False):
+                # Если согласился, но нет роли — не трогаем is_fully_registered
+                pass
+            logger.info(f"ℹ️ Юзер {uid} без роли — пропущен")
 
-        if not season:
-            # Нет сезона — оставляем как есть
-            new_data[key] = value
-            skipped += 1
-            continue
-
-        # Новый ключ
-        new_key = f"{key} ({season})"
-
-        # Проверка на конфликт
-        if new_key in new_data:
-            print(f"⚠️ Конфликт: '{new_key}' уже существует. Оставляю '{key}'")
-            new_data[key] = value
-            skipped += 1
-            continue
-
-        new_data[new_key] = value
-        renamed += 1
-        print(f"🔄 '{key}' → '{new_key}'")
-
-    # Сохраняем
-    with open(roles_file, 'w', encoding='utf-8') as f:
-        json.dump(new_data, f, ensure_ascii=False, indent=2)
-
-    print()
-    print(f"✅ Готово!")
-    print(f"   Переименовано: {renamed}")
-    print(f"   Пропущено:     {skipped}")
-    print(f"   Всего записей: {len(new_data)}")
-    print()
-    print(f"💾 Бэкап: {backup_file}")
-
+    if changes > 0:
+        with open(USERS_FILE, 'w', encoding='utf-8') as f:
+            json.dump(users, f, ensure_ascii=False, indent=2)
+        logger.info(f"🔄 Миграция завершена: {changes} изменений")
+    else:
+        logger.info("✅ Миграция не требуется (все данные актуальны)")
 
 if __name__ == "__main__":
-    main()
+    migrate()

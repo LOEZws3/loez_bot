@@ -88,17 +88,41 @@ def _save_leftdata(user_id: int, full_name: str, role: str, reason: str = "left"
         logger.error(f"❌ Ошибка leftdata.json для {user_id}: {e}")
 
 async def create_bot_with_proxy() -> Bot:
-    from config import PRIORITY_PROXY, PRIORITY_PROXY_FALSE_PROTOCOL
+    from config import PRIORITY_PROXY, PRIORITY_PROXY_FALSE_PROTOCOL, PRIORITY_PROXY_FALSE_PROTOCOL_2
     
     if not USE_PROXY:
+        # Собираем список прокси из .env (в порядке приоритета)
+        proxies = []
         if PRIORITY_PROXY_FALSE_PROTOCOL:
-            logger.info(f"🌐 Прокси отключены, но задан PRIORITY_PROXY_False_protocol: {PRIORITY_PROXY_FALSE_PROTOCOL}")
-            session = AiohttpSession(proxy=PRIORITY_PROXY_FALSE_PROTOCOL)
-            return Bot(token=BOT_TOKEN, session=session)
-        else:
+            proxies.append(PRIORITY_PROXY_FALSE_PROTOCOL)
+        if PRIORITY_PROXY_FALSE_PROTOCOL_2:
+            proxies.append(PRIORITY_PROXY_FALSE_PROTOCOL_2)
+        
+        if not proxies:
             logger.info("ℹ️ Прокси отключены — прямое подключение")
             return Bot(token=BOT_TOKEN)
+        
+        # Пробуем каждый прокси по очереди
+        for proxy_url in proxies:
+            logger.info(f"🌐 Пробуем прокси: {proxy_url}")
+            try:
+                session = AiohttpSession(proxy=proxy_url)
+                test_bot = Bot(token=BOT_TOKEN, session=session)
+                # Проверяем, работает ли прокси (запрашиваем getMe)
+                await test_bot.get_me()
+                logger.info(f"✅ Прокси работает: {proxy_url}")
+                return test_bot
+            except Exception as e:
+                logger.warning(f"⚠️ Прокси {proxy_url} не работает: {e}")
+                try:
+                    await test_bot.session.close()
+                except Exception:
+                    pass
+        
+        logger.warning("⚠️ Все прокси не работают — прямое подключение")
+        return Bot(token=BOT_TOKEN)
 
+    # ======================== ЛОГИКА ДЛЯ USE_PROXY=TRUE ========================
     proxy_manager.proxy_dir = PROXY_DIR
 
     if PRIORITY_PROXY:
@@ -359,6 +383,69 @@ async def norm_reminder_loop():
             logger.error(f"❌ Ошибка в напоминании о чистке: {e}")
             await asyncio.sleep(3600)
 
+async def norm_reminder_low_loop():
+    """Напоминание о норме в пятницу 19:00 МСК (тем, у кого < 50%)."""
+    global bot
+
+    while True:
+        try:
+            now_utc = datetime.datetime.now(datetime.UTC)
+            now_msk = now_utc + datetime.timedelta(hours=3)
+            days_until_friday = (4 - now_msk.weekday()) % 7  # 4 = пятница
+            target = now_msk.replace(hour=19, minute=0, second=0, microsecond=0) + datetime.timedelta(days=days_until_friday)
+
+            if now_msk >= target:
+                target += datetime.timedelta(days=7)
+
+            wait_seconds = (target - now_msk).total_seconds()
+            if wait_seconds < 60:
+                wait_seconds = 60
+
+            await asyncio.sleep(wait_seconds)
+
+            # Загружаем данные
+            from utils.user_utils import load_users
+            from utils.counters import get_message_count
+            from utils.settings_utils import get_messages_norm
+
+            norm = get_messages_norm()
+            threshold = norm // 2  # 50%
+
+            users = load_users()
+            sent_count = 0
+
+            for u in users:
+                uid = u.get('id')
+                if not uid:
+                    continue
+                if not u.get('agreed_to_privacy', False) or not u.get('apply_sent', False):
+                    continue
+                if u.get('rest', False):
+                    continue
+
+                count = get_message_count(uid)
+                if count < threshold:
+                    try:
+                        # ⚠️ Более мотивирующий текст
+                        await bot.send_message(
+                            uid,
+                            f"📊 <b>Напоминание о норме</b>\n\n"
+                            f"Привет! Ты набрал <b>{count}</b> из <b>{norm}</b> сообщений за неделю.\n"
+                            f"Завтра (в субботу) ты можешь получить варн или бан!\n\n"
+                            f"Успей набрать норму! Каждое сообщение в чате — это шаг к цели. 💪",
+                            parse_mode="HTML"
+                        )
+                        sent_count += 1
+                    except Exception as e:
+                        logger.error(f"❌ Не удалось отправить напоминание {uid}: {e}")
+                    await asyncio.sleep(0.05)
+
+            logger.info(f"📊 Напоминание о норме отправлено {sent_count} юзерам")
+
+        except Exception as e:
+            logger.error(f"❌ Ошибка в norm_reminder_low_loop: {e}")
+            await asyncio.sleep(3600)
+
 async def norm_reset_loop():
     """Сброс счётчиков (21:00 МСК, с ожиданием чисток)."""
     from utils.counters import reset_all_counters
@@ -395,7 +482,7 @@ async def norm_reset_loop():
             await asyncio.sleep(3600)
 
 async def check_kicked_loop():
-    """Проверка кикнутых (раз в минуту). + сохранение в leftdata.json"""
+    """Проверка кикнутых (раз в минуту). + сохранение в leftdata.json + проверка grace_until."""
     global bot
 
     while True:
@@ -413,12 +500,27 @@ async def check_kicked_loop():
             if not users:
                 continue
 
-            kicked = []  # [(uid, full_name, role)]
+            kicked = []
 
             for u in users:
                 uid = u.get('id')
                 if not uid:
                     continue
+
+                # ⚠️ ПРОВЕРКА: если заявка не подана — не трогаем
+                if not u.get('apply_sent', False):
+                    continue
+
+                # ⚠️ ПРОВЕРКА ЛЬГОТНОГО ПЕРИОДА (если заявка подана)
+                grace_until = u.get('grace_until')
+                if grace_until:
+                    try:
+                        grace_dt = datetime.datetime.fromisoformat(grace_until)
+                        if datetime.datetime.now() < grace_dt:
+                            continue
+                    except (ValueError, TypeError):
+                        pass
+
                 try:
                     member = await bot.get_chat_member(GENERAL_CHAT_ID, uid)
                     if member.status in ['left', 'kicked']:
@@ -433,7 +535,6 @@ async def check_kicked_loop():
 
             for uid, full_name, role, reason in kicked:
                 _save_leftdata(uid, full_name, role, reason)
-                # ⚠️ НОВОЕ: пишем в users_history
                 try:
                     from utils.user_history import set_left
                     set_left(uid, reason)
@@ -459,7 +560,7 @@ async def check_kicked_loop():
             if changed:
                 save_roles_status(status_data)
 
-            logger.info(f"🧹 Кикнуты/ушли: {kicked_ids}")
+            logger.info(f"🧹 Кикнуты/ушли (после льготного периода): {kicked_ids}")
         except Exception as e:
             logger.error(f"❌ Ошибка проверки кикнутых: {e}")
 
@@ -717,6 +818,8 @@ async def on_startup():
     except Exception as e:
         logger.error(f"❌ Ошибка синхронизации: {e}")
 
+    asyncio.create_task(norm_reminder_low_loop())
+    logger.info("🔄 norm_reminder_low_loop запущен (пятница 19:00 МСК)")
     asyncio.create_task(check_rests_loop())
     logger.info("🔄 check_rests_loop запущен")
     asyncio.create_task(sync_roles_loop())

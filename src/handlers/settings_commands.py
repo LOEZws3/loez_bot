@@ -39,9 +39,12 @@ def _build_settings_keyboard(settings):
         [InlineKeyboardButton(text=f"{'✅' if settings.get('checknorm_time_window_enabled', True) else '❌'} Окно чистки", callback_data="settings_toggle_checknorm_window")],
         [InlineKeyboardButton(text=f"{'✅' if settings.get('require_profile_completeness', True) else '❌'} Проверка профиля", callback_data="settings_toggle_profile_check")],
         [InlineKeyboardButton(text="📊 Показать все настройки", callback_data="settings_show_all")],
-        [InlineKeyboardButton(text="🔄 Сбросить настройки", callback_data="settings_reset"), InlineKeyboardButton(text="🔙 Закрыть", callback_data="settings_close")]
+        [InlineKeyboardButton(text="🧹 Сбросить кэш", callback_data="settings_clear_cache")],
+        [
+            InlineKeyboardButton(text="🔄 Сбросить настройки", callback_data="settings_reset"),
+            InlineKeyboardButton(text="🔙 Закрыть", callback_data="settings_close")
+        ],
     ])
-
 @router.message(Command('settings'))
 async def cmd_settings(message: Message):
     user_id = message.from_user.id
@@ -198,6 +201,11 @@ async def settings_callback(callback: CallbackQuery, state: FSMContext):
         await state.clear()
         await callback.message.delete()
         await callback.message.answer("🔙 Настройки закрыты.")
+        return
+    elif action == "clear_cache":
+        from utils.parsers import clear_cache
+        clear_cache()
+        await callback.answer("✅ Кэш сброшен! Бот перечитает файлы.")
         return
 
 @router.message(WaitingForSetting.value, F.text.regexp(r'^\d+$'))

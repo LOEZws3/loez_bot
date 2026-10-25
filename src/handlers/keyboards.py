@@ -106,13 +106,10 @@ def get_main_keyboard(user_id: int, chat_id: int = None):
 
     buttons = []
 
+    # Основное (без дублей)
     buttons.append([
         KeyboardButton(text="📋 Помощь (/help)"),
-        KeyboardButton(text="📝 Информация (/about)")
-    ])
-    buttons.append([
-        KeyboardButton(text="📌 Мои данные (/aboutme)"),
-        KeyboardButton(text="📜 Список ролей (/roles)")
+        KeyboardButton(text="📌 Мои данные (/aboutme)")
     ])
     buttons.append([
         KeyboardButton(text="✅ Подать заявку (/apply)"),
@@ -120,30 +117,28 @@ def get_main_keyboard(user_id: int, chat_id: int = None):
     ])
     buttons.append([
         KeyboardButton(text="⏳ Рест (/rest)"),
-        KeyboardButton(text="📋 Список участников (/members)")
+        KeyboardButton(text="📜 Список ролей (/roles)")
     ])
 
+    # Админские кнопки (только для админов)
     if admin:
-        buttons.append([
-            KeyboardButton(text="👥 Список админов (/admins)"),
-            KeyboardButton(text="👤 Список участников (/users)")
-        ])
         buttons.append([
             KeyboardButton(text="📋 Заявки (/requests)"),
             KeyboardButton(text="📊 Статистика (/stats)")
+        ])
+        buttons.append([
+            KeyboardButton(text="👥 Список админов (/admins)"),
+            KeyboardButton(text="👤 Список участников (/users)")
         ])
         buttons.append([
             KeyboardButton(text="📢 Кал (/call)"),
             KeyboardButton(text="🔊 Кал-фал (/callfal)")
         ])
         buttons.append([
-            KeyboardButton(text="👑 Кал-стафф (/callstaff)"),
-            KeyboardButton(text="⏳ Список рестов (/restlist)")
-        ])
-        buttons.append([
             KeyboardButton(text="🔍 Проверка нормы (/checknorm)")
         ])
 
+    # Калы (всем)
     buttons.append([
         KeyboardButton(text="🔕 Отписаться от калов (/unregc)"),
         KeyboardButton(text="🔔 Подписаться на калы (/regc)")

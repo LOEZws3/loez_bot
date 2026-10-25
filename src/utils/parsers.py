@@ -1,3 +1,8 @@
+"""
+Единый модуль работы с JSON-файлами.
+Все данные бота читаются/пишутся ТОЛЬКО через parsers.
+"""
+
 import os
 import json
 import logging
@@ -11,9 +16,22 @@ from config import (
     ROLES_STATUS_FILE,
 )
 
-from utils.role_utils import format_role_display  # ⚠️ ДОБАВЛЕН ИМПОРТ
-
 logger = logging.getLogger(__name__)
+
+# ======================== ⚠️ НОВОЕ: КЭШ ========================
+_cache = {
+    'users': None,
+    'admins': None,
+    'roles_status': None,
+}
+
+def clear_cache():
+    """Сбрасывает кэш (нужно, если файлы менялись вручную)."""
+    global _cache
+    _cache['users'] = None
+    _cache['admins'] = None
+    _cache['roles_status'] = None
+    logger.info("🧹 Кэш JSON сброшен")
 
 # ======================== ⚠️ НОВОЕ: ЛОГГЕР ДЛЯ ДЕЙСТВИЙ АДМИНОВ ========================
 admin_logger = logging.getLogger('admin_actions')
@@ -50,13 +68,22 @@ def save_json(path: str, data: Any) -> bool:
 # ======================== ПОЛЬЗОВАТЕЛИ ========================
 
 def load_users() -> Dict[str, dict]:
+    if _cache['users'] is not None:
+        return _cache['users']
+    
     data = load_json(USERS_FILE_JSON, default={})
     if not isinstance(data, dict):
-        return {}
+        data = {}
+    
+    _cache['users'] = data
     return data
 
 def save_users(users: Dict[str, dict]) -> bool:
-    return save_json(USERS_FILE_JSON, users)
+    global _cache
+    if save_json(USERS_FILE_JSON, users):
+        _cache['users'] = users
+        return True
+    return False
 
 def get_user(user_id: int) -> Optional[dict]:
     users = load_users()
@@ -73,8 +100,13 @@ def get_user(user_id: int) -> Optional[dict]:
         'birthday': info.get('birthday', None),
         'notify_norm': bool(info.get('notify_norm', True)),
         'grace_until': info.get('grace_until', None),
-        'rest': bool(info.get('rest', False)),               # ⚠️ НОВОЕ
-        'rest_end_date': info.get('rest_end_date', None),    # ⚠️ НОВОЕ
+        'rest': bool(info.get('rest', False)),
+        'rest_end_date': info.get('rest_end_date', None),
+        'agreed_to_privacy': bool(info.get('agreed_to_privacy', False)),
+        'is_fully_registered': bool(info.get('is_fully_registered', False)), # ⚠️ НОВОЕ
+        'invite_link': info.get('invite_link', None), # ⚠️ НОВОЕ
+        'invite_expire': info.get('invite_expire', None), # ⚠️ НОВОЕ
+        'apply_sent': bool(info.get('apply_sent', False)),
     }
 
 def add_user(user_id: int, username: str, full_name: str,
@@ -82,7 +114,11 @@ def add_user(user_id: int, username: str, full_name: str,
              changes_count: int = 0,
              birthday: str = None, notify_norm: bool = True,
              grace_until: str = None,
-             rest: bool = False, rest_end_date: str = None) -> bool:  # ⚠️ НОВОЕ
+             rest: bool = False, rest_end_date: str = None,
+             agreed_to_privacy: bool = False,
+             is_fully_registered: bool = False,
+             apply_sent: bool = False,
+             invite_link: str = None, invite_expire: str = None) -> bool:
     users = load_users()
     if str(user_id) in users:
         return False
@@ -95,8 +131,13 @@ def add_user(user_id: int, username: str, full_name: str,
         'birthday': birthday,
         'notify_norm': bool(notify_norm),
         'grace_until': grace_until,
-        'rest': bool(rest),                 # ⚠️ НОВОЕ
-        'rest_end_date': rest_end_date,     # ⚠️ НОВОЕ
+        'rest': bool(rest),
+        'rest_end_date': rest_end_date,
+        'agreed_to_privacy': bool(agreed_to_privacy),
+        'is_fully_registered': bool(is_fully_registered),
+        'invite_link': invite_link,
+        'invite_expire': invite_expire,
+        'apply_sent': bool(apply_sent),
     }
     return save_users(users)
 
@@ -143,7 +184,6 @@ def reset_changes_count(user_id: int) -> bool:
 # ======================== ⚠️ НОВОЕ: ЛЬГОТНЫЙ ПЕРИОД ========================
 
 def set_grace_period(user_id: int, days: int = 4) -> bool:
-    """Устанавливает льготный период (grace period) для пользователя, чтобы синхронизация его не удалила."""
     users = load_users()
     uid_str = str(user_id)
     if uid_str not in users:
@@ -212,17 +252,24 @@ def get_notify_norm(user_id: int) -> bool:
 # ======================== АДМИНИСТРАТОРЫ ========================
 
 def load_admins() -> Dict[str, dict]:
-    """Загружает admins.json → {id: {username, full_name, rank}}"""
+    if _cache['admins'] is not None:
+        return _cache['admins']
+    
     data = load_json(ADMINS_FILE_JSON, default={})
     if not isinstance(data, dict):
-        return {}
+        data = {}
+    
+    _cache['admins'] = data
     return data
 
 def save_admins(admins: Dict[str, dict]) -> bool:
-    return save_json(ADMINS_FILE_JSON, admins)
+    global _cache
+    if save_json(ADMINS_FILE_JSON, admins):
+        _cache['admins'] = admins
+        return True
+    return False
 
 def get_admin(user_id: int) -> Optional[dict]:
-    """Возвращает данные администратора по ID"""
     admins = load_admins()
     info = admins.get(str(user_id))
     if not info or not isinstance(info, dict):
@@ -236,7 +283,6 @@ def get_admin(user_id: int) -> Optional[dict]:
 
 def add_admin(user_id: int, username: str = '', full_name: str = '',
               rank: int = 2) -> bool:
-    """Добавляет администратора"""
     admins = load_admins()
     if str(user_id) in admins:
         return False
@@ -248,7 +294,6 @@ def add_admin(user_id: int, username: str = '', full_name: str = '',
     return save_admins(admins)
 
 def remove_admin(user_id: int) -> bool:
-    """Удаляет администратора (кроме OWNER_ID)"""
     if user_id == OWNER_ID:
         logger.warning(f"⛔ Попытка удалить главного владельца {user_id}")
         return False
@@ -259,7 +304,6 @@ def remove_admin(user_id: int) -> bool:
     return False
 
 def set_rank(user_id: int, rank: int) -> bool:
-    """Устанавливает ранг (кроме OWNER_ID)"""
     if user_id == OWNER_ID:
         return False
     admins = load_admins()
@@ -271,11 +315,6 @@ def set_rank(user_id: int, rank: int) -> bool:
 # ======================== ВЛАДЕЛЬЦЫ (ЕДИНАЯ ЛОГИКА) ========================
 
 def get_owner_ids() -> List[int]:
-    """
-    Возвращает список всех владельцев:
-    - OWNER_ID (из .env) — главный владелец
-    - Все с rank=1 в admins.json
-    """
     owners = set()
     if OWNER_ID:
         owners.add(OWNER_ID)
@@ -293,27 +332,15 @@ def get_owner_ids() -> List[int]:
     return list(owners)
 
 def is_owner(user_id: int) -> bool:
-    """Проверяет, владелец ли пользователь (OWNER_ID или rank=1)"""
     return user_id in get_owner_ids()
 
 def is_admin(user_id: int) -> bool:
-    """
-    Проверяет, админ ли пользователь.
-    Ранг читается ТОЛЬКО из admins.json.
-    """
     if is_owner(user_id):
         return True
     admins = load_admins()
     return str(user_id) in admins
 
 def get_admin_rank(user_id: int) -> int:
-    """
-    Возвращает ранг:
-    1 — Владелец (OWNER_ID или rank=1 в admins.json)
-    2 — Админ (rank=2)
-    3 — Модератор (rank=3)
-    0 — Нет
-    """
     if is_owner(user_id):
         return 1
     admins = load_admins()
@@ -328,7 +355,6 @@ def get_admin_rank(user_id: int) -> int:
 # ======================== ЗАЯВКИ ========================
 
 def load_requests() -> Dict[str, dict]:
-    """Загружает requests.json → {id: {...}}"""
     data = load_json(REQUESTS_FILE, default={})
     if not isinstance(data, dict):
         return {}
@@ -340,7 +366,6 @@ def save_requests(requests: Dict[str, dict]) -> bool:
 # ======================== НАСТРОЙКИ ========================
 
 def load_settings() -> dict:
-    """Загружает system_settings.json"""
     default = {
         'closed_mode': False,
         'reminder_enabled': True,
@@ -364,23 +389,31 @@ def save_settings(settings: dict) -> bool:
 # ======================== РОЛИ ========================
 
 def load_roles_status() -> dict:
-    """Загружает roles_status.json → {имя: {...}}"""
+    if _cache['roles_status'] is not None:
+        return _cache['roles_status']
+    
     data = load_json(ROLES_STATUS_FILE, default={})
     if not isinstance(data, dict):
-        return {}
+        data = {}
+    
+    _cache['roles_status'] = data
     return data
 
 def save_roles_status(roles: dict) -> bool:
-    return save_json(ROLES_STATUS_FILE, roles)
+    global _cache
+    if save_json(ROLES_STATUS_FILE, roles):
+        _cache['roles_status'] = roles
+        return True
+    return False
+
 # ======================== РЕСТЫ ========================
 
 def set_rest_status(user_id: int, rest: bool, end_date: str = None) -> bool:
-    """Устанавливает статус реста и дату окончания в users.json."""
     users = load_users()
     uid_str = str(user_id)
     if uid_str not in users:
         return False
-    
+
     users[uid_str]['rest'] = bool(rest)
     users[uid_str]['rest_end_date'] = end_date if rest else None
     return save_users(users)
