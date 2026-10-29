@@ -1,6 +1,6 @@
 ═══════════════════════════════════════════════════════════════════
 🤖 LoezF_Bot — ГАЙД ДЛЯ РАЗРАБОТЧИКОВ
-(ОБНОВЛЕНО 24.10.2026, ВЕРСИЯ 10.0.0)
+(ОБНОВЛЕНО 28.10.2026, ВЕРСИЯ 11.0.0)
 ═══════════════════════════════════════════════════════════════════
 
 ═══════════════════════════════════════════════════════════════════
@@ -21,13 +21,13 @@ LoezF_Bot — Telegram-бот для управления приёмом нов�
 🔹 АУДИТОРИЯ:
 Участники фандомов и ролевых сообществ.
 
-🔹 КЛЮЧЕВЫЕ ФУНКЦИИ (ОБНОВЛЕНО 24.10):
+🔹 КЛЮЧЕВЫЕ ФУНКЦИИ (ОБНОВЛЕНО 28.10):
 ✅ Приём нью через систему заявок
 ✅ Управление ролями и рестами (с авто-снятием)
 ✅ Калы (созывы участников)
 ✅ Управление администраторами (ранги 1-3)
 ✅ Полная диагностика и настройки
-✅ Поддержка прокси (автоматическое переключение)
+✅ Поддержка прокси (автоматическое переключение, каскад)
 ✅ Система смены роли с лимитом (changes_count)
 ✅ Команда /userstats для статистики юзера
 ✅ Уникальные ID ролей (id в roles_status.json)
@@ -46,15 +46,21 @@ LoezF_Bot — Telegram-бот для управления приёмом нов�
 ✅ 📜 История юзера (/history)
 ✅ 🛏️ Авто-снятие рестов (из users.json)
 ✅ 👋 «С возвращением» в /start
-✅ 📝 Политика конфиденциальности (в разработке)
+✅ 📝 Политика конфиденциальности (требует согласия при /start) — СДЕЛАНО
+✅ 🧹 Кэш JSON + кнопка сброса в /settings — СДЕЛАНО
+✅ 🔗 Персональные ссылки (1 вход, 2 дня, кэш в users.json) — СДЕЛАНО
+✅ 🛡️ Атомарная запись JSON (tmp + os.replace + .bak) — СДЕЛАНО
+✅ 🔐 Маскировка паролей прокси в логах (***:***@) — СДЕЛАНО
+✅ 🌍 Неделя по МСК (ZoneInfo Europe/Moscow) — СДЕЛАНО
 
-🔹 ТЕХНОЛОГИИ (ОБНОВЛЕНО 24.10):
+🔹 ТЕХНОЛОГИИ (ОБНОВЛЕНО 28.10):
 🐍 Python 3.14.4
-🤖 aiogram 3.23.0 (ОБНОВЛЕНО, старая 3.17.0 не работает на Python 3.14)
-🗄️ SQLite (bot.db)
+🤖 aiogram 3.23.0 (старая 3.17.0 не работает на Python 3.14)
+🗄️ SQLite (bot.db, почти не используется)
 📁 JSON-файлы для данных
 📊 matplotlib + scipy (для графиков)
 🔔 winotify (системные уведомления Windows)
+🌍 tzdata (обязательно на Windows для ZoneInfo)
 
 🔹 АРХИТЕКТУРА:
 handlers/ — обработчики команд
@@ -183,9 +189,10 @@ main.py — точка входа
 ❌ callback_data длиннее 64 байт — Telegram отклоняет!
 ✅ Для длинных данных используй ID или индексы, не текст.
 📌 ВАЖНО: callback_data = 64 БАЙТА. Русские буквы = 2 байта.
+📌 Лимит name в create_chat_invite_link = 32 символа.
 
 ═══════════════════════════════════════════════════════════════════
-🔒 ЗАФИКСИРОВАННЫЕ ВЕРСИИ БИБЛИОТЕК (ОБНОВЛЕНО 24.10.2026)
+🔒 ЗАФИКСИРОВАННЫЕ ВЕРСИИ БИБЛИОТЕК (ОБНОВЛЕНО 28.10.2026)
 ═══════════════════════════════════════════════════════════════════
 
 📌 КРИТИЧЕСКОЕ ПРАВИЛО:
@@ -206,6 +213,7 @@ lxml==6.1.1
 matplotlib==3.10.8
 scipy==1.16.1
 winotify==1.1.0
+tzdata==2026.2 (обязательно для ZoneInfo на Windows)
 
 📌 PYTHON: 3.14.4
 
@@ -216,17 +224,19 @@ winotify==1.1.0
 📂 СИСТЕМА ПРОКСИ (НЕ ТРОГАТЬ!)
 ═══════════════════════════════════════════════════════════════════
 
-📌 ОПИСАНИЕ: Платный прокси Webshare. Приоритетный — в .env.
+📌 ОПИСАНИЕ: Каскад прокси. Happ (socks5 127.0.0.1:10808) → Karing (socks5 127.0.0.1:3066) → напрямую. Если один упал — пробуем следующий. Пароли в логах маскируются (***:***@).
 📌 ПУТИ: PROD: PROXY_DIR=C:\...\proxy_manadger, TEST: PROXY_DIR=C:\...\proxy_manadger_test
 📌 ФОРМАТ good_proxies.txt: ip:port|дата время
 📌 ПРИОРИТЕТНЫЙ ПРОКСИ (из .env): PRIORITY_PROXY=http://ЛОГИН:ПАРОЛЬ@IP:ПОРТ
 📌 НАСТРОЙКИ ПИНГА (proxy_manager.py): PING_COUNT = 1, MAX_CONCURRENT = 200, PING_TIMEOUT = 5, CACHE_TTL = 1200, BAD_PROXY_TTL = 600 (soft-blacklist).
-📌 АЛГОРИТМ: Загружает прокси → проверяет приоритетный (2 попытки) → пингует ВСЕ → выбирает быстрейший → при ошибке следующий (soft-blacklist).
+📌 АЛГОРИТМ: Проверяем Happ → если жив, работаем. Если нет — Karing → если жив, работаем. Если оба мертвы — напрямую.
 ⛔ НЕ МЕНЯТЬ СИСТЕМУ ПОДКЛЮЧЕНИЯ В main.py! Только AiohttpSession(proxy=proxy_url).
 
 ═══════════════════════════════════════════════════════════════════
-📝 ФОРМАТ JSON-ФАЙЛОВ ДАННЫХ (ОБНОВЛЕНО 24.10.2026)
+📝 ФОРМАТ JSON-ФАЙЛОВ ДАННЫХ (ОБНОВЛЕНО 28.10.2026)
 ═══════════════════════════════════════════════════════════════════
+
+📌 АТОМАРНАЯ ЗАПИСЬ: Все save_json идут через tmp + os.replace + .bak (защита от потери данных).
 
 📌 data/users/users.json:
 {
@@ -238,8 +248,11 @@ winotify==1.1.0
 "changes_count": 0,
 "birthday": "15.03",
 "notify_norm": true,
-"rest": false,             ← НОВОЕ 24.10
-"rest_end_date": null      ← НОВОЕ 24.10
+"rest": false,
+"rest_end_date": null,
+"agreed_to_privacy": true,
+"invite_link": "https://t.me/+xxx",
+"invite_link_expires_at": "2026-10-27T18:25:52"
 }
 }
 ПОЛЯ:
@@ -248,6 +261,9 @@ winotify==1.1.0
 - notify_norm — подписка на уведомления о норме
 - rest — в ресте ли юзер (bool)
 - rest_end_date — дата окончания реста (ISO)
+- agreed_to_privacy — согласие с политикой (bool)
+- invite_link — персональная ссылка (кэш)
+- invite_link_expires_at — срок жизни ссылки (ISO)
 
 📌 data/users/unsubscribed_calls.json:
 {"8076284478": true, "123456789": true} — ключ есть = отписался.
@@ -270,7 +286,7 @@ winotify==1.1.0
 "welcome_enabled": true, "auto_rest_removal": true, "forward_enabled": false, "anonymous_mode": false,
 "max_role_changes": 1, "messages_norm": 70, "messages_norm_low": 10, "warns_accumulate": false,
 "warns_to_ban": 3, "warn_notify_admin": true, "norm_auto_message_enabled": true,
-"checknorm_time_window_enabled": true, "require_profile_completeness": true  ← НОВОЕ 24.10
+"checknorm_time_window_enabled": true, "require_profile_completeness": true
 }
 
 📌 data/system/leftdata.json:
@@ -281,7 +297,7 @@ winotify==1.1.0
 
 📌 data/system/free_role_ids.json: [5, 12, 47]
 
-📌 data/system/norm_history.json (НОВОЕ 24.10):
+📌 data/system/norm_history.json:
 {"2026-10-19": {"8076284478": 15, "123456789": 70}}
 
 📌 data/users_history/{user_id}.json:
@@ -315,6 +331,7 @@ BASE_DIR = Path(file).parent.parent.resolve(), SRC_PATH = Path(file).parent.reso
 1. В cmd_apply: проверка лимита смен (changes_count >= max_role_changes → отказ, владельцы не ограничены).
 2. В process_submit: предупреждение "У вас уже есть роль X", кнопки "Да/Отмена" (FSM confirming_replace).
 3. В approve_request_callback: освободить старую, инкрементировать changes_count, занять новую, обновить users.json.
+
 ═══════════════════════════════════════════════════════════════════
 🔄 СИСТЕМА УНИКАЛЬНЫХ ID РОЛЕЙ
 ═══════════════════════════════════════════════════════════════════
@@ -392,7 +409,30 @@ BASE_DIR = Path(file).parent.parent.resolve(), SRC_PATH = Path(file).parent.reso
 ❌ src/test_connect.py
 ❌ apply_states_router
 ❌ src/utils/system_utils.py
-❌ admin_commands.py (ОБНОВЛЕНО 24.10) — логика разбита на admin_stats.py, admin_roles.py, admin_users.py
+❌ admin_commands.py — логика разбита на admin_stats.py, admin_roles.py, admin_users.py
+
+═══════════════════════════════════════════════════════════════════
+🔧 ИЗМЕНЕНИЯ ВЕРСИИ 11.0.0 (25–28.10.2026)
+═══════════════════════════════════════════════════════════════════
+
+📌 ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ: при /start требует согласия. Ссылки в .env. Поле agreed_to_privacy.
+📌 КЭШ JSON: Write-Through Cache в parsers.py + кнопка «🧹 Сбросить кэш» в /settings.
+📌 ПЕРСОНАЛЬНЫЕ ССЫЛКИ: create_chat_invite_link на 1 вход, живёт 2 дня, кэшируется в users.json (invite_link, invite_link_expires_at).
+📌 КАСКАД ПРОКСИ: Happ (10808) → Karing (3066) → напрямую.
+📌 АТОМАРНАЯ ЗАПИСЬ JSON: tmp + os.replace + .bak.
+📌 МАСКИРОВКА ПАРОЛЕЙ: прокси в логах (***:***@).
+📌 ON_ERROR: переписан под ErrorEvent, ошибки в errors.txt.
+📌 РЕСТЫ: users.json (rest, rest_end_date), авто-снятие, /unrest по ID.
+📌 НЕДЕЛЯ ПО МСК: counters.py использует ZoneInfo("Europe/Moscow"), неделя начинается в сб 21:00.
+📌 ПРИВЕТСТВИЕ: перенесено на @router.chat_member().
+📌 ПАРСЕР ВАРНОВ: поддерживает склонения.
+📌 MIDDLEWARE: обход для владельца и админов, логирование команд админов.
+📌 ГРАФИКИ: /mynorm, /stats (365 дней), Топ-5.
+📌 /sync_norm: ручное начисление нормы.
+📌 «С ВОЗВРАЩЕНИЕМ»: при /start.
+📌 RATE-LIMIT НА /APPLY: 1 минута.
+📌 ЗАЩИТА ОТ ДВОЙНОГО КЛИКА: при одобрении/отклонении заявок.
+📌 ЛОГИРОВАНИЕ: admin_actions.log (повышение, понижение, /setrank).
 
 ═══════════════════════════════════════════════════════════════════
 🔧 ИЗМЕНЕНИЯ ВЕРСИИ 10.0.0 (22–24.10.2026)
@@ -403,30 +443,6 @@ BASE_DIR = Path(file).parent.parent.resolve(), SRC_PATH = Path(file).parent.reso
 📌 СТАБИЛЬНОСТЬ: Error Handler (errors.txt), Graceful Shutdown, Проверка чатов при старте, исправлен циклический импорт (format_role_display).
 📌 ГРАФИКИ: /mynorm, /stats (365 дней), /sync_norm.
 📌 ЮЗЕРЫ: Проверка профиля, Сбор алиасов (aliases.json), «С возвращением» в /start.
-
-═══════════════════════════════════════════════════════════════════
-🔧 ИЗМЕНЕНИЯ ВЕРСИИ 8.1.0 (05–06.10.2026)
-═══════════════════════════════════════════════════════════════════
-
-🎂 ДНИ РОЖДЕНИЯ: /setbirthday (FSM), поля birthday, 2 цикла.
-📩 ПОДПИСКА НА НОРМУ: notify_norm, norm_notified, /subnorm, /unsubnorm.
-📊 РАСШИРЕННЫЙ /STATS: кнопки периодов, leftdata.
-📁 LEFTDATA.JSON: хранит ушедших.
-
-═══════════════════════════════════════════════════════════════════
-🔧 ИЗМЕНЕНИЯ ВЕРСИИ 8.0.1 (02–03.10.2026)
-═══════════════════════════════════════════════════════════════════
-
-🩹 ИСПРАВЛЕНИЯ: БАГ 1 (дубли), БАГ 2 (joined_at), БАГ 3 (варн 21 день), БАГ 4 (минуты), БАГ 6 (только флуд), БАГ 7 (joined_at), БАГ 9 (окно чистки).
-
-═══════════════════════════════════════════════════════════════════
-🔧 ИЗМЕНЕНИЯ ВЕРСИИ 8.0.0 (29.09–02.10.2026)
-═══════════════════════════════════════════════════════════════════
-
-📄 НОВЫЕ ФАЙЛЫ: settings_utils, counters, warns_utils, norm_utils, role_ids, checknorm_commands, clear_me, middlewares.
-📄 main.py: expire_warns_loop, norm_reminder_loop, norm_reset_loop, check_kicked_loop, RegistrationCheckMiddleware.
-📄 chat_member.py: счётчик, парсер варн/бан, joined_at, учёт реста.
-📄 apply_handlers.py: таймаут, callback_data, лимит смен, предупреждение.
 
 ═══════════════════════════════════════════════════════════════════
 🐛 ИЗВЕСТНЫЕ БАГИ И ИХ РЕШЕНИЯ
@@ -448,12 +464,14 @@ BASE_DIR = Path(file).parent.parent.resolve(), SRC_PATH = Path(file).parent.reso
 ❌ cannot use 'dict' as a dict key: role — это dict.
 ❌ ImportError: cannot import name 'cmd_free': Файл role_commands.py удалён.
 ❌ Напоминалка не работает: Проверить chat_member_router.
-❌ Нет рабочих прокси: Система сама переключается.
+❌ Нет рабочих прокси: Система сама переключается (каскад Happ → Karing → напрямую).
 ❌ NameError: name 'types' is not defined: from aiogram import Router, F, types.
 ❌ Цифры в чате меняют настройки: settings_commands.py использует FSM.
-❌ Приоритетный прокси мёртв: Бот сам переключится.
-❌ format_role_display is not defined (ОБНОВЛЕНО 24.10): Циклический импорт в admin_utils.py. Убрать импорт оттуда.
-❌ "Седрик" в users.json (ОБНОВЛЕНО 24.10): Поле role может содержать строку. В parsers.py нужно обрабатывать.
+❌ format_role_display is not defined: Циклический импорт в admin_utils.py. Убрать импорт оттуда.
+❌ "Седрик" в users.json: Поле role может содержать строку. В parsers.py обрабатывать.
+❌ callback is too old: пользователь долго висит на инлайн-кнопке, потом жмёт. Нужен try/except TelegramBadRequest в callback.answer().
+❌ ZoneInfo требует пакет tzdata на Windows: pip install tzdata.
+❌ my_chat_member срабатывает только на события бота, а не людей: Для вступления людей — chat_member.
 
 ═══════════════════════════════════════════════════════════════════
 ⚠️ НИЧЕГО НЕ МЕНЯТЬ! (запрещённые действия)
@@ -470,7 +488,7 @@ BASE_DIR = Path(file).parent.parent.resolve(), SRC_PATH = Path(file).parent.reso
 ❌ НЕ ОБНОВЛЯТЬ БИБЛИОТЕКИ БЕЗ ТЕСТА.
 
 ═══════════════════════════════════════════════════════════════════
-📂 СТРУКТУРА ПРОЕКТА (ОБНОВЛЕНО 24.10.2026)
+📂 СТРУКТУРА ПРОЕКТА (ОБНОВЛЕНО 28.10.2026)
 ═══════════════════════════════════════════════════════════════════
 
 LoEZF_Bot/
@@ -497,8 +515,10 @@ LoEZF_Bot/
 ├── GUIDE_FOR_AI.txt
 ├── start.bat
 ├── .gitignore
-└── .env═══════════════════════════════════════════════════════════════════
-📋 СПИСОК КОМАНД И ИХ НАЗНАЧЕНИЕ (ОБНОВЛЕНО 24.10.2026)
+└── .env
+
+═══════════════════════════════════════════════════════════════════
+📋 СПИСОК КОМАНД И ИХ НАЗНАЧЕНИЕ (ОБНОВЛЕНО 28.10.2026)
 ═══════════════════════════════════════════════════════════════════
 
 👤 КОМАНДЫ ДЛЯ ВСЕХ (ТОЛЬКО В ЛС): /start, /help, /about, /aboutme, /update, /hide, /menu, /setbirthday, /subnorm, /unsubnorm, /mynorm, /history
@@ -515,7 +535,7 @@ LoEZF_Bot/
 ⚙️ НАСТРОЙКИ (меню /settings)
 ═══════════════════════════════════════════════════════════════════
 
-🔒 Набор ролей, 📢 Напоминалка, 👋 Приветствие, ⏳ Авто-снятие реста, ⏱️ Кулдаун кала, ⏱️ Кулдаун кал-фал, 📅 Макс. рест, 🔄 Макс. смен роли, 📊 Норма сообщений, 📉 НПНДБ, ✅ Накопление варнов, 🔢 Варнов до бана, 🔔 Уведомлять о 3-м варне, ⏰ Окно чистки, ✅ Проверка профиля.
+🔒 Набор ролей, 📢 Напоминалка, 👋 Приветствие, ⏳ Авто-снятие реста, ⏱️ Кулдаун кала, ⏱️ Кулдаун кал-фал, 📅 Макс. рест, 🔄 Макс. смен роли, 📊 Норма сообщений, 📉 НПНДБ, ✅ Накопление варнов, 🔢 Варнов до бана, 🔔 Уведомлять о 3-м варне, ⏰ Окно чистки, ✅ Проверка профиля, 🧹 Сбросить кэш.
 📌 ВАЖНО: числа вводятся ТОЛЬКО после нажатия кнопки настройки.
 
 ═══════════════════════════════════════════════════════════════════
@@ -543,29 +563,29 @@ LoEZF_Bot/
 📋 ВСЕ ФУНКЦИИ БОТА (СПРАВОЧНИК)
 ═══════════════════════════════════════════════════════════════════
 
-📂 handlers/base_commands.py: cmd_start, cmd_help, cmd_about, cmd_aboutme, cmd_members, cmd_roles, cmd_update, cmd_hide, cmd_menu, cmd_stats, cmd_setbirthday, bday_day_chosen, bday_month_chosen, bday_cancel, cmd_subnorm, cmd_unsubnorm, back_to_menu_from_roles, show_roles_by_season, back_to_seasons_list, help_group_callback, help_back_callback, cmd_mynorm (ОБНОВЛЕНО 24.10), cmd_history (ОБНОВЛЕНО 24.10).
+📂 handlers/base_commands.py: cmd_start, cmd_help, cmd_about, cmd_aboutme, cmd_members, cmd_roles, cmd_update, cmd_hide, cmd_menu, cmd_stats, cmd_setbirthday, bday_day_chosen, bday_month_chosen, bday_cancel, cmd_subnorm, cmd_unsubnorm, back_to_menu_from_roles, show_roles_by_season, back_to_seasons_list, help_group_callback, help_back_callback, cmd_mynorm, cmd_history.
 📂 handlers/apply_handlers.py: cmd_apply, cmd_free, cmd_cancel_request, process_season, process_role, process_position, process_submit, apply_replace_confirm, _submit_request, apply_cancel, apply_none, apply_back_to_seasons, apply_back_to_roles, apply_back_to_position, free_confirm, free_cancel.
 📂 handlers/request_commands.py: cmd_requests, cmd_approve, cmd_reject, reject_with_reason, refresh_requests, view_request, approve_request_callback, reject_request_callback, back_to_requests.
-📂 handlers/admin_stats.py (НОВОЕ 24.10): cmd_stats, stats_period_callback, stats_graph_365_callback, stats_top_week_callback (НОВОЕ 24.10).
-📂 handlers/admin_roles.py (НОВОЕ 24.10): cmd_findrole, findrole_view, findrole_delete_confirm, findrole_delete_do, findrole_back, cmd_giverest.
-📂 handlers/admin_users.py (НОВОЕ 24.10): cmd_admins, cmd_users, cmd_adduser, cmd_removeuser, cmd_resetuser, cmd_find, cmd_finduser, cmd_refresh, cmd_close, cmd_open, cmd_register_admin, cmd_register_user, cmd_message_all, cmd_userstats, cmd_sync_norm (НОВОЕ 24.10).
+📂 handlers/admin_stats.py: cmd_stats, stats_period_callback, stats_graph_365_callback, stats_top_week_callback.
+📂 handlers/admin_roles.py: cmd_findrole, findrole_view, findrole_delete_confirm, findrole_delete_do, findrole_back, cmd_giverest.
+📂 handlers/admin_users.py: cmd_admins, cmd_users, cmd_adduser, cmd_removeuser, cmd_resetuser, cmd_find, cmd_finduser, cmd_refresh, cmd_close, cmd_open, cmd_register_admin, cmd_register_user, cmd_message_all, cmd_userstats, cmd_sync_norm.
 📂 handlers/admin_management.py: cmd_promote, cmd_demote, cmd_setrank.
 📂 handlers/call_commands.py: cmd_call, cmd_callfal, cmd_regc, cmd_unregc, cmd_callstaff.
 📂 handlers/rest_commands.py: cmd_rest, cmd_unrest, cmd_restextend, cmd_restlist, cmd_setrest.
 📂 handlers/settings_commands.py: cmd_settings, settings_callback, settings_value_input, cancel_setting.
 📂 handlers/diagnostic_commands.py: cmd_diag, cmd_check_chats.
-📂 handlers/chat_member.py: handle_message, on_user_join, check_user_registration, _try_parse_warn_command, _parse_duration_to_minutes, _maybe_notify_norm, _is_user_in_rest, _check_profile_completeness (НОВОЕ 24.10), _update_aliases (НОВОЕ 24.10).
+📂 handlers/chat_member.py: handle_message, on_user_join, check_user_registration, _try_parse_warn_command, _parse_duration_to_minutes, _maybe_notify_norm, _is_user_in_rest, _check_profile_completeness, _update_aliases.
 📂 handlers/checknorm_commands.py: cmd_checknorm, checknorm_toggle, checknorm_preview, checknorm_edit, checknorm_cancel, checknorm_confirm, checknorm_send_ls, checknorm_ignore.
 📂 handlers/clear_me.py: cmd_clearme, clearme_cancel, clearme_confirm_1, clearme_final_phrase, clearme_other.
 📂 handlers/utils.py: load_unsubscribed, save_unsubscribed, is_unsubscribed, add_unsubscribed, remove_unsubscribed, load_rest_requests, save_rest_requests, generate_calendar_keyboard.
 📂 handlers/keyboards.py: create_seasons_keyboard, create_roles_keyboard, get_main_keyboard, cancel_apply, back_to_seasons, role_occupied, button_help, button_about, button_aboutme, button_roles, button_apply, button_free, button_rest, button_members, button_admins, button_users, button_requests, button_stats, button_call, button_callfal, button_callstaff, button_restlist, button_unregc, button_regc, button_checknorm.
-📂 utils/parsers.py: load_json, save_json, load_users, save_users, get_user, add_user, remove_user, update_user_role, get_changes_count, increment_changes_count, reset_changes_count, set_birthday, get_birthday, get_users_with_birthday, set_notify_norm, get_notify_norm, load_admins, save_admins, get_admin, add_admin, remove_admin, set_rank, get_owner_ids, is_owner, is_admin, get_admin_rank, load_requests, save_requests, load_settings, save_settings, load_roles_status, save_roles_status, set_rest_status (НОВОЕ 24.10).
-📂 utils/user_utils.py: load_users, save_users, add_user, remove_user, get_users_count, get_user_by_id, update_user_role, get_user_role, get_users_by_role, get_role_stats, get_role_names, get_user_info, is_user_registered, get_changes_count, increment_changes_count, reset_changes_count, set_birthday, get_birthday, get_users_with_birthday, set_notify_norm, get_notify_norm, set_rest_status (НОВОЕ 24.10).
+📂 utils/parsers.py: load_json, save_json, load_users, save_users, get_user, add_user, remove_user, update_user_role, get_changes_count, increment_changes_count, reset_changes_count, set_birthday, get_birthday, get_users_with_birthday, set_notify_norm, get_notify_norm, load_admins, save_admins, get_admin, add_admin, remove_admin, set_rank, get_owner_ids, is_owner, is_admin, get_admin_rank, load_requests, save_requests, load_settings, save_settings, load_roles_status, save_roles_status, set_rest_status.
+📂 utils/user_utils.py: load_users, save_users, add_user, remove_user, get_users_count, get_user_by_id, update_user_role, get_user_role, get_users_by_role, get_role_stats, get_role_names, get_user_info, is_user_registered, get_changes_count, increment_changes_count, reset_changes_count, set_birthday, get_birthday, get_users_with_birthday, set_notify_norm, get_notify_norm, set_rest_status.
 📂 utils/admin_utils.py: load_admins, save_admins, is_admin, is_owner, get_owner_ids, get_admin_rank, add_admin, remove_admin, set_rank, get_admin_info.
 📂 utils/role_utils.py: load_roles_status, save_roles_status, get_seasons_list, get_all_seasons, get_roles_by_season, get_role_by_name, get_role_info, get_role_status, is_role_free, update_role_status, free_role, get_user_role, get_taken_roles, count_taken_roles, get_all_roles, get_season_stats, get_all_seasons_stats, get_free_roles_by_season, get_occupied_roles_by_season, get_system_settings, save_system_settings, get_closed_mode, set_closed_mode, sync_roles_from_files, format_role_display, get_user_role_key, find_roles, update_role_status_by_id, get_role_by_id.
 📂 utils/requests_utils.py: load_requests, save_requests, add_request, get_pending_requests, get_request_by_user_id, get_pending_count, get_requests_count.
 📂 utils/settings_utils.py: load_settings, save_settings, reset_settings, get_setting, set_setting, toggle_setting, get_messages_norm, get_messages_norm_low, get_max_role_changes, get_warns_accumulate, get_warns_to_ban, get_warn_notify_admin, get_checknorm_time_window_enabled.
-📂 utils/counters.py: load_counters, save_counters, increment_message_count, get_message_count, get_all_counts, reset_all_counters, clear_all_counters, set_joined_at, get_joined_at, is_new_user, update_last_message_at, mark_norm_notified, is_norm_notified, get_last_message_at, save_weekly_norm_history (НОВОЕ 24.10), get_norm_history (НОВОЕ 24.10).
+📂 utils/counters.py: load_counters, save_counters, increment_message_count, get_message_count, get_all_counts, reset_all_counters, clear_all_counters, set_joined_at, get_joined_at, is_new_user, update_last_message_at, mark_norm_notified, is_norm_notified, get_last_message_at, save_weekly_norm_history, get_norm_history.
 📂 utils/warns_utils.py: load_warns, save_warns, get_user_warns, get_warns_count, add_warn, remove_warn, clear_user_warns, expire_old_warns, get_last_warn_number.
 📂 utils/norm_utils.py: get_user_category, get_emoji, get_category_label, get_all_categorized.
 📂 utils/role_ids.py: load_free_ids, save_free_ids, get_next_id, add_free_id, get_stats.
@@ -575,138 +595,45 @@ LoEZF_Bot/
 📂 main.py: create_bot_with_proxy, switch_to_next_proxy, set_bot_commands, check_rests_loop, sync_roles_loop, expire_warns_loop, norm_reminder_loop, norm_reset_loop, check_kicked_loop, birthday_personal_loop, birthday_group_loop, _save_leftdata, _send_birthday_messages, run_bot, on_startup, main.
 
 ═══════════════════════════════════════════════════════════════════
-📋 ИСТОРИЯ ИЗМЕНЕНИЙ
+📋 ИСТОРИЯ ВЕРСИЙ
 ═══════════════════════════════════════════════════════════════════
 
-Все изменения фиксируются в CHANGELOG.md.
-Актуальная версия: 10.0.0
-Дата последнего обновления: 24.10.2026
+[11.0.0] - 28.10.2026
+- Политика конфиденциальности, кэш JSON, персональные ссылки, каскад прокси, атомарная запись, маскировка паролей, ресты в users.json, неделя по МСК, приветствие через chat_member, парсер склонений, middleware-обход, графики, /sync_norm, «С возвращением», rate-limit, защита от двойного клика, логирование в admin_actions.log.
 
-[10.0.0] - Глобальный апдейт (22–24.10.2026):
-- Ресты в users.json, авто-снятие, /unrest по ID.
-- Разбит admin_commands.py на 3 файла.
-- /sync_norm, Топ-5, /mynorm, /history.
-- Error Handler, Graceful Shutdown, проверка чатов.
-- Проверка профиля, алиасы, «С возвращением».
-- Исправлен циклический импорт (format_role_display).
-- Обновлены библиотеки (aiogram 3.23.0, matplotlib, scipy, winotify).
+[10.0.0] - 24.10.2026
+- Ресты в users.json, авто-снятие, /unrest по ID. /sync_norm, Топ-5, «С возвращением». Middleware без циклического импорта. Глобальный Error Handler, Graceful Shutdown, проверка чатов. Графики /mynorm и /stats (365 дней). Проверка профиля, сбор алиасов.
 
-[8.1.0] - Глобальный апдейт (05–06.10.2026): ДР, подписка на норму, расширенный /stats, leftdata.json.
+[9.0.0] - 22.10.2026
+- Безопасность: Error Handler (errors.txt, winotify), Graceful Shutdown, проверка чатов. Защита юзеров: проверка профиля, сбор алиасов, rate-limit /apply, автосвобождение ролей (>48ч), причина отклонения, сообщение после одобрения. Статистика: /mynorm, /stats (365), norm_history.json, /giverest. Рефакторинг admin_commands.py.
 
-[8.0.1] - Исправления багов 1-9 (02–03.10.2026).
+[8.1.0] - 06.10.2026
+- Дни рождения (/setbirthday, birthday_personal_loop, birthday_group_loop). Подписка на норму (notify_norm, /subnorm, /unsubnorm). Расширенный /stats (кнопки: база/день/неделя/месяц). leftdata.json.
 
-[8.0.0] - Система нормы и чистки (29.09–02.10.2026).
+[8.0.1] - 03.10.2026
+- Исправлены баги 1-9: дубли, joined_at, варн 21 день, минуты, только флуд, окно чистки.
 
-[7.4.0] - Система смены роли, Proxy Manager переписан.
-
-[7.3.0] - Зафиксированы версии библиотек.
-
-[7.2.0] - Порядок роутеров, unsubscribed_calls → .json, /message_all.
-
-[7.1.0] - JSON-формат, приоритетный прокси, FSM настроек.
-
-[7.0.0] - Переход на aiogram 3.x.
-
-[6.2.0] - Фикс role_utils.
-
-[6.1.0] - Правила удаления кода.
-
-[5.5.0] - Управление админами, настройки.
-
-[5.4.1] - Чистка кода.
-
-[5.4.0] - Напоминалка, /update.
-
-[5.3.0] - Система прокси с пингом.
-
-[5.2.0] - Бот-пересыльщик.
-
-[5.1.0] - Рефакторинг, Proxy Manager.
-
-[5.0.0] - Первоначальная структура.
-═══════════════════════════════════════════════════════════════════
-🔗 RAW-ССЫЛКИ НА ФАЙЛЫ
-═══════════════════════════════════════════════════════════════════
-
-📌 ПРАВИЛО: при запросе файла используй Raw-ссылку.
-✅ ПРАВИЛЬНО: https://raw.githubusercontent.com/...
-❌ НЕПРАВИЛЬНО: https://github.com/.../blob/...
-
-⚠️ ПЕРЕД запросом — попросить владельца закоммитить правки.
-⚠️ AI НЕ тянет дерево сам.
-
-🔗 АКТУАЛЬНОЕ ДЕРЕВО РЕПОЗИТОРИЯ:
-https://api.github.com/repos/LOEZws3/loez_bot/git/trees/main?recursive=1
-
-📂 КОРНЕВЫЕ ФАЙЛЫ:
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/requirements.txt
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/CHANGELOG.md
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/GUIDE_FOR_AI.txt
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/start.bat
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/.gitignore
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/migrate_roles.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/migrate_role_ids.py
-
-📂 src/:
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/main.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/config.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/database.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/proxy_manager.py
-
-📂 src/handlers/:
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/__init__.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/base_commands.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/apply_handlers.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/apply_states.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/admin_stats.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/admin_roles.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/admin_users.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/admin_management.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/request_commands.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/call_commands.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/rest_commands.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/settings_commands.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/diagnostic_commands.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/chat_member.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/keyboards.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/utils.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/checknorm_commands.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/handlers/clear_me.py
-
-📂 src/middlewares/:
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/middlewares/__init__.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/middlewares/registration_check.py
-
-📂 src/utils/:
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/__init__.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/parsers.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/role_utils.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/user_utils.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/admin_utils.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/emoji_utils.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/file_utils.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/requests_utils.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/sync_utils.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/user_history.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/settings_utils.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/counters.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/warns_utils.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/norm_utils.py
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/src/utils/role_ids.py
-
-📂 data/:
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/roles/roles_status.json
-https://raw.githubusercontent.com/LOEZws3/loez_bot/main/data/system/free_role_ids.json
+[8.0.0] - 02.10.2026
+- Система нормы и чистки: settings_utils, counters, warns_utils, norm_utils, role_ids, checknorm_commands, clear_me, middlewares. main.py: expire_warns_loop, norm_reminder_loop, norm_reset_loop, check_kicked_loop, RegistrationCheckMiddleware.
 
 ═══════════════════════════════════════════════════════════════════
-📞 КОНТАКТЫ
+📌 ФИНАЛЬНЫЕ ПРАВИЛА
 ═══════════════════════════════════════════════════════════════════
 
-Владелец: @Sedrik_loez
-Бот-пересыльщик: @Sedrikai_bot
-Основной бот: @REG_sf_BOT
+✅ СТРОГО СЛЕДОВАТЬ АЛГОРИТМУ:
+1. Прочитать GFA.
+2. Закоммитить правки (если ещё не).
+3. Запросить RAW-ссылки.
+4. Прочитать актуальный код.
+5. Объяснить проблему, решение, что изменится.
+6. Дождаться согласия.
+7. Только потом — код.
 
-═══════════════════════════════════════════════════════════════════
-📅 Версия: 10.0.0
-📅 Дата обновления: 24.10.2026
-═══════════════════════════════════════════════════════════════════
+✅ ЧИТАТЬ ФАЙЛЫ ТОЛЬКО ПО RAW-ССЫЛКАМ.
+✅ ДАВАТЬ ПОЛНЫЙ ФАЙЛ, ЕСЛИ ПРАВОК БОЛЬШЕ 4-Х.
+✅ ПИСАТЬ НА «ТЫ», КОРОТКО, С ЭМОДЗИ.
+
+❌ НЕ МЕНЯТЬ ПРОКСИ, .env, ВЕРСИИ БЕЗ СОГЛАСОВАНИЯ.
+❌ НЕ ТЯНУТЬ ДЕРЕВО РЕПОЗИТОРИЯ.
+❌ НЕ УГАДЫВАТЬ СОДЕРЖИМОЕ ФАЙЛОВ.
+❌ НЕ ПИСАТЬ КОД ВСЛЕПУЮ.
