@@ -3,6 +3,7 @@ import json
 import re
 import logging
 import datetime
+import html
 from aiogram import Router, types
 from aiogram.filters import Command
 from aiogram.types import ChatMemberUpdated
@@ -10,7 +11,7 @@ from aiogram.types import ChatMemberUpdated
 from config import GENERAL_CHAT_ID, DATA_DIR
 from utils.admin_utils import is_owner, is_admin, get_admin_rank
 from utils.user_utils import (
-    get_user_by_id, get_notify_norm,
+    get_user_by_id, get_notify_norm, load_users,
 )
 from utils.counters import (
     increment_message_count, get_message_count as get_stored_count,
@@ -23,17 +24,12 @@ from utils.settings_utils import get_messages_norm, get_setting
 logger = logging.getLogger(__name__)
 router = Router()
 
-# Счётчик для напоминалки незарегистрированным (в памяти)
 message_counter = {}
-
-# ⚠️ НОВОЕ: Защита от гонки данных при уведомлении о норме
 _notified_norm_users = set()
-
-# ⚠️ НОВОЕ: Кэш для предупреждений о неполном профиле
 _last_profile_warn_sent = {}
 
-# ======================== АЛИАСЫ (СОХРАНЕНИЕ СТАРЫХ НИКОВ) ========================
 ALIASES_FILE = os.path.join(DATA_DIR, 'users', 'aliases.json')
+
 
 def _load_aliases() -> dict:
     if not os.path.exists(ALIASES_FILE):
@@ -45,6 +41,7 @@ def _load_aliases() -> dict:
     except Exception:
         return {}
 
+
 def _save_aliases(data: dict):
     try:
         os.makedirs(os.path.dirname(ALIASES_FILE), exist_ok=True)
@@ -53,59 +50,60 @@ def _save_aliases(data: dict):
     except Exception as e:
         logger.error(f"❌ Ошибка сохранения aliases.json: {e}")
 
+
 def _update_aliases(user_id: int, username: str, full_name: str):
-    """Проверяет, менялись ли данные, и сохраняет старые."""
     aliases = _load_aliases()
     uid_str = str(user_id)
-    
+
     if uid_str not in aliases:
         aliases[uid_str] = {'usernames': [], 'full_names': []}
-        
+
     user_aliases = aliases[uid_str]
-    
-    # Проверка юзернейма
+
     if username and username not in user_aliases['usernames']:
-        if user_aliases['usernames']: # Если это не первый ник
+        if user_aliases['usernames']:
             logger.info(f"🏷️ Юзер {user_id} сменил юзернейм: добавлен старый @{user_aliases['usernames'][-1]}")
         user_aliases['usernames'].append(username)
-        
-    # Проверка имени
+
     if full_name and full_name not in user_aliases['full_names']:
         if user_aliases['full_names']:
             logger.info(f"📝 Юзер {user_id} сменил имя: добавлено старое '{user_aliases['full_names'][-1]}'")
         user_aliases['full_names'].append(full_name)
-        
+
     _save_aliases(aliases)
 
-# ======================== ПАРСЕР ВАРНОВ/БАНОВ ========================
+
+# ⚠️ ИСПРАВЛЕНО: Парсер варнов с поддержкой склонений
 WARN_PATTERN = re.compile(
     r'^(варн|бан)\s+@?(\S+)'
     r'(?:\s+(\d+)\s*'
-    r'(мин|м|ч|час|часов|д|день|дней|н|нед|недель|мес|месяц|месяцев|г|год|лет)'
+    r'(минут[аы]?|мин|м|час[аов]*|ч|день|дня|дней|д|недел[яиь]*|нед|н|месяц[аев]*|мес|год[ау]?|лет|г)'
     r')?'
     r'(?:\s+(.+))?$',
     re.IGNORECASE
 )
 
 _UNIT_TO_MINUTES = {
-    'мин': 1, 'м': 1,
-    'ч': 60, 'час': 60, 'часов': 60,
-    'д': 1440, 'день': 1440, 'дней': 1440,
-    'н': 10080, 'нед': 10080, 'недель': 10080,
-    'мес': 43200, 'месяц': 43200, 'месяцев': 43200,
-    'г': 525600, 'год': 525600, 'лет': 525600,
+    'мин': 1, 'минута': 1, 'минуты': 1, 'минут': 1, 'м': 1,
+    'ч': 60, 'час': 60, 'часа': 60, 'часов': 60,
+    'д': 1440, 'день': 1440, 'дня': 1440, 'дней': 1440,
+    'н': 10080, 'нед': 10080, 'неделя': 10080, 'недели': 10080, 'недель': 10080,
+    'мес': 43200, 'месяц': 43200, 'месяца': 43200, 'месяцев': 43200,
+    'г': 525600, 'год': 525600, 'года': 525600, 'лет': 525600,
 }
 
-DEFAULT_WARN_MINUTES = 7 * 24 * 60  # 7 дней
+DEFAULT_WARN_MINUTES = 7 * 24 * 60
+
 
 def get_message_count(user_id: int) -> int:
     return message_counter.get(user_id, 0)
 
+
 def set_message_count(user_id: int, count: int):
     message_counter[user_id] = count
 
+
 def check_user_registration(user_id: int) -> bool:
-    """Проверяет, есть ли пользователь в users.json"""
     try:
         user = get_user_by_id(user_id)
         if user:
@@ -117,8 +115,8 @@ def check_user_registration(user_id: int) -> bool:
         logger.error(f"Ошибка при проверке пользователя {user_id}: {e}")
         return False
 
+
 def _is_user_in_rest(user_id: int) -> bool:
-    """Проверяет, в ресте ли юзер."""
     try:
         from utils.role_utils import load_roles_status
         data = load_roles_status()
@@ -129,6 +127,7 @@ def _is_user_in_rest(user_id: int) -> bool:
     except Exception:
         return False
 
+
 def _parse_duration_to_minutes(num_str: str, unit: str) -> int:
     try:
         num = int(num_str)
@@ -138,6 +137,7 @@ def _parse_duration_to_minutes(num_str: str, unit: str) -> int:
     unit_lower = (unit or '').lower().strip()
     multiplier = _UNIT_TO_MINUTES.get(unit_lower, 1440)
     return num * multiplier
+
 
 async def _try_parse_warn_command(message: types.Message) -> bool:
     text = (message.text or '').strip()
@@ -166,7 +166,6 @@ async def _try_parse_warn_command(message: types.Message) -> bool:
         target_id = int(target_str)
     else:
         try:
-            from utils.user_utils import load_users
             for u in load_users():
                 if u.get('username') and u['username'].lower() == target_str.lower():
                     target_id = u['id']
@@ -175,6 +174,11 @@ async def _try_parse_warn_command(message: types.Message) -> bool:
             pass
 
     if not target_id:
+        return False
+
+    # ⚠️ НОВОЕ: Проверка, что цель есть в users.json
+    if not get_user_by_id(target_id):
+        logger.warning(f"⚠️ Варн/бан для {target_id}, но его нет в users.json")
         return False
 
     if action == 'бан':
@@ -194,7 +198,6 @@ async def _try_parse_warn_command(message: types.Message) -> bool:
 
     return False
 
-# ======================== 🔧 НОВЫЕ ПРОВЕРКИ ========================
 
 async def _maybe_notify_norm(bot, user_id: int):
     try:
@@ -228,41 +231,41 @@ async def _maybe_notify_norm(bot, user_id: int):
     except Exception as e:
         logger.error(f"❌ Ошибка уведомления о норме для {user_id}: {e}")
 
+
 async def _check_profile_completeness(message: types.Message, user_id: int):
-    """Проверяет полноту профиля. Нью — раз в час, остальные — раз в 12 часов."""
     if not get_setting('require_profile_completeness', True):
         return
     try:
         user = get_user_by_id(user_id)
         if not user:
             return
-        
+
         missing = []
         if not user.get('birthday'):
             missing.append('дата рождения')
         if not user.get('role') or str(user.get('role')) == '0':
             missing.append('роль')
-            
+
         if not missing:
             return
-            
+
         is_new = not user.get('role') or str(user.get('role')) == '0'
         cooldown_hours = 1 if is_new else 12
-        
+
         now = datetime.datetime.now()
         last_sent = _last_profile_warn_sent.get(user_id)
         if last_sent and (now - last_sent).total_seconds() < cooldown_hours * 3600:
             return
-            
+
         bot_info = await message.bot.get_me()
         deep_link = f"https://t.me/{bot_info.username}?start=fill_profile"
-        
+
         keyboard = types.InlineKeyboardMarkup(inline_keyboard=[
             [types.InlineKeyboardButton(text="📝 Заполнить профиль", url=deep_link)]
         ])
-        
+
         await message.reply(
-            f"⚠️ <b>{message.from_user.full_name}</b>, у нас недостаточно информации о вас!\n"
+            f"⚠️ <b>{html.escape(message.from_user.full_name)}</b>, у нас недостаточно информации о вас!\n"
             f"Пожалуйста, заполните: <b>{', '.join(missing)}</b>.\n\n"
             f"<i>(Это сообщение появляется раз в {cooldown_hours} ч. и только если профиль не заполнен)</i>",
             parse_mode="HTML",
@@ -273,10 +276,9 @@ async def _check_profile_completeness(message: types.Message, user_id: int):
     except Exception as e:
         logger.error(f"❌ Ошибка проверки профиля {user_id}: {e}")
 
-# ======================== ОСНОВНОЙ ОБРАБОТЧИК ========================
+
 @router.message()
 async def handle_message(message: types.Message):
-    """Обработчик всех сообщений"""
     if message.text and message.text.startswith('/'):
         return
 
@@ -288,7 +290,6 @@ async def handle_message(message: types.Message):
 
     user_id = message.from_user.id
 
-    # ========== Парсер варн/бан ==========
     try:
         if await _try_parse_warn_command(message):
             return
@@ -301,9 +302,7 @@ async def handle_message(message: types.Message):
         logger.debug(f"⏳ {user_id} в ресте — пропускаем все проверки")
         return
 
-    # ⚠️ Если юзер полностью зарегистрирован — считаем сообщения
     if user and user.get('is_fully_registered', False):
-        # Логика для зарегистрированных
         await _check_profile_completeness(message, user_id)
         _update_aliases(user_id, message.from_user.username or '', message.from_user.full_name or '')
 
@@ -321,7 +320,6 @@ async def handle_message(message: types.Message):
             message_counter[user_id] = 0
         return
 
-    # ========== Напоминалка для незарегистрированных (нет роли) ==========
     count = get_message_count(user_id) + 1
     set_message_count(user_id, count)
 
@@ -337,10 +335,12 @@ async def handle_message(message: types.Message):
             logger.info(f"📨 Напоминание отправлено {user_id} (#{count})")
         except Exception as e:
             logger.error(f"Ошибка отправки напоминания: {e}")
-# ======================== ПРИВЕТСТВИЕ ========================
 
-@router.my_chat_member()
+
+# ⚠️ ИСПРАВЛЕНО: Приветствие через chat_member, а не my_chat_member
+@router.chat_member()
 async def on_user_join(update: ChatMemberUpdated):
+    """Приветствие новых пользователей (через chat_member)."""
     if update.chat.id != GENERAL_CHAT_ID:
         return
     if update.new_chat_member.status not in ['member', 'administrator', 'creator']:
@@ -361,7 +361,7 @@ async def on_user_join(update: ChatMemberUpdated):
         try:
             await update.bot.send_message(
                 chat_id=update.chat.id,
-                text=f"👋 Привет, {user.first_name}!\n\n"
+                text=f"👋 Привет, {html.escape(user.first_name)}!\n\n"
                      f"❗ Для полного доступа зарегистрируйтесь:\n"
                      f"1. Напишите @loez_bot в личку\n"
                      f"2. Используйте команду /apply",
@@ -371,7 +371,6 @@ async def on_user_join(update: ChatMemberUpdated):
         except Exception as e:
             logger.error(f"Ошибка приветствия: {e}")
 
-# ======================== СБРОС СЧЁТЧИКА ========================
 
 @router.message(Command("reset_counter"))
 async def reset_counter_command(message: types.Message):
@@ -380,7 +379,11 @@ async def reset_counter_command(message: types.Message):
         return
 
     parts = message.text.split()
-    user_id = int(parts[1]) if len(parts) > 1 else message.from_user.id
+    try:
+        user_id = int(parts[1]) if len(parts) > 1 else message.from_user.id
+    except ValueError:
+        await message.reply("❌ Неверный формат ID.")
+        return
 
     if user_id in message_counter:
         message_counter[user_id] = 0

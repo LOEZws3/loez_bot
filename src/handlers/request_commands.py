@@ -2,27 +2,28 @@ import os
 import json
 import html
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
+
 from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
-import datetime
-from datetime import timedelta
-from config import GENERAL_CHAT_ID, CHAT_INVITE_LINK, ADMIN_LINK, MODERATOR_LINK
 
-from config import DATA_DIR, GENERAL_CHAT_ID
-from utils.admin_utils import is_admin, add_admin
+from config import (
+    GENERAL_CHAT_ID, CHAT_INVITE_LINK, ADMIN_LINK, MODERATOR_LINK,
+    DATA_DIR, OWNER_ID
+)
+from utils.admin_utils import is_admin, add_admin, get_admin_rank
 from utils.user_utils import (
-    add_user, increment_changes_count,
-    get_changes_count,
+    add_user, increment_changes_count, get_changes_count,
+    get_user_by_id, update_user_role, set_grace_period, set_fully_registered,
+    set_invite_link,
 )
 from utils.role_utils import (
     load_roles_status, save_roles_status,
     get_role_by_name, update_role_status,
-    update_role_status_by_id,
-    get_user_role as get_user_role_name,
+    update_role_status_by_id, get_user_role as get_user_role_name,
     get_user_role_key,
 )
 
@@ -30,12 +31,16 @@ logger = logging.getLogger(__name__)
 router = Router()
 
 REQUESTS_FILE = os.path.join(DATA_DIR, 'system', 'requests.json')
-
 POSITION_RANK = {'admin': 2, 'moder': 3, 'owner_restore': 1}
 POSITION_NAMES = {'admin': 'Администратор', 'moder': 'Модератор', 'member': 'Участник'}
 
+# Защита от двойного клика (in-memory)
+_processing_requests = set()
+
+
 class RejectReason(StatesGroup):
     waiting_for_reason = State()
+
 
 # ======================== РАБОТА С ЗАЯВКАМИ ========================
 
@@ -51,6 +56,7 @@ def _load_requests() -> dict:
         return {}
     return data
 
+
 def _save_requests(requests: dict) -> bool:
     try:
         with open(REQUESTS_FILE, 'w', encoding='utf-8') as f:
@@ -60,10 +66,12 @@ def _save_requests(requests: dict) -> bool:
         logger.error(f"Ошибка сохранения requests.json: {e}")
         return False
 
+
 def _get_pending() -> list:
     requests = _load_requests()
     return [(rid, req) for rid, req in requests.items()
             if isinstance(req, dict) and req.get('status') == 'pending']
+
 
 def _get_max_role_changes() -> int:
     try:
@@ -73,7 +81,8 @@ def _get_max_role_changes() -> int:
         logger.error(f"Ошибка чтения лимита смен роли: {e}")
         return 1
 
-# ======================== ВСПОМОГАТЕЛЬНАЯ: ЗАНЯТЬ/ОСВОБОДИТЬ РОЛЬ ========================
+
+# ======================== ВСПОМОГАТЕЛЬНЫЕ: ЗАНЯТЬ/ОСВОБОДИТЬ РОЛЬ ========================
 
 def _occupy_role(role_id: int, user_id: int, username: str) -> bool:
     status_data = load_roles_status()
@@ -88,6 +97,7 @@ def _occupy_role(role_id: int, user_id: int, username: str) -> bool:
     logger.warning(f"⚠️ Роль с ID {role_id} не найдена")
     return False
 
+
 def _free_role_by_id(role_id: int) -> bool:
     status_data = load_roles_status()
     for role_key, role_info in status_data.items():
@@ -100,10 +110,12 @@ def _free_role_by_id(role_id: int) -> bool:
             return True
     return False
 
+
 # ======================== ИРИС ========================
 
 async def _send_to_iris(bot, user_id: int, rank: int, position_name: str):
     logger.info(f"🔔 [ИРИС-ЗАГЛУШКА] Повысить {user_id} до ранга {rank} ({position_name})")
+
 
 # ======================== КОМАНДЫ ========================
 
@@ -134,6 +146,7 @@ async def cmd_requests(message: Message):
         reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
     )
 
+
 @router.message(Command('approve'))
 async def cmd_approve(message: Message):
     if not is_admin(message.from_user.id):
@@ -158,6 +171,7 @@ async def cmd_approve(message: Message):
     await message.answer(
         f"ℹ️ Используйте /requests → выберите заявку → «Одобрить»."
     )
+
 
 @router.message(Command('reject'))
 async def cmd_reject(message: Message, state: FSMContext):
@@ -184,6 +198,7 @@ async def cmd_reject(message: Message, state: FSMContext):
     await state.set_state(RejectReason.waiting_for_reason)
     await message.answer("📝 Напишите причину отклонения заявки:")
 
+
 @router.message(RejectReason.waiting_for_reason)
 async def reject_with_reason(message: Message, state: FSMContext):
     reason = (message.text or "")[:500]
@@ -206,7 +221,6 @@ async def reject_with_reason(message: Message, state: FSMContext):
         if role_id:
             _free_role_by_id(role_id)
 
-        # ⚠️ НОВОЕ: отправляем причину юзеру
         user_id = requests[request_id].get('user_id')
         if user_id:
             try:
@@ -224,6 +238,7 @@ async def reject_with_reason(message: Message, state: FSMContext):
         await message.answer(f"❌ Заявка #{request_id} уже обработана.")
 
     await state.clear()
+
 
 # ======================== INLINE-ОБРАБОТЧИКИ ========================
 
@@ -254,6 +269,7 @@ async def refresh_requests(callback: CallbackQuery):
         parse_mode="HTML",
         reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
     )
+
 
 @router.callback_query(F.data.startswith("view_req_"))
 async def view_request(callback: CallbackQuery):
@@ -315,8 +331,6 @@ async def view_request(callback: CallbackQuery):
 
     await callback.message.edit_text(text, parse_mode="HTML", reply_markup=keyboard)
 
-# ⚠️ НОВОЕ: Защита от двойного клика (in-memory)
-_processing_requests = set()
 
 @router.callback_query(F.data.startswith("approve_req_"))
 async def approve_request_callback(callback: CallbackQuery):
@@ -327,9 +341,15 @@ async def approve_request_callback(callback: CallbackQuery):
         await callback.answer("⛔ Доступ запрещён.", show_alert=True)
         return
 
+    # Проверка прав: модератор (ранг 3) не может одобрять заявки на админа/владельца
+    admin_rank = get_admin_rank(admin_id)
+    if admin_rank > 2:
+        await callback.answer("⛔ Только админ или владелец могут одобрять заявки.", show_alert=True)
+        return
+
     request_id = callback.data.replace("approve_req_", "")
 
-    # ⚠️ ЗАЩИТА ОТ ДВОЙНОГО КЛИКА
+    # Защита от двойного клика
     if request_id in _processing_requests:
         await callback.answer("⏳ Заявка уже обрабатывается...", show_alert=True)
         return
@@ -353,6 +373,11 @@ async def approve_request_callback(callback: CallbackQuery):
         position = request.get('position', 'member')
         position_name = request.get('position_name', POSITION_NAMES.get(position, 'Участник'))
 
+        # Запрет самоодобрения
+        if user_id == admin_id:
+            await callback.message.edit_text("⛔ Нельзя одобрить собственную заявку.")
+            return
+
         if not role_name or not season or not role_id:
             await callback.message.edit_text(
                 f"❌ Ошибка: в заявке нет role_id. Удалите заявку и подайте заново."
@@ -360,7 +385,7 @@ async def approve_request_callback(callback: CallbackQuery):
             logger.error(f"Заявка #{request_id} без role_id: {request}")
             return
 
-        # ✅ 0. ОСВОБОЖДАЕМ СТАРУЮ РОЛЬ (если была)
+        # Освобождаем старую роль
         old_role_key = None
         try:
             old_role_key = get_user_role_key(user_id)
@@ -380,7 +405,7 @@ async def approve_request_callback(callback: CallbackQuery):
                 increment_changes_count(user_id)
                 logger.info(f"🔄 Освобождена старая роль '{old_role_key}' у {user_id}")
 
-        # 1. ЗАНИМАЕМ НОВУЮ РОЛЬ ПО ID
+        # Занимаем новую роль
         occupied = _occupy_role(role_id, user_id, username)
         if not occupied:
             await callback.message.edit_text(
@@ -388,15 +413,13 @@ async def approve_request_callback(callback: CallbackQuery):
             )
             return
 
-        # 2. Обновляем заявку
+        # Обновляем заявку
         requests[request_id]['status'] = 'approved'
-        requests[request_id]['updated_at'] = datetime.datetime.now().isoformat()
+        requests[request_id]['updated_at'] = datetime.now().isoformat()
         _save_requests(requests)
 
-        # 3. Добавляем/обновляем в users.json
-        from utils.user_utils import get_user_by_id, update_user_role, add_user, set_grace_period, set_fully_registered
+        # Обновляем пользователя
         existing_user = get_user_by_id(user_id)
-
         if existing_user:
             update_user_role(user_id, role_name)
             logger.info(f"✅ {user_id} обновлён в users.json (новая роль {role_name})")
@@ -407,16 +430,15 @@ async def approve_request_callback(callback: CallbackQuery):
             else:
                 logger.warning(f"⚠️ {user_id} уже в users.json или ошибка добавления")
 
-        # ⚠️ Льготный период на 2 дня
+        # Льготный период и флаг регистрации
         set_grace_period(user_id, days=2)
         set_fully_registered(user_id, True)
         logger.info(f"⏳ Установлен льготный период (2 дня) для {user_id}")
 
-        # 4. Ранг
+        # Ранг
         rank = POSITION_RANK.get(position)
         if rank:
             if position == 'owner_restore':
-                from config import OWNER_ID
                 if user_id != OWNER_ID:
                     logger.warning(f"⚠️ Попытка восстановить права владельца не для OWNER_ID: {user_id}")
                 else:
@@ -437,27 +459,25 @@ async def approve_request_callback(callback: CallbackQuery):
                         })
                     save_admins(admins)
                     logger.info(f"👑 Восстановлены права владельца для {user_id}")
-
-            added_to_admins = add_admin(user_id, username, full_name, rank=rank)
-            if added_to_admins:
-                logger.info(f"✅ {user_id} → admins.json (ранг {rank})")
             else:
-                logger.warning(f"⚠️ {user_id} уже в admins.json или ошибка")
-            await _send_to_iris(callback.bot, user_id, rank, position_name)
+                added_to_admins = add_admin(user_id, username, full_name, rank=rank)
+                if added_to_admins:
+                    logger.info(f"✅ {user_id} → admins.json (ранг {rank})")
+                else:
+                    logger.warning(f"⚠️ {user_id} уже в admins.json или ошибка")
+                await _send_to_iris(callback.bot, user_id, rank, position_name)
 
-        # 5. ⚠️ ЛОГИКА ПЕРСОНАЛЬНОЙ ССЫЛКИ (КЭШИРОВАНИЕ)
+        # Персональная ссылка (кэширование)
         invite_link = None
-        from datetime import timedelta
-        from config import GENERAL_CHAT_ID
-        
+
         if existing_user:
             cached_link = existing_user.get('invite_link')
             cached_expire = existing_user.get('invite_expire')
-            
+
             if cached_link and cached_expire:
                 try:
-                    expire_dt = datetime.datetime.fromisoformat(cached_expire)
-                    if datetime.datetime.now() < expire_dt:
+                    expire_dt = datetime.fromisoformat(cached_expire)
+                    if datetime.now() < expire_dt:
                         invite_link = cached_link
                         logger.info(f"♻️ Используем кэшированную ссылку для {user_id}")
                 except Exception:
@@ -465,28 +485,28 @@ async def approve_request_callback(callback: CallbackQuery):
 
         if not invite_link:
             try:
-                expire_dt = datetime.datetime.now() + timedelta(days=2)
+                expire_dt = datetime.now() + timedelta(days=2)
                 expire_ts = int(expire_dt.timestamp())
-                
+
+                # Имя ссылки не должно превышать 32 символа
+                link_name = f"Для {full_name[:15]} (ID: {user_id})"
+
                 new_link_obj = await callback.bot.create_chat_invite_link(
                     chat_id=GENERAL_CHAT_ID,
-                    name=f"Для {full_name} (ID: {user_id})",
+                    name=link_name,
                     member_limit=1,
                     expire_date=expire_ts
                 )
                 invite_link = new_link_obj.invite_link
-                
-                from utils.user_utils import set_invite_link
+
                 set_invite_link(user_id, invite_link, expire_dt.isoformat())
-                
+
                 logger.info(f"🔗 Создана новая ссылка для {user_id}: {invite_link} (до {expire_dt})")
             except Exception as e:
                 logger.error(f"❌ Не удалось создать ссылку для {user_id}: {e}")
                 invite_link = CHAT_INVITE_LINK
 
-        # 6. Уведомление
-        from config import CHAT_INVITE_LINK, ADMIN_LINK, MODERATOR_LINK
-
+        # Уведомление
         invite_text = f"\n\n🔗 <b>Ссылка на вступление в чат (действует 2 дня, 1 вход):</b>\n{invite_link}"
 
         if rank in [1, 2]:
@@ -519,8 +539,8 @@ async def approve_request_callback(callback: CallbackQuery):
         logger.info(f"Админ {admin_id} одобрил заявку #{request_id}")
 
     finally:
-        # ⚠️ Убираем из списка обработки (всегда, даже если ошибка)
         _processing_requests.discard(request_id)
+
 
 @router.callback_query(F.data.startswith("reject_req_"))
 async def reject_request_callback(callback: CallbackQuery):
@@ -533,7 +553,6 @@ async def reject_request_callback(callback: CallbackQuery):
 
     request_id = callback.data.replace("reject_req_", "")
 
-    # ⚠️ ЗАЩИТА ОТ ДВОЙНОГО КЛИКА
     if request_id in _processing_requests:
         await callback.answer("⏳ Заявка уже обрабатывается...", show_alert=True)
         return
@@ -547,10 +566,36 @@ async def reject_request_callback(callback: CallbackQuery):
             await callback.message.edit_text("❌ Заявка уже обработана.")
             return
 
-        # ... (дальше идёт весь остальной код функции) ...
-        
+        requests[request_id]['status'] = 'rejected'
+        requests[request_id]['updated_at'] = datetime.now().isoformat()
+        _save_requests(requests)
+
+        role_id = request.get('role_id')
+        if role_id:
+            _free_role_by_id(role_id)
+
+        user_id = request.get('user_id')
+        role_name = request.get('role', '?')
+        if user_id:
+            try:
+                await callback.bot.send_message(
+                    user_id,
+                    f"❌ <b>Ваша заявка на роль '{html.escape(role_name)}' отклонена.</b>",
+                    parse_mode="HTML"
+                )
+            except Exception as e:
+                logger.error(f"Уведомление {user_id}: {e}")
+
+        await callback.message.edit_text(
+            f"❌ <b>Заявка #{request_id} отклонена.</b>",
+            parse_mode="HTML"
+        )
+
+        logger.info(f"Админ {admin_id} отклонил заявку #{request_id}")
+
     finally:
         _processing_requests.discard(request_id)
+
 
 @router.callback_query(F.data == "back_to_requests")
 async def back_to_requests(callback: CallbackQuery):

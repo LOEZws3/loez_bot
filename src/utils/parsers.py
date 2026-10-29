@@ -6,6 +6,7 @@
 import os
 import json
 import logging
+import shutil
 from datetime import datetime, timedelta
 from typing import Optional, Dict, List, Any
 
@@ -25,6 +26,7 @@ _cache = {
     'roles_status': None,
 }
 
+
 def clear_cache():
     """Сбрасывает кэш (нужно, если файлы менялись вручную)."""
     global _cache
@@ -32,6 +34,7 @@ def clear_cache():
     _cache['admins'] = None
     _cache['roles_status'] = None
     logger.info("🧹 Кэш JSON сброшен")
+
 
 # ======================== ⚠️ НОВОЕ: ЛОГГЕР ДЛЯ ДЕЙСТВИЙ АДМИНОВ ========================
 admin_logger = logging.getLogger('admin_actions')
@@ -42,41 +45,73 @@ admin_handler = logging.FileHandler(admin_log_path, encoding='utf-8')
 admin_handler.setFormatter(logging.Formatter('%(asctime)s - %(message)s'))
 admin_logger.addHandler(admin_handler)
 
+
 # ======================== БАЗОВЫЕ ФУНКЦИИ ========================
 
 def load_json(path: str, default: Any = None) -> Any:
+    """Загружает JSON. При ошибке возвращает default, но НЕ затирает файл."""
     if not os.path.exists(path):
         return default if default is not None else {}
+
     try:
         with open(path, 'r', encoding='utf-8') as f:
             data = json.load(f)
     except (json.JSONDecodeError, IOError) as e:
         logger.error(f"❌ Ошибка чтения {path}: {e}")
+        # Пытаемся загрузить резервную копию
+        backup_path = path + '.bak'
+        if os.path.exists(backup_path):
+            try:
+                with open(backup_path, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                logger.warning(f"⚠️ Загружена резервная копия {backup_path}")
+                return data
+            except Exception:
+                pass
         return default if default is not None else {}
+
     return data
 
+
 def save_json(path: str, data: Any) -> bool:
+    """Атомарная запись JSON с резервной копией."""
     try:
         os.makedirs(os.path.dirname(path), exist_ok=True)
-        with open(path, 'w', encoding='utf-8') as f:
+
+        # Создаём резервную копию (если файл существует)
+        if os.path.exists(path):
+            backup_path = path + '.bak'
+            try:
+                shutil.copy2(path, backup_path)
+            except Exception as e:
+                logger.warning(f"⚠️ Не удалось создать бэкап {path}: {e}")
+
+        # Пишем во временный файл
+        tmp_path = path + '.tmp'
+        with open(tmp_path, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
+
+        # Атомарно заменяем
+        os.replace(tmp_path, path)
         return True
     except Exception as e:
         logger.error(f"❌ Ошибка сохранения {path}: {e}")
         return False
+
 
 # ======================== ПОЛЬЗОВАТЕЛИ ========================
 
 def load_users() -> Dict[str, dict]:
     if _cache['users'] is not None:
         return _cache['users']
-    
+
     data = load_json(USERS_FILE_JSON, default={})
     if not isinstance(data, dict):
         data = {}
-    
+
     _cache['users'] = data
     return data
+
 
 def save_users(users: Dict[str, dict]) -> bool:
     global _cache
@@ -84,6 +119,7 @@ def save_users(users: Dict[str, dict]) -> bool:
         _cache['users'] = users
         return True
     return False
+
 
 def get_user(user_id: int) -> Optional[dict]:
     users = load_users()
@@ -103,11 +139,12 @@ def get_user(user_id: int) -> Optional[dict]:
         'rest': bool(info.get('rest', False)),
         'rest_end_date': info.get('rest_end_date', None),
         'agreed_to_privacy': bool(info.get('agreed_to_privacy', False)),
-        'is_fully_registered': bool(info.get('is_fully_registered', False)), # ⚠️ НОВОЕ
-        'invite_link': info.get('invite_link', None), # ⚠️ НОВОЕ
-        'invite_expire': info.get('invite_expire', None), # ⚠️ НОВОЕ
+        'is_fully_registered': bool(info.get('is_fully_registered', False)),
+        'invite_link': info.get('invite_link', None),
+        'invite_expire': info.get('invite_expire', None),
         'apply_sent': bool(info.get('apply_sent', False)),
     }
+
 
 def add_user(user_id: int, username: str, full_name: str,
              role: str = '0', extra: str = '-993',
@@ -141,6 +178,7 @@ def add_user(user_id: int, username: str, full_name: str,
     }
     return save_users(users)
 
+
 def remove_user(user_id: int) -> bool:
     users = load_users()
     if str(user_id) in users:
@@ -150,6 +188,7 @@ def remove_user(user_id: int) -> bool:
         return True
     return False
 
+
 def update_user_role(user_id: int, new_role: str) -> bool:
     users = load_users()
     if str(user_id) in users:
@@ -157,12 +196,14 @@ def update_user_role(user_id: int, new_role: str) -> bool:
         return save_users(users)
     return False
 
+
 def get_changes_count(user_id: int) -> int:
     users = load_users()
     info = users.get(str(user_id))
     if not info or not isinstance(info, dict):
         return 0
     return int(info.get('changes_count', 0))
+
 
 def increment_changes_count(user_id: int) -> bool:
     users = load_users()
@@ -173,6 +214,7 @@ def increment_changes_count(user_id: int) -> bool:
     users[uid_str]['changes_count'] = current + 1
     return save_users(users)
 
+
 def reset_changes_count(user_id: int) -> bool:
     users = load_users()
     uid_str = str(user_id)
@@ -180,6 +222,7 @@ def reset_changes_count(user_id: int) -> bool:
         return False
     users[uid_str]['changes_count'] = 0
     return save_users(users)
+
 
 # ======================== ⚠️ НОВОЕ: ЛЬГОТНЫЙ ПЕРИОД ========================
 
@@ -193,6 +236,7 @@ def set_grace_period(user_id: int, days: int = 4) -> bool:
     users[uid_str]['grace_until'] = grace_until
     return save_users(users)
 
+
 # ======================== ДЕНЬ РОЖДЕНИЯ ========================
 
 def set_birthday(user_id: int, birthday: str) -> bool:
@@ -203,12 +247,14 @@ def set_birthday(user_id: int, birthday: str) -> bool:
     users[uid_str]['birthday'] = birthday
     return save_users(users)
 
+
 def get_birthday(user_id: int) -> Optional[str]:
     users = load_users()
     info = users.get(str(user_id))
     if not info or not isinstance(info, dict):
         return None
     return info.get('birthday', None)
+
 
 def get_users_with_birthday(day: int, month: int) -> List[dict]:
     users = load_users()
@@ -232,6 +278,7 @@ def get_users_with_birthday(day: int, month: int) -> List[dict]:
             })
     return result
 
+
 # ======================== ПОДПИСКА НА НОРМУ ========================
 
 def set_notify_norm(user_id: int, value: bool) -> bool:
@@ -242,6 +289,7 @@ def set_notify_norm(user_id: int, value: bool) -> bool:
     users[uid_str]['notify_norm'] = bool(value)
     return save_users(users)
 
+
 def get_notify_norm(user_id: int) -> bool:
     users = load_users()
     info = users.get(str(user_id))
@@ -249,18 +297,20 @@ def get_notify_norm(user_id: int) -> bool:
         return True
     return bool(info.get('notify_norm', True))
 
+
 # ======================== АДМИНИСТРАТОРЫ ========================
 
 def load_admins() -> Dict[str, dict]:
     if _cache['admins'] is not None:
         return _cache['admins']
-    
+
     data = load_json(ADMINS_FILE_JSON, default={})
     if not isinstance(data, dict):
         data = {}
-    
+
     _cache['admins'] = data
     return data
+
 
 def save_admins(admins: Dict[str, dict]) -> bool:
     global _cache
@@ -268,6 +318,7 @@ def save_admins(admins: Dict[str, dict]) -> bool:
         _cache['admins'] = admins
         return True
     return False
+
 
 def get_admin(user_id: int) -> Optional[dict]:
     admins = load_admins()
@@ -281,6 +332,7 @@ def get_admin(user_id: int) -> Optional[dict]:
         'rank': int(info.get('rank', 2)),
     }
 
+
 def add_admin(user_id: int, username: str = '', full_name: str = '',
               rank: int = 2) -> bool:
     admins = load_admins()
@@ -293,6 +345,7 @@ def add_admin(user_id: int, username: str = '', full_name: str = '',
     }
     return save_admins(admins)
 
+
 def remove_admin(user_id: int) -> bool:
     if user_id == OWNER_ID:
         logger.warning(f"⛔ Попытка удалить главного владельца {user_id}")
@@ -303,6 +356,7 @@ def remove_admin(user_id: int) -> bool:
         return save_admins(admins)
     return False
 
+
 def set_rank(user_id: int, rank: int) -> bool:
     if user_id == OWNER_ID:
         return False
@@ -311,6 +365,7 @@ def set_rank(user_id: int, rank: int) -> bool:
         admins[str(user_id)]['rank'] = rank
         return save_admins(admins)
     return False
+
 
 # ======================== ВЛАДЕЛЬЦЫ (ЕДИНАЯ ЛОГИКА) ========================
 
@@ -331,14 +386,17 @@ def get_owner_ids() -> List[int]:
 
     return list(owners)
 
+
 def is_owner(user_id: int) -> bool:
     return user_id in get_owner_ids()
+
 
 def is_admin(user_id: int) -> bool:
     if is_owner(user_id):
         return True
     admins = load_admins()
     return str(user_id) in admins
+
 
 def get_admin_rank(user_id: int) -> int:
     if is_owner(user_id):
@@ -352,6 +410,7 @@ def get_admin_rank(user_id: int) -> int:
             return 2
     return 0
 
+
 # ======================== ЗАЯВКИ ========================
 
 def load_requests() -> Dict[str, dict]:
@@ -360,8 +419,10 @@ def load_requests() -> Dict[str, dict]:
         return {}
     return data
 
+
 def save_requests(requests: Dict[str, dict]) -> bool:
     return save_json(REQUESTS_FILE, requests)
+
 
 # ======================== НАСТРОЙКИ ========================
 
@@ -383,21 +444,24 @@ def load_settings() -> dict:
         return default
     return data
 
+
 def save_settings(settings: dict) -> bool:
     return save_json(SYSTEM_SETTINGS_FILE, settings)
+
 
 # ======================== РОЛИ ========================
 
 def load_roles_status() -> dict:
     if _cache['roles_status'] is not None:
         return _cache['roles_status']
-    
+
     data = load_json(ROLES_STATUS_FILE, default={})
     if not isinstance(data, dict):
         data = {}
-    
+
     _cache['roles_status'] = data
     return data
+
 
 def save_roles_status(roles: dict) -> bool:
     global _cache
@@ -405,6 +469,7 @@ def save_roles_status(roles: dict) -> bool:
         _cache['roles_status'] = roles
         return True
     return False
+
 
 # ======================== РЕСТЫ ========================
 

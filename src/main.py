@@ -5,11 +5,12 @@ import logging
 import os
 import json
 import datetime
-import time
+import re
 from aiogram import Bot, Dispatcher
 from aiogram.types import BotCommand
 from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.exceptions import TelegramNetworkError
+from aiogram.types import ErrorEvent
 
 # ⚠️ НОВОЕ: Импорт для системных уведомлений Windows
 try:
@@ -52,7 +53,6 @@ error_log_path = os.path.join(DATA_DIR, 'logs', 'errors.txt')
 os.makedirs(os.path.dirname(error_log_path), exist_ok=True)
 error_logger = logging.getLogger('errors')
 error_logger.setLevel(logging.ERROR)
-# Отключаем propagation, чтобы ошибки не дублировались в основной лог
 error_logger.propagate = False
 error_handler = logging.FileHandler(error_log_path, encoding='utf-8')
 error_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s\n%(exc_info)s'))
@@ -60,10 +60,20 @@ error_logger.addHandler(error_handler)
 
 bot = None
 RESTART_DELAY = 5
+_background_tasks = []  # ⚠️ НОВОЕ: Храним ссылки на таски, чтобы не плодить дубли
 
-# ======================== ⚠️ НОВОЕ: leftdata.json ========================
+
+# ======================== ⚠️ МАСКИРОВКА ПАРОЛЕЙ В ЛОГАХ ========================
+def _mask_proxy(proxy_url: str) -> str:
+    """Маскирует логин:пароль в URL прокси."""
+    if not proxy_url:
+        return proxy_url
+    # Заменяем user:pass@host на ***:***@host
+    return re.sub(r'://[^:]+:[^@]+@', '://***:***@', proxy_url)
+
+
+# ======================== leftdata.json ========================
 def _save_leftdata(user_id: int, full_name: str, role: str, reason: str = "left"):
-    """Сохраняет ушедшего юзера в leftdata.json."""
     try:
         if os.path.exists(LEFTOVER_FILE):
             with open(LEFTOVER_FILE, 'r', encoding='utf-8') as f:
@@ -87,38 +97,36 @@ def _save_leftdata(user_id: int, full_name: str, role: str, reason: str = "left"
     except Exception as e:
         logger.error(f"❌ Ошибка leftdata.json для {user_id}: {e}")
 
+
 async def create_bot_with_proxy() -> Bot:
     from config import PRIORITY_PROXY, PRIORITY_PROXY_FALSE_PROTOCOL, PRIORITY_PROXY_FALSE_PROTOCOL_2
-    
+
     if not USE_PROXY:
-        # Собираем список прокси из .env (в порядке приоритета)
         proxies = []
         if PRIORITY_PROXY_FALSE_PROTOCOL:
             proxies.append(PRIORITY_PROXY_FALSE_PROTOCOL)
         if PRIORITY_PROXY_FALSE_PROTOCOL_2:
             proxies.append(PRIORITY_PROXY_FALSE_PROTOCOL_2)
-        
+
         if not proxies:
             logger.info("ℹ️ Прокси отключены — прямое подключение")
             return Bot(token=BOT_TOKEN)
-        
-        # Пробуем каждый прокси по очереди
+
         for proxy_url in proxies:
-            logger.info(f"🌐 Пробуем прокси: {proxy_url}")
+            logger.info(f"🌐 Пробуем прокси: {_mask_proxy(proxy_url)}")
             try:
                 session = AiohttpSession(proxy=proxy_url)
                 test_bot = Bot(token=BOT_TOKEN, session=session)
-                # Проверяем, работает ли прокси (запрашиваем getMe)
                 await test_bot.get_me()
-                logger.info(f"✅ Прокси работает: {proxy_url}")
+                logger.info(f"✅ Прокси работает: {_mask_proxy(proxy_url)}")
                 return test_bot
             except Exception as e:
-                logger.warning(f"⚠️ Прокси {proxy_url} не работает: {e}")
+                logger.warning(f"⚠️ Прокси {_mask_proxy(proxy_url)} не работает: {e}")
                 try:
                     await test_bot.session.close()
                 except Exception:
                     pass
-        
+
         logger.warning("⚠️ Все прокси не работают — прямое подключение")
         return Bot(token=BOT_TOKEN)
 
@@ -127,7 +135,7 @@ async def create_bot_with_proxy() -> Bot:
 
     if PRIORITY_PROXY:
         proxy_manager.priority_proxy = PRIORITY_PROXY
-        logger.info(f"⭐ Приоритетный прокси: {PRIORITY_PROXY}")
+        logger.info(f"⭐ Приоритетный прокси: {_mask_proxy(PRIORITY_PROXY)}")
     else:
         logger.info("ℹ️ Приоритетный прокси не задан — пингование всех")
 
@@ -145,10 +153,11 @@ async def create_bot_with_proxy() -> Bot:
 
     proxy_url = proxy_manager.format_proxy(fastest_proxy)
     ping = proxy_manager.proxy_pings.get(fastest_proxy, 0)
-    logger.info(f"🌐 Используется прокси: {proxy_url} (пинг: {ping:.3f}с)")
+    logger.info(f"🌐 Используется прокси: {_mask_proxy(proxy_url)} (пинг: {ping:.3f}с)")
 
     session = AiohttpSession(proxy=proxy_url)
     return Bot(token=BOT_TOKEN, session=session)
+
 
 async def switch_to_next_proxy():
     global bot
@@ -160,7 +169,7 @@ async def switch_to_next_proxy():
     if current:
         proxy_manager.mark_proxy_used(current)
         proxy_manager.mark_proxy_bad(current)
-        logger.info(f"❌ Прокси {current} помечен как нерабочий")
+        logger.info(f"❌ Прокси {_mask_proxy(current)} помечен как нерабочий")
 
     next_proxy = proxy_manager.get_next_fastest_proxy()
     if not next_proxy:
@@ -174,16 +183,17 @@ async def switch_to_next_proxy():
 
         proxy_url = proxy_manager.format_proxy(next_proxy)
         ping = proxy_manager.proxy_pings.get(next_proxy, 0)
-        logger.info(f"🔄 Переключение на прокси: {proxy_url} (пинг: {ping:.3f}с)")
+        logger.info(f"🔄 Переключение на прокси: {_mask_proxy(proxy_url)} (пинг: {ping:.3f}с)")
 
         session = AiohttpSession(proxy=proxy_url)
         bot = Bot(token=BOT_TOKEN, session=session)
-        logger.info(f"✅ Переключено на прокси: {next_proxy}")
+        logger.info(f"✅ Переключено на прокси: {_mask_proxy(next_proxy)}")
         return True
 
     except Exception as e:
         logger.error(f"❌ Ошибка переключения: {e}")
         return False
+
 
 async def set_bot_commands():
     commands = [
@@ -211,14 +221,12 @@ async def set_bot_commands():
         logger.info("📋 Команды бота установлены")
     except Exception as e:
         error_str = str(e).lower()
-
         is_ssl_error = (
             'ssl' in error_str or
             'certificate' in error_str or
             'certificate_verify_failed' in error_str or
             'clientoserror' in error_str
         )
-
         if is_ssl_error:
             logger.warning(f"⚠️ SSL-ошибка при установке команд: {e}")
             raise ProxySSLException(f"SSL error: {e}")
@@ -227,8 +235,10 @@ async def set_bot_commands():
         else:
             logger.warning(f"⚠️ Не удалось установить команды бота: {e}")
 
+
+# ======================== ФОНОВЫЕ ЦИКЛЫ ========================
+
 async def check_rests_loop():
-    """Планировщик рестов: проверяет users.json и снимает истёкшие ресты."""
     global bot
     from utils.role_utils import load_roles_status, save_roles_status
     from utils.user_utils import load_users, set_rest_status, get_user_by_id
@@ -236,28 +246,22 @@ async def check_rests_loop():
     while True:
         try:
             today = datetime.date.today().isoformat()
-            
-            # 1. Загружаем всех юзеров из users.json
             users = load_users()
             expired_rest_users = []
-            
+
             for u in users:
                 uid = u.get('id')
                 if not uid:
                     continue
-                    
-                # Если у юзера есть рест и дата окончания прошла
                 if u.get('rest') and u.get('rest_end_date'):
                     if u['rest_end_date'] <= today:
                         expired_rest_users.append(uid)
 
             if expired_rest_users:
-                # 2. Снимаем рест в users.json
                 for uid in expired_rest_users:
                     set_rest_status(uid, False)
                     logger.info(f"🔔 Рест снят у юзера {uid} (истекла дата)")
 
-                # 3. Снимаем рест в roles_status.json (ставим 'занята')
                 status_data = load_roles_status()
                 changed = False
                 for role_key, role_info in status_data.items():
@@ -268,27 +272,26 @@ async def check_rests_loop():
                         role_info['status'] = 'занята'
                         role_info['extra'] = ''
                         changed = True
-                        
+
                 if changed:
                     save_roles_status(status_data)
                     logger.info(f"🔔 В roles_status.json обновлены роли для {len(expired_rest_users)} юзеров")
 
-                # 4. Уведомляем юзеров
                 if bot:
                     for uid in expired_rest_users:
                         try:
-                            # Ищем имя роли для уведомления
+                            import html
                             role_name = "ваша роль"
                             for role_key, role_info in status_data.items():
                                 if isinstance(role_info, dict) and role_info.get('owner_id') == uid:
                                     from utils.role_utils import format_role_display
                                     role_name = format_role_display(role_key)
                                     break
-                                    
+
                             await bot.send_message(
                                 uid,
                                 f"🔔 <b>Ваш рест закончился!</b>\n\n"
-                                f"🎭 Роль: <b>{role_name}</b>\n"
+                                f"🎭 Роль: <b>{html.escape(role_name)}</b>\n"
                                 f"Теперь вы снова активны.",
                                 parse_mode="HTML"
                             )
@@ -300,8 +303,8 @@ async def check_rests_loop():
 
         await asyncio.sleep(60)
 
+
 async def sync_roles_loop():
-    """Синхронизация ролей из папки data/roles/*.txt (03:33 МСК)."""
     from utils.role_utils import sync_roles_from_files
 
     while True:
@@ -324,8 +327,8 @@ async def sync_roles_loop():
             logger.error(f"❌ Ошибка в синхронизации ролей: {e}")
             await asyncio.sleep(3600)
 
+
 async def expire_warns_loop():
-    """Удаление истёкших варнов (раз в час)."""
     from utils.warns_utils import expire_old_warns
 
     while True:
@@ -338,8 +341,8 @@ async def expire_warns_loop():
 
         await asyncio.sleep(3600)
 
+
 async def norm_reminder_loop():
-    """Напоминание админам о чистке (сб 19:00 МСК)."""
     global bot
     from utils.admin_utils import load_admins
     from config import ADMIN_GROUP_ID
@@ -383,15 +386,15 @@ async def norm_reminder_loop():
             logger.error(f"❌ Ошибка в напоминании о чистке: {e}")
             await asyncio.sleep(3600)
 
+
 async def norm_reminder_low_loop():
-    """Напоминание о норме в пятницу 19:00 МСК (тем, у кого < 50%)."""
     global bot
 
     while True:
         try:
             now_utc = datetime.datetime.now(datetime.UTC)
             now_msk = now_utc + datetime.timedelta(hours=3)
-            days_until_friday = (4 - now_msk.weekday()) % 7  # 4 = пятница
+            days_until_friday = (4 - now_msk.weekday()) % 7
             target = now_msk.replace(hour=19, minute=0, second=0, microsecond=0) + datetime.timedelta(days=days_until_friday)
 
             if now_msk >= target:
@@ -403,13 +406,12 @@ async def norm_reminder_low_loop():
 
             await asyncio.sleep(wait_seconds)
 
-            # Загружаем данные
             from utils.user_utils import load_users
             from utils.counters import get_message_count
             from utils.settings_utils import get_messages_norm
 
             norm = get_messages_norm()
-            threshold = norm // 2  # 50%
+            threshold = norm // 2
 
             users = load_users()
             sent_count = 0
@@ -426,7 +428,6 @@ async def norm_reminder_low_loop():
                 count = get_message_count(uid)
                 if count < threshold:
                     try:
-                        # ⚠️ Более мотивирующий текст
                         await bot.send_message(
                             uid,
                             f"📊 <b>Напоминание о норме</b>\n\n"
@@ -446,8 +447,8 @@ async def norm_reminder_low_loop():
             logger.error(f"❌ Ошибка в norm_reminder_low_loop: {e}")
             await asyncio.sleep(3600)
 
+
 async def norm_reset_loop():
-    """Сброс счётчиков (21:00 МСК, с ожиданием чисток)."""
     from utils.counters import reset_all_counters
     from handlers.checknorm_commands import _has_active_sessions
 
@@ -474,15 +475,15 @@ async def norm_reset_loop():
                 waited += 60
 
             from utils.counters import save_weekly_norm_history
-            save_weekly_norm_history() # Сохраняем историю перед сбросом
+            save_weekly_norm_history()
             reset_all_counters()
             logger.info("✅ Счётчики сброшены, история нормы сохранена (21:00 МСК)")
         except Exception as e:
             logger.error(f"❌ Ошибка в сбросе счётчиков: {e}")
             await asyncio.sleep(3600)
 
+
 async def check_kicked_loop():
-    """Проверка кикнутых (раз в минуту). + сохранение в leftdata.json + проверка grace_until."""
     global bot
 
     while True:
@@ -506,12 +507,9 @@ async def check_kicked_loop():
                 uid = u.get('id')
                 if not uid:
                     continue
-
-                # ⚠️ ПРОВЕРКА: если заявка не подана — не трогаем
                 if not u.get('apply_sent', False):
                     continue
 
-                # ⚠️ ПРОВЕРКА ЛЬГОТНОГО ПЕРИОДА (если заявка подана)
                 grace_until = u.get('grace_until')
                 if grace_until:
                     try:
@@ -564,17 +562,13 @@ async def check_kicked_loop():
         except Exception as e:
             logger.error(f"❌ Ошибка проверки кикнутых: {e}")
 
-# ======================== ⚠️ НОВОЕ: ДНИ РОЖДЕНИЯ ========================
+
+# ======================== ДНИ РОЖДЕНИЯ ========================
 
 async def _send_birthday_messages(mode: str):
-    """
-    mode = 'personal' (00:00 ЛС) или 'group' (12:00 во флуд).
-    """
     global bot
-
     if not bot:
         return
-
     try:
         now_utc = datetime.datetime.now(datetime.UTC)
         now_msk = now_utc + datetime.timedelta(hours=3)
@@ -583,19 +577,18 @@ async def _send_birthday_messages(mode: str):
 
         from utils.user_utils import get_users_with_birthday
         users = get_users_with_birthday(day, month)
-
         if not users:
             return
 
         logger.info(f"🎂 ДР сегодня у {len(users)}: {[u['id'] for u in users]}")
 
         if mode == 'personal':
-            # ЛС каждому
             for u in users:
                 try:
+                    import html
                     await bot.send_message(
                         u['id'],
-                        f"🎂 <b>Поздравляю вас с вашим днём рождения, {u['full_name']}!</b>\n\n"
+                        f"🎂 <b>Поздравляю вас с вашим днём рождения, {html.escape(u['full_name'])}!</b>\n\n"
                         f"Желаем удачи!\n\n"
                         f"— LOeZ team",
                         parse_mode="HTML"
@@ -604,14 +597,14 @@ async def _send_birthday_messages(mode: str):
                     logger.error(f"❌ ЛС {u['id']}: {e}")
 
         elif mode == 'group':
-            # Одно сообщение во флуд со всеми
+            import html
             lines = []
             for u in users:
                 role = u.get('role') or ''
                 if role and role != '0':
-                    lines.append(f"• {u['full_name']} ({role})")
+                    lines.append(f"• {html.escape(u['full_name'])} ({html.escape(role)})")
                 else:
-                    lines.append(f"• {u['full_name']}")
+                    lines.append(f"• {html.escape(u['full_name'])}")
 
             text = (
                 "🎂 <b>Сегодня день рождения у:</b>\n\n"
@@ -626,8 +619,8 @@ async def _send_birthday_messages(mode: str):
     except Exception as e:
         logger.error(f"❌ Ошибка ДР ({mode}): {e}")
 
+
 async def birthday_personal_loop():
-    """ЛС-поздравления в 00:00 МСК."""
     while True:
         try:
             now_utc = datetime.datetime.now(datetime.UTC)
@@ -645,8 +638,8 @@ async def birthday_personal_loop():
             logger.error(f"❌ birthday_personal_loop: {e}")
             await asyncio.sleep(3600)
 
+
 async def birthday_group_loop():
-    """Поздравление во флуд в 12:00 МСК."""
     while True:
         try:
             now_utc = datetime.datetime.now(datetime.UTC)
@@ -664,22 +657,14 @@ async def birthday_group_loop():
             logger.error(f"❌ birthday_group_loop: {e}")
             await asyncio.sleep(3600)
 
-# ======================== ⚠️ НОВОЕ: ГЛОБАЛЬНЫЙ ERROR HANDLER ========================
 
-async def on_error(event, exception: Exception = None):
-    if exception is None:
-        return
-    """
-    Глобальный обработчик ошибок.
-    Логирует ошибку, пишет в errors.txt, показывает уведомление Windows и отвечает юзеру.
-    """
-    # 1. Пишем в основной лог
-    logger.exception(f"🔥 Необработанная ошибка в событии {type(event).__name__}: {exception}")
+# ======================== ГЛОБАЛЬНЫЙ ERROR HANDLER ========================
 
-    # 2. Пишем в errors.txt (с полным трейсбеком)
-    error_logger.exception(f"🔥 Ошибка в {type(event).__name__}: {exception}")
+async def on_error(event: ErrorEvent):
+    exception = event.exception
+    logger.exception(f"🔥 Необработанная ошибка в событии: {exception}")
+    error_logger.exception(f"🔥 Ошибка: {exception}")
 
-    # 3. Системное уведомление Windows (только если winotify установлен)
     if Notification and sys.platform == 'win32':
         try:
             toast = Notification(
@@ -693,30 +678,32 @@ async def on_error(event, exception: Exception = None):
         except Exception as e:
             logger.error(f"❌ Не удалось показать уведомление Windows: {e}")
 
-    # 4. Пытаемся ответить пользователю в Telegram
-    if hasattr(event, 'answer') and callable(event.answer):
+    update = event.update
+    if update.message:
         try:
-            # Для callback query
-            if hasattr(event, 'id') and hasattr(event, 'from_user'):
-                await event.answer("⚠️ Произошла внутренняя ошибка. Попробуйте позже.", show_alert=True)
-            # Для message
-            elif hasattr(event, 'chat'):
-                await event.answer("⚠️ Произошла внутренняя ошибка. Попробуйте позже.")
-        except Exception as e:
-            logger.error(f"❌ Не удалось отправить уведомление об ошибке: {e}")
+            await update.message.answer("⚠️ Произошла внутренняя ошибка. Попробуйте позже.")
+        except Exception:
+            pass
+    elif update.callback_query:
+        try:
+            await update.callback_query.answer("⚠️ Произошла внутренняя ошибка.", show_alert=True)
+        except Exception:
+            pass
 
-# ======================== ⚠️ НОВОЕ: GRACEFUL SHUTDOWN ========================
+
+# ======================== GRACEFUL SHUTDOWN ========================
 
 async def on_shutdown(bot: Bot):
-    """Корректное завершение работы бота."""
     logger.info("🛑 Получен сигнал завершения. Останавливаю polling...")
+    for task in _background_tasks:
+        task.cancel()
     await bot.session.close()
     logger.info("✅ Бот успешно остановлен.")
 
-# ======================== ⚠️ НОВОЕ: ПРОВЕРКА ЧАТОВ ========================
+
+# ======================== ПРОВЕРКА ЧАТОВ ========================
 
 async def check_bot_in_chats(bot: Bot):
-    """Проверяет, что бот добавлен в нужные чаты и является там админом."""
     chats_to_check = [
         (GENERAL_CHAT_ID, "Флуд-чат"),
         (ADMIN_GROUP_ID, "Админ-группа")
@@ -734,6 +721,7 @@ async def check_bot_in_chats(bot: Bot):
         except Exception as e:
             logger.error(f"❌ Ошибка проверки чата '{name}' ({chat_id}): {e}")
 
+
 # ======================== RUN ========================
 
 async def run_bot():
@@ -746,9 +734,7 @@ async def run_bot():
         dp.include_router(router)
     logger.info(f"✅ Зарегистрировано {len(routers)} роутеров")
 
-    # ⚠️ НОВОЕ: Регистрируем глобальный обработчик ошибок
     dp.errors.register(on_error)
-    # ⚠️ НОВОЕ: Регистрируем graceful shutdown
     dp.shutdown.register(on_shutdown)
 
     while True:
@@ -803,11 +789,12 @@ async def run_bot():
             bot = None
             continue
 
+
 async def on_startup():
+    global _background_tasks
     logger.info("🚀 Запуск...")
     await db.init()
 
-    # ⚠️ НОВОЕ: Проверка чатов при старте
     if bot:
         await check_bot_in_chats(bot)
 
@@ -818,27 +805,30 @@ async def on_startup():
     except Exception as e:
         logger.error(f"❌ Ошибка синхронизации: {e}")
 
-    asyncio.create_task(norm_reminder_low_loop())
-    logger.info("🔄 norm_reminder_low_loop запущен (пятница 19:00 МСК)")
-    asyncio.create_task(check_rests_loop())
-    logger.info("🔄 check_rests_loop запущен")
-    asyncio.create_task(sync_roles_loop())
-    logger.info("🔄 sync_roles_loop запущен (03:33 МСК)")
-    asyncio.create_task(expire_warns_loop())
-    logger.info("🔄 expire_warns_loop запущен (раз в час)")
-    asyncio.create_task(norm_reminder_loop())
-    logger.info("🔄 norm_reminder_loop запущен (сб 19:00 МСК)")
-    asyncio.create_task(norm_reset_loop())
-    logger.info("🔄 norm_reset_loop запущен (сб 21:00 МСК)")
-    asyncio.create_task(check_kicked_loop())
-    logger.info("🔄 check_kicked_loop запущен (раз в мин)")
-    asyncio.create_task(birthday_personal_loop())
-    logger.info("🔄 birthday_personal_loop запущен (00:00 МСК)")
-    asyncio.create_task(birthday_group_loop())
-    logger.info("🔄 birthday_group_loop запущен (12:00 МСК)")
+    # ⚠️ НОВОЕ: Запускаем фоновые циклы ОДИН раз, сохраняя ссылки
+    if not _background_tasks:
+        _background_tasks.append(asyncio.create_task(norm_reminder_low_loop()))
+        logger.info("🔄 norm_reminder_low_loop запущен (пятница 19:00 МСК)")
+        _background_tasks.append(asyncio.create_task(check_rests_loop()))
+        logger.info("🔄 check_rests_loop запущен")
+        _background_tasks.append(asyncio.create_task(sync_roles_loop()))
+        logger.info("🔄 sync_roles_loop запущен (03:33 МСК)")
+        _background_tasks.append(asyncio.create_task(expire_warns_loop()))
+        logger.info("🔄 expire_warns_loop запущен (раз в час)")
+        _background_tasks.append(asyncio.create_task(norm_reminder_loop()))
+        logger.info("🔄 norm_reminder_loop запущен (сб 19:00 МСК)")
+        _background_tasks.append(asyncio.create_task(norm_reset_loop()))
+        logger.info("🔄 norm_reset_loop запущен (сб 21:00 МСК)")
+        _background_tasks.append(asyncio.create_task(check_kicked_loop()))
+        logger.info("🔄 check_kicked_loop запущен (раз в мин)")
+        _background_tasks.append(asyncio.create_task(birthday_personal_loop()))
+        logger.info("🔄 birthday_personal_loop запущен (00:00 МСК)")
+        _background_tasks.append(asyncio.create_task(birthday_group_loop()))
+        logger.info("🔄 birthday_group_loop запущен (12:00 МСК)")
 
     await set_bot_commands()
     logger.info("✅ Бот запущен!")
+
 
 async def main():
     global bot
@@ -849,6 +839,7 @@ async def main():
     except Exception as e:
         logger.error(f"❌ Ошибка: {e}")
         raise
+
 
 if __name__ == "__main__":
     try:

@@ -79,3 +79,4 @@ logs/
 !data/system/free_role_ids.json
 
 src/bot.db
+src/middlewares/__pycache__/registration_check.cpython-314.pyc

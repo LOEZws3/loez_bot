@@ -28,7 +28,7 @@ USE_PROXY = os.getenv('USE_PROXY', 'false').lower() == 'true'
 PROXY_DIR = os.getenv('PROXY_DIR', str(SRC_PATH / 'proxies'))
 PROXY_ENABLED = USE_PROXY
 PRIORITY_PROXY = os.getenv('PRIORITY_PROXY', '')
-PRIORITY_PROXY_FALSE_PROTOCOL = os.getenv('PRIORITY_PROXY_False_protocol', '')  # ️ НОВОЕ: прокси для USE_PROXY=false
+PRIORITY_PROXY_FALSE_PROTOCOL = os.getenv('PRIORITY_PROXY_False_protocol', '')
 PRIORITY_PROXY_FALSE_PROTOCOL_2 = os.getenv('PRIORITY_PROXY_False_protocol_2', '')
 
 # --- Логирование ---
@@ -66,7 +66,6 @@ PRIVACY_POLICY_URL = os.getenv('PRIVACY_POLICY_URL', 'https://telegra.ph/')
 TERMS_OF_USE_URL = os.getenv('TERMS_OF_USE_URL', 'https://telegra.ph/')
 
 # --- Стартовый режим ---
-# Разрешённые команды для незарегистрированных юзеров
 STARTER_MODE_ALLOWED_COMMANDS = {
     '/start',
     '/help',
@@ -101,7 +100,6 @@ def ensure_directories():
         if not os.path.exists(directory):
             os.makedirs(directory)
             print(f"📁 Создана папка: {directory}")
-
 
 ensure_directories()
 
