@@ -8,12 +8,14 @@ import os
 import time
 import asyncio
 import datetime
+import html
 import logging
 from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
+from aiogram.exceptions import TelegramBadRequest
 
 from config import GENERAL_CHAT_ID
 from utils.admin_utils import is_admin, get_admin_rank
@@ -52,8 +54,11 @@ CHECKNORM_STARTED_AT = 0
 
 # ⚠️ 02.10.2026: сроки в МИНУТАХ
 WARN_MINUTES_DEFAULT = 6 * 24 * 60        # 6 дней
-WARN_MINUTES_ACCUMULATE = 21 * 24 * 60    # 21 день (БАГ 3: было 9!)
+WARN_MINUTES_ACCUMULATE = 21 * 24 * 60    # 21 день
 BAN_MINUTES = 90 * 24 * 60                # 90 дней
+
+# Количество юзеров на одной странице чек-листа
+CHECKNORM_ITEMS_PER_PAGE = 10
 
 def _cleanup_session(admin_id: int):
     if admin_id in ACTIVE_SESSIONS:
@@ -63,50 +68,85 @@ def _has_active_sessions() -> bool:
     """Есть ли активные сессии чистки (для main.py)."""
     return len(ACTIVE_SESSIONS) > 0
 
-async def _safe_answer(callback: CallbackQuery):
+async def _safe_answer(callback: CallbackQuery, text: str = None, show_alert: bool = False):
     try:
-        await callback.answer()
-    except Exception:
-        pass
+        await callback.answer(text=text, show_alert=show_alert)
+    except TelegramBadRequest as e:
+        if "query is too old" not in str(e):
+            logger.warning(f"Ошибка callback.answer: {e}")
+    except Exception as e:
+        logger.warning(f"Неизвестная ошибка callback.answer: {e}")
 
 def _get_mention(user_id: int, full_name: str, username: str = None) -> str:
-    safe_name = full_name or f"ID {user_id}"
+    safe_name = html.escape(full_name or f"ID {user_id}")
     if username:
-        return f'<a href="tg://user?id={user_id}">@{username}</a>'
+        return f'<a href="tg://user?id={user_id}">@{html.escape(username)}</a>'
     return f'<a href="tg://user?id={user_id}">{safe_name}</a> (ID: <code>{user_id}</code>)'
 
 def _build_checklist_keyboard(admin_id: int) -> InlineKeyboardMarkup:
     session = ACTIVE_SESSIONS.get(admin_id, {})
     selected = session.get('selected', set())
     users_by_cat = session.get('users_by_cat', {})
+    current_page = session.get('page', 0)
 
     all_users = {u['id']: u for u in load_users()}
 
+    # Объединяем варны и баны в один список для удобной пагинации
+    targets = []
+    for uid, count in users_by_cat.get(CATEGORY_WARN, []):
+        targets.append((uid, count, "⚠️ ВАРН"))
+    for uid, count in users_by_cat.get(CATEGORY_BAN, []):
+        targets.append((uid, count, "🚫 БАН"))
+
+    if not targets:
+        return InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text="❌ Отмена", callback_data="checknorm_cancel")]
+        ])
+
+    total_pages = (len(targets) + CHECKNORM_ITEMS_PER_PAGE - 1) // CHECKNORM_ITEMS_PER_PAGE
+    
+    # Защита от выхода за пределы
+    current_page = max(0, min(current_page, total_pages - 1))
+    
+    start_idx = current_page * CHECKNORM_ITEMS_PER_PAGE
+    end_idx = start_idx + CHECKNORM_ITEMS_PER_PAGE
+    page_targets = targets[start_idx:end_idx]
+
     buttons = []
 
-    warn_users = users_by_cat.get(CATEGORY_WARN, [])
-    if warn_users:
-        buttons.append([InlineKeyboardButton(text="⚠️ ВАРН:", callback_data="checknorm_ignore")])
-        for uid, count in warn_users:
-            user = all_users.get(uid, {})
-            name = user.get('full_name', f'ID {uid}')
-            mark = "✅" if uid in selected else "❌"
-            buttons.append([InlineKeyboardButton(
-                text=f"{mark} {name[:25]}",
-                callback_data=f"checknorm_toggle_{uid}"
-            )])
+    current_cat_header = None
+    for uid, count, cat in page_targets:
+        # Если началась новая категория (варн/бан), добавляем заголовок
+        if cat != current_cat_header:
+            buttons.append([InlineKeyboardButton(text=f"{cat}:", callback_data="checknorm_ignore")])
+            current_cat_header = cat
+        
+        user = all_users.get(uid, {})
+        safe_name = html.escape(user.get('full_name', f'ID {uid}'))
+        
+        # Обрезаем имя, чтобы кнопка не была слишком длинной
+        if len(safe_name) > 25:
+            safe_name = safe_name[:22] + "..."
+            
+        mark = "✅" if uid in selected else "❌"
+        
+        buttons.append([InlineKeyboardButton(
+            text=f"{mark} {safe_name} ({count})",
+            callback_data=f"checknorm_toggle_{uid}"
+        )])
 
-    ban_users = users_by_cat.get(CATEGORY_BAN, [])
-    if ban_users:
-        buttons.append([InlineKeyboardButton(text="🚫 БАН:", callback_data="checknorm_ignore")])
-        for uid, count in ban_users:
-            user = all_users.get(uid, {})
-            name = user.get('full_name', f'ID {uid}')
-            mark = "✅" if uid in selected else "❌"
-            buttons.append([InlineKeyboardButton(
-                text=f"{mark} {name[:25]}",
-                callback_data=f"checknorm_toggle_{uid}"
-            )])
+    # Навигация (Назад / Страница / Вперёд)
+    nav_row = []
+    if current_page > 0:
+        nav_row.append(InlineKeyboardButton(text="◀️ Назад", callback_data=f"checknorm_page_{current_page-1}"))
+    
+    nav_row.append(InlineKeyboardButton(text=f"📄 {current_page+1}/{total_pages}", callback_data="checknorm_ignore"))
+    
+    if current_page < total_pages - 1:
+        nav_row.append(InlineKeyboardButton(text="Вперёд ▶️", callback_data=f"checknorm_page_{current_page+1}"))
+    
+    if nav_row:
+        buttons.append(nav_row)
 
     buttons.append([InlineKeyboardButton(text="📋 Показать итог", callback_data="checknorm_preview")])
     buttons.append([InlineKeyboardButton(text="❌ Отмена", callback_data="checknorm_cancel")])
@@ -274,6 +314,7 @@ async def cmd_checknorm(message: Message, state: FSMContext = None):
         'started_at': time.time(),
         'selected': selected,
         'users_by_cat': users_by_cat,
+        'page': 0, # ⚠️ НОВОЕ: стартовая страница
     }
 
     warn_count = len(users_by_cat[CATEGORY_WARN])
@@ -297,6 +338,29 @@ async def cmd_checknorm(message: Message, state: FSMContext = None):
 @router.callback_query(F.data == "checknorm_ignore")
 async def checknorm_ignore(callback: CallbackQuery):
     await _safe_answer(callback)
+
+@router.callback_query(F.data.startswith("checknorm_page_"))
+async def checknorm_page(callback: CallbackQuery):
+    await _safe_answer(callback)
+    admin_id = callback.from_user.id
+    
+    session = ACTIVE_SESSIONS.get(admin_id)
+    if not session:
+        return
+        
+    try:
+        page = int(callback.data.replace("checknorm_page_", ""))
+    except ValueError:
+        return
+        
+    session['page'] = page
+    
+    try:
+        await callback.message.edit_reply_markup(reply_markup=_build_checklist_keyboard(admin_id))
+    except TelegramBadRequest as e:
+        if "message is not modified" not in str(e):
+            logger.error(f"Ошибка пагинации чек-листа: {e}")
+        pass
 
 @router.callback_query(F.data.startswith("checknorm_toggle_"))
 async def checknorm_toggle(callback: CallbackQuery):
@@ -326,7 +390,9 @@ async def checknorm_toggle(callback: CallbackQuery):
 
     try:
         await callback.message.edit_reply_markup(reply_markup=_build_checklist_keyboard(admin_id))
-    except Exception:
+    except TelegramBadRequest as e:
+        if "message is not modified" not in str(e):
+            logger.error(f"Ошибка переключения чек-листа: {e}")
         pass
 
 @router.callback_query(F.data == "checknorm_preview")
@@ -346,7 +412,9 @@ async def checknorm_preview(callback: CallbackQuery):
             parse_mode="HTML",
             reply_markup=_build_preview_keyboard()
         )
-    except Exception:
+    except TelegramBadRequest as e:
+        if "message is not modified" not in str(e):
+            logger.error(f"Ошибка превью чек-листа: {e}")
         pass
 
 @router.callback_query(F.data == "checknorm_edit")
@@ -364,7 +432,9 @@ async def checknorm_edit(callback: CallbackQuery):
             parse_mode="HTML",
             reply_markup=_build_checklist_keyboard(admin_id)
         )
-    except Exception:
+    except TelegramBadRequest as e:
+        if "message is not modified" not in str(e):
+            logger.error(f"Ошибка возврата к чек-листу: {e}")
         pass
 
 @router.callback_query(F.data == "checknorm_cancel")
@@ -374,7 +444,7 @@ async def checknorm_cancel(callback: CallbackQuery):
     _cleanup_session(admin_id)
     try:
         await callback.message.edit_text("❌ Проверка отменена.")
-    except Exception:
+    except TelegramBadRequest:
         pass
 
 @router.callback_query(F.data == "checknorm_confirm")
@@ -397,7 +467,7 @@ async def checknorm_confirm(callback: CallbackQuery):
                 [InlineKeyboardButton(text="❌ Отмена", callback_data="checknorm_cancel")],
             ])
         )
-    except Exception:
+    except TelegramBadRequest:
         pass
 
 @router.callback_query(F.data == "checknorm_send_ls")
@@ -415,7 +485,7 @@ async def checknorm_send_ls(callback: CallbackQuery):
         _cleanup_session(admin_id)
         try:
             await callback.message.edit_text("❌ Некого наказывать.")
-        except Exception:
+        except TelegramBadRequest:
             pass
         return
 
