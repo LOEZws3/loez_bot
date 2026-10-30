@@ -1,5 +1,4 @@
 import os
-import json
 import time
 import logging
 from datetime import datetime
@@ -19,22 +18,22 @@ from utils.role_utils import (
     get_user_role_key,
     get_role_by_id,
     update_role_status, update_role_status_by_id, free_role,
+    get_closed_mode,
 )
 from utils.user_utils import (
     get_user_info, remove_user,
     get_changes_count, increment_changes_count,
-    get_user_by_id,
+    get_user_by_id, update_user_role,
 )
+from utils.parsers import load_json, save_json
 
 logger = logging.getLogger(__name__)
 router = Router()
 
 REQUESTS_FILE = os.path.join(DATA_DIR, 'system', 'requests.json')
 
-# Таймаут подачи заявки — 5 минут (300 секунд)
 APPLY_TIMEOUT = 300
 
-# ⚠️ НОВОЕ: Rate-limit (1 минута)
 _last_apply_time = {}
 
 class ApplyStates(StatesGroup):
@@ -47,25 +46,13 @@ class ApplyStates(StatesGroup):
 # ======================== ЗАГРУЗКА / СОХРАНЕНИЕ ========================
 
 def _load_requests() -> dict:
-    if not os.path.exists(REQUESTS_FILE):
-        return {}
-    try:
-        with open(REQUESTS_FILE, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-    except (json.JSONDecodeError, IOError):
-        return {}
+    data = load_json(REQUESTS_FILE, {})
     if not isinstance(data, dict):
         return {}
     return data
 
 def _save_requests(requests: dict) -> bool:
-    try:
-        with open(REQUESTS_FILE, 'w', encoding='utf-8') as f:
-            json.dump(requests, f, ensure_ascii=False, indent=2)
-        return True
-    except Exception as e:
-        logger.error(f"Ошибка сохранения requests.json: {e}")
-        return False
+    return save_json(REQUESTS_FILE, requests)
 
 def _has_active_request(user_id: int) -> bool:
     requests = _load_requests()
@@ -182,7 +169,10 @@ async def cmd_apply(message: types.Message, state: FSMContext):
         await message.answer("⛔ Эта команда недоступна во флуд-чате.")
         return
 
-    # ⚠️ НОВОЕ: Rate-limit (1 минута)
+    if get_closed_mode():
+        await message.answer("🔒 Набор ролей временно закрыт. Попробуйте позже.")
+        return
+
     now = time.time()
     last_time = _last_apply_time.get(user_id)
     if last_time and (now - last_time) < 60:
@@ -407,13 +397,26 @@ async def _submit_request(callback: CallbackQuery, state: FSMContext, data: dict
         'created_at': datetime.now().isoformat(),
         'updated_at': datetime.now().isoformat()
     }
-    # ⚠️ Ставим флаг, что заявка подана
+
     from utils.user_utils import set_apply_sent
     set_apply_sent(user_id, True)
-    _save_requests(requests)
+
+    if not _save_requests(requests):
+        await callback.message.edit_text("❌ Ошибка сервера при сохранении заявки. Попробуйте позже.")
+        await state.clear()
+        return
 
     if role_id:
-        update_role_status_by_id(role_id, "ожидает")
+        try:
+            update_role_status_by_id(role_id, "ожидает")
+        except Exception as e:
+            logger.error(f"❌ Ошибка обновления статуса роли {role_id}: {e}")
+            if str(request_id) in requests:
+                del requests[str(request_id)]
+                _save_requests(requests)
+            await callback.message.edit_text("❌ Ошибка сервера при бронировании роли. Попробуйте позже.")
+            await state.clear()
+            return
 
     await state.clear()
 
@@ -533,11 +536,10 @@ async def free_confirm(callback: CallbackQuery):
 
     if save_roles_status(status_data):
         try:
-            removed = remove_user(user_id)
-            if removed:
-                logger.info(f"🗑️ Пользователь {user_id} удалён из users.json")
+            update_user_role(user_id, None)
+            logger.info(f"🧹 Роль юзера {user_id} очищена, запись в users.json сохранена")
         except Exception as e:
-            logger.error(f"Ошибка удаления {user_id}: {e}")
+            logger.error(f"Ошибка обновления юзера {user_id}: {e}")
 
         await callback.message.edit_text(
             f"✅ <b>Роль «{role_short}» освобождена!</b>\n\n"

@@ -1,6 +1,6 @@
 ═══════════════════════════════════════════════════════════════════
 🤖 LoezF_Bot — ГАЙД ДЛЯ РАЗРАБОТЧИКОВ
-(ОБНОВЛЕНО 28.10.2026, ВЕРСИЯ 11.0.0)
+(ОБНОВЛЕНО 30.10.2026, ВЕРСИЯ 11.0.1)
 ═══════════════════════════════════════════════════════════════════
 
 ═══════════════════════════════════════════════════════════════════
@@ -21,7 +21,7 @@ LoezF_Bot — Telegram-бот для управления приёмом нов�
 🔹 АУДИТОРИЯ:
 Участники фандомов и ролевых сообществ.
 
-🔹 КЛЮЧЕВЫЕ ФУНКЦИИ (ОБНОВЛЕНО 28.10):
+🔹 КЛЮЧЕВЫЕ ФУНКЦИИ (ОБНОВЛЕНО 30.10):
 ✅ Приём нью через систему заявок
 ✅ Управление ролями и рестами (с авто-снятием)
 ✅ Калы (созывы участников)
@@ -46,14 +46,15 @@ LoezF_Bot — Telegram-бот для управления приёмом нов�
 ✅ 📜 История юзера (/history)
 ✅ 🛏️ Авто-снятие рестов (из users.json)
 ✅ 👋 «С возвращением» в /start
-✅ 📝 Политика конфиденциальности (требует согласия при /start) — СДЕЛАНО
-✅ 🧹 Кэш JSON + кнопка сброса в /settings — СДЕЛАНО
-✅ 🔗 Персональные ссылки (1 вход, 2 дня, кэш в users.json) — СДЕЛАНО
-✅ 🛡️ Атомарная запись JSON (tmp + os.replace + .bak) — СДЕЛАНО
-✅ 🔐 Маскировка паролей прокси в логах (***:***@) — СДЕЛАНО
-✅ 🌍 Неделя по МСК (ZoneInfo Europe/Moscow) — СДЕЛАНО
+✅ 📝 Политика конфиденциальности (требует согласия при /start)
+✅ 🧹 Кэш JSON + кнопка сброса в /settings
+✅ 🔗 Персональные ссылки (1 вход, 2 дня, кэш в users.json)
+✅ 🛡️ Атомарная запись JSON (tmp + os.replace + .bak)
+✅ 🔐 Маскировка паролей прокси в логах (***:***@)
+✅ 🌍 Неделя по МСК (ZoneInfo Europe/Moscow)
+✅ 🔒 Безопасность заявок (проверка closed_mode, откат при ошибке, удалён бэкдор)
 
-🔹 ТЕХНОЛОГИИ (ОБНОВЛЕНО 28.10):
+🔹 ТЕХНОЛОГИИ (ОБНОВЛЕНО 30.10):
 🐍 Python 3.14.4
 🤖 aiogram 3.23.0 (старая 3.17.0 не работает на Python 3.14)
 🗄️ SQLite (bot.db, почти не используется)
@@ -190,9 +191,10 @@ main.py — точка входа
 ✅ Для длинных данных используй ID или индексы, не текст.
 📌 ВАЖНО: callback_data = 64 БАЙТА. Русские буквы = 2 байта.
 📌 Лимит name в create_chat_invite_link = 32 символа.
+📌 Метод set_chat_member_tag СУЩЕСТВУЕТ! Требует права can_manage_tags у бота. Лимит 16 символов, без эмодзи.
 
 ═══════════════════════════════════════════════════════════════════
-🔒 ЗАФИКСИРОВАННЫЕ ВЕРСИИ БИБЛИОТЕК (ОБНОВЛЕНО 28.10.2026)
+🔒 ЗАФИКСИРОВАННЫЕ ВЕРСИИ БИБЛИОТЕК (ОБНОВЛЕНО 30.10.2026)
 ═══════════════════════════════════════════════════════════════════
 
 📌 КРИТИЧЕСКОЕ ПРАВИЛО:
@@ -233,7 +235,7 @@ tzdata==2026.2 (обязательно для ZoneInfo на Windows)
 ⛔ НЕ МЕНЯТЬ СИСТЕМУ ПОДКЛЮЧЕНИЯ В main.py! Только AiohttpSession(proxy=proxy_url).
 
 ═══════════════════════════════════════════════════════════════════
-📝 ФОРМАТ JSON-ФАЙЛОВ ДАННЫХ (ОБНОВЛЕНО 28.10.2026)
+📝 ФОРМАТ JSON-ФАЙЛОВ ДАННЫХ (ОБНОВЛЕНО 30.10.2026)
 ═══════════════════════════════════════════════════════════════════
 
 📌 АТОМАРНАЯ ЗАПИСЬ: Все save_json идут через tmp + os.replace + .bak (защита от потери данных).
@@ -412,6 +414,14 @@ BASE_DIR = Path(file).parent.parent.resolve(), SRC_PATH = Path(file).parent.reso
 ❌ admin_commands.py — логика разбита на admin_stats.py, admin_roles.py, admin_users.py
 
 ═══════════════════════════════════════════════════════════════════
+🔧 ИЗМЕНЕНИЯ ВЕРСИИ 11.0.1 (30.10.2026) - ЭТАП 1
+═══════════════════════════════════════════════════════════════════
+
+📌 БЕЗОПАСНОСТЬ ЗАЯВОК: /free больше не удаляет юзера из users.json (сохраняет changes_count). /apply проверяет closed_mode. Атомарная запись requests.json. Откат заявки при ошибке бронирования роли.
+📌 БЭКДОР УДАЛЁН: Удалены команды /register_admin и /register_user из admin_users.py.
+📌 ТЕГИ: Возвращён метод set_chat_member_tag в clear_me.py (с проверкой права can_manage_tags).
+
+═══════════════════════════════════════════════════════════════════
 🔧 ИЗМЕНЕНИЯ ВЕРСИИ 11.0.0 (25–28.10.2026)
 ═══════════════════════════════════════════════════════════════════
 
@@ -472,6 +482,7 @@ BASE_DIR = Path(file).parent.parent.resolve(), SRC_PATH = Path(file).parent.reso
 ❌ callback is too old: пользователь долго висит на инлайн-кнопке, потом жмёт. Нужен try/except TelegramBadRequest в callback.answer().
 ❌ ZoneInfo требует пакет tzdata на Windows: pip install tzdata.
 ❌ my_chat_member срабатывает только на события бота, а не людей: Для вступления людей — chat_member.
+❌ set_chat_member_tag падает: Проверить право can_manage_tags у бота в группе.
 
 ═══════════════════════════════════════════════════════════════════
 ⚠️ НИЧЕГО НЕ МЕНЯТЬ! (запрещённые действия)
@@ -488,7 +499,7 @@ BASE_DIR = Path(file).parent.parent.resolve(), SRC_PATH = Path(file).parent.reso
 ❌ НЕ ОБНОВЛЯТЬ БИБЛИОТЕКИ БЕЗ ТЕСТА.
 
 ═══════════════════════════════════════════════════════════════════
-📂 СТРУКТУРА ПРОЕКТА (ОБНОВЛЕНО 28.10.2026)
+📂 СТРУКТУРА ПРОЕКТА (ОБНОВЛЕНО 30.10.2026)
 ═══════════════════════════════════════════════════════════════════
 
 LoEZF_Bot/
@@ -518,7 +529,7 @@ LoEZF_Bot/
 └── .env
 
 ═══════════════════════════════════════════════════════════════════
-📋 СПИСОК КОМАНД И ИХ НАЗНАЧЕНИЕ (ОБНОВЛЕНО 28.10.2026)
+📋 СПИСОК КОМАНД И ИХ НАЗНАЧЕНИЕ (ОБНОВЛЕНО 30.10.2026)
 ═══════════════════════════════════════════════════════════════════
 
 👤 КОМАНДЫ ДЛЯ ВСЕХ (ТОЛЬКО В ЛС): /start, /help, /about, /aboutme, /update, /hide, /menu, /setbirthday, /subnorm, /unsubnorm, /mynorm, /history
@@ -568,7 +579,7 @@ LoEZF_Bot/
 📂 handlers/request_commands.py: cmd_requests, cmd_approve, cmd_reject, reject_with_reason, refresh_requests, view_request, approve_request_callback, reject_request_callback, back_to_requests.
 📂 handlers/admin_stats.py: cmd_stats, stats_period_callback, stats_graph_365_callback, stats_top_week_callback.
 📂 handlers/admin_roles.py: cmd_findrole, findrole_view, findrole_delete_confirm, findrole_delete_do, findrole_back, cmd_giverest.
-📂 handlers/admin_users.py: cmd_admins, cmd_users, cmd_adduser, cmd_removeuser, cmd_resetuser, cmd_find, cmd_finduser, cmd_refresh, cmd_close, cmd_open, cmd_register_admin, cmd_register_user, cmd_message_all, cmd_userstats, cmd_sync_norm.
+📂 handlers/admin_users.py: cmd_admins, cmd_users, cmd_adduser, cmd_removeuser, cmd_resetuser, cmd_find, cmd_finduser, cmd_refresh, cmd_close, cmd_open, cmd_message_all, cmd_userstats, cmd_sync_norm.
 📂 handlers/admin_management.py: cmd_promote, cmd_demote, cmd_setrank.
 📂 handlers/call_commands.py: cmd_call, cmd_callfal, cmd_regc, cmd_unregc, cmd_callstaff.
 📂 handlers/rest_commands.py: cmd_rest, cmd_unrest, cmd_restextend, cmd_restlist, cmd_setrest.
@@ -598,42 +609,8 @@ LoEZF_Bot/
 📋 ИСТОРИЯ ВЕРСИЙ
 ═══════════════════════════════════════════════════════════════════
 
+[11.0.1] - 30.10.2026
+- Этап 1 Безопасность. /free сохраняет changes_count. Проверка closed_mode. Атомарная запись заявок. Откат при ошибке. Удалён бэкдор /register_admin.
+
 [11.0.0] - 28.10.2026
 - Политика конфиденциальности, кэш JSON, персональные ссылки, каскад прокси, атомарная запись, маскировка паролей, ресты в users.json, неделя по МСК, приветствие через chat_member, парсер склонений, middleware-обход, графики, /sync_norm, «С возвращением», rate-limit, защита от двойного клика, логирование в admin_actions.log.
-
-[10.0.0] - 24.10.2026
-- Ресты в users.json, авто-снятие, /unrest по ID. /sync_norm, Топ-5, «С возвращением». Middleware без циклического импорта. Глобальный Error Handler, Graceful Shutdown, проверка чатов. Графики /mynorm и /stats (365 дней). Проверка профиля, сбор алиасов.
-
-[9.0.0] - 22.10.2026
-- Безопасность: Error Handler (errors.txt, winotify), Graceful Shutdown, проверка чатов. Защита юзеров: проверка профиля, сбор алиасов, rate-limit /apply, автосвобождение ролей (>48ч), причина отклонения, сообщение после одобрения. Статистика: /mynorm, /stats (365), norm_history.json, /giverest. Рефакторинг admin_commands.py.
-
-[8.1.0] - 06.10.2026
-- Дни рождения (/setbirthday, birthday_personal_loop, birthday_group_loop). Подписка на норму (notify_norm, /subnorm, /unsubnorm). Расширенный /stats (кнопки: база/день/неделя/месяц). leftdata.json.
-
-[8.0.1] - 03.10.2026
-- Исправлены баги 1-9: дубли, joined_at, варн 21 день, минуты, только флуд, окно чистки.
-
-[8.0.0] - 02.10.2026
-- Система нормы и чистки: settings_utils, counters, warns_utils, norm_utils, role_ids, checknorm_commands, clear_me, middlewares. main.py: expire_warns_loop, norm_reminder_loop, norm_reset_loop, check_kicked_loop, RegistrationCheckMiddleware.
-
-═══════════════════════════════════════════════════════════════════
-📌 ФИНАЛЬНЫЕ ПРАВИЛА
-═══════════════════════════════════════════════════════════════════
-
-✅ СТРОГО СЛЕДОВАТЬ АЛГОРИТМУ:
-1. Прочитать GFA.
-2. Закоммитить правки (если ещё не).
-3. Запросить RAW-ссылки.
-4. Прочитать актуальный код.
-5. Объяснить проблему, решение, что изменится.
-6. Дождаться согласия.
-7. Только потом — код.
-
-✅ ЧИТАТЬ ФАЙЛЫ ТОЛЬКО ПО RAW-ССЫЛКАМ.
-✅ ДАВАТЬ ПОЛНЫЙ ФАЙЛ, ЕСЛИ ПРАВОК БОЛЬШЕ 4-Х.
-✅ ПИСАТЬ НА «ТЫ», КОРОТКО, С ЭМОДЗИ.
-
-❌ НЕ МЕНЯТЬ ПРОКСИ, .env, ВЕРСИИ БЕЗ СОГЛАСОВАНИЯ.
-❌ НЕ ТЯНУТЬ ДЕРЕВО РЕПОЗИТОРИЯ.
-❌ НЕ УГАДЫВАТЬ СОДЕРЖИМОЕ ФАЙЛОВ.
-❌ НЕ ПИСАТЬ КОД ВСЛЕПУЮ.

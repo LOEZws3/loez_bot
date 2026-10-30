@@ -11,6 +11,7 @@ from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
+from aiogram.exceptions import TelegramBadRequest
 
 from config import GENERAL_CHAT_ID, DATA_DIR
 from utils.admin_utils import is_admin, is_owner, load_admins, save_admins
@@ -23,11 +24,9 @@ from utils.role_utils import (
 logger = logging.getLogger(__name__)
 router = Router()
 
-
 class ClearMeStates(StatesGroup):
     waiting_for_confirm_button = State()
     waiting_for_final_phrase = State()
-
 
 # ======================== ВСПОМОГАТЕЛЬНЫЕ ========================
 
@@ -56,7 +55,6 @@ def _delete_requests(user_id: int) -> int:
             json.dump(data, f, ensure_ascii=False, indent=2)
     return removed
 
-
 def _delete_rest_request(user_id: int) -> bool:
     """Удаляет заявку на рест юзера."""
     from handlers.utils import load_rest_requests, save_rest_requests
@@ -67,7 +65,6 @@ def _delete_rest_request(user_id: int) -> bool:
         return True
     return False
 
-
 def _delete_unsubscribed(user_id: int) -> bool:
     """Удаляет отписку от калов."""
     from handlers.utils import load_unsubscribed, save_unsubscribed
@@ -77,7 +74,6 @@ def _delete_unsubscribed(user_id: int) -> bool:
         save_unsubscribed(data)
         return True
     return False
-
 
 def _free_role(user_id: int) -> str:
     """Освобождает роль юзера. Возвращает короткое имя роли или ''."""
@@ -97,7 +93,6 @@ def _free_role(user_id: int) -> str:
     status_data[role_key]['username'] = None
     save_roles_status(status_data)
     return role_short
-
 
 async def _do_clear(bot, user_id: int) -> dict:
     """
@@ -127,16 +122,18 @@ async def _do_clear(bot, user_id: int) -> dict:
     # 6. Удаляем отписку от калов
     report['unsub'] = _delete_unsubscribed(user_id)
 
-    # 7. Снимаем тег в чате
+    # 7. Снимаем тег в чате (БЕЗОПАСНО: ловим ошибку, если нет права can_manage_tags)
     try:
-        await bot.set_chat_member_tag(chat_id=GENERAL_CHAT_ID, user_id=user_id, tag="")
+        # tag=None или tag="" снимает тег
+        await bot.set_chat_member_tag(chat_id=GENERAL_CHAT_ID, user_id=user_id, tag=None)
         logger.info(f"🏷️ Снят тег у {user_id}")
+    except TelegramBadRequest as e:
+        logger.warning(f"⚠️ Не удалось снять тег у {user_id} (проверь право can_manage_tags у бота): {e}")
     except Exception as e:
-        logger.error(f"❌ Не удалось снять тег: {e}")
+        logger.error(f"❌ Ошибка при снятии тега у {user_id}: {e}")
 
     logger.info(f"🧹 CLEARME {user_id}: role={report['role']}, requests={report['requests']}, rest={report['rest']}, unsub={report['unsub']}")
     return report
-
 
 # ======================== КОМАНДА /CLEARME ========================
 
@@ -160,8 +157,7 @@ async def cmd_clearme(message: Message, state: FSMContext):
         "• Права администратора (если были)\n"
         "• Ваша роль (освободится)\n"
         "• Все ваши заявки\n"
-        "• Ваша отписка от калов\n"
-        "• Тег в чате\n\n"
+        "• Ваша отписка от калов\n\n"
         "✅ История сохранится.\n\n"
         "<b>Продолжить?</b>",
         parse_mode="HTML",
@@ -173,7 +169,6 @@ async def cmd_clearme(message: Message, state: FSMContext):
         ])
     )
 
-
 @router.callback_query(F.data == "clearme_cancel")
 async def clearme_cancel(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
@@ -182,7 +177,6 @@ async def clearme_cancel(callback: CallbackQuery, state: FSMContext):
         await callback.message.edit_text("❌ Очистка отменена.")
     except Exception:
         pass
-
 
 @router.callback_query(F.data == "clearme_confirm_1")
 async def clearme_confirm_1(callback: CallbackQuery, state: FSMContext):
@@ -199,7 +193,6 @@ async def clearme_confirm_1(callback: CallbackQuery, state: FSMContext):
         return
 
     if is_self:
-        # Юзер чистит себя — третье подтверждение (написать ник delete)
         user = callback.from_user
         full_name = user.full_name or 'User'
         await state.set_state(ClearMeStates.waiting_for_final_phrase)
@@ -213,7 +206,6 @@ async def clearme_confirm_1(callback: CallbackQuery, state: FSMContext):
         )
         return
 
-    # Владелец чистит другого — тут уже подтверждено, делаем сразу
     report = await _do_clear(callback.bot, int(target_id))
 
     await state.clear()
@@ -226,7 +218,6 @@ async def clearme_confirm_1(callback: CallbackQuery, state: FSMContext):
         parse_mode="HTML"
     )
     logger.info(f"🧹 Владелец {callback.from_user.id} очистил {target_id}")
-
 
 @router.message(ClearMeStates.waiting_for_final_phrase)
 async def clearme_final_phrase(message: Message, state: FSMContext):
@@ -242,7 +233,6 @@ async def clearme_final_phrase(message: Message, state: FSMContext):
         await message.answer("❌ Данные потеряны. Начните заново.")
         return
 
-    # Определяем, чьё имя проверять
     if is_self:
         user = message.from_user
         name_to_check = (user.full_name or user.first_name or 'User').strip()
@@ -250,7 +240,6 @@ async def clearme_final_phrase(message: Message, state: FSMContext):
         target = get_user_by_id(target_id)
         name_to_check = (target.get('full_name') if target else 'User').strip()
 
-    # Нормализация: нижний регистр и схлопывание любых пробелов в один
     import re
     def normalize(s: str) -> str:
         return re.sub(r'\s+', ' ', s.lower().strip())
@@ -269,7 +258,6 @@ async def clearme_final_phrase(message: Message, state: FSMContext):
         )
         return
 
-    # Всё совпало — чистим
     report = await _do_clear(message.bot, target_id)
     await state.clear()
 
@@ -294,7 +282,6 @@ async def clearme_final_phrase(message: Message, state: FSMContext):
             parse_mode="HTML"
         )
 
-
 # ======================== CLEAR ДРУГОГО (вызывается из /userstats) ========================
 
 @router.callback_query(F.data.startswith("clearme_other_"))
@@ -313,11 +300,9 @@ async def clearme_other(callback: CallbackQuery, state: FSMContext):
         await callback.answer("❌ Ошибка.", show_alert=True)
         return
 
-    # Ставим состояние для третьего подтверждения
     await state.update_data(clear_target=target_id, clear_self=False)
     await state.set_state(ClearMeStates.waiting_for_final_phrase)
 
-    # Получаем инфу о цели
     target = get_user_by_id(target_id)
     target_name = target.get('full_name', '?') if target else '?'
 

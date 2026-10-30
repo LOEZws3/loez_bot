@@ -232,75 +232,7 @@ async def cancel_reset_callback(callback: CallbackQuery):
 # 📝 РЕГИСТРАЦИЯ И РОЛИ
 # ============================================================
 
-@router.message(Command('register_admin'))
-async def cmd_register_admin(message: Message):
-    user = message.from_user
-    if user is None:
-        await message.answer("❌ Не удалось определить пользователя.")
-        return
-
-    parts = message.text.split(maxsplit=1)
-    if len(parts) < 2:
-        await message.answer("❌ Используйте: /register_admin [пароль]")
-        return
-
-    password = parts[1]
-    from config import ADMIN_PASSWORD
-    if password != ADMIN_PASSWORD:
-        await message.answer("❌ Неверный пароль для регистрации администратора.")
-        logger.warning(f"⚠️ Неудачная попытка регистрации админа от {user.full_name}")
-        return
-
-    if is_admin(user.id):
-        await message.answer("ℹ️ Вы уже администратор.")
-        return
-
-    success = add_admin(user.id, user.username, user.full_name)
-    if success:
-        rank = get_admin_rank(user.id)
-        rank_name = "Владелец" if rank == 1 else "Админ"
-        text = f"✅ Вы стали администратором!\nВаш ранг: {rank_name}\nТеперь вам доступны админ-команды."
-        if message.chat.id == GENERAL_CHAT_ID:
-            await message.answer(text)
-        else:
-            await message.answer(text, reply_markup=get_main_keyboard(user.id, message.chat.id))
-        logger.info(f"✅ НОВЫЙ АДМИН: {user.full_name} (@{user.username}) ID: {user.id}")
-    else:
-        await message.answer("❌ Ошибка регистрации. Попробуйте позже.")
-
-@router.message(Command('register_user'))
-async def cmd_register_user(message: Message):
-    user = message.from_user
-    if user is None:
-        await message.answer("❌ Не удалось определить пользователя.")
-        return
-
-    parts = message.text.split(maxsplit=1)
-    if len(parts) < 2:
-        await message.answer("❌ Используйте: /register_user [пароль]")
-        return
-
-    password = parts[1]
-    from config import USER_PASSWORD
-    if password != USER_PASSWORD:
-        await message.answer("❌ Неверный пароль для регистрации участника.")
-        logger.warning(f"⚠️ Неудачная попытка регистрации участника от {user.full_name}")
-        return
-
-    if user.id in [u['id'] for u in load_users()]:
-        await message.answer("ℹ️ Вы уже зарегистрированы как участник.")
-        return
-
-    success = add_user(user.id, user.username, user.full_name)
-    if success:
-        text = "✅ Вы успешно зарегистрированы как участник!"
-        if message.chat.id == GENERAL_CHAT_ID:
-            await message.answer(text)
-        else:
-            await message.answer(text, reply_markup=get_main_keyboard(user.id, message.chat.id))
-        logger.info(f"✅ НОВЫЙ УЧАСТНИК: {user.full_name} (@{user.username}) ID: {user.id}")
-    else:
-        await message.answer("❌ Ошибка регистрации. Попробуйте позже.")
+# ⚠️ УДАЛЕНО: /register_admin и /register_user (бэкдор)
 
 @router.message(Command('admins'))
 async def cmd_admins(message: Message):
@@ -643,6 +575,7 @@ async def do_message_all(message: Message, state: FSMContext):
         parse_mode="HTML"
     )
     logger.info(f"Владелец {user_id} сделал рассылку: {sent} ок, {failed} ошибок")
+
 @router.message(Command('sync_norm'))
 async def cmd_sync_norm(message: Message):
     """Ручное начисление нормы (только владелец)"""
@@ -664,22 +597,22 @@ async def cmd_sync_norm(message: Message):
         return
 
     total_to_add = days * msgs_per_day
-    
+
     from utils.counters import load_counters, save_counters
     from utils.user_utils import load_users
-    
+
     counters = load_counters()
     users = load_users()
     count_added = 0
-    
+
     for u in users:
         uid_str = str(u['id'])
         if uid_str in counters:
             counters[uid_str]['count'] = counters[uid_str].get('count', 0) + total_to_add
             count_added += 1
-            
+
     save_counters(counters)
-    
+
     await message.answer(
         f"✅ <b>Синхронизация завершена</b>\n\n"
         f"📊 Начислено: <b>{total_to_add}</b> сообщений\n"
