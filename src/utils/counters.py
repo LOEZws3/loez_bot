@@ -15,49 +15,53 @@
 """
 
 import os
-import json
 import datetime
 import logging
 from zoneinfo import ZoneInfo
 
 from config import DATA_DIR
+# ⚠️ Используем атомарные чтение/запись из parsers
+from utils.parsers import load_json, save_json
 
 logger = logging.getLogger(__name__)
 
 COUNTERS_FILE = os.path.join(DATA_DIR, 'system', 'message_counts.json')
+NORM_HISTORY_FILE = os.path.join(DATA_DIR, 'system', 'norm_history.json')
 
 # ⚠️ НОВОЕ: Часовой пояс МСК
 MSK_TZ = ZoneInfo("Europe/Moscow")
+
+# ⚠️ НОВОЕ: Кэш для message_counts (чтобы не читать диск на каждое сообщение)
+_counters_cache = None
 
 
 def _now_msk() -> datetime.datetime:
     return datetime.datetime.now(MSK_TZ)
 
 
+def clear_counters_cache():
+    """Сбрасывает кэш счётчиков (нужно при ручной правке файла)."""
+    global _counters_cache
+    _counters_cache = None
+
+
 def load_counters() -> dict:
-    try:
-        os.makedirs(os.path.dirname(COUNTERS_FILE), exist_ok=True)
-        if not os.path.exists(COUNTERS_FILE):
-            return {}
-        with open(COUNTERS_FILE, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        if not isinstance(data, dict):
-            return {}
-        return data
-    except (json.JSONDecodeError, IOError) as e:
-        logger.error(f"Ошибка чтения message_counts.json: {e}")
-        return {}
+    global _counters_cache
+    if _counters_cache is not None:
+        return _counters_cache
+
+    data = load_json(COUNTERS_FILE, {})
+    if not isinstance(data, dict):
+        data = {}
+        
+    _counters_cache = data
+    return _counters_cache
 
 
 def save_counters(data: dict) -> bool:
-    try:
-        os.makedirs(os.path.dirname(COUNTERS_FILE), exist_ok=True)
-        with open(COUNTERS_FILE, 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
-        return True
-    except Exception as e:
-        logger.error(f"Ошибка сохранения message_counts.json: {e}")
-        return False
+    global _counters_cache
+    _counters_cache = data
+    return save_json(COUNTERS_FILE, data)
 
 
 def _get_current_week_start() -> str:
@@ -95,6 +99,7 @@ def increment_message_count(user_id: int) -> bool:
 
     data[uid_str]['count'] = int(data[uid_str].get('count', 0)) + 1
     data[uid_str]['last_message_at'] = datetime.datetime.now().isoformat()
+    
     return save_counters(data)
 
 
@@ -122,9 +127,6 @@ def get_all_counts() -> dict:
     return result
 
 
-NORM_HISTORY_FILE = os.path.join(DATA_DIR, 'system', 'norm_history.json')
-
-
 def save_weekly_norm_history() -> bool:
     data = load_counters()
     current_week = _get_current_week_start()
@@ -141,15 +143,7 @@ def save_weekly_norm_history() -> bool:
     if not week_stats:
         return True
 
-    history = {}
-    if os.path.exists(NORM_HISTORY_FILE):
-        try:
-            with open(NORM_HISTORY_FILE, 'r', encoding='utf-8') as f:
-                history = json.load(f)
-            if not isinstance(history, dict):
-                history = {}
-        except Exception:
-            history = {}
+    history = get_norm_history()
 
     history[current_week] = week_stats
 
@@ -158,24 +152,14 @@ def save_weekly_norm_history() -> bool:
         for k in keys[:-52]:
             del history[k]
 
-    try:
-        with open(NORM_HISTORY_FILE, 'w', encoding='utf-8') as f:
-            json.dump(history, f, ensure_ascii=False, indent=2)
-        logger.info(f"📊 Сохранена история нормы за неделю {current_week} ({len(week_stats)} юзеров)")
-        return True
-    except Exception as e:
-        logger.error(f"❌ Ошибка сохранения norm_history.json: {e}")
-        return False
+    return save_json(NORM_HISTORY_FILE, history)
 
 
 def get_norm_history() -> dict:
-    if not os.path.exists(NORM_HISTORY_FILE):
+    data = load_json(NORM_HISTORY_FILE, {})
+    if not isinstance(data, dict):
         return {}
-    try:
-        with open(NORM_HISTORY_FILE, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except Exception:
-        return {}
+    return data
 
 
 def reset_all_counters() -> bool:
