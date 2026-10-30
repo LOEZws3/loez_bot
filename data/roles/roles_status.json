@@ -1384,9 +1384,9 @@
     "id": 173
   },
   "Илиар (Мастерская 47)": {
-    "status": "занята",
-    "owner_id": 8426582501,
-    "username": "megabrotella",
+    "status": "свободна",
+    "owner_id": null,
+    "username": null,
     "season": "Мастерская 47",
     "extra": "",
     "id": 174
@@ -1408,9 +1408,9 @@
     "id": 176
   },
   "Рин (Мастерская 47)": {
-    "status": "занята",
-    "owner_id": 6760031145,
-    "username": "l0p0kl0wka2",
+    "status": "свободна",
+    "owner_id": null,
+    "username": null,
     "season": "Мастерская 47",
     "extra": "",
     "id": 177
@@ -1448,9 +1448,9 @@
     "id": 181
   },
   "Басиль (Мастерская 47)": {
-    "status": "занята",
-    "owner_id": 7096667694,
-    "username": "Mikaell_zip",
+    "status": "свободна",
+    "owner_id": null,
+    "username": null,
     "season": "Мастерская 47",
     "extra": "",
     "id": 182
@@ -2176,9 +2176,9 @@
     "id": 272
   },
   "Глен (Последняя реальность)": {
-    "status": "занята",
-    "owner_id": 8188772841,
-    "username": "sddy_y",
+    "status": "свободна",
+    "owner_id": null,
+    "username": null,
     "season": "Последняя реальность",
     "extra": "",
     "id": 273
@@ -2200,9 +2200,9 @@
     "id": 275
   },
   "Диего Санчез (Последняя реальность)": {
-    "status": "занята",
-    "owner_id": 5299279926,
-    "username": "MyRmIk_t",
+    "status": "свободна",
+    "owner_id": null,
+    "username": null,
     "season": "Последняя реальность",
     "extra": "",
     "id": 276
@@ -3488,9 +3488,9 @@
     "id": 436
   },
   "Луиза Де Саль (Точка невозврата)": {
-    "status": "занята",
-    "owner_id": 7407997675,
-    "username": "Tweili_Lin",
+    "status": "свободна",
+    "owner_id": null,
+    "username": null,
     "season": "Точка невозврата",
     "extra": "",
     "id": 437

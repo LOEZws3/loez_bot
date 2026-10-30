@@ -12,3 +12,4 @@ matplotlib==3.10.8
 scipy==1.16.1
 winotify==1.1.0
 tzdata==2026.2
+pip install psutil

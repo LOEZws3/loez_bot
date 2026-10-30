@@ -302,7 +302,8 @@ async def handle_message(message: types.Message):
         logger.debug(f"⏳ {user_id} в ресте — пропускаем все проверки")
         return
 
-    if user and user.get('is_fully_registered', False):
+    # ⚠️ ФИКС: Если юзер ЕСТЬ в базе (неважно is_fully_registered), считаем его зареганным
+    if user:
         await _check_profile_completeness(message, user_id)
         _update_aliases(user_id, message.from_user.username or '', message.from_user.full_name or '')
 
