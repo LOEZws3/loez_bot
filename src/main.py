@@ -12,7 +12,7 @@ from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.exceptions import TelegramNetworkError
 from aiogram.types import ErrorEvent
 
-# ⚠️ НОВОЕ: Импорт для системных уведомлений Windows
+# ⚠️ Импорт для системных уведомлений Windows
 try:
     from winotify import Notification, audio
 except ImportError:
@@ -24,7 +24,6 @@ from config import (
     DATA_DIR, LOG_FILE_PATH, LOG_LEVEL, LOG_FORMAT,
     ensure_directories, LEFTOVER_FILE, GENERAL_CHAT_ID, ADMIN_GROUP_ID
 )
-from database import db
 from handlers import routers
 from proxy_manager import proxy_manager
 from middlewares import RegistrationCheckMiddleware
@@ -48,7 +47,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# ⚠️ НОВОЕ: Логгер только для ошибок (errors.txt)
+# ⚠️ Логгер только для ошибок (errors.txt)
 error_log_path = os.path.join(DATA_DIR, 'logs', 'errors.txt')
 os.makedirs(os.path.dirname(error_log_path), exist_ok=True)
 error_logger = logging.getLogger('errors')
@@ -60,7 +59,7 @@ error_logger.addHandler(error_handler)
 
 bot = None
 RESTART_DELAY = 5
-_background_tasks = []  # ⚠️ НОВОЕ: Храним ссылки на таски, чтобы не плодить дубли
+_background_tasks = []  # Храним ссылки на таски, чтобы не плодить дубли
 
 
 # ======================== ⚠️ МАСКИРОВКА ПАРОЛЕЙ В ЛОГАХ ========================
@@ -793,7 +792,6 @@ async def run_bot():
 async def on_startup():
     global _background_tasks
     logger.info("🚀 Запуск...")
-    await db.init()
 
     if bot:
         await check_bot_in_chats(bot)
@@ -805,7 +803,7 @@ async def on_startup():
     except Exception as e:
         logger.error(f"❌ Ошибка синхронизации: {e}")
 
-    # ⚠️ НОВОЕ: Запускаем фоновые циклы ОДИН раз, сохраняя ссылки
+    # ⚠️ Запускаем фоновые циклы ОДИН раз, сохраняя ссылки
     if not _background_tasks:
         _background_tasks.append(asyncio.create_task(norm_reminder_low_loop()))
         logger.info("🔄 norm_reminder_low_loop запущен (пятница 19:00 МСК)")

@@ -3,8 +3,6 @@
 История (users_history) НЕ удаляется.
 """
 
-import os
-import json
 import logging
 from aiogram import Router, F
 from aiogram.filters import Command
@@ -13,13 +11,14 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.exceptions import TelegramBadRequest
 
-from config import GENERAL_CHAT_ID, DATA_DIR
+from config import GENERAL_CHAT_ID
 from utils.admin_utils import is_admin, is_owner, load_admins, save_admins
 from utils.user_utils import get_user_by_id, remove_user
 from utils.role_utils import (
     load_roles_status, save_roles_status,
     get_user_role_key,
 )
+from utils.requests_utils import load_requests, save_requests
 
 logger = logging.getLogger(__name__)
 router = Router()
@@ -32,27 +31,17 @@ class ClearMeStates(StatesGroup):
 
 def _delete_requests(user_id: int) -> int:
     """Удаляет все заявки юзера из requests.json. Возвращает число удалённых."""
-    path = os.path.join(DATA_DIR, 'system', 'requests.json')
-    if not os.path.exists(path):
-        return 0
-    try:
-        with open(path, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-    except (json.JSONDecodeError, IOError):
-        return 0
-    if not isinstance(data, dict):
-        return 0
-
+    requests = load_requests()
     removed = 0
-    for req_id in list(data.keys()):
-        req = data[req_id]
+    
+    for req_id in list(requests.keys()):
+        req = requests[req_id]
         if isinstance(req, dict) and req.get('user_id') == user_id:
-            del data[req_id]
+            del requests[req_id]
             removed += 1
 
     if removed > 0:
-        with open(path, 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
+        save_requests(requests)
     return removed
 
 def _delete_rest_request(user_id: int) -> bool:
@@ -124,7 +113,6 @@ async def _do_clear(bot, user_id: int) -> dict:
 
     # 7. Снимаем тег в чате (БЕЗОПАСНО: ловим ошибку, если нет права can_manage_tags)
     try:
-        # tag=None или tag="" снимает тег
         await bot.set_chat_member_tag(chat_id=GENERAL_CHAT_ID, user_id=user_id, tag=None)
         logger.info(f"🏷️ Снят тег у {user_id}")
     except TelegramBadRequest as e:

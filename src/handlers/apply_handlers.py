@@ -25,7 +25,7 @@ from utils.user_utils import (
     get_changes_count, increment_changes_count,
     get_user_by_id, update_user_role,
 )
-from utils.parsers import load_json, save_json
+from utils.requests_utils import load_requests as _load_requests, save_requests as _save_requests
 
 logger = logging.getLogger(__name__)
 router = Router()
@@ -33,7 +33,6 @@ router = Router()
 REQUESTS_FILE = os.path.join(DATA_DIR, 'system', 'requests.json')
 
 APPLY_TIMEOUT = 300
-
 _last_apply_time = {}
 
 class ApplyStates(StatesGroup):
@@ -44,15 +43,6 @@ class ApplyStates(StatesGroup):
     confirming_replace = State()
 
 # ======================== ЗАГРУЗКА / СОХРАНЕНИЕ ========================
-
-def _load_requests() -> dict:
-    data = load_json(REQUESTS_FILE, {})
-    if not isinstance(data, dict):
-        return {}
-    return data
-
-def _save_requests(requests: dict) -> bool:
-    return save_json(REQUESTS_FILE, requests)
 
 def _has_active_request(user_id: int) -> bool:
     requests = _load_requests()

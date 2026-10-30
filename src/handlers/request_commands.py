@@ -9,6 +9,7 @@ from aiogram.filters import Command
 from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
+from aiogram.exceptions import TelegramBadRequest
 
 from config import (
     GENERAL_CHAT_ID, CHAT_INVITE_LINK, ADMIN_LINK, MODERATOR_LINK,
@@ -26,52 +27,28 @@ from utils.role_utils import (
     update_role_status_by_id, get_user_role as get_user_role_name,
     get_user_role_key,
 )
+from utils.requests_utils import load_requests, save_requests, get_pending_requests
 
 logger = logging.getLogger(__name__)
 router = Router()
 
-REQUESTS_FILE = os.path.join(DATA_DIR, 'system', 'requests.json')
 POSITION_RANK = {'admin': 2, 'moder': 3, 'owner_restore': 1}
 POSITION_NAMES = {'admin': 'Администратор', 'moder': 'Модератор', 'member': 'Участник'}
 
 # Защита от двойного клика (in-memory)
 _processing_requests = set()
 
-
 class RejectReason(StatesGroup):
     waiting_for_reason = State()
 
-
-# ======================== РАБОТА С ЗАЯВКАМИ ========================
-
-def _load_requests() -> dict:
-    if not os.path.exists(REQUESTS_FILE):
-        return {}
+async def _safe_answer(callback: CallbackQuery, text: str = None, show_alert: bool = False):
     try:
-        with open(REQUESTS_FILE, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-    except (json.JSONDecodeError, IOError):
-        return {}
-    if not isinstance(data, dict):
-        return {}
-    return data
-
-
-def _save_requests(requests: dict) -> bool:
-    try:
-        with open(REQUESTS_FILE, 'w', encoding='utf-8') as f:
-            json.dump(requests, f, ensure_ascii=False, indent=2)
-        return True
+        await callback.answer(text=text, show_alert=show_alert)
+    except TelegramBadRequest as e:
+        if "query is too old" not in str(e):
+            logger.warning(f"Ошибка callback.answer: {e}")
     except Exception as e:
-        logger.error(f"Ошибка сохранения requests.json: {e}")
-        return False
-
-
-def _get_pending() -> list:
-    requests = _load_requests()
-    return [(rid, req) for rid, req in requests.items()
-            if isinstance(req, dict) and req.get('status') == 'pending']
-
+        logger.warning(f"Неизвестная ошибка callback.answer: {e}")
 
 def _get_max_role_changes() -> int:
     try:
@@ -80,7 +57,6 @@ def _get_max_role_changes() -> int:
     except Exception as e:
         logger.error(f"Ошибка чтения лимита смен роли: {e}")
         return 1
-
 
 # ======================== ВСПОМОГАТЕЛЬНЫЕ: ЗАНЯТЬ/ОСВОБОДИТЬ РОЛЬ ========================
 
@@ -97,7 +73,6 @@ def _occupy_role(role_id: int, user_id: int, username: str) -> bool:
     logger.warning(f"⚠️ Роль с ID {role_id} не найдена")
     return False
 
-
 def _free_role_by_id(role_id: int) -> bool:
     status_data = load_roles_status()
     for role_key, role_info in status_data.items():
@@ -110,12 +85,10 @@ def _free_role_by_id(role_id: int) -> bool:
             return True
     return False
 
-
 # ======================== ИРИС ========================
 
 async def _send_to_iris(bot, user_id: int, rank: int, position_name: str):
     logger.info(f"🔔 [ИРИС-ЗАГЛУШКА] Повысить {user_id} до ранга {rank} ({position_name})")
-
 
 # ======================== КОМАНДЫ ========================
 
@@ -125,7 +98,7 @@ async def cmd_requests(message: Message):
         await message.answer("⛔ Доступ запрещён.")
         return
 
-    pending = _get_pending()
+    pending = get_pending_requests()
     if not pending:
         await message.answer("📭 Нет заявок в ожидании.")
         return
@@ -146,7 +119,6 @@ async def cmd_requests(message: Message):
         reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
     )
 
-
 @router.message(Command('approve'))
 async def cmd_approve(message: Message):
     if not is_admin(message.from_user.id):
@@ -159,7 +131,7 @@ async def cmd_approve(message: Message):
         return
 
     request_id = parts[1].strip()
-    requests = _load_requests()
+    requests = load_requests()
     if request_id not in requests:
         await message.answer(f"❌ Заявка #{request_id} не найдена.")
         return
@@ -171,7 +143,6 @@ async def cmd_approve(message: Message):
     await message.answer(
         f"ℹ️ Используйте /requests → выберите заявку → «Одобрить»."
     )
-
 
 @router.message(Command('reject'))
 async def cmd_reject(message: Message, state: FSMContext):
@@ -185,7 +156,7 @@ async def cmd_reject(message: Message, state: FSMContext):
         return
 
     request_id = parts[1].strip()
-    requests = _load_requests()
+    requests = load_requests()
     if request_id not in requests:
         await message.answer(f"❌ Заявка #{request_id} не найдена.")
         return
@@ -198,7 +169,6 @@ async def cmd_reject(message: Message, state: FSMContext):
     await state.set_state(RejectReason.waiting_for_reason)
     await message.answer("📝 Напишите причину отклонения заявки:")
 
-
 @router.message(RejectReason.waiting_for_reason)
 async def reject_with_reason(message: Message, state: FSMContext):
     reason = (message.text or "")[:500]
@@ -210,12 +180,12 @@ async def reject_with_reason(message: Message, state: FSMContext):
         await state.clear()
         return
 
-    requests = _load_requests()
+    requests = load_requests()
     if request_id in requests and requests[request_id].get('status') == 'pending':
         requests[request_id]['status'] = 'rejected'
         requests[request_id]['reason'] = reason
         requests[request_id]['updated_at'] = datetime.now().isoformat()
-        _save_requests(requests)
+        save_requests(requests)
 
         role_id = requests[request_id].get('role_id')
         if role_id:
@@ -239,17 +209,16 @@ async def reject_with_reason(message: Message, state: FSMContext):
 
     await state.clear()
 
-
 # ======================== INLINE-ОБРАБОТЧИКИ ========================
 
 @router.callback_query(F.data == "refresh_requests")
 async def refresh_requests(callback: CallbackQuery):
-    await callback.answer()
+    await _safe_answer(callback)
     if not is_admin(callback.from_user.id):
         await callback.message.edit_text("⛔ Доступ запрещён.")
         return
 
-    pending = _get_pending()
+    pending = get_pending_requests()
     if not pending:
         await callback.message.edit_text("📭 Нет заявок в ожидании.")
         return
@@ -264,22 +233,24 @@ async def refresh_requests(callback: CallbackQuery):
         )])
     buttons.append([InlineKeyboardButton(text="🔄 Обновить", callback_data="refresh_requests")])
 
-    await callback.message.edit_text(
-        f"📝 <b>Заявки в ожидании ({len(pending)})</b>",
-        parse_mode="HTML",
-        reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
-    )
-
+    try:
+        await callback.message.edit_text(
+            f"📝 <b>Заявки в ожидании ({len(pending)})</b>",
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
+        )
+    except TelegramBadRequest:
+        pass
 
 @router.callback_query(F.data.startswith("view_req_"))
 async def view_request(callback: CallbackQuery):
-    await callback.answer()
+    await _safe_answer(callback)
     if not is_admin(callback.from_user.id):
-        await callback.answer("⛔ Доступ запрещён.", show_alert=True)
+        await _safe_answer(callback, "⛔ Доступ запрещён.", show_alert=True)
         return
 
     request_id = callback.data.replace("view_req_", "")
-    requests = _load_requests()
+    requests = load_requests()
     request = requests.get(request_id)
 
     if not request or request.get('status') != 'pending':
@@ -329,34 +300,34 @@ async def view_request(callback: CallbackQuery):
         [InlineKeyboardButton(text="🔙 Назад", callback_data="back_to_requests")]
     ])
 
-    await callback.message.edit_text(text, parse_mode="HTML", reply_markup=keyboard)
-
+    try:
+        await callback.message.edit_text(text, parse_mode="HTML", reply_markup=keyboard)
+    except TelegramBadRequest:
+        pass
 
 @router.callback_query(F.data.startswith("approve_req_"))
 async def approve_request_callback(callback: CallbackQuery):
-    await callback.answer()
+    await _safe_answer(callback)
     admin_id = callback.from_user.id
 
     if not is_admin(admin_id):
-        await callback.answer("⛔ Доступ запрещён.", show_alert=True)
+        await _safe_answer(callback, "⛔ Доступ запрещён.", show_alert=True)
         return
 
-    # Проверка прав: модератор (ранг 3) не может одобрять заявки на админа/владельца
     admin_rank = get_admin_rank(admin_id)
     if admin_rank > 2:
-        await callback.answer("⛔ Только админ или владелец могут одобрять заявки.", show_alert=True)
+        await _safe_answer(callback, "⛔ Только админ или владелец могут одобрять заявки.", show_alert=True)
         return
 
     request_id = callback.data.replace("approve_req_", "")
 
-    # Защита от двойного клика
     if request_id in _processing_requests:
-        await callback.answer("⏳ Заявка уже обрабатывается...", show_alert=True)
+        await _safe_answer(callback, "⏳ Заявка уже обрабатывается...", show_alert=True)
         return
     _processing_requests.add(request_id)
 
     try:
-        requests = _load_requests()
+        requests = load_requests()
         request = requests.get(request_id)
 
         if not request or request.get('status') != 'pending':
@@ -373,7 +344,6 @@ async def approve_request_callback(callback: CallbackQuery):
         position = request.get('position', 'member')
         position_name = request.get('position_name', POSITION_NAMES.get(position, 'Участник'))
 
-        # Запрет самоодобрения
         if user_id == admin_id:
             await callback.message.edit_text("⛔ Нельзя одобрить собственную заявку.")
             return
@@ -416,7 +386,7 @@ async def approve_request_callback(callback: CallbackQuery):
         # Обновляем заявку
         requests[request_id]['status'] = 'approved'
         requests[request_id]['updated_at'] = datetime.now().isoformat()
-        _save_requests(requests)
+        save_requests(requests)
 
         # Обновляем пользователя
         existing_user = get_user_by_id(user_id)
@@ -527,39 +497,41 @@ async def approve_request_callback(callback: CallbackQuery):
         except Exception as e:
             logger.error(f"Уведомление {user_id}: {e}")
 
-        await callback.message.edit_text(
-            f"✅ <b>Заявка #{request_id} одобрена!</b>\n\n"
-            f"👤 {html.escape(full_name)}\n"
-            f"📌 {html.escape(role_name)}\n"
-            f"🏷️ {html.escape(position_name)}"
-            + (f"\n⭐ Ранг: {rank}" if rank else ""),
-            parse_mode="HTML"
-        )
+        try:
+            await callback.message.edit_text(
+                f"✅ <b>Заявка #{request_id} одобрена!</b>\n\n"
+                f"👤 {html.escape(full_name)}\n"
+                f"📌 {html.escape(role_name)}\n"
+                f"🏷️ {html.escape(position_name)}"
+                + (f"\n⭐ Ранг: {rank}" if rank else ""),
+                parse_mode="HTML"
+            )
+        except TelegramBadRequest:
+            pass
 
         logger.info(f"Админ {admin_id} одобрил заявку #{request_id}")
 
     finally:
         _processing_requests.discard(request_id)
 
-
 @router.callback_query(F.data.startswith("reject_req_"))
 async def reject_request_callback(callback: CallbackQuery):
-    await callback.answer()
+    await _safe_answer(callback)
     admin_id = callback.from_user.id
 
     if not is_admin(admin_id):
-        await callback.answer("⛔ Доступ запрещён.", show_alert=True)
+        await _safe_answer(callback, "⛔ Доступ запрещён.", show_alert=True)
         return
 
     request_id = callback.data.replace("reject_req_", "")
 
     if request_id in _processing_requests:
-        await callback.answer("⏳ Заявка уже обрабатывается...", show_alert=True)
+        await _safe_answer(callback, "⏳ Заявка уже обрабатывается...", show_alert=True)
         return
     _processing_requests.add(request_id)
 
     try:
-        requests = _load_requests()
+        requests = load_requests()
         request = requests.get(request_id)
 
         if not request or request.get('status') != 'pending':
@@ -568,7 +540,7 @@ async def reject_request_callback(callback: CallbackQuery):
 
         requests[request_id]['status'] = 'rejected'
         requests[request_id]['updated_at'] = datetime.now().isoformat()
-        _save_requests(requests)
+        save_requests(requests)
 
         role_id = request.get('role_id')
         if role_id:
@@ -586,25 +558,27 @@ async def reject_request_callback(callback: CallbackQuery):
             except Exception as e:
                 logger.error(f"Уведомление {user_id}: {e}")
 
-        await callback.message.edit_text(
-            f"❌ <b>Заявка #{request_id} отклонена.</b>",
-            parse_mode="HTML"
-        )
+        try:
+            await callback.message.edit_text(
+                f"❌ <b>Заявка #{request_id} отклонена.</b>",
+                parse_mode="HTML"
+            )
+        except TelegramBadRequest:
+            pass
 
         logger.info(f"Админ {admin_id} отклонил заявку #{request_id}")
 
     finally:
         _processing_requests.discard(request_id)
 
-
 @router.callback_query(F.data == "back_to_requests")
 async def back_to_requests(callback: CallbackQuery):
-    await callback.answer()
+    await _safe_answer(callback)
     if not is_admin(callback.from_user.id):
         await callback.message.edit_text("⛔ Доступ запрещён.")
         return
 
-    pending = _get_pending()
+    pending = get_pending_requests()
     if not pending:
         await callback.message.edit_text("📭 Нет заявок.")
         return
@@ -619,8 +593,11 @@ async def back_to_requests(callback: CallbackQuery):
         )])
     buttons.append([InlineKeyboardButton(text="🔄 Обновить", callback_data="refresh_requests")])
 
-    await callback.message.edit_text(
-        f"📝 <b>Заявки в ожидании ({len(pending)})</b>",
-        parse_mode="HTML",
-        reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
-    )
+    try:
+        await callback.message.edit_text(
+            f"📝 <b>Заявки в ожидании ({len(pending)})</b>",
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
+        )
+    except TelegramBadRequest:
+        pass
