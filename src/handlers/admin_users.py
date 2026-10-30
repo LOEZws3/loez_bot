@@ -5,6 +5,7 @@ from aiogram.filters import Command
 from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
+from aiogram.exceptions import TelegramRetryAfter, TelegramBadRequest
 
 from config import GENERAL_CHAT_ID, OWNER_ID
 from utils.admin_utils import is_admin, is_owner, load_admins, get_admin_rank, add_admin
@@ -31,6 +32,8 @@ ROLE_NAMES = {
     '4': 'Администрация',
     '5': 'Администрация в ресте'
 }
+
+USERS_PER_PAGE = 30
 
 # ============================================================
 # 📊 СТАТИСТИКА ПОЛЬЗОВАТЕЛЯ
@@ -193,8 +196,6 @@ async def do_reset_callback(callback: CallbackQuery):
             pass
         return
 
-    logger.info(f"ℹ️ Тег у {target_id} не удалён: Telegram Bot API не поддерживает set_chat_member_tag")
-
     old_role = get_user_role_from_roles(target_id)
     freed_role = free_role(target_id) if old_role else None
     removed = remove_user(target_id)
@@ -232,8 +233,6 @@ async def cancel_reset_callback(callback: CallbackQuery):
 # 📝 РЕГИСТРАЦИЯ И РОЛИ
 # ============================================================
 
-# ⚠️ УДАЛЕНО: /register_admin и /register_user (бэкдор)
-
 @router.message(Command('admins'))
 async def cmd_admins(message: Message):
     user_id = message.from_user.id
@@ -257,6 +256,51 @@ async def cmd_admins(message: Message):
     else:
         await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
 
+# ============================================================
+# 👥 СПИСОК УЧАСТНИКОВ (ПАГИНАЦИЯ)
+# ============================================================
+
+def _build_users_page(page: int) -> tuple[str, InlineKeyboardMarkup]:
+    users = load_users()
+    if not users:
+        return "📭 Нет участников.", None
+
+    total_pages = (len(users) + USERS_PER_PAGE - 1) // USERS_PER_PAGE
+    page = max(0, min(page, total_pages - 1))
+    start_idx = page * USERS_PER_PAGE
+    end_idx = start_idx + USERS_PER_PAGE
+    page_users = users[start_idx:end_idx]
+
+    text = f"👥 <b>Список участников (стр. {page+1}/{total_pages}):</b>\n\n"
+    
+    for u in page_users:
+        username = f"@{u['username']}" if u.get('username') else "без юзернейма"
+        role_name = ROLE_NAMES.get(u.get('role', '0'), 'Неизвестно')
+        character = get_user_role_from_roles(u['id']) or "Нет роли"
+        
+        try:
+            category = get_user_category(u['id'])
+            emoji = get_emoji(category)
+        except Exception:
+            emoji = ''
+
+        safe_name = html.escape(u.get('full_name', '?'))
+        text += f"{emoji} • {safe_name} ({username}) – {role_name} ({html.escape(character)}) (ID: <code>{u['id']}</code>)\n"
+
+    buttons = []
+    nav_row = []
+    if page > 0:
+        nav_row.append(InlineKeyboardButton(text="◀️ Назад", callback_data=f"users_page_{page-1}"))
+    nav_row.append(InlineKeyboardButton(text=f"📄 {page+1}/{total_pages}", callback_data="users_ignore"))
+    if page < total_pages - 1:
+        nav_row.append(InlineKeyboardButton(text="Вперёд ▶️", callback_data=f"users_page_{page+1}"))
+    
+    if nav_row:
+        buttons.append(nav_row)
+
+    keyboard = InlineKeyboardMarkup(inline_keyboard=buttons) if buttons else None
+    return text, keyboard
+
 @router.message(Command('users'))
 async def cmd_users(message: Message):
     user_id = message.from_user.id
@@ -264,29 +308,46 @@ async def cmd_users(message: Message):
         await message.answer("⛔ Доступ запрещён.")
         return
 
-    users = load_users()
-    if not users:
-        await message.answer("📭 Нет участников.")
+    text, keyboard = _build_users_page(0)
+    if not keyboard:
+        await message.answer(text)
         return
 
-    text = "👥 <b>Список участников (полный):</b>\n\n"
-    for u in users:
-        username = f"@{u['username']}" if u['username'] else "без юзернейма"
-        role_name = ROLE_NAMES.get(u.get('role', '0'), 'Неизвестно')
-        character = get_user_role_from_roles(u['id']) or "Нет роли"
-
-        try:
-            category = get_user_category(u['id'])
-            emoji = get_emoji(category)
-        except Exception:
-            emoji = ''
-
-        text += f"{emoji} • {html.escape(u['full_name'])} ({username}) – {role_name} ({character}) (ID: <code>{u['id']}</code>)\n"
-
     if message.chat.id == GENERAL_CHAT_ID:
-        await message.answer(text, parse_mode="HTML")
+        await message.answer(text, parse_mode="HTML", reply_markup=keyboard)
     else:
-        await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
+        await message.answer(text, parse_mode="HTML", reply_markup=keyboard)
+
+@router.callback_query(F.data.startswith("users_page_"))
+async def users_page_callback(callback: CallbackQuery):
+    try:
+        await callback.answer()
+    except Exception:
+        pass
+
+    if not is_admin(callback.from_user.id):
+        await callback.answer("⛔ Доступ запрещён.", show_alert=True)
+        return
+
+    page = int(callback.data.replace("users_page_", ""))
+    text, keyboard = _build_users_page(page)
+    
+    try:
+        await callback.message.edit_text(text, parse_mode="HTML", reply_markup=keyboard)
+    except TelegramBadRequest as e:
+        if "message is not modified" not in str(e):
+            logger.error(f"Ошибка пагинации /users: {e}")
+
+@router.callback_query(F.data == "users_ignore")
+async def users_ignore_callback(callback: CallbackQuery):
+    try:
+        await callback.answer()
+    except Exception:
+        pass
+
+# ============================================================
+# 📝 ОСТАЛЬНЫЕ КОМАНДЫ
+# ============================================================
 
 @router.message(Command('adduser'))
 async def cmd_adduser(message: Message):
@@ -371,8 +432,6 @@ async def cmd_resetuser(message: Message):
     if is_admin(target_id):
         await message.answer("⛔ Нельзя сбросить администратора.")
         return
-
-    logger.info(f"ℹ️ Тег у {target_id} не удалён: Telegram Bot API не поддерживает set_chat_member_tag")
 
     old_role = get_user_role_from_roles(target_id)
     freed_role = free_role(target_id) if old_role else None
@@ -515,7 +574,7 @@ async def cmd_open(message: Message):
     await message.answer("🔓 Набор ролей открыт.")
 
 # ============================================================
-# 📢 /message_all — рассылка
+# 📢 /message_all — рассылка с обработкой RetryAfter
 # ============================================================
 
 class MessageAllStates(StatesGroup):
@@ -557,18 +616,35 @@ async def do_message_all(message: Message, state: FSMContext):
     users = load_users()
     sent, failed = 0, 0
 
-    await message.answer(f"📢 Начинаю рассылку для {len(users)} юзеров...")
+    progress_msg = await message.answer(f"📢 Начинаю рассылку для {len(users)} юзеров...")
 
-    for u in users:
+    for i, u in enumerate(users, 1):
         try:
             await message.bot.send_message(u['id'], text, parse_mode="HTML")
             sent += 1
+        except TelegramRetryAfter as e:
+            # Если уперлись в лимит, ждем и повторяем
+            logger.warning(f"⚠️ Flood control на {u['id']}, ждём {e.retry_after} сек.")
+            await asyncio.sleep(e.retry_after)
+            try:
+                await message.bot.send_message(u['id'], text, parse_mode="HTML")
+                sent += 1
+            except Exception:
+                failed += 1
         except Exception:
             failed += 1
-        await asyncio.sleep(0.05)
+        
+        # Обновляем прогресс каждые 20 юзеров
+        if i % 20 == 0:
+            try:
+                await progress_msg.edit_text(f"⏳ Рассылка: {i}/{len(users)} (✅{sent} | ❌{failed})")
+            except Exception:
+                pass
+        
+        await asyncio.sleep(0.1)
 
     await state.clear()
-    await message.answer(
+    await progress_msg.edit_text(
         f"✅ <b>Рассылка завершена</b>\n\n"
         f"📨 Отправлено: {sent}\n"
         f"❌ Ошибок: {failed}",

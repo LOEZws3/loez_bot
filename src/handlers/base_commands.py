@@ -26,18 +26,21 @@ from aiogram.filters import Command
 from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, ReplyKeyboardRemove, FSInputFile
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
+from aiogram.exceptions import TelegramBadRequest
 
 from config import GENERAL_CHAT_ID, DATA_DIR
 from utils.admin_utils import get_admin_rank, is_admin, load_admins
 from utils.user_utils import (
     load_users, get_users_count, get_user_by_id, get_role_stats,
     set_birthday, get_birthday, set_notify_norm, get_notify_norm,
+    get_changes_count,
 )
 from utils.requests_utils import get_request_by_user_id, get_pending_count
 from utils.role_utils import (
     get_taken_roles, count_taken_roles,
     get_user_role as get_user_role_from_roles,
-    get_all_seasons, get_roles_by_season, load_roles_status
+    get_all_seasons, get_roles_by_season, load_roles_status,
+    format_role_display, get_user_role_key
 )
 from utils.counters import load_counters, get_message_count
 from utils.user_history import load_user_history
@@ -57,8 +60,23 @@ ROLE_NAMES = {
     '5': 'Администрация в ресте'
 }
 
+MEMBERS_PER_PAGE = 25
+
 # ============================================================
-# ⚠️ НОВОЕ (05.10.2026): FSM для /setbirthday
+# 🛡️ БЕЗОПАСНЫЙ ОТВЕТ НА CALLBACK (от query is too old)
+# ============================================================
+
+async def _safe_answer(callback: CallbackQuery, text: str = None, show_alert: bool = False):
+    try:
+        await callback.answer(text=text, show_alert=show_alert)
+    except TelegramBadRequest as e:
+        if "query is too old" not in str(e):
+            logger.warning(f"Ошибка callback.answer: {e}")
+    except Exception as e:
+        logger.warning(f"Неизвестная ошибка callback.answer: {e}")
+
+# ============================================================
+# ⚠️ FSM для /setbirthday
 # ============================================================
 
 class SetBirthdayStates(StatesGroup):
@@ -173,7 +191,7 @@ async def cmd_start(message: Message):
 
 @router.callback_query(F.data == "agree_privacy")
 async def agree_privacy_callback(callback: CallbackQuery):
-    await callback.answer()
+    await _safe_answer(callback)
     user_id = callback.from_user.id
     
     from utils.user_utils import get_user_by_id, add_user, set_agreed_to_privacy
@@ -352,35 +370,39 @@ HELP_GROUPS = {
 
 @router.callback_query(F.data.startswith("help_group_"))
 async def help_group_callback(callback: CallbackQuery):
-    await callback.answer()
+    await _safe_answer(callback)
 
     if callback.message.chat.id == GENERAL_CHAT_ID:
-        await callback.answer("⛔ Во флуд-чате недоступно.", show_alert=True)
+        await _safe_answer(callback, "⛔ Во флуд-чате недоступно.", show_alert=True)
         return
 
     group_key = callback.data.replace("help_group_", "")
     group = HELP_GROUPS.get(group_key)
 
     if not group:
-        await callback.answer("❌ Группа не найдена.", show_alert=True)
+        await _safe_answer(callback, "❌ Группа не найдена.", show_alert=True)
         return
 
     buttons = [
         [InlineKeyboardButton(text="🔙 Назад", callback_data="help_back")]
     ]
 
-    await callback.message.edit_text(
-        group["text"],
-        parse_mode="HTML",
-        reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
-    )
+    try:
+        await callback.message.edit_text(
+            group["text"],
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
+        )
+    except TelegramBadRequest as e:
+        if "message is not modified" not in str(e):
+            logger.error(f"Ошибка редактирования help_group: {e}")
 
 @router.callback_query(F.data == "help_back")
 async def help_back_callback(callback: CallbackQuery):
-    await callback.answer()
+    await _safe_answer(callback)
 
     if callback.message.chat.id == GENERAL_CHAT_ID:
-        await callback.answer("⛔ Недоступно.", show_alert=True)
+        await _safe_answer(callback, "⛔ Недоступно.", show_alert=True)
         return
 
     user_id = callback.from_user.id
@@ -399,7 +421,10 @@ async def help_back_callback(callback: CallbackQuery):
             "Чтобы получить доступ ко всем командам — подайте заявку через /apply.\n\n"
             "Нажмите на группу чтобы посмотреть команды:"
         )
-        await callback.message.edit_text(text, parse_mode="HTML", reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons))
+        try:
+            await callback.message.edit_text(text, parse_mode="HTML", reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons))
+        except TelegramBadRequest:
+            pass
         return
 
     buttons = [
@@ -421,7 +446,10 @@ async def help_back_callback(callback: CallbackQuery):
         f"⭐ Ваш ранг: <b>{'Владелец' if rank == 1 else 'Админ' if rank == 2 else 'Модератор' if rank == 3 else 'Участник'}</b>"
     )
 
-    await callback.message.edit_text(text, parse_mode="HTML", reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons))
+    try:
+        await callback.message.edit_text(text, parse_mode="HTML", reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons))
+    except TelegramBadRequest:
+        pass
 
 # ============================================================
 # 🎂 /setbirthday
@@ -456,7 +484,7 @@ async def cmd_setbirthday(message: Message, state: FSMContext):
 
 @router.callback_query(SetBirthdayStates.choosing_day, F.data.startswith("bday_day_"))
 async def bday_day_chosen(callback: CallbackQuery, state: FSMContext):
-    await callback.answer()
+    await _safe_answer(callback)
     try:
         day = int(callback.data.replace("bday_day_", ""))
     except ValueError:
@@ -478,7 +506,7 @@ async def bday_day_chosen(callback: CallbackQuery, state: FSMContext):
 
 @router.callback_query(SetBirthdayStates.choosing_month, F.data.startswith("bday_month_"))
 async def bday_month_chosen(callback: CallbackQuery, state: FSMContext):
-    await callback.answer()
+    await _safe_answer(callback)
     try:
         month = int(callback.data.replace("bday_month_", ""))
     except ValueError:
@@ -514,7 +542,7 @@ async def bday_month_chosen(callback: CallbackQuery, state: FSMContext):
 
 @router.callback_query(F.data == "bday_cancel")
 async def bday_cancel(callback: CallbackQuery, state: FSMContext):
-    await callback.answer()
+    await _safe_answer(callback)
     await state.clear()
     try:
         await callback.message.edit_text("❌ Установка ДР отменена.")
@@ -645,7 +673,7 @@ async def cmd_aboutme(message: Message):
     bday_text = f"\n🎂 ДР: <b>{birthday}</b>" if birthday else "\n🎂 ДР: <i>не указан</i> (/setbirthday)"
     notify_text = f"\n🔔 Уведомления о норме: {'✅ вкл' if notify_norm else '❌ выкл'}"
 
-    # ⚠️ НОВОЕ: Проверка реста
+    # ⚠️ Проверка реста
     user_data = get_user_by_id(user.id)
     rest_text = ""
     if user_data and user_data.get('rest'):
@@ -759,6 +787,61 @@ async def cmd_menu(message: Message):
 # ✅ КОМАНДЫ, ДОСТУПНЫЕ ВО ФЛУДЕ
 # ============================================================
 
+def _build_members_keyboard(page: int) -> tuple[str, InlineKeyboardMarkup]:
+    """Строит страницу кнопок с юзерами."""
+    users = load_users()
+    if not users:
+        return "📭 В списке пока нет участников.", None
+
+    total_pages = (len(users) + MEMBERS_PER_PAGE - 1) // MEMBERS_PER_PAGE
+    page = max(0, min(page, total_pages - 1))
+    start_idx = page * MEMBERS_PER_PAGE
+    end_idx = start_idx + MEMBERS_PER_PAGE
+    page_users = users[start_idx:end_idx]
+
+    text = f"👥 <b>Список участников (стр. {page+1}/{total_pages})</b>\n"
+    text += f"📅 {datetime.date.today().strftime('%d.%m.%Y')}\n"
+    text += f"👥 Всего: {len(users)}\n\n"
+    text += "Нажмите на кнопку, чтобы открыть карточку участника."
+
+    buttons = []
+    for u in page_users:
+        uid = u['id']
+        
+        # Формируем текст кнопки: @юзернейм | Роль
+        username = u.get('username')
+        if username:
+            name_part = f"@{username}"
+        else:
+            name_part = html.escape(u.get('full_name', '?'))[:15]  # если нет юзернейма, берем имя
+
+        role_key = get_user_role_key(uid)
+        if role_key:
+            role_short = format_role_display(role_key)[:15] 
+        else:
+            role_short = "Нет роли"
+
+        # Обрезаем общую длину для безопасности кнопки
+        btn_text = f"{name_part} | {role_short}"[:45]
+
+        buttons.append([InlineKeyboardButton(
+            text=btn_text,
+            callback_data=f"member_view_{uid}_{page}"
+        )])
+
+    # Навигация
+    nav_row = []
+    if page > 0:
+        nav_row.append(InlineKeyboardButton(text="◀️ Назад", callback_data=f"members_page_{page-1}"))
+    nav_row.append(InlineKeyboardButton(text=f"📄 {page+1}/{total_pages}", callback_data="members_ignore"))
+    if page < total_pages - 1:
+        nav_row.append(InlineKeyboardButton(text="Вперёд ▶️", callback_data=f"members_page_{page+1}"))
+
+    if nav_row:
+        buttons.append(nav_row)
+
+    return text, InlineKeyboardMarkup(inline_keyboard=buttons)
+
 @router.message(Command('members'))
 async def cmd_members(message: Message):
     user_id = message.from_user.id if message.from_user else None
@@ -780,29 +863,80 @@ async def cmd_members(message: Message):
         await message.answer(f"👥 Всего участников: {len(users)}")
         return
 
-    text = f"👥 <b>Список участников</b>\n"
-    text += f"📅 {datetime.date.today().strftime('%d.%m.%Y')}\n"
-    text += f"👥 Всего: {len(users)}\n\n"
+    text, keyboard = _build_members_keyboard(0)
+    if not keyboard:
+        await message.answer(text, reply_markup=get_main_keyboard(user_id, message.chat.id))
+        return
 
-    for u in users:
-        username = f"@{u['username']}" if u['username'] else "без юзернейма"
-        role_index = u.get('role', '0')
-        role_name = ROLE_NAMES.get(role_index, 'Неизвестно')
-        character = get_user_role_from_roles(u['id']) or "Нет роли"
+    await message.answer(text, parse_mode="HTML", reply_markup=keyboard)
 
-        try:
-            category = get_user_category(u['id'])
-            emoji = get_emoji(category)
-        except Exception:
-            emoji = ''
+@router.callback_query(F.data.startswith("members_page_"))
+async def members_page_callback(callback: CallbackQuery):
+    await _safe_answer(callback)
 
-        text += f"{emoji} • [{role_index}] {html.escape(u['full_name'])} ({username}) – {role_name} ({character}) (ID: <code>{u['id']}</code>)\n"
+    if not is_admin(callback.from_user.id):
+        await _safe_answer(callback, "⛔ Доступ запрещён.", show_alert=True)
+        return
 
-    if len(text) > 4000:
-        await message.answer(text[:3900], parse_mode="HTML")
-        await message.answer("\n... продолжение ...\n" + text[3900:], parse_mode="HTML")
+    page = int(callback.data.replace("members_page_", ""))
+    text, keyboard = _build_members_keyboard(page)
+    
+    try:
+        await callback.message.edit_text(text, parse_mode="HTML", reply_markup=keyboard)
+    except TelegramBadRequest as e:
+        if "message is not modified" not in str(e):
+            logger.error(f"Ошибка пагинации /members: {e}")
+
+@router.callback_query(F.data == "members_ignore")
+async def members_ignore_callback(callback: CallbackQuery):
+    await _safe_answer(callback)
+
+@router.callback_query(F.data.startswith("member_view_"))
+async def member_view_callback(callback: CallbackQuery):
+    """Показывает карточку юзера при нажатии на кнопку в /members."""
+    await _safe_answer(callback)
+
+    if not is_admin(callback.from_user.id):
+        await _safe_answer(callback, "⛔ Доступ запрещён.", show_alert=True)
+        return
+
+    parts = callback.data.split("_")
+    target_id = int(parts[2])
+    page = int(parts[3])
+
+    user_data = get_user_by_id(target_id)
+    role = get_user_role_from_roles(target_id)
+    changes = get_changes_count(target_id)
+    birthday = get_birthday(target_id)
+
+    # Получаем ранг
+    rank = get_admin_rank(target_id)
+    rank_name = {1: "👑 Владелец", 2: "🔐 Админ", 3: "🛡️ Модератор"}.get(rank, "Участник")
+
+    text = f"👤 <b>Карточка участника</b>\n\n"
+    text += f"🆔 ID: <code>{target_id}</code>\n"
+    
+    if user_data:
+        text += f"👤 Имя: {html.escape(user_data.get('full_name', '?'))}\n"
+        username = user_data.get('username')
+        text += f"🔖 Юзернейм: @{username if username else 'не указан'}\n"
     else:
-        await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
+        text += f"👤 Не найден в users.json\n"
+
+    text += f"⭐ Ранг: {rank_name}\n"
+    text += f"🎭 Роль: {html.escape(role) if role else 'нет'}\n"
+    text += f"🔄 Смен роли: <b>{changes}</b>\n"
+    text += f"🎂 ДР: {birthday if birthday else 'не указан'}\n"
+
+    buttons = [
+        [InlineKeyboardButton(text="🔙 Назад к списку", callback_data=f"members_page_{page}")]
+    ]
+
+    try:
+        await callback.message.edit_text(text, parse_mode="HTML", reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons))
+    except TelegramBadRequest as e:
+        if "message is not modified" not in str(e):
+            logger.error(f"Ошибка просмотра карточки: {e}")
 
 @router.message(Command('roles'))
 async def cmd_roles(message: Message):
@@ -818,9 +952,11 @@ async def cmd_roles(message: Message):
 
     if message.chat.id == GENERAL_CHAT_ID:
         text = "📋 <b>Список ролей по сезонам</b>\n\n"
+        is_truncated = False
+        
         for season in sorted(seasons):
             roles = get_roles_by_season(season)
-            text += f"📂 <b>{season}</b> ({len(roles)} ролей):\n"
+            season_text = f"📂 <b>{season}</b> ({len(roles)} ролей):\n"
             for role in roles:
                 role_name = role.get('name', '?')
                 status = role.get('status', 'свободна')
@@ -835,8 +971,18 @@ async def cmd_roles(message: Message):
                     status_text = "⏳ ожидает"
                 else:
                     status_text = "🔴 занята"
-                text += f"  • {html.escape(role_name)} — {status_text}\n"
-            text += "\n"
+                season_text += f"  • {html.escape(role_name)} — {status_text}\n"
+            season_text += "\n"
+
+            if len(text) + len(season_text) > 3900:
+                is_truncated = True
+                break
+            
+            text += season_text
+
+        if is_truncated:
+            text += "\n⚠️ <i>Список обрезан. Полный список доступен в ЛС бота.</i>"
+            
         await message.answer(text, parse_mode="HTML")
         return
 
@@ -876,7 +1022,7 @@ async def cmd_stats(message: Message):
 
 @router.callback_query(F.data == "back_to_menu_from_roles")
 async def back_to_menu_from_roles(callback: CallbackQuery):
-    await callback.answer()
+    await _safe_answer(callback)
     if callback.message.chat.id == GENERAL_CHAT_ID:
         await callback.message.delete()
         await callback.message.answer("🔙 Вы вернулись.")
@@ -891,9 +1037,9 @@ async def back_to_menu_from_roles(callback: CallbackQuery):
 
 @router.callback_query(F.data.startswith("roles_season_"))
 async def show_roles_by_season(callback: CallbackQuery):
-    await callback.answer()
+    await _safe_answer(callback)
     if callback.message.chat.id == GENERAL_CHAT_ID:
-        await callback.answer("⛔ Во флуд-чате недоступно.", show_alert=True)
+        await _safe_answer(callback, "⛔ Во флуд-чате недоступно.", show_alert=True)
         return
 
     season = callback.data.replace("roles_season_", "")
@@ -925,13 +1071,17 @@ async def show_roles_by_season(callback: CallbackQuery):
         [InlineKeyboardButton(text="🔙 В меню", callback_data="back_to_menu_from_roles")]
     ]
 
-    await callback.message.edit_text(text, parse_mode="HTML", reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons))
+    try:
+        await callback.message.edit_text(text, parse_mode="HTML", reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons))
+    except TelegramBadRequest as e:
+        if "message is not modified" not in str(e):
+            logger.error(f"Ошибка редактирования ролей: {e}")
 
 @router.callback_query(F.data == "back_to_seasons_list")
 async def back_to_seasons_list(callback: CallbackQuery):
-    await callback.answer()
+    await _safe_answer(callback)
     if callback.message.chat.id == GENERAL_CHAT_ID:
-        await callback.answer("⛔ Недоступно.", show_alert=True)
+        await _safe_answer(callback, "⛔ Недоступно.", show_alert=True)
         return
 
     seasons = get_all_seasons()
@@ -944,15 +1094,19 @@ async def back_to_seasons_list(callback: CallbackQuery):
         )])
     buttons.append([InlineKeyboardButton(text="🔙 В меню", callback_data="back_to_menu_from_roles")])
 
-    await callback.message.edit_text(
-        "📋 <b>Список ролей по сезонам</b>\n\n"
-        "Выберите сезон:",
-        parse_mode="HTML",
-        reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
-    )
+    try:
+        await callback.message.edit_text(
+            "📋 <b>Список ролей по сезонам</b>\n\n"
+            "Выберите сезон:",
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons)
+        )
+    except TelegramBadRequest as e:
+        if "message is not modified" not in str(e):
+            logger.error(f"Ошибка возврата к сезонам: {e}")
 
 # ============================================================
-# 📈 НОВОЕ: /mynorm (График активности)
+# 📈 /mynorm (График активности)
 # ============================================================
 
 @router.message(Command('mynorm'))
@@ -970,51 +1124,35 @@ async def cmd_mynorm(message: Message):
         await message.answer("⛔ Вы не зарегистрированы. Подайте заявку через /apply.")
         return
 
-    # Получаем счётчики за текущую неделю
     counters = load_counters()
-    uid_str = str(user_id)
     current_count = get_message_count(user_id)
     
-    # Получаем настройки нормы
     norm = get_messages_norm()
     npndb = get_messages_norm_low()
 
-    # Генерируем график
     msg = await message.answer("⏳ Строю ваш график...")
     
     try:
-        # Данные для графика (для простоты генерируем 7 точек по дням недели)
-        # В идеале тут нужно брать историю сообщений по дням, но у нас пока нет такой статистики.
-        # Поэтому сделаем условный плавный график, отображающий текущее количество.
-        
-        # Заглушка: распределяем текущее количество по 7 дням для красивой дуги
         days = np.array([1, 2, 3, 4, 5, 6, 7])
         
-        # Если сообщений мало, рисуем маленькую дугу, если много — большую
         if current_count == 0:
             y_values = np.array([0, 0, 0, 0, 0, 0, 0])
         else:
-            # Просто красивое распределение, чтобы график выглядел как на скрине
             peak = current_count
             y_values = np.array([0, peak*0.4, peak*0.8, peak, peak*0.7, peak*0.3, peak*0.1])
             y_values = np.round(y_values).astype(int)
 
-        # Сглаживание (Spline)
         X_Y_Spline = make_interp_spline(days, y_values)
         X_ = np.linspace(days.min(), days.max(), 500)
         Y_ = X_Y_Spline(X_)
 
-        # Отрисовка
         plt.figure(figsize=(10, 6))
-        plt.plot(X_, Y_, color='#2563eb', linewidth=4) # Синяя линия
-        plt.scatter(days, y_values, color='#2563eb', s=100, zorder=5) # Точки
+        plt.plot(X_, Y_, color='#2563eb', linewidth=4)
+        plt.scatter(days, y_values, color='#2563eb', s=100, zorder=5)
 
-        # Линия Нормы
         plt.axhline(y=norm, color='#16a34a', linestyle='--', linewidth=3, label=f'норма ({norm})')
-        # Линия НПНДБ
         plt.axhline(y=npndb, color='#dc2626', linestyle='--', linewidth=3, label=f'нпндб ({npndb})')
 
-        # Оформление
         plt.title(f"{current_count} сообщений за неделю", fontsize=20, pad=15)
         plt.xlabel("Дни", fontsize=14)
         plt.ylabel("Количество сообщений", fontsize=14)
@@ -1022,16 +1160,13 @@ async def cmd_mynorm(message: Message):
         plt.xticks(days, [f"День {d}" for d in days], fontsize=12)
         plt.yticks(fontsize=12)
         
-        # Добавляем текст справа от линий
         plt.text(7.1, norm, f'норма ({norm})', color='#16a34a', va='center', fontsize=12)
         plt.text(7.1, npndb, f'нпндб ({npndb})', color='#dc2626', va='center', fontsize=12)
         
-        # Убираем верхнюю и правую рамки
         plt.gca().spines['top'].set_visible(False)
         plt.gca().spines['right'].set_visible(False)
         plt.grid(axis='y', linestyle='--', alpha=0.7)
         
-        # Сохраняем и отправляем
         filepath = os.path.join(DATA_DIR, f"temp_graph_{user_id}.png")
         plt.savefig(filepath, bbox_inches='tight')
         plt.close()
@@ -1046,14 +1181,14 @@ async def cmd_mynorm(message: Message):
             parse_mode="HTML"
         )
         await msg.delete()
-        os.remove(filepath) # Удаляем временный файл
+        os.remove(filepath)
 
     except Exception as e:
         logger.error(f"❌ Ошибка графика для {user_id}: {e}")
         await msg.edit_text(f"❌ Произошла ошибка при построении графика: {e}")
 
 # ============================================================
-# 📜 НОВОЕ: /history (История)
+# 📜 /history (История)
 # ============================================================
 
 @router.message(Command('history'))
@@ -1070,7 +1205,6 @@ async def cmd_history(message: Message):
     target_id = user_id
     
     if len(parts) > 1:
-        # Если указан ID, проверяем права
         if not is_admin(user_id):
             await message.answer("⛔ Просматривать чужую историю могут только админы.")
             return
