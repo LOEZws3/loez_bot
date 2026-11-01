@@ -181,3 +181,23 @@ def set_apply_sent(user_id: int, value: bool = True) -> bool:
         return False
     users[uid_str]['apply_sent'] = value
     return parsers.save_users(users)
+# ======================== ОБНОВЛЕНИЕ ИНФО ИЗ ТЕЛЕГРАМ ========================
+
+def update_user_info(user_id: int, username: str, full_name: str) -> bool:
+    """Обновляет username и full_name юзера в users.json, если они изменились."""
+    users = load_users()
+    changed = False
+    
+    for u in users:
+        if u.get('id') == user_id:
+            if username and u.get('username') != username:
+                u['username'] = username
+                changed = True
+            if full_name and u.get('full_name') != full_name:
+                u['full_name'] = full_name
+                changed = True
+            break
+            
+    if changed:
+        return save_users(users)
+    return True

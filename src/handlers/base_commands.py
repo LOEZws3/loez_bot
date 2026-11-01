@@ -101,6 +101,8 @@ def _build_days_keyboard() -> InlineKeyboardMarkup:
             row = []
     if row:
         buttons.append(row)
+    # ⚠️ НОВОЕ: Кнопка пропуска
+    buttons.append([InlineKeyboardButton(text="⏭️ Пропустить (00.00)", callback_data="bday_skip")])
     buttons.append([InlineKeyboardButton(text="❌ Отмена", callback_data="bday_cancel")])
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
@@ -115,6 +117,8 @@ def _build_months_keyboard() -> InlineKeyboardMarkup:
                     callback_data=f"bday_month_{i + j + 1}"
                 ))
         buttons.append(row)
+    # ⚠️ НОВОЕ: Кнопка пропуска
+    buttons.append([InlineKeyboardButton(text="⏭️ Пропустить (00.00)", callback_data="bday_skip")])
     buttons.append([InlineKeyboardButton(text="❌ Отмена", callback_data="bday_cancel")])
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
@@ -540,6 +544,26 @@ async def bday_month_chosen(callback: CallbackQuery, state: FSMContext):
     )
     logger.info(f"🎂 {user_id} установил ДР: {birthday}")
 
+@router.callback_query(F.data == "bday_skip")
+async def bday_skip(callback: CallbackQuery, state: FSMContext):
+    await _safe_answer(callback)
+    user_id = callback.from_user.id
+    
+    set_birthday(user_id, "00.00") # ⚠️ Ставим заглушку
+    
+    try:
+        from utils.user_history import set_birthday as hist_set_birthday
+        hist_set_birthday(user_id, "00.00")
+    except Exception as e:
+        logger.error(f"❌ Не удалось сохранить ДР в историю: {e}")
+        
+    await state.clear()
+    await callback.message.edit_text(
+        "✅ <b>Дата рождения пропущена.</b>\n\nТеперь в профиле будет указано 00.00, и поздравления не будут приходить.",
+        parse_mode="HTML"
+    )
+    logger.info(f"🎂 {user_id} пропустил установку ДР")
+
 @router.callback_query(F.data == "bday_cancel")
 async def bday_cancel(callback: CallbackQuery, state: FSMContext):
     await _safe_answer(callback)
@@ -670,7 +694,7 @@ async def cmd_aboutme(message: Message):
 
     birthday = get_birthday(user.id)
     notify_norm = get_notify_norm(user.id)
-    bday_text = f"\n🎂 ДР: <b>{birthday}</b>" if birthday else "\n🎂 ДР: <i>не указан</i> (/setbirthday)"
+    bday_text = f"\n🎂 ДР: <b>{birthday}</b>" if birthday and birthday != "00.00" else "\n🎂 ДР: <i>не указан</i> (/setbirthday)"
     notify_text = f"\n🔔 Уведомления о норме: {'✅ вкл' if notify_norm else '❌ выкл'}"
 
     # ⚠️ Проверка реста
@@ -788,7 +812,6 @@ async def cmd_menu(message: Message):
 # ============================================================
 
 def _build_members_keyboard(page: int) -> tuple[str, InlineKeyboardMarkup]:
-    """Строит страницу кнопок с юзерами."""
     users = load_users()
     if not users:
         return "📭 В списке пока нет участников.", None
@@ -808,12 +831,11 @@ def _build_members_keyboard(page: int) -> tuple[str, InlineKeyboardMarkup]:
     for u in page_users:
         uid = u['id']
         
-        # Формируем текст кнопки: @юзернейм | Роль
         username = u.get('username')
         if username:
             name_part = f"@{username}"
         else:
-            name_part = html.escape(u.get('full_name', '?'))[:15]  # если нет юзернейма, берем имя
+            name_part = html.escape(u.get('full_name', '?'))[:15]
 
         role_key = get_user_role_key(uid)
         if role_key:
@@ -821,7 +843,6 @@ def _build_members_keyboard(page: int) -> tuple[str, InlineKeyboardMarkup]:
         else:
             role_short = "Нет роли"
 
-        # Обрезаем общую длину для безопасности кнопки
         btn_text = f"{name_part} | {role_short}"[:45]
 
         buttons.append([InlineKeyboardButton(
@@ -829,7 +850,6 @@ def _build_members_keyboard(page: int) -> tuple[str, InlineKeyboardMarkup]:
             callback_data=f"member_view_{uid}_{page}"
         )])
 
-    # Навигация
     nav_row = []
     if page > 0:
         nav_row.append(InlineKeyboardButton(text="◀️ Назад", callback_data=f"members_page_{page-1}"))
@@ -893,7 +913,6 @@ async def members_ignore_callback(callback: CallbackQuery):
 
 @router.callback_query(F.data.startswith("member_view_"))
 async def member_view_callback(callback: CallbackQuery):
-    """Показывает карточку юзера при нажатии на кнопку в /members."""
     await _safe_answer(callback)
 
     if not is_admin(callback.from_user.id):
@@ -909,7 +928,6 @@ async def member_view_callback(callback: CallbackQuery):
     changes = get_changes_count(target_id)
     birthday = get_birthday(target_id)
 
-    # Получаем ранг
     rank = get_admin_rank(target_id)
     rank_name = {1: "👑 Владелец", 2: "🔐 Админ", 3: "🛡️ Модератор"}.get(rank, "Участник")
 
@@ -926,7 +944,9 @@ async def member_view_callback(callback: CallbackQuery):
     text += f"⭐ Ранг: {rank_name}\n"
     text += f"🎭 Роль: {html.escape(role) if role else 'нет'}\n"
     text += f"🔄 Смен роли: <b>{changes}</b>\n"
-    text += f"🎂 ДР: {birthday if birthday else 'не указан'}\n"
+    
+    bday_display = birthday if birthday and birthday != "00.00" else "не указан"
+    text += f"🎂 ДР: {bday_display}\n"
 
     buttons = [
         [InlineKeyboardButton(text="🔙 Назад к списку", callback_data=f"members_page_{page}")]

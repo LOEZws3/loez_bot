@@ -31,7 +31,6 @@ logger = logging.getLogger(__name__)
 router = Router()
 
 REQUESTS_FILE = os.path.join(DATA_DIR, 'system', 'requests.json')
-
 APPLY_TIMEOUT = 300
 _last_apply_time = {}
 
@@ -41,8 +40,6 @@ class ApplyStates(StatesGroup):
     choosing_position = State()
     confirming = State()
     confirming_replace = State()
-
-# ======================== ЗАГРУЗКА / СОХРАНЕНИЕ ========================
 
 def _has_active_request(user_id: int) -> bool:
     requests = _load_requests()
@@ -66,8 +63,6 @@ def _get_max_role_changes() -> int:
         logger.error(f"Ошибка чтения лимита смен роли: {e}")
         return 1
 
-# ======================== ПРОВЕРКА ТАЙМАУТА ========================
-
 async def _check_timeout(callback: CallbackQuery, state: FSMContext) -> bool:
     data = await state.get_data()
     started_at = data.get('started_at')
@@ -89,8 +84,6 @@ async def _check_timeout(callback: CallbackQuery, state: FSMContext) -> bool:
         logger.info(f"⏰ Таймаут подачи заявки для {callback.from_user.id}")
         return False
     return True
-
-# ======================== КЛАВИАТУРЫ ========================
 
 def create_apply_keyboard(seasons: list) -> InlineKeyboardMarkup:
     sorted_seasons = sorted(seasons)
@@ -114,22 +107,13 @@ def create_role_keyboard(roles: list) -> InlineKeyboardMarkup:
         status = role.get('status', 'свободна')
 
         if not role_id:
-            buttons.append([InlineKeyboardButton(
-                text=f"⚠️ {role_name} (нет ID)",
-                callback_data="apply_none"
-            )])
+            buttons.append([InlineKeyboardButton(text=f"⚠️ {role_name} (нет ID)", callback_data="apply_none")])
             continue
 
         if status == 'свободна':
-            buttons.append([InlineKeyboardButton(
-                text=f"✅ {role_name}",
-                callback_data=f"apply_role_id_{role_id}"
-            )])
+            buttons.append([InlineKeyboardButton(text=f"✅ {role_name}", callback_data=f"apply_role_id_{role_id}")])
         else:
-            buttons.append([InlineKeyboardButton(
-                text=f"🔒 {role_name} (занята)",
-                callback_data="apply_none"
-            )])
+            buttons.append([InlineKeyboardButton(text=f"🔒 {role_name} (занята)", callback_data="apply_none")])
     buttons.append([InlineKeyboardButton(text="🔙 Назад", callback_data="apply_back_to_seasons")])
     buttons.append([InlineKeyboardButton(text="❌ Отмена", callback_data="apply_cancel")])
     return InlineKeyboardMarkup(inline_keyboard=buttons)
@@ -141,15 +125,10 @@ def create_position_keyboard(user_id: int = None) -> InlineKeyboardMarkup:
         [InlineKeyboardButton(text="👤 Участник", callback_data="apply_position_member")],
     ]
     if user_id and user_id == OWNER_ID:
-        buttons.append([InlineKeyboardButton(
-            text="👑 Восстановить права владельца",
-            callback_data="apply_position_owner_restore"
-        )])
+        buttons.append([InlineKeyboardButton(text="👑 Восстановить права владельца", callback_data="apply_position_owner_restore")])
     buttons.append([InlineKeyboardButton(text="🔙 Назад", callback_data="apply_back_to_roles")])
     buttons.append([InlineKeyboardButton(text="❌ Отмена", callback_data="apply_cancel")])
     return InlineKeyboardMarkup(inline_keyboard=buttons)
-
-# ======================== КОМАНДЫ ========================
 
 @router.message(Command("apply"))
 async def cmd_apply(message: types.Message, state: FSMContext):
@@ -163,6 +142,7 @@ async def cmd_apply(message: types.Message, state: FSMContext):
         await message.answer("🔒 Набор ролей временно закрыт. Попробуйте позже.")
         return
 
+    # ⚠️ ФИКС: Проверка Rate-limit (записываем время при первом вызове)
     now = time.time()
     last_time = _last_apply_time.get(user_id)
     if last_time and (now - last_time) < 60:
@@ -172,10 +152,7 @@ async def cmd_apply(message: types.Message, state: FSMContext):
     _last_apply_time[user_id] = now
 
     if _has_active_request(user_id):
-        await message.answer(
-            "⚠️ У вас уже есть активная заявка!\n"
-            "Дождитесь её обработки или отмените через /cancel_request."
-        )
+        await message.answer("⚠️ У вас уже есть активная заявка!\nДождитесь её обработки или отмените через /cancel_request.")
         return
 
     from utils.admin_utils import is_owner
@@ -184,11 +161,7 @@ async def cmd_apply(message: types.Message, state: FSMContext):
         max_changes = _get_max_role_changes()
 
         if current_changes >= max_changes:
-            await message.answer(
-                f"⛔ <b>Вы исчерпали лимит смен роли ({max_changes}).</b>\n\n"
-                f"Обратитесь к администрации для сброса.",
-                parse_mode="HTML"
-            )
+            await message.answer(f"⛔ <b>Вы исчерпали лимит смен роли ({max_changes}).</b>\n\nОбратитесь к администрации для сброса.", parse_mode="HTML")
             return
 
     seasons = get_all_seasons()
@@ -200,8 +173,7 @@ async def cmd_apply(message: types.Message, state: FSMContext):
     await state.update_data(started_at=time.time())
 
     await message.answer(
-        "🎯 Выберите сезон:\n\n"
-        "⏰ <i>У вас 5 минут на подачу заявки.</i>",
+        "🎯 Выберите сезон:\n\n⏰ <i>У вас 5 минут на подачу заявки.</i>",
         parse_mode="HTML",
         reply_markup=create_apply_keyboard(seasons)
     )

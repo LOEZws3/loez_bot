@@ -19,6 +19,7 @@ class RegistrationCheckMiddleware(BaseMiddleware):
         if not isinstance(event, Message):
             return await handler(event, data)
 
+        # Во флуд-чате не проверяем (там другие правила)
         if event.chat.id == GENERAL_CHAT_ID:
             return await handler(event, data)
 
@@ -30,7 +31,7 @@ class RegistrationCheckMiddleware(BaseMiddleware):
         if not user_id:
             return await handler(event, data)
 
-        # ⚠️ Логирование команд админов (исправлено: вынесено после определения user_id и text)
+        # Логирование команд админов
         try:
             from utils.admin_utils import is_admin
             if is_admin(user_id):
@@ -39,11 +40,10 @@ class RegistrationCheckMiddleware(BaseMiddleware):
         except Exception as e:
             logger.error(f"Ошибка логирования команды админа: {e}")
 
-        # ⚠️ ВЛАДЕЛЕЦ ПРОХОДИТ ВСЕГДА
+        # ВЛАДЕЛЕЦ И АДМИНЫ ПРОХОДЯТ ВСЕГДА
         if user_id == OWNER_ID:
             return await handler(event, data)
 
-        # ⚠️ ОБХОД ДЛЯ АДМИНОВ (если их нет в users.json после /free)
         try:
             from utils.admin_utils import is_admin
             if is_admin(user_id):
@@ -51,9 +51,9 @@ class RegistrationCheckMiddleware(BaseMiddleware):
         except Exception:
             pass
 
-        # Проверка политики
+        # ⚠️ ФИКС: Проверка политики для ВСЕХ
         user = get_user_by_id(user_id)
-        if user and not user.get('agreed_to_privacy', False):
+        if not user or not user.get('agreed_to_privacy', False):
             command = text.split()[0].split('@')[0].lower()
             if command != '/start':
                 await event.answer(
@@ -64,7 +64,7 @@ class RegistrationCheckMiddleware(BaseMiddleware):
                 return
             return await handler(event, data)
 
-        # Если юзера нет в базе
+        # Если юзера нет в базе, но он согласился (или есть)
         if not user:
             command = text.split()[0].split('@')[0].lower()
             if command in STARTER_MODE_ALLOWED_COMMANDS:

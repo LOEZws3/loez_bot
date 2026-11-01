@@ -137,29 +137,67 @@ def _get_system_load() -> str:
     except Exception:
         return "psutil не установлен"
 
+# ⚠️ НОВЫЙ КРУГОВОЙ ГРАФИК
 def _build_stats_graph(days: int) -> str:
     data = stats_tracker.get_stats(days)
-    dates = [d[0][5:] for d in data]
-    uptimes = [d[1].get("uptime", 0) / 3600 for d in data]
-    downtimes = [d[1].get("downtime", 0) / 3600 for d in data]
-    bugtimes = [d[1].get("bugtime", 0) / 3600 for d in data]
     
-    plt.figure(figsize=(10, 5))
-    x = np.arange(len(dates))
-    normal_uptime = [max(0, u - b) for u, b in zip(uptimes, bugtimes)]
+    total_uptime = sum(d[1].get("uptime", 0) for d in data)
+    total_bugtime = sum(d[1].get("bugtime", 0) for d in data)
+    total_downtime = sum(d[1].get("downtime", 0) for d in data)
     
-    plt.bar(x, normal_uptime, color='#16a34a', label='Uptime (OK)')
-    plt.bar(x, bugtimes, bottom=normal_uptime, color='#eab308', label='Bugtime (сеть)')
-    plt.bar(x, downtimes, color='#dc2626', label='Downtime (off)')
+    # Переводим в часы
+    up_h = total_uptime / 3600
+    bug_h = total_bugtime / 3600
+    down_h = total_downtime / 3600
     
-    plt.xticks(x, dates, rotation=45, ha='right')
-    plt.ylabel('Часы')
-    plt.title(f'Статистика за {days} дн.')
-    plt.legend()
-    plt.tight_layout()
+    total_h = up_h + bug_h + down_h
+    
+    # Ставим светлую тему
+    plt.style.use('default')
+    fig, ax = plt.subplots(figsize=(8, 7))
+    
+    if total_h == 0:
+        # Нет данных вообще (только запустился)
+        ax.pie([1], colors=['#16a34a'], labels=['Uptime\n(0 ч.)'], startangle=90, textprops={'fontsize': 12, 'weight': 'bold'})
+    elif down_h == 0 and bug_h == 0:
+        # Бот ни разу не лежал и не лагал — сплошной зеленый
+        ax.pie([1], colors=['#16a34a'], labels=[f'Uptime\n100%\n({up_h:.1f} ч.)'], startangle=90, textprops={'fontsize': 12, 'weight': 'bold'})
+    else:
+        # Собираем куски, которые > 0 (чтобы не было микроскопических полосок)
+        sizes = []
+        colors = []
+        labels = []
+        
+        if up_h > 0:
+            sizes.append(up_h)
+            colors.append('#16a34a')
+            labels.append(f'Uptime\n{(up_h/total_h)*100:.1f}%\n({up_h:.1f} ч.)')
+        if bug_h > 0:
+            sizes.append(bug_h)
+            colors.append('#eab308')
+            labels.append(f'Bugtime\n{(bug_h/total_h)*100:.1f}%\n({bug_h:.1f} ч.)')
+        if down_h > 0:
+            sizes.append(down_h)
+            colors.append('#dc2626')
+            labels.append(f'Downtime\n{(down_h/total_h)*100:.1f}%\n({down_h:.1f} ч.)')
+            
+        # Рисуем круг
+        ax.pie(sizes, colors=colors, labels=labels, autopct='', startangle=90, textprops={'fontsize': 11, 'weight': 'bold'})
+    
+    # Делаем круг ровным
+    ax.axis('equal')
+    
+    # Добавляем подпись снизу
+    active_h = up_h + bug_h
+    plt.figtext(0.5, 0.05, 
+                f"Всего активно: {active_h:.1f} ч.  |  Всего на мониторинге: {days} дн.", 
+                ha="center", fontsize=12, fontweight='bold', 
+                bbox={"facecolor":"#f1f5f9", "alpha":0.9, "pad":6, "edgecolor":"#cbd5e1"})
+    
+    plt.title(f"Статистика работы бота за {days} дн.", fontsize=15, pad=20, fontweight='bold')
     
     filepath = os.path.join(DATA_DIR, f"temp_stats_{days}.png")
-    plt.savefig(filepath)
+    plt.savefig(filepath, bbox_inches='tight')
     plt.close()
     return filepath
 
@@ -254,9 +292,14 @@ async def cmd_logs(message: Message):
         if not last_lines:
             await message.answer("📭 Ошибок нет.")
             return
+            
+        # ⚠️ ФИКС: Экранируем текст логов, чтобы Telegram не пытался распарсить <...> как теги
+        escaped_text = html.escape("".join(last_lines))
+        
         text = "🔥 <b>Последние 50 строк ошибок:</b>\n\n<pre>"
-        text += "".join(last_lines)
+        text += escaped_text
         text += "</pre>"
+        
         if len(text) > 4096:
             await message.answer("⚠️ Слишком много текста. Отправляю файлом.")
             await message.answer_document(FSInputFile(path))
@@ -333,8 +376,10 @@ async def diag_refresh(callback: CallbackQuery):
     text, keyboard = _build_diag_report(callback.from_user.id)
     try:
         await callback.message.edit_text(text, parse_mode="HTML", reply_markup=keyboard)
-    except Exception:
-        pass
+    except TelegramBadRequest as e:
+        if "there is no text in the message to edit" in str(e):
+            await callback.message.delete()
+            await callback.message.answer(text, parse_mode="HTML", reply_markup=keyboard)
 
 @router.callback_query(F.data == "diag_save_all")
 async def diag_save_all(callback: CallbackQuery):
@@ -473,7 +518,12 @@ async def diag_stats_menu(callback: CallbackQuery):
         "🟡 Bugtime (сетевые лаги)\n"
         "🔴 Downtime (сколько лежал)"
     )
-    await callback.message.edit_text(text, parse_mode="HTML", reply_markup=keyboard)
+    try:
+        await callback.message.edit_text(text, parse_mode="HTML", reply_markup=keyboard)
+    except TelegramBadRequest as e:
+        if "there is no text in the message to edit" in str(e):
+            await callback.message.delete()
+            await callback.message.answer(text, parse_mode="HTML", reply_markup=keyboard)
 
 @router.callback_query(F.data.startswith("diag_stats_") & ~F.data.in_({"diag_stats_menu", "diag_stats_custom"}))
 async def diag_stats_period(callback: CallbackQuery):

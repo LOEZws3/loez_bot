@@ -296,13 +296,11 @@ async def handle_message(message: types.Message):
     except Exception as e:
         logger.error(f"❌ Ошибка парсера варнов: {e}")
 
-    # ⚠️ Проверка: Если юзер в ресте — не трогаем
     user = get_user_by_id(user_id)
     if user and user.get('rest', False):
         logger.debug(f"⏳ {user_id} в ресте — пропускаем все проверки")
         return
 
-    # ⚠️ ФИКС: Если юзер ЕСТЬ в базе (неважно is_fully_registered), считаем его зареганным
     if user:
         await _check_profile_completeness(message, user_id)
         _update_aliases(user_id, message.from_user.username or '', message.from_user.full_name or '')
@@ -311,11 +309,9 @@ async def handle_message(message: types.Message):
             set_joined_at(user_id)
             logger.info(f"📅 Установлен joined_at для {user_id}")
 
-        if is_new_user(user_id, days=7):
-            logger.debug(f"👶 {user_id} Нью (<7 дней) — не считаем")
-        else:
-            increment_message_count(user_id)
-            await _maybe_notify_norm(message.bot, user_id)
+        # ⚠️ ФИКС: Считаем сообщения ВСЕМ (включая нью), чтобы цифры сходились с Ирисом
+        increment_message_count(user_id)
+        await _maybe_notify_norm(message.bot, user_id)
 
         if user_id in message_counter:
             message_counter[user_id] = 0
@@ -342,8 +338,11 @@ async def handle_message(message: types.Message):
 @router.chat_member()
 async def on_user_join(update: ChatMemberUpdated):
     """Приветствие новых пользователей (через chat_member)."""
+    # Проверяем, что событие произошло в нужном чате
     if update.chat.id != GENERAL_CHAT_ID:
         return
+        
+    # Проверяем, что юзер именно ВСТУПИЛ (а не вышел)
     if update.new_chat_member.status not in ['member', 'administrator', 'creator']:
         return
     if update.old_chat_member.status in ['member', 'administrator', 'creator']:
@@ -352,19 +351,24 @@ async def on_user_join(update: ChatMemberUpdated):
     user = update.new_chat_member.user
     user_id = user.id
 
+    # Обновляем last_message_at в истории (чтобы юзер не считался "заброшенным")
     try:
         from utils.user_history import set_last_message_at
         set_last_message_at(user_id)
     except Exception as e:
         logger.error(f"❌ Не удалось обновить last_message_at: {e}")
 
+    # Если юзера нет в базе — шлем приветствие
     if not check_user_registration(user_id):
         try:
+            # ⚠️ ФИКС: Получаем актуальный юзернейм бота
+            bot_info = await update.bot.get_me()
+            
             await update.bot.send_message(
                 chat_id=update.chat.id,
                 text=f"👋 Привет, {html.escape(user.first_name)}!\n\n"
                      f"❗ Для полного доступа зарегистрируйтесь:\n"
-                     f"1. Напишите @loez_bot в личку\n"
+                     f"1. Напишите @{bot_info.username} в личку\n"
                      f"2. Используйте команду /apply",
                 disable_notification=True
             )
