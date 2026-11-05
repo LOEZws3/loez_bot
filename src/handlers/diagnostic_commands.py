@@ -57,12 +57,22 @@ def _get_downtime_str() -> str:
             delta = START_TIME - last_time
             if delta.total_seconds() < 0:
                 return "только что"
-            hours, remainder = divmod(int(delta.total_seconds()), 3600)
+            
+            total_seconds = int(delta.total_seconds())
+            hours, remainder = divmod(total_seconds, 3600)
             minutes, seconds = divmod(remainder, 60)
-            if hours > 24:
+            
+            if hours >= 24:
                 days = hours // 24
-                return f"{days} д. {hours % 24} ч."
-            return f"{hours} ч. {minutes} мин."
+                base_str = f"{days} д. {hours % 24} ч. {minutes} мин."
+            else:
+                base_str = f"{hours} ч. {minutes} мин."
+            
+            # ⚠️ Честное предупреждение: если бот лежал > 24 часов, очередь Telegram уже стерлась
+            if total_seconds >= 86400:
+                return f"{base_str} ⚠️ (данные за этот период могли быть потеряны)"
+            
+            return base_str
     except Exception:
         return "ошибка"
 
@@ -137,7 +147,6 @@ def _get_system_load() -> str:
     except Exception:
         return "psutil не установлен"
 
-# ⚠️ НОВЫЙ КРУГОВОЙ ГРАФИК
 def _build_stats_graph(days: int) -> str:
     data = stats_tracker.get_stats(days)
     
@@ -145,25 +154,20 @@ def _build_stats_graph(days: int) -> str:
     total_bugtime = sum(d[1].get("bugtime", 0) for d in data)
     total_downtime = sum(d[1].get("downtime", 0) for d in data)
     
-    # Переводим в часы
     up_h = total_uptime / 3600
     bug_h = total_bugtime / 3600
     down_h = total_downtime / 3600
     
     total_h = up_h + bug_h + down_h
     
-    # Ставим светлую тему
     plt.style.use('default')
     fig, ax = plt.subplots(figsize=(8, 7))
     
     if total_h == 0:
-        # Нет данных вообще (только запустился)
         ax.pie([1], colors=['#16a34a'], labels=['Uptime\n(0 ч.)'], startangle=90, textprops={'fontsize': 12, 'weight': 'bold'})
     elif down_h == 0 and bug_h == 0:
-        # Бот ни разу не лежал и не лагал — сплошной зеленый
         ax.pie([1], colors=['#16a34a'], labels=[f'Uptime\n100%\n({up_h:.1f} ч.)'], startangle=90, textprops={'fontsize': 12, 'weight': 'bold'})
     else:
-        # Собираем куски, которые > 0 (чтобы не было микроскопических полосок)
         sizes = []
         colors = []
         labels = []
@@ -181,14 +185,10 @@ def _build_stats_graph(days: int) -> str:
             colors.append('#dc2626')
             labels.append(f'Downtime\n{(down_h/total_h)*100:.1f}%\n({down_h:.1f} ч.)')
             
-        # Рисуем круг
         ax.pie(sizes, colors=colors, labels=labels, autopct='', startangle=90, textprops={'fontsize': 11, 'weight': 'bold'})
     
-    # Делаем круг ровным
     ax.axis('equal')
     
-    # Добавляем подпись снизу
-    active_h = up_h + bug_h
     plt.figtext(0.5, 0.05, 
                 f"Всего активно: {active_h:.1f} ч.  |  Всего на мониторинге: {days} дн.", 
                 ha="center", fontsize=12, fontweight='bold', 
@@ -265,8 +265,6 @@ async def cmd_diag(message: Message):
     text, keyboard = _build_diag_report(message.from_user.id)
     await message.answer(text, parse_mode="HTML", reply_markup=keyboard)
 
-# ======================== НОВЫЕ КОМАНДЫ ========================
-
 @router.message(Command('ping'))
 async def cmd_ping(message: Message):
     if not is_owner(message.from_user.id):
@@ -293,7 +291,6 @@ async def cmd_logs(message: Message):
             await message.answer("📭 Ошибок нет.")
             return
             
-        # ⚠️ ФИКС: Экранируем текст логов, чтобы Telegram не пытался распарсить <...> как теги
         escaped_text = html.escape("".join(last_lines))
         
         text = "🔥 <b>Последние 50 строк ошибок:</b>\n\n<pre>"
@@ -336,8 +333,6 @@ async def cmd_warns(message: Message):
         text += f"  Выдал: {w.get('issued_by')} | Причина: {html.escape(w.get('reason', 'Не указана'))}\n\n"
         
     await message.answer(text, parse_mode="HTML")
-
-# ======================== ОБРАБОТЧИКИ КНОПОК ========================
 
 @router.callback_query(F.data == "diag_clear_cache")
 async def diag_clear_cache(callback: CallbackQuery):
@@ -495,8 +490,6 @@ async def diag_shutdown(callback: CallbackQuery):
     await asyncio.sleep(1.5)
     os._exit(0)
 
-# ======================== СТАТИСТИКА (ГРАФИКИ) ========================
-
 @router.callback_query(F.data == "diag_stats_menu")
 async def diag_stats_menu(callback: CallbackQuery):
     await _safe_answer(callback)
@@ -585,8 +578,6 @@ async def process_stats_custom(message: Message, state: FSMContext):
     except Exception as e:
         logger.error(f"Ошибка графика: {e}")
         await msg.edit_text(f"❌ Ошибка при построении графика: {e}")
-
-# ======================== /CHECK_CHATS ========================
 
 @router.message(Command('check_chats'))
 async def cmd_check_chats(message: Message):
