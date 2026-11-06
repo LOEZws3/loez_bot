@@ -68,7 +68,6 @@ def _get_downtime_str() -> str:
             else:
                 base_str = f"{hours} ч. {minutes} мин."
             
-            # ⚠️ Честное предупреждение: если бот лежал > 24 часов, очередь Telegram уже стерлась
             if total_seconds >= 86400:
                 return f"{base_str} ⚠️ (данные за этот период могли быть потеряны)"
             
@@ -138,6 +137,26 @@ def _check_integrity(users: list, roles: dict) -> str:
         return "✅ Связи в порядке"
     return "⚠️ " + " | ".join(issues[:3]) + (" (и др.)" if len(issues) > 3 else "")
 
+def _check_duplicates() -> str:
+    from utils.user_utils import load_users
+    users = load_users()
+    seen = set()
+    duplicates = []
+    for u in users:
+        uid = u.get('id')
+        if uid in seen:
+            duplicates.append(uid)
+        else:
+            seen.add(uid)
+    
+    if not duplicates:
+        return "✅ Нет дубликатов"
+    
+    dup_str = ", ".join(map(str, duplicates[:5]))
+    if len(duplicates) > 5:
+        dup_str += f" и ещё {len(duplicates) - 5}"
+    return f"⚠️ Найдены дубли: {dup_str}"
+
 def _get_system_load() -> str:
     try:
         process = psutil.Process(os.getpid())
@@ -189,6 +208,7 @@ def _build_stats_graph(days: int) -> str:
     
     ax.axis('equal')
     
+    active_h = up_h + bug_h
     plt.figtext(0.5, 0.05, 
                 f"Всего активно: {active_h:.1f} ч.  |  Всего на мониторинге: {days} дн.", 
                 ha="center", fontsize=12, fontweight='bold', 
@@ -222,7 +242,10 @@ def _build_diag_report(user_id: int) -> tuple[str, InlineKeyboardMarkup]:
     taken_roles = sum(1 for r in roles.values() if isinstance(r, dict) and r.get('status') == 'занята')
     
     report += f"👥 <b>Данные:</b> Юзеров: {len(users)} | Занято ролей: {taken_roles} | Заявок: {pending}\n"
-    report += f"🔗 <b>Целостность:</b> {_check_integrity(users, roles)}\n\n"
+    report += f"🔗 <b>Целостность:</b> {_check_integrity(users, roles)}\n"
+    report += f"🔍 <b>Дубликаты в users.json:</b> {_check_duplicates()}\n"
+    report += f"🆔 <b>Last Update ID:</b> <code>{bot_status.get_last_update_id()}</code>\n\n"
+    
     report += f"⚙️ <b>Фоновые циклы:</b> {_check_tasks()}\n"
     report += f"🔥 <b>Последняя ошибка:</b> <code>{_get_last_error()}</code>\n\n"
 
@@ -264,6 +287,49 @@ async def cmd_diag(message: Message):
 
     text, keyboard = _build_diag_report(message.from_user.id)
     await message.answer(text, parse_mode="HTML", reply_markup=keyboard)
+
+# ======================== 🎤 TTS ТЕСТ ========================
+
+@router.message(Command('test_tts'))
+async def cmd_test_tts(message: Message):
+    """Тестовая команда для проверки синтеза речи ElevenLabs."""
+    if not is_owner(message.from_user.id):
+        await message.answer("⛔ Доступ запрещён. Только для владельца.")
+        return
+    
+    parts = message.text.split()
+    voice_key = parts[1].lower() if len(parts) > 1 else 'adam'
+    
+    from utils.tts_utils import VOICES, generate_tts
+    
+    if voice_key not in VOICES:
+        voices_list = ", ".join([f"`{k}`" for k in VOICES.keys()])
+        await message.answer(
+            f"❌ Неверный голос.\n\n"
+            f"Доступные варианты:\n{voices_list}\n\n"
+            f"💡 Пример: `/test_tts adam` или `/test_tts bella`", 
+            parse_mode="Markdown"
+        )
+        return
+    
+    test_text = f"Привет! Это тестовое голосовое сообщение. Ты слушаешь голос {voice_key}. Если звучит чётко и как живой человек — значит мы победили!"
+    
+    msg = await message.answer(f"🎤 Генерирую голосовое сообщение (голос: {voice_key})...")
+    
+    try:
+        filepath = await generate_tts(test_text, voice_key, f'test_tts_{voice_key}.mp3')
+        
+        voice_file = FSInputFile(filepath)
+        await message.answer_voice(
+            voice_file,
+            caption=f"🎤 <b>TTS Тест</b>\nГолос: <code>{voice_key}</code>",
+            parse_mode="HTML"
+        )
+        await msg.delete()
+        
+    except Exception as e:
+        logger.error(f"❌ Ошибка TTS: {e}")
+        await msg.edit_text(f"❌ Ошибка генерации голоса: {e}\n\nПроверь:\n1. Правильно ли указан ELEVENLABS_API_KEY\n2. Работает ли прокси")
 
 @router.message(Command('ping'))
 async def cmd_ping(message: Message):

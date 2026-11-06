@@ -3,9 +3,10 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# Глобальные переменные для отслеживания сетевых сбоев (Bugtime)
+# Глобальные переменные для отслеживания сетевых сбоев (Bugtime) и апдейтов
 BUGTIME_TOTAL = 0.0         # Всего секунд в сбое
 BUGTIME_START = None        # Время начала текущего сбоя
+LAST_UPDATE_ID = 0          # Последний полученный update_id от Telegram
 
 def mark_bug_start():
     global BUGTIME_START
@@ -38,3 +39,13 @@ def get_bugtime_str() -> str:
     elif minutes > 0:
         return f"{minutes} мин. {seconds} сек."
     return f"{seconds} сек."
+
+def update_last_update_id(update_id: int):
+    """Обновляет последний ID апдейта, если он больше текущего."""
+    global LAST_UPDATE_ID
+    if update_id > LAST_UPDATE_ID:
+        LAST_UPDATE_ID = update_id
+
+def get_last_update_id() -> int:
+    """Возвращает последний известный ID апдейта."""
+    return LAST_UPDATE_ID

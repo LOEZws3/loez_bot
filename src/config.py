@@ -24,12 +24,22 @@ ADMIN_LINK = os.getenv('ADMIN_LINK', 'https://t.me/admin')
 ROLES_PER_PAGE = int(os.getenv('ROLES_PER_PAGE', 5))
 
 # --- Настройки прокси ---
-USE_PROXY = os.getenv('USE_PROXY', 'false').lower() == 'true'
+USE_PROXY = os.getenv('USE_PROXY', 'true').lower() == 'true' # По дефолту True, чтобы не забыть
 PROXY_DIR = os.getenv('PROXY_DIR', str(SRC_PATH / 'proxies'))
 PROXY_ENABLED = USE_PROXY
+
+# 🚀 Фикс: Умный парсинг прокси для tts_utils (чтобы не скармливать socks5 в обычный aiohttp)
 PRIORITY_PROXY = os.getenv('PRIORITY_PROXY', '')
 PRIORITY_PROXY_FALSE_PROTOCOL = os.getenv('PRIORITY_PROXY_False_protocol', '')
 PRIORITY_PROXY_FALSE_PROTOCOL_2 = os.getenv('PRIORITY_PROXY_False_protocol_2', '')
+
+# Если основной PRIORITY_PROXY пустой или содержит socks5 (который обычный aiohttp не ест),
+# берем HTTP-прокси из False_protocol (там у нас Incy 10808)
+if not PRIORITY_PROXY or 'socks5' in PRIORITY_PROXY:
+    if PRIORITY_PROXY_FALSE_PROTOCOL:
+        PRIORITY_PROXY = PRIORITY_PROXY_FALSE_PROTOCOL
+    else:
+        PRIORITY_PROXY = 'http://127.0.0.1:10808' # Жесткий фоллбэк на Incy
 
 # --- Логирование ---
 LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')
@@ -52,6 +62,7 @@ CREATION_FILE = os.path.join(DATA_DIR, 'system', 'creation_date.txt')
 FORWARD_FILE = os.path.join(DATA_DIR, 'system', 'forward_map.json')
 REQUESTS_FILE = os.path.join(DATA_DIR, 'system', 'requests.json')
 SYSTEM_SETTINGS_FILE = os.path.join(DATA_DIR, 'system', 'system_settings.json')
+ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
 
 # --- ⚠️ НОВОЕ (05.10.2026): ушедшие юзеры ---
 LEFTOVER_FILE = os.path.join(DATA_DIR, 'system', 'leftdata.json')

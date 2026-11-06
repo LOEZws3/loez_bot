@@ -6,11 +6,13 @@ import os
 import json
 import datetime
 import re
-from aiogram import Bot, Dispatcher
-from aiogram.types import BotCommand, FSInputFile
+import html
+from aiogram import Bot, Dispatcher, BaseMiddleware
+from aiogram.types import BotCommand, FSInputFile, Update
 from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.exceptions import TelegramNetworkError
 from aiogram.types import ErrorEvent
+from typing import Any, Awaitable, Callable, Dict
 
 try:
     from winotify import Notification, audio
@@ -29,6 +31,9 @@ from middlewares import RegistrationCheckMiddleware
 from utils import status as bot_status
 from utils import stats_tracker
 from utils.backup_utils import create_backup
+# 🚀 Импортируем TTS и новые настройки
+from utils.tts_utils import generate_tts, DEFAULT_VOICE
+from utils.settings_utils import get_tts_mode, get_tts_voice
 
 class ProxySSLException(Exception):
     pass
@@ -68,6 +73,18 @@ def _mask_proxy(proxy_url: str) -> str:
         return proxy_url
     return re.sub(r'://[^:]+:[^@]+@', '://***:***@', proxy_url)
 
+# ======================== Мидлварь для трекинга Last Update ID ========================
+class UpdateTrackerMiddleware(BaseMiddleware):
+    async def __call__(
+        self,
+        handler: Callable[[Update, Dict[str, Any]], Awaitable[Any]],
+        event: Update,
+        data: Dict[str, Any]
+    ) -> Any:
+        if event.update_id:
+            bot_status.update_last_update_id(event.update_id)
+        return await handler(event, data)
+
 # ======================== leftdata.json ========================
 def _save_leftdata(user_id: int, full_name: str, role: str, reason: str = "left"):
     try:
@@ -92,7 +109,6 @@ def _save_leftdata(user_id: int, full_name: str, role: str, reason: str = "left"
         logger.info(f"📝 {user_id} добавлен в leftdata.json ({reason})")
     except Exception as e:
         logger.error(f"❌ Ошибка leftdata.json для {user_id}: {e}")
-
 
 async def create_bot_with_proxy() -> Bot:
     from config import PRIORITY_PROXY, PRIORITY_PROXY_FALSE_PROTOCOL, PRIORITY_PROXY_FALSE_PROTOCOL_2
@@ -150,7 +166,6 @@ async def create_bot_with_proxy() -> Bot:
     session = AiohttpSession(proxy=proxy_url)
     return Bot(token=BOT_TOKEN, session=session)
 
-
 async def switch_to_next_proxy():
     global bot
     if not USE_PROXY:
@@ -183,7 +198,6 @@ async def switch_to_next_proxy():
     except Exception as e:
         logger.error(f"❌ Ошибка переключения: {e}")
         return False
-
 
 async def set_bot_commands():
     commands = [
@@ -220,7 +234,6 @@ async def set_bot_commands():
         else:
             logger.warning(f"⚠️ Не удалось установить команды бота: {e}")
 
-
 # ======================== ФОНОВЫЕ ЦИКЛЫ ========================
 
 async def auto_backup_loop():
@@ -240,6 +253,29 @@ async def auto_backup_loop():
                 logger.info(f"📦 Авто-бэкап отправлен владельцу: {os.path.basename(filepath)}")
             except Exception as e:
                 logger.error(f"❌ Ошибка авто-бэкапа: {e}")
+
+async def tts_cleanup_loop():
+    """Раз в сутки чистит старые TTS файлы (старше 24 часов)."""
+    from utils.tts_utils import cleanup_old_tts
+    while True:
+        try:
+            # Ждем до 04:00 МСК
+            now_utc = datetime.datetime.now(datetime.UTC)
+            now_msk = now_utc + datetime.timedelta(hours=3)
+            target = now_msk.replace(hour=4, minute=0, second=0, microsecond=0)
+            if now_msk >= target:
+                target += datetime.timedelta(days=1)
+            wait_seconds = (target - now_msk).total_seconds()
+            if wait_seconds < 60:
+                wait_seconds = 60
+            logger.info(f"🧹 Очистка TTS через {int(wait_seconds/60)} мин (04:00 МСК)")
+            await asyncio.sleep(wait_seconds)
+            
+            cleanup_old_tts(max_age_hours=24)
+            logger.info("✅ Очистка старых TTS файлов завершена")
+        except Exception as e:
+            logger.error(f"❌ Ошибка в tts_cleanup_loop: {e}")
+            await asyncio.sleep(3600)
 
 async def stats_collector_loop():
     while True:
@@ -263,7 +299,7 @@ async def network_monitor_loop():
 
 async def check_rests_loop():
     global bot
-    from utils.role_utils import load_roles_status, save_roles_status
+    from utils.role_utils import load_roles_status, save_roles_status, format_role_display
     from utils.user_utils import load_users, set_rest_status
     while True:
         try:
@@ -295,16 +331,36 @@ async def check_rests_loop():
                     logger.info(f"🔔 В roles_status.json обновлены роли для {len(expired_rest_users)} юзеров")
 
                 if bot:
+                    tts_mode = get_tts_mode()
+                    voice = get_tts_voice() # 🚀 Получаем выбранный голос
                     for uid in expired_rest_users:
                         try:
-                            import html
                             role_name = "ваша роль"
                             for role_key, role_info in status_data.items():
                                 if isinstance(role_info, dict) and role_info.get('owner_id') == uid:
-                                    from utils.role_utils import format_role_display
                                     role_name = format_role_display(role_key)
                                     break
-                            await bot.send_message(uid, f"🔔 <b>Ваш рест закончился!</b>\n\n🎭 Роль: <b>{html.escape(role_name)}</b>\nТеперь вы снова активны.", parse_mode="HTML")
+                            
+                            # 1. Текст
+                            if tts_mode in ('text', 'both'):
+                                await bot.send_message(
+                                    uid, 
+                                    f"🔔 <b>Ваш рест закончился!</b>\n\n"
+                                    f"🎭 Роль: <b>{html.escape(role_name)}</b>\n"
+                                    f"Теперь вы снова активны.", 
+                                    parse_mode="HTML"
+                                )
+                            
+                            # 2. Голос
+                            if tts_mode in ('voice', 'both'):
+                                try:
+                                    tts_text = f"Привет! Твой рест закончился. Роль {role_name} снова активна. Погнали в чат!"
+                                    audio_path = await generate_tts(tts_text, voice_key=voice, filename=f"rest_{uid}.mp3")
+                                    await bot.send_voice(uid, FSInputFile(audio_path), caption="🎙️ С возвращением из реста!")
+                                    logger.info(f"🎙️ TTS-уведомление о ресте отправлено {uid} (голос: {voice})")
+                                except Exception as tts_e:
+                                    logger.error(f"❌ TTS ошибка для {uid}: {tts_e}")
+                                
                         except Exception as e:
                             logger.error(f"❌ Не удалось уведомить {uid}: {e}")
         except Exception as e:
@@ -437,7 +493,7 @@ async def norm_reminder_low_loop():
             await asyncio.sleep(3600)
 
 async def norm_reset_loop():
-    from utils.counters import reset_all_counters
+    from utils.counters import reset_all_counters, save_weekly_norm_history
     from handlers.checknorm_commands import _has_active_sessions
     while True:
         try:
@@ -456,7 +512,6 @@ async def norm_reset_loop():
                 logger.info("⏳ Активная чистка — ждём...")
                 await asyncio.sleep(60)
                 waited += 60
-            from utils.counters import save_weekly_norm_history
             save_weekly_norm_history()
             reset_all_counters()
             logger.info("✅ Счётчики сброшены, история нормы сохранена (21:00 МСК)")
@@ -541,27 +596,56 @@ async def _send_birthday_messages(mode: str):
         if not users:
             return
         logger.info(f"🎂 ДР сегодня у {len(users)}: {[u['id'] for u in users]}")
+        
         if mode == 'personal':
             for u in users:
                 try:
-                    import html
-                    await bot.send_message(u['id'], f"🎂 <b>Поздравляю вас с вашим днём рождения, {html.escape(u['full_name'])}!</b>\n\nЖелаем удачи!\n\n— LOeZ team", parse_mode="HTML")
+                    await bot.send_message(
+                        u['id'], 
+                        f"🎂 <b>Поздравляю вас с вашим днём рождения, {html.escape(u['full_name'])}!</b>\n\n"
+                        f"Желаем удачи!\n\n"
+                        f"— LOeZ team", 
+                        parse_mode="HTML"
+                    )
                 except Exception as e:
                     logger.error(f"❌ ЛС {u['id']}: {e}")
+                    
         elif mode == 'group':
-            import html
             lines = []
+            names_for_tts = []
             for u in users:
                 role = u.get('role') or ''
+                names_for_tts.append(u['full_name'])
                 if role and role != '0':
                     lines.append(f"• {html.escape(u['full_name'])} ({html.escape(role)})")
                 else:
                     lines.append(f"• {html.escape(u['full_name'])}")
+                    
             text = "🎂 <b>Сегодня день рождения у:</b>\n\n" + "\n".join(lines) + "\n\n🎉 Поздравляем!"
-            try:
-                await bot.send_message(GENERAL_CHAT_ID, text, parse_mode="HTML")
-            except Exception as e:
-                logger.error(f"❌ Поздравление во флуд: {e}")
+            tts_mode = get_tts_mode()
+            voice = get_tts_voice() # 🚀 Получаем выбранный голос
+            
+            # 1. Текст
+            if tts_mode in ('text', 'both'):
+                try:
+                    await bot.send_message(GENERAL_CHAT_ID, text, parse_mode="HTML")
+                except Exception as e:
+                    logger.error(f"❌ Поздравление во флуд: {e}")
+                
+            # 2. Голос
+            if tts_mode in ('voice', 'both'):
+                try:
+                    tts_names = ", ".join(names_for_tts)
+                    if len(tts_names) > 150:
+                        tts_names = tts_names[:147] + "..."
+                        
+                    tts_text = f"Поздравляем с днём рождения {tts_names}! Желаем удачи и всего самого наилучшего от команды Лоез!"
+                    audio_path = await generate_tts(tts_text, voice_key=voice, filename="birthday_group.mp3")
+                    await bot.send_voice(GENERAL_CHAT_ID, FSInputFile(audio_path), caption="🎙️ Голосовое поздравление!")
+                    logger.info(f"🎙️ TTS-поздравление во флуд отправлено (голос: {voice})")
+                except Exception as tts_e:
+                    logger.error(f"❌ TTS ошибка в ДР (группа): {tts_e}")
+                
     except Exception as e:
         logger.error(f"❌ Ошибка ДР ({mode}): {e}")
 
@@ -650,7 +734,9 @@ async def run_bot():
     global bot
     dp = Dispatcher()
     dp.message.middleware(RegistrationCheckMiddleware())
-    logger.info("✅ Middleware стартового режима подключен")
+    dp.update.middleware(UpdateTrackerMiddleware())
+    logger.info("✅ Middleware стартового режима и трекинга апдейтов подключены")
+    
     for router in routers:
         dp.include_router(router)
     logger.info(f"✅ Зарегистрировано {len(routers)} роутеров")
@@ -773,6 +859,8 @@ async def on_startup():
         logger.info("🔄 birthday_personal_loop запущен (00:00 МСК)")
         _background_tasks.append(asyncio.create_task(birthday_group_loop(), name="birthday_group_loop"))
         logger.info("🔄 birthday_group_loop запущен (12:00 МСК)")
+        _background_tasks.append(asyncio.create_task(tts_cleanup_loop(), name="tts_cleanup_loop"))
+        logger.info("🔄 tts_cleanup_loop запущен (04:00 МСК)")
 
     await set_bot_commands()
     logger.info("✅ Бот запущен!")

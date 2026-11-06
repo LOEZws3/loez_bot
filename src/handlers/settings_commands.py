@@ -21,7 +21,19 @@ router = Router()
 class WaitingForSetting(StatesGroup):
     value = State()
 
+def _get_tts_label(mode):
+    if mode == 'text':
+        return "📝 Только текст"
+    elif mode == 'voice':
+        return "🎙️ Только голос"
+    else:
+        return "🔥 Текст + Голос"
+
 def _build_settings_keyboard(settings):
+    tts_mode = settings.get('tts_mode', 'both')
+    tts_label = _get_tts_label(tts_mode)
+    tts_voice = settings.get('tts_voice', 'adam').capitalize()
+    
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=f"{'✅' if not settings.get('closed_mode', False) else '❌'} Набор ролей", callback_data="settings_toggle_closed")],
         [InlineKeyboardButton(text=f"{'✅' if settings.get('reminder_enabled', True) else '❌'} Напоминалка", callback_data="settings_toggle_reminder")],
@@ -38,6 +50,8 @@ def _build_settings_keyboard(settings):
         [InlineKeyboardButton(text=f"{'✅' if settings.get('warn_notify_admin', True) else '❌'} Уведомлять о 3-м варне", callback_data="settings_toggle_warn_notify")],
         [InlineKeyboardButton(text=f"{'✅' if settings.get('checknorm_time_window_enabled', True) else '❌'} Окно чистки", callback_data="settings_toggle_checknorm_window")],
         [InlineKeyboardButton(text=f"{'✅' if settings.get('require_profile_completeness', True) else '❌'} Проверка профиля", callback_data="settings_toggle_profile_check")],
+        [InlineKeyboardButton(text=f"🗣️ Режим TTS: {tts_label}", callback_data="settings_toggle_tts")],
+        [InlineKeyboardButton(text=f"🎤 Голос TTS: {tts_voice}", callback_data="settings_toggle_voice")], # 🚀 НОВАЯ КНОПКА
         [InlineKeyboardButton(text="📊 Показать все настройки", callback_data="settings_show_all")],
         [InlineKeyboardButton(text="🧹 Сбросить кэш", callback_data="settings_clear_cache")],
         [
@@ -45,6 +59,7 @@ def _build_settings_keyboard(settings):
             InlineKeyboardButton(text="🔙 Закрыть", callback_data="settings_close")
         ],
     ])
+
 @router.message(Command('settings'))
 async def cmd_settings(message: Message):
     user_id = message.from_user.id
@@ -126,6 +141,34 @@ async def settings_callback(callback: CallbackQuery, state: FSMContext):
         await callback.message.edit_reply_markup(reply_markup=_build_settings_keyboard(settings))
         return
 
+    elif action == "toggle_tts":
+        current = settings.get('tts_mode', 'both')
+        if current == 'both':
+            settings['tts_mode'] = 'text'
+            msg = "📝 Только текст"
+        elif current == 'text':
+            settings['tts_mode'] = 'voice'
+            msg = "🎙️ Только голос"
+        else:
+            settings['tts_mode'] = 'both'
+            msg = "🔥 Текст + Голос"
+            
+        save_settings(settings)
+        await callback.answer(f"✅ Режим уведомлений: {msg}")
+        await callback.message.edit_reply_markup(reply_markup=_build_settings_keyboard(settings))
+        return
+
+    # 🚀 ОБРАБОТЧИК ВЫБОРА ГОЛОСА
+    elif action == "toggle_voice":
+        current = settings.get('tts_voice', 'adam')
+        voices = ['adam', 'bella', 'callum']
+        next_voice = voices[(voices.index(current) + 1) % len(voices)]
+        settings['tts_voice'] = next_voice
+        save_settings(settings)
+        await callback.answer(f"✅ Голос изменен на: {next_voice.capitalize()}")
+        await callback.message.edit_reply_markup(reply_markup=_build_settings_keyboard(settings))
+        return
+
     elif action == "call_cooldown":
         await state.set_state(WaitingForSetting.value)
         await state.update_data(setting_name='call_cooldown')
@@ -169,6 +212,10 @@ async def settings_callback(callback: CallbackQuery, state: FSMContext):
         await callback.message.delete()
         return
     elif action == "show_all":
+        tts_mode = settings.get('tts_mode', 'both')
+        tts_label = _get_tts_label(tts_mode)
+        tts_voice = settings.get('tts_voice', 'adam').capitalize()
+        
         text = (
             "📊 <b>Текущие настройки</b>\n\n"
             f"🔒 Набор ролей: {'✅ Открыт' if not settings.get('closed_mode', False) else '❌ Закрыт'}\n"
@@ -186,7 +233,9 @@ async def settings_callback(callback: CallbackQuery, state: FSMContext):
             f"🔢 Варнов до бана: {settings.get('warns_to_ban', 3)}\n"
             f"{'✅' if settings.get('warn_notify_admin', True) else '❌'} Уведомлять о 3-м варне\n"
             f"{'✅' if settings.get('checknorm_time_window_enabled', True) else '❌'} Окно чистки (20:00–21:00 МСК)\n"
-            f"{'✅' if settings.get('require_profile_completeness', True) else '❌'} Проверка профиля"
+            f"{'✅' if settings.get('require_profile_completeness', True) else '❌'} Проверка профиля\n\n"
+            f"🗣️ <b>Режим TTS:</b> {tts_label}\n"
+            f"🎤 <b>Голос TTS:</b> {tts_voice}"
         )
         await callback.message.answer(text, parse_mode="HTML")
         return

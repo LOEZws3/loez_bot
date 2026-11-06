@@ -42,14 +42,16 @@ DEFAULT_SETTINGS = {
     # ВКЛ → /checknorm только с 20:00 до 21:00 МСК
     # ВЫКЛ → без ограничений
     "checknorm_time_window_enabled": True,
-
-    # ⚠️ НОВОЕ: Проверка полноты профиля
     "require_profile_completeness": True,
+    "require_profile_completeness": True,
+    "tts_mode": "both",
+    "tts_voice": "adam"
 }
 
 # ======================== ЗАГРУЗКА / СОХРАНЕНИЕ ========================
 
 def load_settings() -> dict:
+    
     if not os.path.exists(SETTINGS_FILE):
         return dict(DEFAULT_SETTINGS)
     try:
@@ -130,3 +132,19 @@ def get_warn_notify_admin() -> bool:
 def get_checknorm_time_window_enabled() -> bool:
     """БАГ 9: ограничение времени запуска /checknorm."""
     return bool(get_setting('checknorm_time_window_enabled', True))
+# -----------------------------------------------------------------
+def get_tts_mode() -> str:
+    """Возвращает режим отправки TTS: 'text', 'voice' или 'both'."""
+    settings = load_settings()
+    # По дефолту шлем и текст, и голос
+    mode = settings.get('tts_mode', 'both')
+    if mode not in ('text', 'voice', 'both'):
+        return 'both'
+    return mode
+def get_tts_voice() -> str:
+    """Возвращает выбранный голос TTS."""
+    settings = load_settings()
+    voice = settings.get('tts_voice', 'adam')
+    if voice not in ('adam', 'bella', 'callum'):
+        return 'adam'
+    return voice
