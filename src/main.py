@@ -639,7 +639,7 @@ async def _send_birthday_messages(mode: str):
                     if len(tts_names) > 150:
                         tts_names = tts_names[:147] + "..."
                         
-                    tts_text = f"Поздравляем с днём рождения {tts_names}! Желаем удачи и всего самого наилучшего от команды Лоез!"
+                    tts_text = f"Поздравляем с днём рождения {tts_names}! Желаем удачи и всего самого наилучшего от команды Лоез тим!"
                     audio_path = await generate_tts(tts_text, voice_key=voice, filename="birthday_group.mp3")
                     await bot.send_voice(GENERAL_CHAT_ID, FSInputFile(audio_path), caption="🎙️ Голосовое поздравление!")
                     logger.info(f"🎙️ TTS-поздравление во флуд отправлено (голос: {voice})")

@@ -1,17 +1,6 @@
 """
 Утилита для счётчиков сообщений.
 Файл: data/system/message_counts.json
-
-Формат:
-{
-    "8076284478": {
-        "count": 42,
-        "week_start": "2026-09-21",
-        "joined_at": "2026-08-07T21:11:32.121701",
-        "last_message_at": "2026-10-05T14:23:11.456789",
-        "norm_notified": false
-    }
-}
 """
 
 import os
@@ -20,7 +9,6 @@ import logging
 from zoneinfo import ZoneInfo
 
 from config import DATA_DIR
-# ⚠️ Используем атомарные чтение/запись из parsers
 from utils.parsers import load_json, save_json
 
 logger = logging.getLogger(__name__)
@@ -28,19 +16,16 @@ logger = logging.getLogger(__name__)
 COUNTERS_FILE = os.path.join(DATA_DIR, 'system', 'message_counts.json')
 NORM_HISTORY_FILE = os.path.join(DATA_DIR, 'system', 'norm_history.json')
 
-# ⚠️ НОВОЕ: Часовой пояс МСК
+# ⚠️ Часовой пояс МСК
 MSK_TZ = ZoneInfo("Europe/Moscow")
 
-# ⚠️ НОВОЕ: Кэш для message_counts (чтобы не читать диск на каждое сообщение)
 _counters_cache = None
-
 
 def _now_msk() -> datetime.datetime:
     return datetime.datetime.now(MSK_TZ)
 
 
 def clear_counters_cache():
-    """Сбрасывает кэш счётчиков (нужно при ручной правке файла)."""
     global _counters_cache
     _counters_cache = None
 
@@ -53,7 +38,7 @@ def load_counters() -> dict:
     data = load_json(COUNTERS_FILE, {})
     if not isinstance(data, dict):
         data = {}
-        
+
     _counters_cache = data
     return _counters_cache
 
@@ -67,12 +52,8 @@ def save_counters(data: dict) -> bool:
 def _get_current_week_start() -> str:
     """
     Дата начала текущей недели (последняя суббота 21:00 МСК).
-    Если сейчас до 21:00 субботы — это прошлая суббота.
     """
     now = _now_msk()
-    # Находим последнюю субботу
-    # Если сегодня суббота и время >= 21:00 — то текущая неделя началась сегодня
-    # Иначе — ищем прошлую субботу
     days_since_saturday = (now.weekday() - 5) % 7
     if days_since_saturday == 0 and now.hour < 21:
         days_since_saturday = 7
@@ -86,20 +67,31 @@ def increment_message_count(user_id: int) -> bool:
     current_week = _get_current_week_start()
 
     if uid_str not in data or not isinstance(data[uid_str], dict):
-        data[uid_str] = {'count': 0, 'week_start': current_week}
+        data[uid_str] = {'count': 0, 'week_start': current_week, 'history': []}
 
     if data[uid_str].get('week_start') != current_week:
         old_joined = data[uid_str].get('joined_at', '')
         old_last_msg = data[uid_str].get('last_message_at', '')
-        data[uid_str] = {'count': 0, 'week_start': current_week}
+        data[uid_str] = {'count': 0, 'week_start': current_week, 'history': []}
         if old_joined:
             data[uid_str]['joined_at'] = old_joined
         if old_last_msg:
             data[uid_str]['last_message_at'] = old_last_msg
 
     data[uid_str]['count'] = int(data[uid_str].get('count', 0)) + 1
-    data[uid_str]['last_message_at'] = datetime.datetime.now().isoformat()
-    
+    now_iso = _now_msk().isoformat()
+    data[uid_str]['last_message_at'] = now_iso
+
+    # Добавляем в историю и чистим старше 7 дней
+    history = data[uid_str].setdefault('history', [])
+    history.append(now_iso)
+
+    week_ago = _now_msk() - datetime.timedelta(days=7)
+    data[uid_str]['history'] = [
+        ts for ts in history
+        if datetime.datetime.fromisoformat(ts) >= week_ago
+    ]
+
     return save_counters(data)
 
 
@@ -144,7 +136,6 @@ def save_weekly_norm_history() -> bool:
         return True
 
     history = get_norm_history()
-
     history[current_week] = week_stats
 
     keys = sorted(history.keys())
@@ -190,7 +181,7 @@ def clear_all_counters() -> bool:
 
 def set_joined_at(user_id: int, joined_at: str = None) -> bool:
     if joined_at is None:
-        joined_at = datetime.datetime.now().isoformat()
+        joined_at = _now_msk().isoformat() # 🚀 ФИКС
 
     data = load_counters()
     uid_str = str(user_id)
@@ -199,7 +190,7 @@ def set_joined_at(user_id: int, joined_at: str = None) -> bool:
         data[uid_str] = {'count': 0, 'week_start': _get_current_week_start()}
 
     data[uid_str]['joined_at'] = joined_at
-    data[uid_str]['last_message_at'] = datetime.datetime.now().isoformat()
+    data[uid_str]['last_message_at'] = _now_msk().isoformat() # 🚀 ФИКС
     return save_counters(data)
 
 
@@ -217,7 +208,8 @@ def is_new_user(user_id: int, days: int = 7) -> bool:
         return True
     try:
         joined_dt = datetime.datetime.fromisoformat(joined)
-        delta = datetime.datetime.now() - joined_dt
+        # 🚀 ФИКС: Сравниваем с МСК временем, чтобы не было багов с часовыми поясами
+        delta = _now_msk() - joined_dt
         return delta.days < days
     except (ValueError, TypeError):
         return True
@@ -228,7 +220,7 @@ def update_last_message_at(user_id: int) -> bool:
     uid_str = str(user_id)
     if uid_str not in data or not isinstance(data[uid_str], dict):
         return False
-    data[uid_str]['last_message_at'] = datetime.datetime.now().isoformat()
+    data[uid_str]['last_message_at'] = _now_msk().isoformat() # 🚀 ФИКС
     return save_counters(data)
 
 
@@ -270,3 +262,28 @@ def get_last_message_at(user_id: int) -> str:
     if uid_str not in data or not isinstance(data[uid_str], dict):
         return ''
     return data[uid_str].get('last_message_at', '')
+
+def get_last_7_days_count(user_id: int) -> int:
+    data = load_counters()
+    uid_str = str(user_id)
+    if uid_str not in data or not isinstance(data[uid_str], dict):
+        return 0
+
+    history = data[uid_str].get('history', [])
+    if not history:
+        return 0
+
+    now = datetime.datetime.now(MSK_TZ)
+    week_ago = now - datetime.timedelta(days=7)
+
+    count = 0
+    for ts_str in history:
+        try:
+            ts = datetime.datetime.fromisoformat(ts_str)
+            if ts.tzinfo is None:
+                ts = ts.replace(tzinfo=MSK_TZ)
+            if ts >= week_ago:
+                count += 1
+        except (ValueError, TypeError):
+            continue
+    return count

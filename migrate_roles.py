@@ -1,71 +1,91 @@
-import os
-import sys
 import json
-import logging
+import os
+import shutil
+import datetime
+from pathlib import Path
 
-# ⚠️ Добавляем папку src в путь, чтобы импорты работали
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+# Пути
+BASE_DIR = Path(__file__).parent.resolve()
+USERS_FILE = BASE_DIR / 'data' / 'users' / 'users.json'
 
-from config import DATA_DIR
-from utils.role_utils import load_roles_status
+# Словарь с дефолтными значениями для КАЖДОГО юзера
+DEFAULT_USER_FIELDS = {
+    "username": "",
+    "full_name": "",
+    "role": "",
+    "extra": "",
+    "changes_count": 0,
+    "birthday": None,
+    "notify_norm": True,
+    "grace_until": None,
+    "rest": False,
+    "rest_end_date": None,
+    "agreed_to_privacy": False,
+    "is_fully_registered": False,
+    "apply_sent": False, # По дефолту False, но ниже мы это перезапишем
+    "invite_link": None,
+    "invite_expire": None,
+    "rating": 50  # 🚀 НОВОЕ ПОЛЕ: от 0 до 100 (дефолт 50)
+}
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-USERS_FILE = os.path.join(DATA_DIR, 'users', 'users.json')
-
-
-
-def migrate():
-    if not os.path.exists(USERS_FILE):
-        logger.error(f"Файл {USERS_FILE} не найден")
+def migrate_users():
+    if not USERS_FILE.exists():
+        print(f"❌ Файл {USERS_FILE} не найден!")
         return
 
+    print(f"🔄 Начинаем миграцию пользователей из {USERS_FILE}...")
+
+    # Читаем текущие данные
     with open(USERS_FILE, 'r', encoding='utf-8') as f:
         users = json.load(f)
 
-    status_data = load_roles_status()
-    changes = 0
+    updated_count = 0
+    apply_sent_fixed = 0
 
-    for uid_str, info in users.items():
-        if not isinstance(info, dict):
-            continue
-        uid = int(uid_str)
+    # Проходим по каждому юзеру
+    for user_id, user_data in users.items():
+        changed = False
+        
+        # 🚀 СРОЧНЫЙ ФИКС: Если есть роль, значит юзер уже принят -> apply_sent = True
+        role = user_data.get("role")
+        if role and role not in ["", "0", "None", None]:
+            if not user_data.get("apply_sent"):
+                user_data["apply_sent"] = True
+                apply_sent_fixed += 1
+                changed = True
 
-        # Ищем роль в roles_status.json
-        role_key = None
-        for key, r_info in status_data.items():
-            if isinstance(r_info, dict) and r_info.get('owner_id') == uid:
-                role_key = key
-                break
+        # Добиваем остальные дефолтные поля
+        for key, default_value in DEFAULT_USER_FIELDS.items():
+            if key not in user_data:
+                user_data[key] = default_value
+                changed = True
+        
+        if changed:
+            updated_count += 1
 
-        if role_key:
-            # Роль есть — ставим флаги и записываем роль
-            from utils.role_utils import format_role_display
-            role_name = format_role_display(role_key)
-            if info.get('role') != role_name:
-                info['role'] = role_name
-                changes += 1
-            if not info.get('is_fully_registered', False):
-                info['is_fully_registered'] = True
-                changes += 1
-            if not info.get('apply_sent', False):
-                info['apply_sent'] = True
-                changes += 1
-            logger.info(f"✅ Юзер {uid} обновлён: роль={role_name}, is_fully_registered=True, apply_sent=True")
-        else:
-            # Роли нет — оставляем как есть, но проверяем agreed_to_privacy
-            if info.get('agreed_to_privacy', False):
-                # Если согласился, но нет роли — не трогаем is_fully_registered
-                pass
-            logger.info(f"ℹ️ Юзер {uid} без роли — пропущен")
+    # Атомарная запись (tmp + os.replace + .bak)
+    tmp_file = str(USERS_FILE) + '.tmp'
+    bak_file = str(USERS_FILE) + f'.bak_{datetime.datetime.now().strftime("%Y%m%d_%H%M%S")}'
 
-    if changes > 0:
-        with open(USERS_FILE, 'w', encoding='utf-8') as f:
+    try:
+        # Делаем бэкап
+        shutil.copy2(USERS_FILE, bak_file)
+        
+        # Пишем в tmp
+        with open(tmp_file, 'w', encoding='utf-8') as f:
             json.dump(users, f, ensure_ascii=False, indent=2)
-        logger.info(f"🔄 Миграция завершена: {changes} изменений")
-    else:
-        logger.info("✅ Миграция не требуется (все данные актуальны)")
+            
+        # Заменяем оригинал
+        os.replace(tmp_file, USERS_FILE)
+        
+        print(f"✅ Миграция завершена!")
+        print(f"👥 Всего обновлено юзеров: {updated_count}")
+        print(f"🔧 Исправлено apply_sent (были с ролью, но без флага): {apply_sent_fixed}")
+        print(f"📦 Бэкап сохранен: {bak_file}")
+    except Exception as e:
+        print(f"❌ Ошибка при записи: {e}")
+        if os.path.exists(tmp_file):
+            os.remove(tmp_file)
 
 if __name__ == "__main__":
-    migrate()
+    migrate_users()

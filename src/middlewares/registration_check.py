@@ -5,6 +5,7 @@ from typing import Callable, Dict, Any, Awaitable
 
 from config import GENERAL_CHAT_ID, STARTER_MODE_ALLOWED_COMMANDS, OWNER_ID
 from utils.user_utils import get_user_by_id
+from utils.admin_utils import is_admin
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +34,6 @@ class RegistrationCheckMiddleware(BaseMiddleware):
 
         # Логирование команд админов
         try:
-            from utils.admin_utils import is_admin
             if is_admin(user_id):
                 admin_logger = logging.getLogger('admin_actions')
                 admin_logger.info(f"🛠️ Админ {user_id} использовал команду: {text.split()[0]}")
@@ -45,14 +45,16 @@ class RegistrationCheckMiddleware(BaseMiddleware):
             return await handler(event, data)
 
         try:
-            from utils.admin_utils import is_admin
             if is_admin(user_id):
                 return await handler(event, data)
         except Exception:
             pass
 
-        # ⚠️ ФИКС: Проверка политики для ВСЕХ
-        user = get_user_by_id(user_id)
+        # ⚠️ ФИКС: Проверка политики для ВСЕХ (152-ФЗ)
+        user = get_user_by_id(user_id)  # 🚀 ВОТ ОНА, ПРОПУЩЕННАЯ СТРОЧКА!
+       
+        logger.info(f"🔍 Проверка ПК для {user_id}: agreed = {user.get('agreed_to_privacy') if user else 'НЕТ ЮЗЕРА'}")
+        
         if not user or not user.get('agreed_to_privacy', False):
             command = text.split()[0].split('@')[0].lower()
             if command != '/start':
@@ -64,7 +66,7 @@ class RegistrationCheckMiddleware(BaseMiddleware):
                 return
             return await handler(event, data)
 
-        # Если юзера нет в базе, но он согласился (или есть)
+        # Если юзера нет в базе, но он согласился
         if not user:
             command = text.split()[0].split('@')[0].lower()
             if command in STARTER_MODE_ALLOWED_COMMANDS:

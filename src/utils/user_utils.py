@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 USERS_JSON = os.path.join(DATA_DIR, 'users', 'users.json')
 UNSUBSCRIBED_FILE = os.path.join(DATA_DIR, 'users', 'unsubscribed_calls.json')
 
+
 # ======================== ПОЛЬЗОВАТЕЛИ ========================
 
 def load_users() -> list:
@@ -34,9 +35,18 @@ def load_users() -> list:
             'changes_count': int(info.get('changes_count', 0)),
             'birthday': info.get('birthday', None),
             'notify_norm': bool(info.get('notify_norm', True)),
-            'grace_until': info.get('grace_until', None),  # ⚠️ НОВОЕ: льготный период
+            'grace_until': info.get('grace_until', None),
+            'rest': bool(info.get('rest', False)),
+            'rest_end_date': info.get('rest_end_date', None),
+            'agreed_to_privacy': bool(info.get('agreed_to_privacy', False)),
+            'is_fully_registered': bool(info.get('is_fully_registered', False)),
+            'apply_sent': bool(info.get('apply_sent', False)),
+            'invite_link': info.get('invite_link', None),
+            'invite_expire': info.get('invite_expire', None),
+            'rating': int(info.get('rating', 50)),
         })
     return result
+
 
 def save_users(users: list) -> bool:
     data = {}
@@ -52,9 +62,18 @@ def save_users(users: list) -> bool:
             'changes_count': int(u.get('changes_count', 0)),
             'birthday': u.get('birthday', None),
             'notify_norm': bool(u.get('notify_norm', True)),
-            'grace_until': u.get('grace_until', None),  # ⚠️ НОВОЕ
+            'grace_until': u.get('grace_until', None),
+            'rest': bool(u.get('rest', False)),
+            'rest_end_date': u.get('rest_end_date', None),
+            'agreed_to_privacy': bool(u.get('agreed_to_privacy', False)),
+            'is_fully_registered': bool(u.get('is_fully_registered', False)),
+            'apply_sent': bool(u.get('apply_sent', False)),
+            'invite_link': u.get('invite_link', None),
+            'invite_expire': u.get('invite_expire', None),
+            'rating': int(u.get('rating', 50)),
         }
     return parsers.save_users(data)
+
 
 def add_user(user_id, username, full_name, role='0', extra='-993',
              changes_count: int = 0,
@@ -62,24 +81,31 @@ def add_user(user_id, username, full_name, role='0', extra='-993',
     return parsers.add_user(user_id, username, full_name, role, extra,
                             changes_count, birthday, notify_norm, grace_until)
 
+
 def remove_user(user_id) -> bool:
     return parsers.remove_user(user_id)
+
 
 def get_users_count() -> int:
     return len(parsers.load_users())
 
+
 def get_user_by_id(user_id):
     return parsers.get_user(user_id)
 
+
 def update_user_role(user_id, new_role) -> bool:
     return parsers.update_user_role(user_id, new_role)
+
 
 def get_user_role(user_id):
     user = parsers.get_user(user_id)
     return user.get('role', '0') if user else None
 
+
 def get_users_by_role(role_key) -> list:
     return [u for u in load_users() if u.get('role') == role_key]
+
 
 def get_role_stats() -> dict:
     stats = {}
@@ -88,11 +114,14 @@ def get_role_stats() -> dict:
         stats[role] = stats.get(role, 0) + 1
     return stats
 
+
 def get_user_role_stats() -> dict:
     return get_role_stats()
 
+
 def get_role_names() -> list:
     return list(set(u.get('role', '0') for u in load_users()))
+
 
 def get_user_info(user_id: int) -> dict:
     try:
@@ -109,47 +138,60 @@ def get_user_info(user_id: int) -> dict:
         logger.error(f"Ошибка получения пользователя {user_id}: {e}")
         return {'user_id': user_id, 'username': '', 'full_name': '', 'role': ''}
 
+
 def is_user_registered(user_id: int) -> bool:
     return parsers.get_user(user_id) is not None
+
 
 # ======================== СМЕНЫ РОЛЕЙ ========================
 
 def get_changes_count(user_id) -> int:
     return parsers.get_changes_count(user_id)
 
+
 def increment_changes_count(user_id) -> bool:
     return parsers.increment_changes_count(user_id)
 
+
 def reset_changes_count(user_id) -> bool:
     return parsers.reset_changes_count(user_id)
+
 
 # ======================== ДЕНЬ РОЖДЕНИЯ ========================
 
 def set_birthday(user_id: int, birthday: str) -> bool:
     return parsers.set_birthday(user_id, birthday)
 
+
 def get_birthday(user_id: int):
     return parsers.get_birthday(user_id)
 
+
 def get_users_with_birthday(day: int, month: int) -> list:
     return parsers.get_users_with_birthday(day, month)
+
 
 # ======================== ПОДПИСКА НА НОРМУ ========================
 
 def set_notify_norm(user_id: int, value: bool) -> bool:
     return parsers.set_notify_norm(user_id, value)
 
+
 def get_notify_norm(user_id: int) -> bool:
     return parsers.get_notify_norm(user_id)
+
 
 # ======================== ЛЬГОТНЫЙ ПЕРИОД (GRACE PERIOD) ========================
 
 def set_grace_period(user_id: int, days: int = 4) -> bool:
     """Устанавливает льготный период, чтобы синхронизация не удалила пользователя."""
     return parsers.set_grace_period(user_id, days)
-#    ---
+
+
 def set_rest_status(user_id: int, rest: bool, end_date: str = None) -> bool:
     return parsers.set_rest_status(user_id, rest, end_date)
+
+
 def set_agreed_to_privacy(user_id: int, value: bool = True) -> bool:
     """Устанавливает флаг согласия с политикой."""
     users = parsers.load_users()
@@ -157,7 +199,13 @@ def set_agreed_to_privacy(user_id: int, value: bool = True) -> bool:
     if uid_str not in users:
         return False
     users[uid_str]['agreed_to_privacy'] = value
-    return parsers.save_users(users)
+
+    # 🚀 ФИКС: Сохраняем и сбрасываем кэш, чтобы другие модули прочитали свежие данные
+    res = parsers.save_users(users)
+    parsers.clear_cache()
+    return res
+
+
 def set_fully_registered(user_id: int, value: bool = True) -> bool:
     users = parsers.load_users()
     uid_str = str(user_id)
@@ -165,6 +213,8 @@ def set_fully_registered(user_id: int, value: bool = True) -> bool:
         return False
     users[uid_str]['is_fully_registered'] = value
     return parsers.save_users(users)
+
+
 def set_invite_link(user_id: int, link: str, expire_date: str) -> bool:
     """Сохраняет персональную ссылку и дату её истечения."""
     users = parsers.load_users()
@@ -174,6 +224,8 @@ def set_invite_link(user_id: int, link: str, expire_date: str) -> bool:
     users[uid_str]['invite_link'] = link
     users[uid_str]['invite_expire'] = expire_date
     return parsers.save_users(users)
+
+
 def set_apply_sent(user_id: int, value: bool = True) -> bool:
     users = parsers.load_users()
     uid_str = str(user_id)
@@ -181,23 +233,29 @@ def set_apply_sent(user_id: int, value: bool = True) -> bool:
         return False
     users[uid_str]['apply_sent'] = value
     return parsers.save_users(users)
+
+
 # ======================== ОБНОВЛЕНИЕ ИНФО ИЗ ТЕЛЕГРАМ ========================
 
 def update_user_info(user_id: int, username: str, full_name: str) -> bool:
     """Обновляет username и full_name юзера в users.json, если они изменились."""
     users = load_users()
     changed = False
-    
+
     for u in users:
         if u.get('id') == user_id:
-            if username and u.get('username') != username:
-                u['username'] = username
+            # 🚀 ФИКС: Записываем даже если username=None (чтобы удалить старый ник)
+            new_username = username or ''
+            new_full_name = full_name or ''
+
+            if u.get('username') != new_username:
+                u['username'] = new_username
                 changed = True
-            if full_name and u.get('full_name') != full_name:
-                u['full_name'] = full_name
+            if u.get('full_name') != new_full_name:
+                u['full_name'] = new_full_name
                 changed = True
             break
-            
+
     if changed:
         return save_users(users)
     return True

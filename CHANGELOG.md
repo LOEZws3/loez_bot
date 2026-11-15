@@ -1,4 +1,54 @@
+
 # 📋 История изменений проекта LoezF_Bot
+
+## [12.0.0] - 2026-11-15
+
+### 🚀 ГЛОБАЛЬНЫЙ АПДЕЙТ: Эра Telegram WebApp (Mini App)
+
+**🌟 Интеграция WebApp:**
+- Успешно запущен Telegram WebApp (Mini App). Бот теперь отдаёт не только инлайн-кнопки, но и полноценный веб-интерфейс.
+- Написан бэкенд `webapp_api.py` на FastAPI (порт 25000). Отдаёт эндпоинты `/api/ping`, `/api/roles`, `/api/user/{user_id}` и раздает статику `/webapp`.
+- Написан фронтенд `webapp.html` с использованием Telegram WebApp API. Поддерживает темную/светлую тему, Haptic Feedback, отображает профиль и список ролей.
+- В `base_commands.py` (cmd_start) добавлена кнопка «🚀 Открыть WebApp».
+
+**🌐 Сетевая инфраструктура (Туннели):**
+- Внедрен **Tailscale Funnel** как основной инструмент для проброса HTTPS-туннеля. Обеспечивает постоянный адрес, не режется VPN и не показывает страниц-заглушек.
+- Проведена колоссаная работа над ошибками `WSAEACCES (10013)`. Установлено, что причиной блокировки сокетов был **Kill Switch в VPN (Incy)**. 
+- Настроен обход блокировок для Cloudflare, Tuna, ngrok и др. (хотя в итоге выбрали Tailscale).
+
+**📝 Планирование и Архитектура:**
+- Утвержден Roadmap для WebApp v1.0 → v2.0. Включает в себя: вкладки (Профиль, Роли, Заявки), реальную подачу заявок через API, защиту initData и админ-панель прямо в WebApp.
+- В `GUIDE_FOR_AI.txt` добавлен раздел про WebApp и сетевые грабли.
+- Обновлен `memory_ai.md` и `AI_CONTEXT.md`.
+
+**🐛 Исправлено:**
+- Баг с `fetch` запросами из WebApp (CORS и пути). Теперь используются относительные пути (`/api/roles`), так как и HTML, и API крутятся на одном домене Tailscale.
+
+## [11.4.0] - 2026-11-07
+
+### 🚀 Глобальный апдейт: TTS, Юридическая чистота и Самоконтроль
+
+**🎙️ Голосовой движок (ElevenLabs):**
+- Бот теперь умеет озвучивать поздравления с ДР и уведомления о снятии реста.
+- В `/settings` добавлены настройки: `tts_mode` (Текст / Голос / Оба) и `tts_voice` (Adam, Bella, Callum).
+- Добавлен фоновый цикл `tts_cleanup_loop` (04:00 МСК), который удаляет старые mp3-файлы.
+
+**👨‍⚖️ Юридическая чистота (152-ФЗ):**
+- Бот физически не собирает данные (не считает сообщения, не проверяет профиль), пока юзер не нажмет «✅ Я согласен с условиями» в `/start`.
+- В `chat_member.py` добавлена функция `_remind_privacy_policy` — раз в 12 часов напоминает нереганным юзерам в чате о необходимости согласия.
+- Middleware `registration_check.py` жестко блокирует любые команды (кроме `/start`) до момента согласия.
+
+**🩺 Тотальный Самоконтроль (Self-Check):**
+- Добавлен `self_check_utils.py` и цикл `self_check_loop` в `main.py`.
+- Бот раз в час проверяет целостность данных (осиротевшие роли, зависшие заявки), собирает стату (CPU/RAM) и шлет отчет владельцу в ЛС. !!!НЕ ДОБАВЛЕНООООО!!!
+
+**🧹 Миграция и структура данных:**
+- Проведена миграция `users.json`: добавлено поле `rating` (0-100), восстановлен `apply_sent` для старых юзеров с ролями.
+- В `chat_member.py` функция `_check_profile_completeness` теперь выводит конкретные команды для заполнения (напр. `/setbirthday`).
+
+**🐛 Исправлено:**
+- Ошибка `[WinError 5]` (Отказано в доступе) при записи `message_counts.json` — теперь атомарная запись корректно обрабатывает блокировки файлов.
+- Ошибка, из-за которой бот просил `/start` после нажатия кнопки согласия (теперь меню появляется сразу).
 
 ## [11.1.0] - 2026-10-30
 
@@ -166,139 +216,53 @@
 - Периоды: нью за период / хороших / варн / бан / рест / активных / ушло
 - В флуде — краткая версия без кнопок
 
-**📁 Новый файл `data/system/leftdata.json`:**
-- Хранит ушедших юзеров: `{user_id: {full_name, role, left_at, reason}}`
-- Заполняется в `check_kicked_loop` при `status in ['left', 'kicked']`
-- Используется в `/stats` для подсчёта «ушло за период»
+**📁 Новый файл `data/system/leftdata.json`:** Хранит ушедших юзеров.
 
-**🔄 Обновление `users_history/{id}.json`:**
-- Добавлены поля: `role_id`, `role_key`, `birthday`, `last_message_at`
-- Новые обёртки: `set_role`, `set_birthday`, `set_last_message_at`, `set_left`
+**🔄 Обновление `users_history/{id}.json`:** Добавлены поля: `role_id`, `role_key`, `birthday`, `last_message_at`.
 
-**🔄 Обновление `message_counts.json`:**
-- Новые поля: `last_message_at`, `norm_notified`
-- `increment_message_count` пишет `last_message_at`
-- `reset_all_counters` сохраняет `joined_at`, `last_message_at`, сбрасывает `norm_notified`
+**🔄 Обновление `message_counts.json`:** Новые поля: `last_message_at`, `norm_notified`.
 
 **📄 Обновления файлов:**
 - `config.py`: + `LEFTOVER_FILE`
-- `parsers.py`: + `set_birthday`, `get_birthday`, `set_notify_norm`, `get_notify_norm`, `get_users_with_birthday`
-- `user_utils.py`: обёртки для новых функций
-- `user_history.py`: + `set_role`, `set_birthday`, `set_last_message_at`, `set_left`
-- `counters.py`: + `update_last_message_at`, `mark_norm_notified`, `is_norm_notified`, `get_last_message_at`
-- `chat_member.py`: триггер нормы + `last_message_at` + `set_left`
+- `parsers.py`: + новые функции
+- `user_history.py`: + новые обёртки
+- `counters.py`: + новые функции
+- `chat_member.py`: триггер нормы
 - `base_commands.py`: + `/setbirthday`, `/subnorm`, `/unsubnorm`
 - `admin_commands.py`: `/stats` переписан с кнопками
-- `main.py`: + `_save_leftdata`, + `birthday_personal_loop`, + `birthday_group_loop`, + BotCommand
+- `main.py`: + `birthday_personal_loop`, + `birthday_group_loop`
 
 ## [8.0.1] - 2026-10-03
 
 ### 🩹 Исправления багов 1-9
 
-**settings_utils.py:**
-- БАГ 1: убраны дубли функций `get_messages_norm_low`, `get_warns_accumulate`, `get_warns_to_ban`.
-- Добавлена настройка `checknorm_time_window_enabled`.
-- Добавлена обёртка `get_checknorm_time_window_enabled()`.
-
-**counters.py:**
-- БАГ 2: `reset_all_counters` теперь СОХРАНЯЕТ `joined_at`.
-- БАГ 7: `increment_message_count` НЕ ставит `joined_at` (это делает ТОЛЬКО `chat_member.py`).
-- `increment_message_count` сохраняет `joined_at` при смене недели.
-
-**warns_utils.py:**
-- БАГ 4: переход на МИНУТЫ (было дни).
-- `add_warn(user_id, minutes, ...)` — сигнатура с минутами.
-- Поле `duration_minutes` в варне.
-
-**chat_member.py:**
-- БАГ 4: парсер варн/бан → МИНУТЫ. Поддержка единиц: мин, ч, д/дней, н, мес, г.
-- БАГ 6: `_try_parse_warn_command` — ТОЛЬКО ВО ФЛУДЕ.
-- БАГ 7: `set_joined_at` остаётся ЗДЕСЬ (единственное место!).
-- Дефолт варна: 7 дней = 10080 минут.
-
-**checknorm_commands.py:**
-- БАГ 3: `WARN_MINUTES_ACCUMULATE = 21 * 24 * 60`.
-- БАГ 9: проверка окна чистки (20:00–21:00 МСК).
-- Импорт `get_checknorm_time_window_enabled`.
-- Функция `_has_active_sessions()` (для main.py).
-- Сроки в МИНУТАХ: `WARN_MINUTES_DEFAULT = 6 * 24 * 60`, `WARN_MINUTES_ACCUMULATE = 21 * 24 * 60`, `BAN_MINUTES = 90 * 24 * 60`.
-
-**settings_commands.py:**
-- Добавлена кнопка "Окно чистки".
-- Добавлен обработчик `toggle_checknorm_window`.
-- Добавлена строка в "Показать все настройки".
-
-**main.py:**
-- БАГ 9: `norm_reset_loop` переписан. Сброс ТОЛЬКО в 21:00 МСК. Если есть `ACTIVE_SESSIONS` — ждём до 15 минут.
-
-**.gitignore:**
-- Компромисс (02.10.2026): трекаем `roles_status.json`, `*.txt` в `data/roles/`, `free_role_ids.json`. Игнорим `bot.log`, `*.pyc`, `__pycache__`, `users.json`, `admins.json`, `requests.json`, `system_settings.json`, `warns.json`, `message_counts.json`, `proxy_pings_cache.json`.
+- `settings_utils.py`: убраны дубли функций, добавлена настройка `checknorm_time_window_enabled`.
+- `counters.py`: `reset_all_counters` теперь СОХРАНЯЕТ `joined_at`. `increment_message_count` НЕ ставит `joined_at`.
+- `warns_utils.py`: переход на МИНУТЫ (было дни). Поле `duration_minutes`.
+- `chat_member.py`: парсер варн/бан → МИНУТЫ. `_try_parse_warn_command` — ТОЛЬКО ВО ФЛУДЕ. `set_joined_at` остаётся ЗДЕСЬ.
+- `checknorm_commands.py`: `WARN_MINUTES_ACCUMULATE = 21 * 24 * 60`. Проверка окна чистки (20:00–21:00 МСК).
+- `settings_commands.py`: Добавлена кнопка "Окно чистки".
+- `main.py`: `norm_reset_loop` переписан. Сброс ТОЛЬКО в 21:00 МСК.
+- `.gitignore`: трекаем `roles_status.json`, `*.txt`, `free_role_ids.json`. Игнорим `bot.log`, `*.pyc`, `users.json` и т.д.
 
 ### 🗑️ Удалено
-
 - `src/utils/system_utils.py` — дублировал `settings_utils.py`
 
 ## [8.0.0] - 2026-10-02
 
 ### 🚀 Система нормы и чистки
 
-**Новые файлы:**
-- `src/utils/settings_utils.py`
-- `src/utils/counters.py`
-- `src/utils/warns_utils.py`
-- `src/utils/norm_utils.py`
-- `src/utils/role_ids.py`
-- `src/handlers/checknorm_commands.py`
-- `src/handlers/clear_me.py`
-- `src/middlewares/`
-- `migrate_role_ids.py`
-- `migrate_roles.py`
-
-**main.py:**
-- + `expire_warns_loop` (раз в час)
-- + `norm_reminder_loop` (сб 19:00 МСК)
-- + `norm_reset_loop` (сб 20:00/21:00 МСК)
-- + `check_kicked_loop` (раз в минуту)
-- + `RegistrationCheckMiddleware`
-
-**chat_member.py:**
-- Счётчик сообщений для зарегистрированных
-- Парсер команд варн/бан из чата
-- Авто-установка joined_at
-- Учёт реста (не считать)
-
-**apply_handlers.py:**
-- Таймаут подачи заявки (5 минут)
-- callback_data: apply_season_<index>, apply_role_id_<id>
-- Проверка лимита смен роли
-- Предупреждение при смене роли
-
-**admin_commands.py:**
-- /findrole + /userstats с плашками ⚠️/🚫
-
-**base_commands.py:**
-- Плашки в /members
-- Импорт norm_utils
-
-**settings_commands.py:**
-- Группа настроек "Норма и чистка"
-
-**keyboards.py:**
-- Кнопка /checknorm
-- Стартовый режим
-
-**request_commands.py:**
-- Работа с role_id при одобрении
-- Уведомления через ADMIN_GROUP_ID
-
-**clear_me.py (НОВЫЙ):**
-- /clearme — полная очистка данных юзера
-- Тройное подтверждение
+**Новые файлы:** `settings_utils.py`, `counters.py`, `warns_utils.py`, `norm_utils.py`, `role_ids.py`, `checknorm_commands.py`, `clear_me.py`, `middlewares/`.
+**main.py:** + `expire_warns_loop`, `norm_reminder_loop`, `norm_reset_loop`, `check_kicked_loop`.
+**chat_member.py:** Счётчик сообщений, парсер варн/бан, авто-установка joined_at, учёт реста.
+**apply_handlers.py:** Таймаут подачи, callback_data по ID, проверка лимита.
+**base_commands.py:** Плашки в /members.
+**keyboards.py:** Кнопка /checknorm.
+**clear_me.py:** `/clearme` — полная очистка данных юзера (тройное подтверждение).
 
 ## [7.4.0] - 2026-09-26
 
 ### 🚀 Добавлено
-
 #### Система смены роли
 - `max_role_changes` в system_settings.json.
 - `changes_count` в users.json.
@@ -326,21 +290,16 @@
 - `PRIORITY_PROXY=http://логин:пароль@IP:ПОРТ`.
 
 ### 🔧 Изменено
-
 #### handlers/apply_handlers.py
 - Импорт `TelegramBadRequest`.
 - FSM `confirming_replace`.
 - Проверка лимита смен роли.
 - `try/except` на "message is not modified".
-- `apply_replace_confirm`.
-- `_submit_request`.
-- `_notify_admins` читает admins.json.
 - `/free` с подтверждением.
 
 #### handlers/request_commands.py
 - Освобождение старой роли + инкремент счётчика.
-- Показ старой роли и счётчика смен.
-- Ссылки после одобрения (CHAT_INVITE_LINK, ADMIN_LINK, MODERATOR_LINK).
+- Ссылки после одобрения.
 
 #### handlers/settings_commands.py
 - Настройка `max_role_changes`.
@@ -350,8 +309,6 @@
 
 #### src/proxy_manager.py (переписан)
 - `PING_COUNT=1`, `PING_TIMEOUT=5`, `BAD_PROXY_TTL=600`.
-- `bad_proxies_until` (soft-blacklist).
-- Двойная проверка приоритетного прокси.
 
 ### 🐛 Исправлено
 - Наложение ролей.
@@ -542,4 +499,4 @@
 | `[ИСПРАВЛЕНО]` | Исправление ошибки |
 | `[УДАЛЕНО]` | Удаление функциональности |
 
-📅 Последнее обновление: 28.10.2026
+📅 Последнее обновление: 07.11.2026

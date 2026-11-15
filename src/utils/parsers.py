@@ -19,6 +19,25 @@ from config import (
 
 logger = logging.getLogger(__name__)
 
+
+DEFAULT_USER_FIELDS = {
+    "username": "",
+    "full_name": "",
+    "role": "",
+    "extra": "",
+    "changes_count": 0,
+    "birthday": None,
+    "notify_norm": True,
+    "grace_until": None,
+    "rest": False,
+    "rest_end_date": None,
+    "agreed_to_privacy": False,
+    "is_fully_registered": False,
+    "apply_sent": False,
+    "invite_link": None,
+    "invite_expire": None,
+    "rating": 50
+}
 # ======================== ⚠️ НОВОЕ: КЭШ ========================
 _cache = {
     'users': None,
@@ -121,63 +140,35 @@ def save_users(users: Dict[str, dict]) -> bool:
     return False
 
 
-def get_user(user_id: int) -> Optional[dict]:
+def get_user(user_id) -> dict:
     users = load_users()
-    info = users.get(str(user_id))
-    if not info or not isinstance(info, dict):
-        return None
-    return {
-        'id': user_id,
-        'username': info.get('username', ''),
-        'full_name': info.get('full_name', ''),
-        'role': info.get('role', '0'),
-        'extra': info.get('extra', '-993'),
-        'changes_count': int(info.get('changes_count', 0)),
-        'birthday': info.get('birthday', None),
-        'notify_norm': bool(info.get('notify_norm', True)),
-        'grace_until': info.get('grace_until', None),
-        'rest': bool(info.get('rest', False)),
-        'rest_end_date': info.get('rest_end_date', None),
-        'agreed_to_privacy': bool(info.get('agreed_to_privacy', False)),
-        'is_fully_registered': bool(info.get('is_fully_registered', False)),
-        'invite_link': info.get('invite_link', None),
-        'invite_expire': info.get('invite_expire', None),
-        'apply_sent': bool(info.get('apply_sent', False)),
-    }
+    user_id_str = str(user_id)
+    
+    if user_id_str in users:
+        user = users[user_id_str]
+        # 🚀 Нормализация: добавляем недостающие поля "на лету"
+        for key, default in DEFAULT_USER_FIELDS.items():
+            if key not in user:
+                user[key] = default
+        return user
+        
+    return None
 
 
-def add_user(user_id: int, username: str, full_name: str,
-             role: str = '0', extra: str = '-993',
-             changes_count: int = 0,
-             birthday: str = None, notify_norm: bool = True,
-             grace_until: str = None,
-             rest: bool = False, rest_end_date: str = None,
-             agreed_to_privacy: bool = False,
-             is_fully_registered: bool = False,
-             apply_sent: bool = False,
-             invite_link: str = None, invite_expire: str = None) -> bool:
+def add_user(user_id, username, full_name):
     users = load_users()
-    if str(user_id) in users:
-        return False
-    users[str(user_id)] = {
-        'username': username or '',
-        'full_name': (full_name or f"User {user_id}").replace('|', '¦'),
-        'role': role or '0',
-        'extra': extra or '-993',
-        'changes_count': int(changes_count),
-        'birthday': birthday,
-        'notify_norm': bool(notify_norm),
-        'grace_until': grace_until,
-        'rest': bool(rest),
-        'rest_end_date': rest_end_date,
-        'agreed_to_privacy': bool(agreed_to_privacy),
-        'is_fully_registered': bool(is_fully_registered),
-        'invite_link': invite_link,
-        'invite_expire': invite_expire,
-        'apply_sent': bool(apply_sent),
-    }
-    return save_users(users)
-
+    user_id_str = str(user_id)
+    
+    if user_id_str not in users:
+        # 🚀 Создаем нового юзера сразу с дефолтными полями
+        new_user = DEFAULT_USER_FIELDS.copy()
+        new_user["username"] = username or ""
+        new_user["full_name"] = full_name or ""
+        
+        users[user_id_str] = new_user
+        save_users(users)
+        return True
+    return False
 
 def remove_user(user_id: int) -> bool:
     users = load_users()

@@ -27,13 +27,16 @@ from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, C
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.exceptions import TelegramBadRequest
+from aiogram.types import WebAppInfo
+from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
+from aiogram.filters import CommandStart
 
-from config import GENERAL_CHAT_ID, DATA_DIR
+from config import GENERAL_CHAT_ID, DATA_DIR, PRIVACY_POLICY_URL, TERMS_OF_USE_URL
 from utils.admin_utils import get_admin_rank, is_admin, load_admins
 from utils.user_utils import (
     load_users, get_users_count, get_user_by_id, get_role_stats,
     set_birthday, get_birthday, set_notify_norm, get_notify_norm,
-    get_changes_count,
+    get_changes_count, add_user, set_agreed_to_privacy
 )
 from utils.requests_utils import get_request_by_user_id, get_pending_count
 from utils.role_utils import (
@@ -47,6 +50,7 @@ from utils.user_history import load_user_history
 from utils.settings_utils import get_messages_norm, get_messages_norm_low
 from .keyboards import get_main_keyboard
 from utils.norm_utils import get_user_category, get_emoji
+from utils.counters import load_counters, get_message_count, get_last_7_days_count
 
 logger = logging.getLogger(__name__)
 router = Router()
@@ -101,7 +105,6 @@ def _build_days_keyboard() -> InlineKeyboardMarkup:
             row = []
     if row:
         buttons.append(row)
-    # ⚠️ НОВОЕ: Кнопка пропуска
     buttons.append([InlineKeyboardButton(text="⏭️ Пропустить (00.00)", callback_data="bday_skip")])
     buttons.append([InlineKeyboardButton(text="❌ Отмена", callback_data="bday_cancel")])
     return InlineKeyboardMarkup(inline_keyboard=buttons)
@@ -117,13 +120,12 @@ def _build_months_keyboard() -> InlineKeyboardMarkup:
                     callback_data=f"bday_month_{i + j + 1}"
                 ))
         buttons.append(row)
-    # ⚠️ НОВОЕ: Кнопка пропуска
     buttons.append([InlineKeyboardButton(text="⏭️ Пропустить (00.00)", callback_data="bday_skip")])
     buttons.append([InlineKeyboardButton(text="❌ Отмена", callback_data="bday_cancel")])
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
 # ============================================================
-# 🆕 /start
+# 🆕 /start и Согласие с Политикой (152-ФЗ)
 # ============================================================
 
 @router.message(Command('start'))
@@ -139,14 +141,12 @@ async def cmd_start(message: Message):
 
     user = get_user_by_id(user_id)
     
-    # ⚠️ Проверка политики конфиденциальности
+    # ⚠️ ЮРИДИЧЕСКАЯ ПРОВЕРКА: Собираем данные только после явного согласия
     if not user or not user.get('agreed_to_privacy', False):
-        from config import PRIVACY_POLICY_URL, TERMS_OF_USE_URL
-        
         keyboard = InlineKeyboardMarkup(inline_keyboard=[
             [InlineKeyboardButton(text="📄 Политика конфиденциальности", url=PRIVACY_POLICY_URL)],
             [InlineKeyboardButton(text="📜 Правила пользования", url=TERMS_OF_USE_URL)],
-            [InlineKeyboardButton(text="✅ Я согласен", callback_data="agree_privacy")]
+            [InlineKeyboardButton(text="✅ Я согласен с условиями", callback_data="agree_privacy")]
         ])
         
         await message.answer(
@@ -154,14 +154,13 @@ async def cmd_start(message: Message):
             "Перед началом работы, пожалуйста, ознакомьтесь с:\n"
             "• Политикой конфиденциальности\n"
             "• Правилами пользования\n\n"
-            "Нажимая «✅ Я согласен», вы подтверждаете, что прочитали и принимаете эти условия.",
+            "<i>Нажимая «✅ Я согласен», вы даете свое согласие на обработку персональных данных в соответствии с Политикой конфиденциальности (152-ФЗ).</i>",
             parse_mode="HTML",
             reply_markup=keyboard
         )
         return
 
     # Если согласился — показываем стандартное приветствие
-    from utils.user_history import load_user_history
     history = load_user_history(user_id)
     is_returning = bool(history)
 
@@ -190,7 +189,18 @@ async def cmd_start(message: Message):
         f"📌 Используйте /help для списка команд.{status_text}"
     )
 
-    await message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, message.chat.id))
+    # 🚀 КНОПКА ДЛЯ WEBAPP С РАБОЧЕЙ ССЫЛКОЙ TAILSCALE
+    webapp_url = "https://desktop-59ivett.taile71e4d.ts.net/webapp"
+    
+    webapp_keyboard = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="🚀 Открыть WebApp", web_app=WebAppInfo(url=webapp_url))]
+    ])
+
+    await message.answer(
+        text, 
+        parse_mode="HTML", 
+        reply_markup=webapp_keyboard
+    )
 
 
 @router.callback_query(F.data == "agree_privacy")
@@ -198,9 +208,7 @@ async def agree_privacy_callback(callback: CallbackQuery):
     await _safe_answer(callback)
     user_id = callback.from_user.id
     
-    from utils.user_utils import get_user_by_id, add_user, set_agreed_to_privacy
-    
-    # Если юзера нет — создаём его (с ролью "0")
+    # Если юзера нет — создаём его
     user = get_user_by_id(user_id)
     if not user:
         add_user(
@@ -218,12 +226,16 @@ async def agree_privacy_callback(callback: CallbackQuery):
     except Exception:
         pass
     
-    await callback.message.answer(
-        "✅ <b>Спасибо! Вы приняли условия.</b>\n\n"
-        "Теперь вы можете пользоваться ботом.\n"
-        "Нажмите /start чтобы продолжить.",
-        parse_mode="HTML"
+    # СРАЗУ ПОКАЗЫВАЕМ МЕНЮ, чтобы не заставлять писать /start
+    safe_name = html.escape(callback.from_user.full_name)
+    text = (
+        f"✅ <b>Спасибо! Вы приняли условия.</b>\n\n"
+        f"👋 Добро пожаловать, <b>{safe_name}</b>!\n\n"
+        f"Я бот для управления ролями и заявками.\n"
+        f"Если у вас есть вопросы — напишите <b>@Sedrikai_bot</b>.\n\n"
+        f"📌 Используйте /help для списка команд."
     )
+    await callback.message.answer(text, parse_mode="HTML", reply_markup=get_main_keyboard(user_id, callback.message.chat.id))
     logger.info(f"👤 {user_id} согласился с политикой конфиденциальности")
 
 # ============================================================
@@ -549,7 +561,7 @@ async def bday_skip(callback: CallbackQuery, state: FSMContext):
     await _safe_answer(callback)
     user_id = callback.from_user.id
     
-    set_birthday(user_id, "00.00") # ⚠️ Ставим заглушку
+    set_birthday(user_id, "00.00")
     
     try:
         from utils.user_history import set_birthday as hist_set_birthday
@@ -697,7 +709,6 @@ async def cmd_aboutme(message: Message):
     bday_text = f"\n🎂 ДР: <b>{birthday}</b>" if birthday and birthday != "00.00" else "\n🎂 ДР: <i>не указан</i> (/setbirthday)"
     notify_text = f"\n🔔 Уведомления о норме: {'✅ вкл' if notify_norm else '❌ выкл'}"
 
-    # ⚠️ Проверка реста
     user_data = get_user_by_id(user.id)
     rest_text = ""
     if user_data and user_data.get('rest'):
@@ -1259,3 +1270,18 @@ async def cmd_history(message: Message):
         text += f"🚪 Последний выход: {history.get('last_left')} (Причина: {history.get('left_reason', '?')})\n"
 
     await message.answer(text, parse_mode="HTML")
+
+
+@router.message(Command('test_mynorm'))
+async def cmd_test_mynorm(message: Message):
+    user_id = message.from_user.id
+    if message.chat.id == GENERAL_CHAT_ID:
+        await message.answer("⛔ Только в ЛС.")
+        return
+
+    count = get_last_7_days_count(user_id)
+    await message.answer(
+        f"📊 <b>Тестовый счетчик</b>\n\n"
+        f"Сообщений за последние 7 дней: <b>{count}</b>",
+        parse_mode="HTML"
+    )

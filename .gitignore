@@ -10,7 +10,8 @@ creation_date.txt
 data/tts/*.mp3
 data/backups/*.zip
 data/tmp/
-
+*.bak*
+webapp_api.py
 # ============================================================
 # 🐍 Виртуальное окружение
 # ============================================================
@@ -82,3 +83,4 @@ src/middlewares/__pycache__/registration_check.cpython-314.pyc
 # Игнорим файлы с личным контекстом
 AI_CONTEXT.md
 memory_ai.md
+

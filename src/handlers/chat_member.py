@@ -27,6 +27,7 @@ router = Router()
 message_counter = {}
 _notified_norm_users = set()
 _last_profile_warn_sent = {}
+_privacy_warn_sent = {}
 
 ALIASES_FILE = os.path.join(DATA_DIR, 'users', 'aliases.json')
 
@@ -73,7 +74,6 @@ def _update_aliases(user_id: int, username: str, full_name: str):
     _save_aliases(aliases)
 
 
-# ⚠️ ИСПРАВЛЕНО: Парсер варнов с поддержкой склонений
 WARN_PATTERN = re.compile(
     r'^(варн|бан)\s+@?(\S+)'
     r'(?:\s+(\d+)\s*'
@@ -176,7 +176,6 @@ async def _try_parse_warn_command(message: types.Message) -> bool:
     if not target_id:
         return False
 
-    # ⚠️ НОВОЕ: Проверка, что цель есть в users.json
     if not get_user_by_id(target_id):
         logger.warning(f"⚠️ Варн/бан для {target_id}, но его нет в users.json")
         return False
@@ -232,6 +231,36 @@ async def _maybe_notify_norm(bot, user_id: int):
         logger.error(f"❌ Ошибка уведомления о норме для {user_id}: {e}")
 
 
+async def _remind_privacy_policy(message: types.Message, user_id: int):
+    """Раз в 12 часов напоминает юзеру, что он не согласился с ПК."""
+    now = datetime.datetime.now()
+    last_sent = _privacy_warn_sent.get(user_id)
+
+    if last_sent and (now - last_sent).total_seconds() < 12 * 3600:
+        return
+
+    try:
+        bot_info = await message.bot.get_me()
+        deep_link = f"https://t.me/{bot_info.username}?start=start"
+
+        keyboard = types.InlineKeyboardMarkup(inline_keyboard=[
+            [types.InlineKeyboardButton(text="✅ Согласиться с правилами", url=deep_link)]
+        ])
+
+        await message.reply(
+            "⚠️ <b>Вы находитесь под модерацией.</b>\n\n"
+            "Чтобы открыть полный функционал, пожалуйста, согласитесь с политикой конфиденциальности "
+            "и завершите регистрацию, нажав на кнопку ниже.",
+            parse_mode="HTML",
+            reply_markup=keyboard,
+            disable_notification=True
+        )
+        _privacy_warn_sent[user_id] = now
+        logger.info(f"📨 Напоминание о ПК отправлено {user_id}")
+    except Exception as e:
+        logger.error(f"Ошибка отправки напоминания о ПК: {e}")
+
+
 async def _check_profile_completeness(message: types.Message, user_id: int):
     if not get_setting('require_profile_completeness', True):
         return
@@ -240,11 +269,14 @@ async def _check_profile_completeness(message: types.Message, user_id: int):
         if not user:
             return
 
+        if not user.get('agreed_to_privacy', False):
+            return
+
         missing = []
         if not user.get('birthday'):
-            missing.append('дата рождения')
+            missing.append('дата рождения (/setbirthday)')
         if not user.get('role') or str(user.get('role')) == '0':
-            missing.append('роль')
+            missing.append('роль (подать заявку через /apply)')
 
         if not missing:
             return
@@ -266,7 +298,7 @@ async def _check_profile_completeness(message: types.Message, user_id: int):
 
         await message.reply(
             f"⚠️ <b>{html.escape(message.from_user.full_name)}</b>, у нас недостаточно информации о вас!\n"
-            f"Пожалуйста, заполните: <b>{', '.join(missing)}</b>.\n\n"
+            f"Пожалуйста, заполните:\n<b>{'\n'.join(f'• {m}' for m in missing)}</b>\n\n"
             f"<i>(Это сообщение появляется раз в {cooldown_hours} ч. и только если профиль не заполнен)</i>",
             parse_mode="HTML",
             reply_markup=keyboard
@@ -279,6 +311,9 @@ async def _check_profile_completeness(message: types.Message, user_id: int):
 
 @router.message()
 async def handle_message(message: types.Message):
+    if not message.from_user or message.from_user.is_bot:
+        return
+
     if message.text and message.text.startswith('/'):
         return
 
@@ -297,10 +332,10 @@ async def handle_message(message: types.Message):
         logger.error(f"❌ Ошибка парсера варнов: {e}")
 
     user = get_user_by_id(user_id)
-    if user and user.get('rest', False):
-        logger.debug(f"⏳ {user_id} в ресте — пропускаем все проверки")
-        return
 
+    if user and not user.get('agreed_to_privacy', False):
+        await _remind_privacy_policy(message, user_id)
+        return
     if user:
         await _check_profile_completeness(message, user_id)
         _update_aliases(user_id, message.from_user.username or '', message.from_user.full_name or '')
@@ -309,7 +344,7 @@ async def handle_message(message: types.Message):
             set_joined_at(user_id)
             logger.info(f"📅 Установлен joined_at для {user_id}")
 
-        # ⚠️ ФИКС: Считаем сообщения ВСЕМ (включая нью), чтобы цифры сходились с Ирисом
+        # 🚀 ФИКС: Считаем сообщения всем, кто зареган (даже без роли, чтобы статистика была честной)
         increment_message_count(user_id)
         await _maybe_notify_norm(message.bot, user_id)
 
@@ -334,15 +369,11 @@ async def handle_message(message: types.Message):
             logger.error(f"Ошибка отправки напоминания: {e}")
 
 
-# ⚠️ ИСПРАВЛЕНО: Приветствие через chat_member, а не my_chat_member
 @router.chat_member()
 async def on_user_join(update: ChatMemberUpdated):
-    """Приветствие новых пользователей (через chat_member)."""
-    # Проверяем, что событие произошло в нужном чате
     if update.chat.id != GENERAL_CHAT_ID:
         return
-        
-    # Проверяем, что юзер именно ВСТУПИЛ (а не вышел)
+
     if update.new_chat_member.status not in ['member', 'administrator', 'creator']:
         return
     if update.old_chat_member.status in ['member', 'administrator', 'creator']:
@@ -351,25 +382,22 @@ async def on_user_join(update: ChatMemberUpdated):
     user = update.new_chat_member.user
     user_id = user.id
 
-    # Обновляем last_message_at в истории (чтобы юзер не считался "заброшенным")
     try:
         from utils.user_history import set_last_message_at
         set_last_message_at(user_id)
     except Exception as e:
         logger.error(f"❌ Не удалось обновить last_message_at: {e}")
 
-    # Если юзера нет в базе — шлем приветствие
     if not check_user_registration(user_id):
         try:
-            # ⚠️ ФИКС: Получаем актуальный юзернейм бота
             bot_info = await update.bot.get_me()
-            
+
             await update.bot.send_message(
                 chat_id=update.chat.id,
                 text=f"👋 Привет, {html.escape(user.first_name)}!\n\n"
                      f"❗ Для полного доступа зарегистрируйтесь:\n"
                      f"1. Напишите @{bot_info.username} в личку\n"
-                     f"2. Используйте команду /apply",
+                     f"2. Используйте команду /start и согласитесь с правилами.",
                 disable_notification=True
             )
             logger.info(f"📨 Приветствие отправлено {user_id}")
@@ -395,5 +423,6 @@ async def reset_counter_command(message: types.Message):
         await message.reply(f"✅ Счётчик для {user_id} сброшен.")
     else:
         await message.reply(f"⚠️ Пользователь {user_id} не найден в счётчике.")
+
 
 __all__ = ['router']

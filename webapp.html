@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LoEzF WebApp</title>
+    <!-- Подключаем скрипт Telegram WebApp -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --bg-color: var(--tg-theme-bg-color, #17212b);
+            --text-color: var(--tg-theme-text-color, #ffffff);
+            --hint-color: var(--tg-theme-hint-color, #708499);
+            --button-color: var(--tg-theme-button-color, #2481cc);
+            --secondary-bg: var(--tg-theme-secondary-bg-color, #232e3c);
+        }
+
+        body {
+            margin: 0;
+            padding: 16px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background-color: var(--secondary-bg);
+            border-radius: 12px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--button-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .user-info h2 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .user-info p {
+            margin: 4px 0 0 0;
+            color: var(--hint-color);
+            font-size: 14px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .roles-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .role-card {
+            background-color: var(--secondary-bg);
+            padding: 12px 16px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .role-name {
+            font-weight: 500;
+        }
+
+        .role-status {
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .status-free { background-color: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+        .status-occupied { background-color: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+        .status-rest { background-color: rgba(52, 152, 219, 0.2); color: #3498db; }
+
+        .btn {
+            background-color: var(--button-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Профиль юзера -->
+    <div class="header" id="user-profile">
+        <div class="avatar" id="user-avatar">👤</div>
+        <div class="user-info">
+            <h2 id="user-name">Загрузка...</h2>
+            <p id="user-username">@...</p>
+        </div>
+    </div>
+
+    <!-- Список ролей -->
+    <div>
+        <div class="section-title">Доступные роли</div>
+        <div class="roles-list" id="roles-container">
+            <!-- Сюда будут падать роли из API -->
+            <p style="color: var(--hint-color)">Загрузка ролей...</p>
+        </div>
+    </div>
+
+    <button class="btn" onclick="applyRole()">Подать заявку (Тест)</button>
+
+    <script>
+        // Инициализация Telegram WebApp
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Разворачиваем на весь экран
+
+        // Получаем данные пользователя от Telegram
+        const user = tg.initDataUnsafe?.user;
+        if (user) {
+            document.getElementById('user-name').innerText = user.first_name + (user.last_name ? ' ' + user.last_name : '');
+            document.getElementById('user-username').innerText = user.username ? '@' + user.username : 'Без ника';
+            document.getElementById('user-avatar').innerText = user.first_name[0];
+        } else {
+            document.getElementById('user-name').innerText = "Гость";
+        }
+
+        // Функция для запроса к нашему FastAPI
+        async function fetchRoles() {
+            try {
+                // ИЗМЕНЕНО: Теперь стучимся по относительному пути, так как HTML и API на одном домене (Cloudflare)
+                const response = await fetch('/api/roles');
+                const data = await response.json();
+                
+                const container = document.getElementById('roles-container');
+                container.innerHTML = ''; // Очищаем
+
+                if (data.roles && data.roles.length > 0) {
+                    data.roles.forEach(role => {
+                        const card = document.createElement('div');
+                        card.className = 'role-card';
+
+                        let statusClass = 'status-free';
+                        let statusText = 'Свободна';
+                        if (role.status === 'занята') { statusClass = 'status-occupied'; statusText = 'Занята'; }
+                        if (role.status === 'рест') { statusClass = 'status-rest'; statusText = 'Рест'; }
+
+                        card.innerHTML = `
+                            <div class="role-name">${role.name}</div>
+                            <div class="role-status ${statusClass}">${statusText}</div>
+                        `;
+                        container.appendChild(card);
+                    });
+                } else {
+                    container.innerHTML = '<p style="color: var(--hint-color)">Ролей нет.</p>';
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                document.getElementById('roles-container').innerHTML = '<p style="color: #e74c3c">Ошибка загрузки API</p>';
+            }
+        }
+
+        // Функция-заглушка для подачи заявки
+        function applyRole() {
+            tg.showAlert("Заявка отправлена! (Пока это тест)");
+            tg.HapticFeedback.impactOccurred('medium');
+        }
+
+        // Запускаем загрузку ролей при открытии
+        fetchRoles();
+    </script>
+</body>
+</html>

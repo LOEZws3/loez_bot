@@ -32,10 +32,12 @@ from utils.settings_utils import (
 logger = logging.getLogger(__name__)
 router = Router()
 
+
 class CheckNormStates(StatesGroup):
     choosing = State()
     preview = State()
     iris_check = State()
+
 
 CHECKNORM_COOLDOWN = {}
 CHECKNORM_COOLDOWN_SECONDS = 300
@@ -49,12 +51,15 @@ BAN_MINUTES = 90 * 24 * 60
 
 CHECKNORM_ITEMS_PER_PAGE = 10
 
+
 def _cleanup_session(admin_id: int):
     if admin_id in ACTIVE_SESSIONS:
         del ACTIVE_SESSIONS[admin_id]
 
+
 def _has_active_sessions() -> bool:
     return len(ACTIVE_SESSIONS) > 0
+
 
 async def _safe_answer(callback: CallbackQuery, text: str = None, show_alert: bool = False):
     try:
@@ -65,11 +70,13 @@ async def _safe_answer(callback: CallbackQuery, text: str = None, show_alert: bo
     except Exception as e:
         logger.warning(f"Неизвестная ошибка callback.answer: {e}")
 
+
 def _get_mention(user_id: int, full_name: str, username: str = None) -> str:
     safe_name = html.escape(full_name or f"ID {user_id}")
     if username:
-        return f'<a href="tg://user?id={user_id}">@{html.escape(username)}</a>'
+        return f'<a href="tg://user?id={user_id}">{safe_name} (@{html.escape(username)})</a>'
     return f'<a href="tg://user?id={user_id}">{safe_name}</a> (ID: <code>{user_id}</code>)'
+
 
 def _build_checklist_keyboard(admin_id: int) -> InlineKeyboardMarkup:
     session = ACTIVE_SESSIONS.get(admin_id, {})
@@ -102,19 +109,21 @@ def _build_checklist_keyboard(admin_id: int) -> InlineKeyboardMarkup:
         if cat != current_cat_header:
             buttons.append([InlineKeyboardButton(text=f"{cat}:", callback_data="checknorm_ignore")])
             current_cat_header = cat
-        
+
         user = all_users.get(uid, {})
         username = user.get('username')
+        full_name = user.get('full_name', f'ID {uid}')
+
         if username:
-            display_name = f"@{username}"
+            display_name = f"{full_name} (@{username})"
         else:
-            display_name = html.escape(user.get('full_name', f'ID {uid}'))
-            
-        if len(display_name) > 25:
-            display_name = display_name[:22] + "..."
-            
+            display_name = full_name
+
+        if len(display_name) > 30:
+            display_name = display_name[:27] + "..."
+
         mark = "✅" if uid in selected else "❌"
-        
+
         buttons.append([InlineKeyboardButton(
             text=f"{mark} {display_name} ({count})",
             callback_data=f"checknorm_toggle_{uid}"
@@ -122,11 +131,11 @@ def _build_checklist_keyboard(admin_id: int) -> InlineKeyboardMarkup:
 
     nav_row = []
     if current_page > 0:
-        nav_row.append(InlineKeyboardButton(text="◀️ Назад", callback_data=f"checknorm_page_{current_page-1}"))
-    nav_row.append(InlineKeyboardButton(text=f"📄 {current_page+1}/{total_pages}", callback_data="checknorm_ignore"))
+        nav_row.append(InlineKeyboardButton(text="◀️ Назад", callback_data=f"checknorm_page_{current_page - 1}"))
+    nav_row.append(InlineKeyboardButton(text=f"📄 {current_page + 1}/{total_pages}", callback_data="checknorm_ignore"))
     if current_page < total_pages - 1:
-        nav_row.append(InlineKeyboardButton(text="Вперёд ▶️", callback_data=f"checknorm_page_{current_page+1}"))
-    
+        nav_row.append(InlineKeyboardButton(text="Вперёд ▶️", callback_data=f"checknorm_page_{current_page + 1}"))
+
     if nav_row:
         buttons.append(nav_row)
 
@@ -134,6 +143,7 @@ def _build_checklist_keyboard(admin_id: int) -> InlineKeyboardMarkup:
     buttons.append([InlineKeyboardButton(text="❌ Отмена", callback_data="checknorm_cancel")])
 
     return InlineKeyboardMarkup(inline_keyboard=buttons)
+
 
 def _build_preview(admin_id: int) -> str:
     session = ACTIVE_SESSIONS.get(admin_id, {})
@@ -145,8 +155,8 @@ def _build_preview(admin_id: int) -> str:
     warn_users = [u for u in users_by_cat.get(CATEGORY_WARN, []) if u[0] in selected]
     ban_users = [u for u in users_by_cat.get(CATEGORY_BAN, []) if u[0] in selected]
     excluded = (
-        [u for u in users_by_cat.get(CATEGORY_WARN, []) if u[0] not in selected] +
-        [u for u in users_by_cat.get(CATEGORY_BAN, []) if u[0] not in selected]
+            [u for u in users_by_cat.get(CATEGORY_WARN, []) if u[0] not in selected] +
+            [u for u in users_by_cat.get(CATEGORY_BAN, []) if u[0] not in selected]
     )
 
     text = "📋 <b>ИТОГ ЧИСТКИ</b>\n\n"
@@ -179,12 +189,14 @@ def _build_preview(admin_id: int) -> str:
 
     return text
 
+
 def _build_preview_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="✏️ Изменить", callback_data="checknorm_edit")],
         [InlineKeyboardButton(text="✅ Подтвердить", callback_data="checknorm_confirm")],
         [InlineKeyboardButton(text="❌ Отмена", callback_data="checknorm_cancel")],
     ])
+
 
 def _build_commands(admin_id: int) -> list:
     session = ACTIVE_SESSIONS.get(admin_id, {})
@@ -216,6 +228,7 @@ def _build_commands(admin_id: int) -> list:
         commands.append(f"Бан {ban_days} дней {target}\nНеактив")
 
     return commands
+
 
 @router.message(Command('checknorm'))
 async def cmd_checknorm(message: Message, state: FSMContext = None):
@@ -263,6 +276,12 @@ async def cmd_checknorm(message: Message, state: FSMContext = None):
             continue
         if u.get('rest', False):
             continue
+
+        # 🚀 ФИКС: Пропускаем тех, у кого нет роли (чтобы не банить тех, кого еще не приняли)
+        role = u.get('role')
+        if not role or str(role) == '0':
+            continue
+
         try:
             cat = get_user_category(uid)
         except Exception:
@@ -271,7 +290,7 @@ async def cmd_checknorm(message: Message, state: FSMContext = None):
             count = get_message_count(uid)
             users_by_cat[cat].append((uid, count))
 
-    # ⚠️ Обновляем ники из Telegram перед показом
+    # Обновляем ники из Telegram перед показом
     all_targets = users_by_cat[CATEGORY_WARN] + users_by_cat[CATEGORY_BAN]
     if all_targets:
         await message.answer("🔄 Обновляю данные пользователей из Telegram...")
@@ -279,7 +298,7 @@ async def cmd_checknorm(message: Message, state: FSMContext = None):
             try:
                 chat = await message.bot.get_chat(uid)
                 update_user_info(uid, chat.username, chat.full_name)
-                await asyncio.sleep(0.05) # Чтобы не забанили за флуд
+                await asyncio.sleep(0.05)  # Чтобы не забанили за флуд
             except Exception as e:
                 logger.warning(f"Не удалось обновить данные для {uid}: {e}")
 
@@ -322,31 +341,34 @@ async def cmd_checknorm(message: Message, state: FSMContext = None):
         reply_markup=_build_checklist_keyboard(user_id)
     )
 
+
 @router.callback_query(F.data == "checknorm_ignore")
 async def checknorm_ignore(callback: CallbackQuery):
     await _safe_answer(callback)
+
 
 @router.callback_query(F.data.startswith("checknorm_page_"))
 async def checknorm_page(callback: CallbackQuery):
     await _safe_answer(callback)
     admin_id = callback.from_user.id
-    
+
     session = ACTIVE_SESSIONS.get(admin_id)
     if not session:
         return
-        
+
     try:
         page = int(callback.data.replace("checknorm_page_", ""))
     except ValueError:
         return
-        
+
     session['page'] = page
-    
+
     try:
         await callback.message.edit_reply_markup(reply_markup=_build_checklist_keyboard(admin_id))
     except TelegramBadRequest as e:
         if "message is not modified" not in str(e):
             logger.error(f"Ошибка пагинации чек-листа: {e}")
+
 
 @router.callback_query(F.data.startswith("checknorm_toggle_"))
 async def checknorm_toggle(callback: CallbackQuery):
@@ -380,6 +402,7 @@ async def checknorm_toggle(callback: CallbackQuery):
         if "message is not modified" not in str(e):
             logger.error(f"Ошибка переключения чек-листа: {e}")
 
+
 @router.callback_query(F.data == "checknorm_preview")
 async def checknorm_preview(callback: CallbackQuery):
     await _safe_answer(callback)
@@ -401,6 +424,7 @@ async def checknorm_preview(callback: CallbackQuery):
         if "message is not modified" not in str(e):
             logger.error(f"Ошибка превью чек-листа: {e}")
 
+
 @router.callback_query(F.data == "checknorm_edit")
 async def checknorm_edit(callback: CallbackQuery):
     await _safe_answer(callback)
@@ -419,6 +443,7 @@ async def checknorm_edit(callback: CallbackQuery):
         if "message is not modified" not in str(e):
             logger.error(f"Ошибка возврата к чек-листу: {e}")
 
+
 @router.callback_query(F.data == "checknorm_cancel")
 async def checknorm_cancel(callback: CallbackQuery):
     await _safe_answer(callback)
@@ -428,6 +453,7 @@ async def checknorm_cancel(callback: CallbackQuery):
         await callback.message.edit_text("❌ Проверка отменена.")
     except TelegramBadRequest:
         pass
+
 
 @router.callback_query(F.data == "checknorm_confirm")
 async def checknorm_confirm(callback: CallbackQuery):
@@ -451,6 +477,7 @@ async def checknorm_confirm(callback: CallbackQuery):
         )
     except TelegramBadRequest:
         pass
+
 
 @router.callback_query(F.data == "checknorm_send_ls")
 async def checknorm_send_ls(callback: CallbackQuery):
