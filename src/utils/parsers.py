@@ -155,15 +155,26 @@ def get_user(user_id) -> dict:
     return None
 
 
-def add_user(user_id, username, full_name):
+# 🚀 ИСПРАВЛЕНО: Добавлены все аргументы, которые передает user_utils.py
+def add_user(user_id, username, full_name, role='0', extra='-993', 
+             changes_count: int = 0, birthday=None, notify_norm: bool = True, grace_until: str = None):
     users = load_users()
     user_id_str = str(user_id)
     
     if user_id_str not in users:
-        # 🚀 Создаем нового юзера сразу с дефолтными полями
+        # Создаем нового юзера с дефолтными полями
         new_user = DEFAULT_USER_FIELDS.copy()
+        
+        # Перезаписываем переданными данными
         new_user["username"] = username or ""
         new_user["full_name"] = full_name or ""
+        new_user["role"] = str(role)
+        new_user["extra"] = str(extra)
+        new_user["changes_count"] = int(changes_count)
+        new_user["birthday"] = birthday
+        new_user["notify_norm"] = bool(notify_norm)
+        new_user["grace_until"] = grace_until
+        new_user["custom_nickname"] = "" # 🆕
         
         users[user_id_str] = new_user
         save_users(users)

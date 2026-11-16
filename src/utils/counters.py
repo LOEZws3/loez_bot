@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 
 COUNTERS_FILE = os.path.join(DATA_DIR, 'system', 'message_counts.json')
 NORM_HISTORY_FILE = os.path.join(DATA_DIR, 'system', 'norm_history.json')
+DAILY_COUNTS_FILE = os.path.join(DATA_DIR, 'system', 'daily_counts.json') # 🆕 Новый файл для дней
 
 # ⚠️ Часовой пояс МСК
 MSK_TZ = ZoneInfo("Europe/Moscow")
@@ -93,6 +94,43 @@ def increment_message_count(user_id: int) -> bool:
     ]
 
     return save_counters(data)
+
+# 🆕 ФУНКЦИЯ ИНКРЕМЕНТА ДЛЯ ДНЕЙ
+def increment_daily_count(user_id: int) -> bool:
+    """Плюсует 1 сообщение к статистике текущего дня (по МСК)."""
+    try:
+        today = _now_msk().strftime("%Y-%m-%d")
+        data = load_json(DAILY_COUNTS_FILE, {})
+        
+        if today not in data:
+            data[today] = {}
+            
+        uid_str = str(user_id)
+        data[today][uid_str] = int(data[today].get(uid_str, 0)) + 1
+        
+        return save_json(DAILY_COUNTS_FILE, data)
+    except Exception as e:
+        logger.error(f"Ошибка в increment_daily_count: {e}")
+        return False
+
+# 🆕 ФУНКЦИЯ ПОЛУЧЕНИЯ СТАТИСТИКИ ПО ДНЯМ
+def get_daily_counts(user_id: int, days: int = 7) -> list:
+    """Возвращает список статистики по дням за последние N дней."""
+    data = load_json(DAILY_COUNTS_FILE, {})
+    uid_str = str(user_id)
+    
+    result = []
+    today = _now_msk()
+    
+    for i in range(days - 1, -1, -1):
+        date_obj = today - datetime.timedelta(days=i)
+        date_str = date_obj.strftime("%Y-%m-%d")
+        display_date = date_obj.strftime("%d.%m")
+        
+        count = int(data.get(date_str, {}).get(uid_str, 0))
+        result.append({"date": display_date, "count": count})
+        
+    return result
 
 
 def get_message_count(user_id: int) -> int:
@@ -181,7 +219,7 @@ def clear_all_counters() -> bool:
 
 def set_joined_at(user_id: int, joined_at: str = None) -> bool:
     if joined_at is None:
-        joined_at = _now_msk().isoformat() # 🚀 ФИКС
+        joined_at = _now_msk().isoformat()
 
     data = load_counters()
     uid_str = str(user_id)
@@ -190,7 +228,7 @@ def set_joined_at(user_id: int, joined_at: str = None) -> bool:
         data[uid_str] = {'count': 0, 'week_start': _get_current_week_start()}
 
     data[uid_str]['joined_at'] = joined_at
-    data[uid_str]['last_message_at'] = _now_msk().isoformat() # 🚀 ФИКС
+    data[uid_str]['last_message_at'] = _now_msk().isoformat()
     return save_counters(data)
 
 
@@ -208,7 +246,6 @@ def is_new_user(user_id: int, days: int = 7) -> bool:
         return True
     try:
         joined_dt = datetime.datetime.fromisoformat(joined)
-        # 🚀 ФИКС: Сравниваем с МСК временем, чтобы не было багов с часовыми поясами
         delta = _now_msk() - joined_dt
         return delta.days < days
     except (ValueError, TypeError):
@@ -220,7 +257,7 @@ def update_last_message_at(user_id: int) -> bool:
     uid_str = str(user_id)
     if uid_str not in data or not isinstance(data[uid_str], dict):
         return False
-    data[uid_str]['last_message_at'] = _now_msk().isoformat() # 🚀 ФИКС
+    data[uid_str]['last_message_at'] = _now_msk().isoformat()
     return save_counters(data)
 
 

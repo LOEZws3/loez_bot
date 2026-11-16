@@ -25,7 +25,8 @@ DEFAULT_USER_FIELDS = {
     "apply_sent": False, # По дефолту False, но ниже мы это перезапишем
     "invite_link": None,
     "invite_expire": None,
-    "rating": 50  # 🚀 НОВОЕ ПОЛЕ: от 0 до 100 (дефолт 50)
+    "rating": 50,  # 🚀 НОВОЕ ПОЛЕ: от 0 до 100 (дефолт 50)
+    "custom_nickname": "" # 🆕 ДОБАВЬ ВОТ ЭТУ СТРОЧКУ
 }
 
 def migrate_users():

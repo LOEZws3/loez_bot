@@ -28,6 +28,7 @@ from utils.role_utils import (
     get_user_role_key,
 )
 from utils.requests_utils import load_requests, save_requests, get_pending_requests
+from utils.activity_logger import log_activity # 🆕 ЛОГГЕР
 
 logger = logging.getLogger(__name__)
 router = Router()
@@ -202,6 +203,9 @@ async def reject_with_reason(message: Message, state: FSMContext):
                 )
             except Exception as e:
                 logger.error(f"Не удалось отправить причину {user_id}: {e}")
+
+        # 🆕 ЛОГИРОВАНИЕ
+        log_activity("apply_rejected", f"Отклонена заявка #{request_id} по причине '{reason}'")
 
         await message.answer(f"✅ Заявка #{request_id} отклонена.\nПричина: {html.escape(reason)}")
     else:
@@ -476,6 +480,9 @@ async def approve_request_callback(callback: CallbackQuery):
                 logger.error(f"❌ Не удалось создать ссылку для {user_id}: {e}")
                 invite_link = CHAT_INVITE_LINK
 
+        # 🆕 ЛОГИРОВАНИЕ
+        log_activity("apply_approved", f"Одобрена заявка #{request_id} на роль '{role_name}' для {full_name}")
+
         # Уведомление
         invite_text = f"\n\n🔗 <b>Ссылка на вступление в чат (действует 2 дня, 1 вход):</b>\n{invite_link}"
 
@@ -557,6 +564,9 @@ async def reject_request_callback(callback: CallbackQuery):
                 )
             except Exception as e:
                 logger.error(f"Уведомление {user_id}: {e}")
+
+        # 🆕 ЛОГИРОВАНИЕ
+        log_activity("apply_rejected", f"Отклонена заявка #{request_id} на роль '{role_name}' от {request.get('full_name')}")
 
         try:
             await callback.message.edit_text(

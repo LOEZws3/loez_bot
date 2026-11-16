@@ -8,6 +8,7 @@ import asyncio
 import time
 import psutil
 import html
+import subprocess # 🆕 Для перезапуска API
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -20,7 +21,7 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.exceptions import TelegramBadRequest
 from config import (
     BOT_TOKEN, GENERAL_CHAT_ID, ADMIN_GROUP_ID, DATA_DIR,
-    ROLES_STATUS_FILE, SYSTEM_SETTINGS_FILE,
+    ROLES_STATUS_FILE, SYSTEM_SETTINGS_FILE, BASE_DIR, # Добавил BASE_DIR
     CHAT_INVITE_LINK, ADMIN_LINK, MODERATOR_LINK
 )
 from utils.admin_utils import is_owner
@@ -221,6 +222,37 @@ def _build_stats_graph(days: int) -> str:
     plt.close()
     return filepath
 
+# 🆕 ФУНКЦИЯ ПЕРЕЗАПУСКА WEBAPP API
+def _restart_webapp_process() -> bool:
+    """Убивает старый процесс webapp_api.py и запускает новый."""
+    killed = False
+    # 1. Ищем и убиваем старый процесс
+    for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+        try:
+            cmdline = proc.info['cmdline']
+            if cmdline and any('webapp_api.py' in str(arg) for arg in cmdline):
+                if proc.pid != os.getpid(): # Защита от случайного суицида
+                    proc.terminate()
+                    proc.wait(timeout=3)
+                    killed = True
+                    logger.info(f"🌐 Завершен процесс webapp_api.py (PID: {proc.pid})")
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            pass
+
+    # 2. Запускаем новый процесс в фоне (в новом окне на Windows)
+    try:
+        api_path = os.path.join(BASE_DIR, 'webapp_api.py')
+        subprocess.Popen(
+            [sys.executable, api_path],
+            cwd=BASE_DIR,
+            creationflags=subprocess.CREATE_NEW_CONSOLE if os.name == 'nt' else 0
+        )
+        logger.info("🌐 Запущен новый процесс webapp_api.py")
+        return True
+    except Exception as e:
+        logger.error(f"❌ Ошибка запуска webapp_api.py: {e}")
+        return False
+
 def _build_diag_report(user_id: int) -> tuple[str, InlineKeyboardMarkup]:
     now_str = datetime.datetime.now().strftime("%H:%M:%S")
     
@@ -270,6 +302,7 @@ def _build_diag_report(user_id: int) -> tuple[str, InlineKeyboardMarkup]:
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="📊 Подробнее о Downtime", callback_data="diag_stats_menu")],
         [InlineKeyboardButton(text="🔄 Перезапустить бота", callback_data="diag_restart")],
+        [InlineKeyboardButton(text="🌐 Перезапустить WebApp API", callback_data="diag_restart_api")], # 🆕 Кнопка
         [InlineKeyboardButton(text="🛑 Экстренное отключение", callback_data="diag_shutdown")],
         [InlineKeyboardButton(text="💾 Сохранить всё в JSON", callback_data="diag_save_all")],
         [InlineKeyboardButton(text="📦 Сделать БЭКАП (ZIP)", callback_data="diag_backup")],
@@ -505,7 +538,7 @@ async def diag_fix_integrity(callback: CallbackQuery):
 
 @router.callback_query(F.data == "diag_restart")
 async def diag_restart(callback: CallbackQuery):
-    await _safe_answer(callback, "🔄 Перезапускаю...", show_alert=True)
+    await _safe_answer(callback, "🔄 Перезапускаю бота...", show_alert=True)
     if not is_owner(callback.from_user.id):
         return
     actor = callback.from_user
@@ -532,6 +565,23 @@ async def diag_restart(callback: CallbackQuery):
         pass
     await asyncio.sleep(1.5)
     os.execl(sys.executable, sys.executable, *sys.argv)
+
+# 🆕 ОБРАБОТЧИК ПЕРЕЗАПУСКА WEBAPP API
+@router.callback_query(F.data == "diag_restart_api")
+async def diag_restart_api(callback: CallbackQuery):
+    await _safe_answer(callback, "🌐 Перезапускаю API...")
+    if not is_owner(callback.from_user.id):
+        return
+        
+    success = _restart_webapp_process()
+    
+    text, keyboard = _build_diag_report(callback.from_user.id)
+    if success:
+        text += "\n\n✅ <b>WebApp API успешно перезапущен!</b>\n<i>Проверь открывшееся окно консоли.</i>"
+    else:
+        text += "\n\n❌ <b>Ошибка перезапуска WebApp API.</b> Проверь логи в консоли."
+        
+    await callback.message.edit_text(text, parse_mode="HTML", reply_markup=keyboard)
 
 @router.callback_query(F.data == "diag_shutdown")
 async def diag_shutdown(callback: CallbackQuery):

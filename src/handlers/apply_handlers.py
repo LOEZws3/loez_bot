@@ -26,6 +26,7 @@ from utils.user_utils import (
     get_user_by_id, update_user_role,
 )
 from utils.requests_utils import load_requests as _load_requests, save_requests as _save_requests
+from utils.activity_logger import log_activity # 🆕 ЛОГГЕР
 
 logger = logging.getLogger(__name__)
 router = Router()
@@ -142,7 +143,6 @@ async def cmd_apply(message: types.Message, state: FSMContext):
         await message.answer("🔒 Набор ролей временно закрыт. Попробуйте позже.")
         return
 
-    # ⚠️ ФИКС: Проверка Rate-limit (записываем время при первом вызове)
     now = time.time()
     last_time = _last_apply_time.get(user_id)
     if last_time and (now - last_time) < 60:
@@ -382,6 +382,9 @@ async def _submit_request(callback: CallbackQuery, state: FSMContext, data: dict
 
     await state.clear()
 
+    # 🆕 ЛОГИРОВАНИЕ
+    log_activity("apply_sent", f"Подана заявка на роль '{role_short}' от {callback.from_user.full_name}")
+
     await callback.message.edit_text(
         f"✅ <b>Заявка отправлена!</b>\n\n"
         f"📁 Сезон: {season}\n"
@@ -503,6 +506,9 @@ async def free_confirm(callback: CallbackQuery):
         except Exception as e:
             logger.error(f"Ошибка обновления юзера {user_id}: {e}")
 
+        # 🆕 ЛОГИРОВАНИЕ
+        log_activity("role_freed", f"Юзер {callback.from_user.full_name} освободил роль '{role_short}'")
+
         await callback.message.edit_text(
             f"✅ <b>Роль «{role_short}» освобождена!</b>\n\n"
             f"Теперь она доступна для других.",
@@ -539,6 +545,9 @@ async def cmd_cancel_request(message: types.Message):
     role_id = request.get('role_id')
     if role_id:
         update_role_status_by_id(role_id, "свободна")
+
+    # 🆕 ЛОГИРОВАНИЕ
+    log_activity("apply_rejected", f"Юзер {message.from_user.full_name} отменил заявку на роль '{request.get('role')}'")
 
     await message.answer(
         f"✅ Заявка #{request_id} на роль «{request.get('role')}» отменена."

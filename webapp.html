@@ -4,190 +4,695 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LoEzF WebApp</title>
-    <!-- Подключаем скрипт Telegram WebApp -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root {
-            --bg-color: var(--tg-theme-bg-color, #17212b);
-            --text-color: var(--tg-theme-text-color, #ffffff);
-            --hint-color: var(--tg-theme-hint-color, #708499);
-            --button-color: var(--tg-theme-button-color, #2481cc);
-            --secondary-bg: var(--tg-theme-secondary-bg-color, #232e3c);
-        }
+        /* 🎨 ТЕМЫ */
+        :root { --bg-color: var(--tg-theme-bg-color, #17212b); --text-color: var(--tg-theme-text-color, #ffffff); --hint-color: var(--tg-theme-hint-color, #708499); --button-color: var(--tg-theme-button-color, #2481cc); --secondary-bg: var(--tg-theme-secondary-bg-color, #232e3c); }
+        .theme-ultramarine { --bg-color: #2B2FD9; --text-color: #FBCEB1; --secondary-bg: rgba(255,255,255,0.1); --button-color: #FBCEB1; --hint-color: rgba(251,206,177,0.6); }
+        .theme-pine { --bg-color: #1B4332; --text-color: #F7F3E3; --secondary-bg: rgba(255,255,255,0.1); --button-color: #F7F3E3; --hint-color: rgba(247,243,227,0.6); }
+        .theme-sunny { --bg-color: #FFC400; --text-color: #6D0F22; --secondary-bg: rgba(109,15,34,0.1); --button-color: #6D0F22; --hint-color: rgba(109,15,34,0.6); }
+        .theme-sunset { --bg-color: #FF5E78; --text-color: #1B4332; --secondary-bg: rgba(27,67,50,0.1); --button-color: #1B4332; --hint-color: rgba(27,67,50,0.6); }
+        .theme-chartreuse { --bg-color: #DFFF00; --text-color: #1C1C1E; --secondary-bg: rgba(28,28,30,0.1); --button-color: #1C1C1E; --hint-color: rgba(28,28,30,0.6); }
+        .theme-sunny-graphite { --bg-color: #FFC400; --text-color: #2F3640; --secondary-bg: rgba(47,54,64,0.1); --button-color: #2F3640; --hint-color: rgba(47,54,64,0.6); }
+        .theme-bordeaux { --bg-color: #5A1020; --text-color: #FFF44F; --secondary-bg: rgba(255,244,79,0.1); --button-color: #FFF44F; --hint-color: rgba(255,244,79,0.6); }
+        .theme-mint { --bg-color: #B2F2D8; --text-color: #121A3A; --secondary-bg: rgba(18,26,58,0.1); --button-color: #121A3A; --hint-color: rgba(18,26,58,0.6); }
+        .theme-milky { --bg-color: #FFFDF5; --text-color: #3B1C4A; --secondary-bg: rgba(59,28,74,0.05); --button-color: #3B1C4A; --hint-color: rgba(59,28,74,0.6); }
+        .theme-pine-peach { --bg-color: #1B4332; --text-color: #FFB38A; --secondary-bg: rgba(255,179,138,0.1); --button-color: #FFB38A; --hint-color: rgba(255,179,138,0.6); }
 
-        body {
-            margin: 0;
-            padding: 16px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 16px;
-            background-color: var(--secondary-bg);
-            border-radius: 12px;
-        }
-
-        .avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: var(--button-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .user-info h2 {
-            margin: 0;
-            font-size: 18px;
-        }
-
-        .user-info p {
-            margin: 4px 0 0 0;
-            color: var(--hint-color);
-            font-size: 14px;
-        }
-
-        .section-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .roles-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .role-card {
-            background-color: var(--secondary-bg);
-            padding: 12px 16px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .role-name {
-            font-weight: 500;
-        }
-
-        .role-status {
-            font-size: 12px;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-weight: bold;
-        }
-
+        body { margin: 0; padding: 16px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: var(--bg-color); color: var(--text-color); display: flex; flex-direction: column; gap: 16px; transition: background-color 0.3s, color 0.3s; }
+        .tab-content { display: none; flex-direction: column; gap: 16px; }
+        .tab-content.active { display: flex; }
+        
+        .header { display: flex; align-items: center; gap: 12px; padding: 16px; background-color: var(--secondary-bg); border-radius: 12px; }
+        .avatar { width: 50px; height: 50px; border-radius: 50%; background-color: var(--button-color); color: var(--bg-color); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; cursor: pointer; }
+        .user-info { flex: 1; }
+        .user-info h2 { margin: 0; font-size: 18px; }
+        .user-info p { margin: 4px 0 0 0; color: var(--hint-color); font-size: 14px; }
+        .settings-btn { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-color); padding: 8px; }
+        
+        .tabs { display: flex; justify-content: space-between; background-color: var(--secondary-bg); border-radius: 10px; padding: 4px; overflow-x: auto; }
+        .tab-btn { flex: 1; background: none; border: none; color: var(--hint-color); padding: 10px; font-size: 14px; font-weight: bold; cursor: pointer; border-radius: 8px; transition: 0.2s; white-space: nowrap; }
+        .tab-btn.active { background-color: var(--button-color); color: var(--bg-color); }
+        
+        .section-title { font-size: 16px; font-weight: bold; margin-bottom: 8px; }
+        .roles-list { display: flex; flex-direction: column; gap: 8px; }
+        
+        .role-card { background-color: var(--secondary-bg); padding: 12px 16px; border-radius: 10px; display: flex; flex-direction: column; gap: 8px; transition: 0.2s; }
+        .role-card.clickable { cursor: pointer; border: 1px solid transparent; }
+        .role-card.clickable:active { opacity: 0.8; border-color: var(--button-color); }
+        
+        .role-name { font-weight: 500; word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; }
+        .role-status { font-size: 12px; padding: 4px 8px; border-radius: 6px; font-weight: bold; white-space: nowrap; align-self: flex-start; }
+        
         .status-free { background-color: rgba(46, 204, 113, 0.2); color: #2ecc71; }
         .status-occupied { background-color: rgba(231, 76, 60, 0.2); color: #e74c3c; }
-        .status-rest { background-color: rgba(52, 152, 219, 0.2); color: #3498db; }
+        
+        .profile-card { background-color: var(--secondary-bg); padding: 16px; border-radius: 12px; display: flex; flex-direction: column; gap: 12px; }
+        .profile-row { display: flex; justify-content: space-between; font-size: 15px; align-items: flex-start; gap: 12px; }
+        .profile-row span:first-child { color: var(--hint-color); flex-shrink: 0; max-width: 40%; }
+        .profile-row span:last-child { font-weight: bold; text-align: right; word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; max-width: 60%; }
+        
+        .status-screen { text-align: center; padding: 20px; font-weight: bold; }
+        .status-screen.success { color: #2ecc71; }
+        .status-screen.error { color: #e74c3c; }
 
-        .btn {
-            background-color: var(--button-color);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
+        .btn-primary { background-color: var(--button-color); color: var(--bg-color); border: none; padding: 12px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
+        .btn-danger { background-color: rgba(231, 76, 60, 0.2); color: #e74c3c; border: 1px solid #e74c3c; padding: 12px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; transition: 0.2s; }
+        
+        .admin-actions { display: flex; gap: 8px; margin-top: 8px; }
+        .btn-approve { flex: 1; background-color: #2ecc71; color: white; border: none; padding: 8px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .btn-reject { flex: 1; background-color: #e74c3c; color: white; border: none; padding: 8px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+
+        .chart-container { position: relative; height: 220px; width: 100%; margin-top: 10px; background: rgba(0,0,0,0.05); border-radius: 8px; padding: 10px; box-sizing: border-box; }
+        .chart-toggle { display: flex; background: rgba(0,0,0,0.1); border-radius: 6px; padding: 2px; margin-left: auto; }
+        .chart-toggle button { background: none; border: none; color: var(--hint-color); padding: 4px 8px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 4px; }
+        .chart-toggle button.active { background: var(--button-color); color: var(--bg-color); }
+
+        /* СКЕЛЕТОНЫ */
+        .skeleton { background-color: var(--secondary-bg); border-radius: 8px; position: relative; overflow: hidden; }
+        .skeleton::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); animation: shimmer 1.5s infinite; }
+        @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        .skeleton-row { height: 20px; margin-bottom: 12px; width: 100%; }
+        .skeleton-row.half { width: 50%; }
+        .skeleton-card { height: 80px; margin-bottom: 8px; }
+
+        /* МОДАЛКИ */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: flex-end; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: var(--bg-color); width: 100%; max-height: 85%; border-radius: 20px 20px 0 0; padding: 20px; box-sizing: border-box; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        
+        .theme-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .theme-swatch { height: 40px; border-radius: 8px; cursor: pointer; border: 2px solid transparent; display: flex; overflow: hidden; }
+        .theme-swatch.active { border-color: var(--text-color); }
+        .theme-swatch div { flex: 1; }
+        .settings-input { background: var(--secondary-bg); border: 1px solid var(--hint-color); color: var(--text-color); padding: 10px; border-radius: 8px; font-size: 16px; width: 100%; box-sizing: border-box; }
+
+        /* ЛЕНТА СОБЫТИЙ */
+        .feed-list { display: flex; flex-direction: column; gap: 8px; }
+        .feed-item { background: var(--secondary-bg); padding: 10px; border-radius: 8px; font-size: 13px; display: flex; flex-direction: column; gap: 4px; border-left: 3px solid var(--button-color); }
+        .feed-time { color: var(--hint-color); font-size: 11px; }
+
+        /* ПЛАШКА ОШИБКИ */
+        .error-badge { background-color: rgba(231, 76, 60, 0.2); color: #e74c3c; padding: 16px; border-radius: 10px; text-align: center; font-weight: bold; border: 1px solid #e74c3c; animation: shake 0.5s; }
+        @keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-5px); } 100% { transform: translateX(0); } }
+
+        /* ДИАГНОСТИКА */
+        .diag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .diag-card { background: var(--secondary-bg); padding: 12px; border-radius: 10px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .diag-val { font-size: 18px; font-weight: bold; color: var(--button-color); word-break: break-all; }
+        .diag-name { font-size: 12px; color: var(--hint-color); margin-top: 4px; }
+        .diag-full { grid-column: 1 / -1; }
+        
+        /* КОНТЕЙНЕР ДЛЯ ДИАГРАММ */
+        .charts-row { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+        .chart-box { flex: 1; min-width: 100px; height: 140px; position: relative; background: var(--secondary-bg); border-radius: 10px; padding: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center;}
+        .chart-box canvas { max-height: 90px; }
+        
+        /* 🆕 Центральный текст в диаграммах */
+        .chart-center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -30%); /* Чуть выше центра, т.к. снизу еще текст */
             font-size: 16px;
             font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 16px;
+            color: var(--button-color);
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
 
-    <!-- Профиль юзера -->
     <div class="header" id="user-profile">
         <div class="avatar" id="user-avatar">👤</div>
         <div class="user-info">
             <h2 id="user-name">Загрузка...</h2>
             <p id="user-username">@...</p>
         </div>
+        <button class="settings-btn" onclick="openSettings()">⚙️</button>
     </div>
 
-    <!-- Список ролей -->
-    <div>
-        <div class="section-title">Доступные роли</div>
-        <div class="roles-list" id="roles-container">
-            <!-- Сюда будут падать роли из API -->
-            <p style="color: var(--hint-color)">Загрузка ролей...</p>
+    <div class="tabs" id="tabs-container">
+        <button class="tab-btn active" onclick="openTab('profile', this)">👤 Профиль</button>
+        <button class="tab-btn" onclick="openTab('roles', this)">📜 Роли</button>
+        <button class="tab-btn" onclick="openTab('apps', this)">📝 Заявки</button>
+        <button class="tab-btn" id="admin-tab-btn" style="display: none;" onclick="openTab('admin', this)">🔐 Админка</button>
+        <button class="tab-btn" id="stats-tab-btn" style="display: none;" onclick="openTab('admin-stats', this)">📊 Стата</button>
+        <button class="tab-btn" id="diag-tab-btn" style="display: none;" onclick="openTab('admin-diag', this)">🩺 Диаг</button>
+    </div>
+
+    <div id="profile" class="tab-content active">
+        <div class="profile-card" id="profile-data"></div>
+        <div class="profile-card" id="stats-card" style="display: none;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div class="section-title" style="margin-bottom: 0;">📈 Моя активность</div>
+                <div class="chart-toggle">
+                    <button class="active" onclick="switchChart('weekly', this)">Недели</button>
+                    <button onclick="switchChart('daily', this)">Дни</button>
+                </div>
+            </div>
+            <div class="chart-container"><canvas id="activityChart"></canvas></div>
         </div>
     </div>
 
-    <button class="btn" onclick="applyRole()">Подать заявку (Тест)</button>
+    <div id="roles" class="tab-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div class="section-title">Доступные роли</div>
+            <select id="season-filter" onchange="fetchRoles()" style="background: var(--secondary-bg); color: var(--text-color); border: 1px solid var(--hint-color); padding: 4px 8px; border-radius: 6px;">
+                <option value="all">Все сезоны</option>
+            </select>
+        </div>
+        <div class="roles-list" id="roles-container"></div>
+        <p style="text-align: center; color: var(--hint-color); font-size: 13px; margin-top: 10px;" id="roles-hint">Нажми на свободную роль, чтобы подать заявку</p>
+    </div>
+
+    <div id="apps" class="tab-content">
+        <div class="profile-card" id="apps-container"></div>
+    </div>
+
+    <div id="admin" class="tab-content">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="section-title">Висящие заявки</div>
+            <button class="btn-primary" style="width: auto; padding: 6px 12px; margin-top: 0; font-size: 14px;" onclick="openFeed()">🕒 Лента</button>
+        </div>
+        <div class="roles-list" id="admin-container"></div>
+        <button class="btn-primary" onclick="fetchAdminRequests()">🔄 Обновить</button>
+    </div>
+
+    <div id="admin-stats" class="tab-content">
+        <div class="section-title">📊 Статистика бота</div>
+        <div class="stats-grid" id="stats-summary" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"></div>
+        <div class="profile-card" style="margin-top: 16px;">
+            <div class="section-title">📈 Активность всего чата (7 дней)</div>
+            <div class="chart-container"><canvas id="adminChart"></canvas></div>
+        </div>
+    </div>
+
+    <!-- 🆕 ВКЛАДКА ДИАГНОСТИКИ -->
+    <div id="admin-diag" class="tab-content">
+        <div class="section-title">🩺 Диагностика системы</div>
+        
+        <!-- Диаграммы -->
+        <div class="charts-row">
+            <div class="chart-box">
+                <div style="font-size:12px; color:var(--hint-color);">CPU</div>
+                <div class="chart-center-text" id="cpu-text">0%</div>
+                <canvas id="cpuChart"></canvas>
+            </div>
+            <div class="chart-box">
+                <div style="font-size:12px; color:var(--hint-color);">RAM</div>
+                <div class="chart-center-text" id="ram-text">0%</div>
+                <canvas id="ramChart"></canvas>
+            </div>
+            <div class="chart-box" style="flex-basis: 100%; height: 180px;">
+                <div style="font-size:12px; color:var(--hint-color);">Аптайм / Даунтайм</div>
+                <canvas id="uptimeChart"></canvas>
+            </div>
+        </div>
+
+        <div class="diag-grid" id="diag-container">
+            <p style="grid-column: 1 / -1; text-align: center; color: var(--hint-color);">Загрузка...</p>
+        </div>
+        <button class="btn-primary" onclick="fetchAdminDiag()" style="margin-top: 20px;">🔄 Обновить данные</button>
+        <a href="/api/admin/logs" target="_blank" class="btn-danger" style="display: block; text-align: center; text-decoration: none; box-sizing: border-box;">📥 Скачать последние 50 строк логов</a>
+    </div>
+
+    <!-- МОДАЛКА НАСТРОЕК -->
+    <div class="modal-overlay" id="settings-modal" onclick="closeSettings(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="section-title" style="font-size: 20px; margin-bottom: 0;">⚙️ Настройки</div>
+            <div>
+                <p style="color: var(--hint-color); font-size: 14px; margin-bottom: 8px;">🎨 Тема</p>
+                <div class="theme-grid" id="theme-grid">
+                    <div class="theme-swatch" data-theme="ultramarine" onclick="selectTheme('ultramarine')"><div style="background:#2B2FD9"></div><div style="background:#FBCEB1"></div></div>
+                    <div class="theme-swatch" data-theme="pine" onclick="selectTheme('pine')"><div style="background:#1B4332"></div><div style="background:#F7F3E3"></div></div>
+                    <div class="theme-swatch" data-theme="sunny" onclick="selectTheme('sunny')"><div style="background:#FFC400"></div><div style="background:#6D0F22"></div></div>
+                    <div class="theme-swatch" data-theme="sunset" onclick="selectTheme('sunset')"><div style="background:#FF5E78"></div><div style="background:#1B4332"></div></div>
+                    <div class="theme-swatch" data-theme="chartreuse" onclick="selectTheme('chartreuse')"><div style="background:#DFFF00"></div><div style="background:#1C1C1E"></div></div>
+                    <div class="theme-swatch" data-theme="sunny-graphite" onclick="selectTheme('sunny-graphite')"><div style="background:#FFC400"></div><div style="background:#2F3640"></div></div>
+                    <div class="theme-swatch" data-theme="bordeaux" onclick="selectTheme('bordeaux')"><div style="background:#5A1020"></div><div style="background:#FFF44F"></div></div>
+                    <div class="theme-swatch" data-theme="mint" onclick="selectTheme('mint')"><div style="background:#B2F2D8"></div><div style="background:#121A3A"></div></div>
+                    <div class="theme-swatch" data-theme="milky" onclick="selectTheme('milky')"><div style="background:#FFFDF5"></div><div style="background:#3B1C4A"></div></div>
+                    <div class="theme-swatch" data-theme="pine-peach" onclick="selectTheme('pine-peach')"><div style="background:#1B4332"></div><div style="background:#FFB38A"></div></div>
+                </div>
+            </div>
+            <div>
+                <p style="color: var(--hint-color); font-size: 14px; margin-bottom: 8px;">✏️ Кастомный никнейм</p>
+                <input type="text" id="input-nickname" class="settings-input" placeholder="От 2 до 20 символов" maxlength="20">
+            </div>
+            <div>
+                <p style="color: var(--hint-color); font-size: 14px; margin-bottom: 8px;">👤 Аватарка (эмодзи)</p>
+                <input type="text" id="input-avatar" class="settings-input" placeholder="😎" maxlength="2">
+            </div>
+            <div>
+                <p style="color: var(--hint-color); font-size: 14px; margin-bottom: 8px;">🎂 Дата рождения</p>
+                <input type="date" id="input-birthday" class="settings-input">
+            </div>
+            <button class="btn-primary" onclick="saveSettings()">💾 Сохранить</button>
+            <button class="btn-danger" onclick="closeSettings()">Закрыть</button>
+        </div>
+    </div>
+
+    <!-- МОДАЛКА ЛЕНТЫ СОБЫТИЙ -->
+    <div class="modal-overlay" id="feed-modal" onclick="closeFeed(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="section-title" style="font-size: 20px; margin-bottom: 0;">🕒 Последние 250 событий</div>
+            <div class="feed-list" id="feed-container">
+                <p style="text-align: center; color: var(--hint-color);">Загрузка...</p>
+            </div>
+            <button class="btn-danger" onclick="closeFeed()">Закрыть</button>
+        </div>
+    </div>
 
     <script>
-        // Инициализация Telegram WebApp
         const tg = window.Telegram.WebApp;
-        tg.expand(); // Разворачиваем на весь экран
+        tg.expand(); 
 
-        // Получаем данные пользователя от Telegram
         const user = tg.initDataUnsafe?.user;
-        if (user) {
-            document.getElementById('user-name').innerText = user.first_name + (user.last_name ? ' ' + user.last_name : '');
-            document.getElementById('user-username').innerText = user.username ? '@' + user.username : 'Без ника';
-            document.getElementById('user-avatar').innerText = user.first_name[0];
-        } else {
-            document.getElementById('user-name').innerText = "Гость";
+        let userProfile = null;
+        let selectedTheme = 'default';
+        let myChart = null; 
+        let myAdminChart = null; 
+        let cpuChart = null; 
+        let ramChart = null;
+        let uptimeChart = null;
+        let currentChartMode = 'weekly'; 
+
+        function getSkeletonHTML(rows) {
+            let html = '';
+            for(let i=0; i<rows; i++) html += `<div class="skeleton skeleton-card"></div>`;
+            return html;
         }
 
-        // Функция для запроса к нашему FastAPI
-        async function fetchRoles() {
+        function getProfileSkeleton() {
+            return `
+                <div class="skeleton skeleton-row half"></div>
+                <div class="skeleton skeleton-row"></div>
+                <div class="skeleton skeleton-row"></div>
+                <div class="skeleton skeleton-row half"></div>
+            `;
+        }
+
+        function applyTheme(themeName) {
+            document.body.className = '';
+            if (themeName && themeName !== 'default') document.body.classList.add(`theme-${themeName}`);
+            selectedTheme = themeName || 'default';
+            document.querySelectorAll('.theme-swatch').forEach(el => {
+                if (el.getAttribute('data-theme') === themeName) el.classList.add('active');
+                else el.classList.remove('active');
+            });
+        }
+
+        function updateHeaderAvatar() {
+            if (!user) return;
+            const av = document.getElementById('user-avatar');
+            if (userProfile && userProfile.avatar_emoji) av.innerText = userProfile.avatar_emoji;
+            else av.innerText = user.first_name[0];
+        }
+
+        if (user) {
+            document.getElementById('user-name').innerText = user.first_name;
+            document.getElementById('user-username').innerText = user.username ? '@' + user.username : 'Без ника';
+            updateHeaderAvatar();
+        }
+
+        function openTab(tabName, btnElement) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            if (btnElement) btnElement.classList.add('active');
+            tg.HapticFeedback.impactOccurred('light');
+
+            if (tabName === 'profile') { document.getElementById('profile-data').innerHTML = getProfileSkeleton(); fetchProfile(); fetchStats(currentChartMode); }
+            if (tabName === 'roles') { document.getElementById('roles-container').innerHTML = getSkeletonHTML(4); fetchRoles(); }
+            if (tabName === 'apps') { document.getElementById('apps-container').innerHTML = getProfileSkeleton(); fetchMyApplications(); }
+            if (tabName === 'admin') { document.getElementById('admin-container').innerHTML = getSkeletonHTML(3); fetchAdminRequests(); }
+            if (tabName === 'admin-stats') fetchAdminStats();
+            if (tabName === 'admin-diag') fetchAdminDiag(); 
+        }
+
+        const getHeaders = () => ({ 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg.initData || '' });
+
+        async function fetchProfile() {
             try {
-                // ИЗМЕНЕНО: Теперь стучимся по относительному пути, так как HTML и API на одном домене (Cloudflare)
-                const response = await fetch('/api/roles');
+                const response = await fetch('/api/profile', { headers: getHeaders() });
                 const data = await response.json();
                 
-                const container = document.getElementById('roles-container');
-                container.innerHTML = ''; // Очищаем
-
-                if (data.roles && data.roles.length > 0) {
-                    data.roles.forEach(role => {
-                        const card = document.createElement('div');
-                        card.className = 'role-card';
-
-                        let statusClass = 'status-free';
-                        let statusText = 'Свободна';
-                        if (role.status === 'занята') { statusClass = 'status-occupied'; statusText = 'Занята'; }
-                        if (role.status === 'рест') { statusClass = 'status-rest'; statusText = 'Рест'; }
-
-                        card.innerHTML = `
-                            <div class="role-name">${role.name}</div>
-                            <div class="role-status ${statusClass}">${statusText}</div>
-                        `;
-                        container.appendChild(card);
-                    });
-                } else {
-                    container.innerHTML = '<p style="color: var(--hint-color)">Ролей нет.</p>';
+                if (data.is_admin) {
+                    document.getElementById('admin-tab-btn').style.display = 'block';
+                    document.getElementById('stats-tab-btn').style.display = 'block';
+                    document.getElementById('diag-tab-btn').style.display = 'block'; 
                 }
-            } catch (error) {
-                console.error('Ошибка:', error);
-                document.getElementById('roles-container').innerHTML = '<p style="color: #e74c3c">Ошибка загрузки API</p>';
+
+                const container = document.getElementById('profile-data');
+                if (data.status === 'ok') {
+                    const u = data.user;
+                    userProfile = u; 
+                    applyTheme(u.theme);
+                    updateHeaderAvatar();
+
+                    let restText = u.rest ? '<span style="color: #e74c3c;">В ресте</span>' : '<span style="color: #2ecc71;">Активен</span>';
+                    let bday = u.birthday && u.birthday !== '00.00' ? u.birthday : 'не указан';
+                    let displayName = u.full_name;
+                    if(u.custom_nickname) displayName += ` (${u.custom_nickname})`;
+                    
+                    container.innerHTML = `
+                        <div class="profile-row"><span>Имя:</span> <span>${displayName}</span></div>
+                        <div class="profile-row"><span>Твоя роль:</span> <span>${u.role || 'Нет'}</span></div>
+                        <div class="profile-row"><span>Рейтинг:</span> <span>⭐ ${u.rating} / 100</span></div>
+                        <div class="profile-row"><span>ДР:</span> <span>🎂 ${bday}</span></div>
+                        <div class="profile-row"><span>Статус:</span> ${restText}</div>
+                    `;
+                } else {
+                    container.innerHTML = '<p style="color: var(--hint-color); text-align: center;">Ты еще не зарегистрирован.</p>';
+                }
+            } catch (error) { document.getElementById('profile-data').innerHTML = `<p style="color: #e74c3c; text-align: center;">Ошибка</p>`; }
+        }
+
+        function openSettings() {
+            if (!userProfile) return;
+            tg.HapticFeedback.impactOccurred('medium');
+            document.getElementById('input-avatar').value = userProfile.avatar_emoji || '';
+            document.getElementById('input-nickname').value = userProfile.custom_nickname || '';
+            
+            if (userProfile.birthday && userProfile.birthday !== '00.00') {
+                const [d, m] = userProfile.birthday.split('.');
+                document.getElementById('input-birthday').value = `${new Date().getFullYear()}-${m}-${d}`;
+            } else document.getElementById('input-birthday').value = '';
+
+            applyTheme(userProfile.theme || 'default');
+            document.getElementById('settings-modal').classList.add('active');
+        }
+
+        function closeSettings(e) {
+            if (e && e.target !== document.getElementById('settings-modal')) return;
+            document.getElementById('settings-modal').classList.remove('active');
+        }
+
+        function selectTheme(theme) { tg.HapticFeedback.impactOccurred('light'); applyTheme(theme); }
+
+        async function saveSettings() {
+            const avatar = document.getElementById('input-avatar').value.trim();
+            const birthday = document.getElementById('input-birthday').value;
+            const nickname = document.getElementById('input-nickname').value.trim();
+
+            if (nickname && (nickname.length < 2 || nickname.length > 20)) {
+                tg.showAlert("❌ Никнейм должен быть от 2 до 20 символов"); return;
+            }
+
+            try {
+                const response = await fetch('/api/update_profile', {
+                    method: 'POST', headers: getHeaders(),
+                    body: JSON.stringify({ theme: selectedTheme, avatar_emoji: avatar, birthday: birthday, custom_nickname: nickname })
+                });
+                if (response.ok) { tg.HapticFeedback.notificationOccurred('success'); closeSettings(); fetchProfile(); }
+                else tg.showAlert("❌ Ошибка сохранения");
+            } catch (error) { tg.showAlert("❌ Ошибка сети."); }
+        }
+
+        function switchChart(mode, btnElement) {
+            currentChartMode = mode;
+            document.querySelectorAll('.chart-toggle button').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active'); fetchStats(mode);
+        }
+
+        async function fetchStats(mode) {
+            try {
+                const response = await fetch(`/api/my_stats?mode=${mode}`, { headers: getHeaders() });
+                const data = await response.json();
+                if (data.status === 'ok' && data.stats.length > 0) {
+                    document.getElementById('stats-card').style.display = 'flex';
+                    const labels = data.stats.map(s => s.date); const counts = data.stats.map(s => s.count);
+                    const ctx = document.getElementById('activityChart').getContext('2d');
+                    if (myChart) myChart.destroy(); 
+                    let gradient = ctx.createLinearGradient(0, 0, 0, 200);
+                    const btnColor = getComputedStyle(document.body).getPropertyValue('--button-color').trim();
+                    gradient.addColorStop(0, btnColor + '80'); gradient.addColorStop(1, btnColor + '00');
+                    const chartType = mode === 'weekly' ? 'line' : 'bar';
+                    const isLine = chartType === 'line';
+                    myChart = new Chart(ctx, { type: chartType, data: { labels: labels, datasets: [{ label: 'Сообщений', data: counts, borderColor: btnColor, backgroundColor: isLine ? gradient : btnColor, borderWidth: isLine ? 2 : 0, borderRadius: isLine ? 0 : 4, pointBackgroundColor: '#ffffff', pointBorderColor: btnColor, pointRadius: isLine ? 4 : 0, fill: isLine, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { color: '#888', stepSize: 5 } }, x: { grid: { display: false }, ticks: { color: '#888', maxRotation: 45, minRotation: 45 } } } } });
+                }
+            } catch (error) { console.error(error); }
+        }
+
+        async function fetchAdminStats() {
+            try {
+                const response = await fetch('/api/admin/stats', { headers: getHeaders() });
+                const data = await response.json();
+                const s = data.summary;
+                document.getElementById('stats-summary').innerHTML = `
+                    <div class="profile-card" style="align-items:center; padding:12px;"><div style="font-size:20px; font-weight:bold; color:var(--button-color)">${s.total_users}</div><div style="font-size:12px; color:var(--hint-color)">Юзеров</div></div>
+                    <div class="profile-card" style="align-items:center; padding:12px;"><div style="font-size:20px; font-weight:bold; color:#eab308">${s.pending_requests}</div><div style="font-size:12px; color:var(--hint-color)">Ждут</div></div>
+                    <div class="profile-card" style="align-items:center; padding:12px;"><div style="font-size:20px; font-weight:bold; color:#e74c3c">${s.occupied_roles}</div><div style="font-size:12px; color:var(--hint-color)">Занято</div></div>
+                    <div class="profile-card" style="align-items:center; padding:12px;"><div style="font-size:20px; font-weight:bold; color:#2ecc71">${s.free_roles}</div><div style="font-size:12px; color:var(--hint-color)">Свободно</div></div>
+                `;
+                const labels = data.chart_stats.map(x => x.date); const counts = data.chart_stats.map(x => x.count);
+                const ctx = document.getElementById('adminChart').getContext('2d');
+                if (myAdminChart) myAdminChart.destroy(); 
+                const btnColor = getComputedStyle(document.body).getPropertyValue('--button-color').trim();
+                myAdminChart = new Chart(ctx, { type: 'line', data: { labels: labels, datasets: [{ label: 'Мсг', data: counts, borderColor: btnColor, borderWidth: 2, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
+            } catch (error) {}
+        }
+
+        // 🆕 ДИАГНОСТИКА С ДИАГРАММАМИ
+        async function fetchAdminDiag() {
+            const container = document.getElementById('diag-container');
+            try {
+                const response = await fetch('/api/admin/diag', { headers: getHeaders() });
+                const data = await response.json();
+                if (data.status === 'ok') {
+                    const d = data.diag;
+                    
+                    // Обновляем карточки
+                    container.innerHTML = `
+                        <div class="diag-card"><div class="diag-val">${d.bot_uptime}</div><div class="diag-name">Uptime Бота</div></div>
+                        <div class="diag-card"><div class="diag-val">${d.api_uptime}</div><div class="diag-name">Uptime API</div></div>
+                        <div class="diag-card"><div class="diag-val">${d.proxy}</div><div class="diag-name">Прокси</div></div>
+                        <div class="diag-card diag-full"><div class="diag-val" style="font-size:12px; font-weight:normal;">${d.last_error}</div><div class="diag-name">Последняя ошибка</div></div>
+                    `;
+
+                    // 🆕 Рисуем диаграммы CPU и RAM (с процентами в центре)
+                    const btnColor = getComputedStyle(document.body).getPropertyValue('--button-color').trim();
+                    const bgColor = getComputedStyle(document.body).getPropertyValue('--secondary-bg').trim();
+                    
+                    document.getElementById('cpu-text').innerText = d.cpu + '%';
+                    const ctxCpu = document.getElementById('cpuChart').getContext('2d');
+                    if(cpuChart) cpuChart.destroy();
+                    cpuChart = new Chart(ctxCpu, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Занято', 'Свободно'],
+                            datasets: [{ data: [d.cpu, 100 - d.cpu], backgroundColor: [btnColor, bgColor], borderWidth: 0 }]
+                        },
+                        options: { responsive: true, maintainAspectRatio: false, cutout: '80%', plugins: { legend: { display: false }, tooltip: { enabled: false } } }
+                    });
+
+                    document.getElementById('ram-text').innerText = d.ram + '%';
+                    const ctxRam = document.getElementById('ramChart').getContext('2d');
+                    if(ramChart) ramChart.destroy();
+                    ramChart = new Chart(ctxRam, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Занято', 'Свободно'],
+                            datasets: [{ data: [d.ram, 100 - d.ram], backgroundColor: [btnColor, bgColor], borderWidth: 0 }]
+                        },
+                        options: { responsive: true, maintainAspectRatio: false, cutout: '80%', plugins: { legend: { display: false }, tooltip: { enabled: false } } }
+                    });
+
+                    // 🆕 Рисуем диаграмму Uptime (Uptime / Bugtime / Downtime)
+                    const u = d.uptime_stats;
+                    const ctxUp = document.getElementById('uptimeChart').getContext('2d');
+                    if(uptimeChart) uptimeChart.destroy();
+                    
+                    const upH = (u.uptime / 3600).toFixed(1);
+                    const bugH = (u.bugtime / 3600).toFixed(1);
+                    const downH = (u.downtime / 3600).toFixed(1);
+
+                    uptimeChart = new Chart(ctxUp, {
+                        type: 'pie',
+                        data: {
+                            labels: [`Uptime (${upH}ч)`, `Bugtime (${bugH}ч)`, `Downtime (${downH}ч)`],
+                            datasets: [{ 
+                                data: [u.uptime, u.bugtime, u.downtime], 
+                                backgroundColor: ['#2ecc71', '#eab308', '#e74c3c'], 
+                                borderWidth: 0 
+                            }]
+                        },
+                        options: { 
+                            responsive: true, 
+                            maintainAspectRatio: false, 
+                            plugins: { legend: { position: 'right', labels: { color: '#888', font: {size: 10} } } } 
+                        }
+                    });
+                }
+            } catch (e) {
+                container.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: #e74c3c;">Ошибка загрузки диагностики</p>';
             }
         }
 
-        // Функция-заглушка для подачи заявки
-        function applyRole() {
-            tg.showAlert("Заявка отправлена! (Пока это тест)");
-            tg.HapticFeedback.impactOccurred('medium');
+        async function fetchMyApplications() {
+            const container = document.getElementById('apps-container');
+            try {
+                const response = await fetch('/api/my_applications', { headers: getHeaders() });
+                const data = await response.json();
+                container.innerHTML = '';
+                if (data.applications.length === 0) {
+                    container.innerHTML = `<p style="color: var(--hint-color); text-align: center;">Нет заявок.</p>`;
+                    return;
+                }
+                data.applications.forEach(app => {
+                    let statusColor = '#708499', statusText = app.status, cancelBtn = '';
+                    if (app.status === 'pending') { statusColor = '#eab308'; statusText = '⏳ На рассмотрении'; cancelBtn = `<button class="btn-danger" onclick="cancelApplication('${app.id}')" style="padding: 8px; font-size: 14px; margin-top: 5px;">❌ Отменить</button>`; }
+                    else if (app.status === 'approved') { statusColor = '#2ecc71'; statusText = '✅ Одобрена'; }
+                    else if (app.status === 'rejected') { statusColor = '#e74c3c'; statusText = '❌ Отклонена'; }
+                    const card = document.createElement('div'); card.className = 'role-card';
+                    card.innerHTML = `<div class="role-name">${app.role_name}</div><div style="font-size: 13px; color: var(--hint-color);">${app.created_at}</div><div style="font-weight: bold; color: ${statusColor}; margin-top: 5px;">${statusText}</div>${cancelBtn}`;
+                    container.appendChild(card);
+                });
+            } catch (error) { container.innerHTML = `<p style="color: #e74c3c; text-align: center;">Ошибка</p>`; }
         }
 
-        // Запускаем загрузку ролей при открытии
-        fetchRoles();
+        function cancelApplication(reqId) {
+            tg.showPopup({ title: 'Отмена', message: 'Отменить заявку?', buttons: [{id: 'no', type: 'cancel', text: 'Нет'}, {id: 'yes', type: 'destructive', text: 'Да'}] }, async (buttonId) => {
+                if (buttonId !== 'yes') return;
+                try {
+                    const response = await fetch('/api/cancel_application', { method: 'POST', headers: getHeaders(), body: JSON.stringify({ req_id: reqId }) });
+                    if (response.ok) { fetchMyApplications(); }
+                } catch (error) {}
+            });
+        }
+
+        let allRoles = []; let seasonsLoaded = false;
+        async function fetchRoles() {
+            try {
+                const response = await fetch('/api/roles', { headers: getHeaders() });
+                const data = await response.json();
+                const container = document.getElementById('roles-container');
+                const filter = document.getElementById('season-filter').value;
+                
+                if (!seasonsLoaded && data.roles) {
+                    allRoles = data.roles;
+                    const seasons = [...new Set(allRoles.map(r => r.season))];
+                    const select = document.getElementById('season-filter');
+                    seasons.forEach(season => {
+                        if(season && season !== 'Без сезона') {
+                            const option = document.createElement('option'); option.value = season; option.innerText = season; select.appendChild(option);
+                        }
+                    });
+                    seasonsLoaded = true;
+                }
+                container.innerHTML = ''; 
+                const filteredRoles = allRoles.filter(r => filter === 'all' || r.season === filter);
+                if (filteredRoles.length > 0) {
+                    filteredRoles.forEach(role => {
+                        const card = document.createElement('div');
+                        let statusClass = 'status-free', statusText = 'Свободна', isFree = true;
+                        if (role.status === 'занята') { statusClass = 'status-occupied'; statusText = 'Занята'; isFree = false; }
+                        if (role.status === 'рест') { statusClass = 'status-occupied'; statusText = 'Рест'; isFree = false; }
+                        card.className = `role-card ${isFree ? 'clickable' : ''}`;
+                        if (isFree) card.onclick = () => submitApplication(role.name, role.id, role.season);
+                        card.innerHTML = `<div class="role-name">${role.name}</div><div class="role-status ${statusClass}">${statusText}</div>`;
+                        container.appendChild(card);
+                    });
+                } else { container.innerHTML = '<p style="color: var(--hint-color); text-align: center;">Нет ролей.</p>'; }
+            } catch (error) { document.getElementById('roles-container').innerHTML = '<p style="color: #e74c3c; text-align: center;">Ошибка</p>'; }
+        }
+
+        function submitApplication(roleName, roleId, season) {
+            tg.HapticFeedback.impactOccurred('medium');
+            tg.showPopup({ title: 'Подтверждение', message: `Подать заявку на "${roleName}"?`, buttons: [{id: 'cancel', type: 'cancel', text: 'Отмена'}, {id: 'ok', type: 'default', text: 'Подать'}] }, function(buttonId) {
+                if (buttonId === 'ok') processApply(roleName, roleId, season);
+            });
+        }
+
+        async function processApply(roleName, roleId, season) {
+            const container = document.getElementById('roles-container');
+            const hint = document.getElementById('roles-hint');
+            const originalHtml = container.innerHTML;
+            container.innerHTML = '<div class="skeleton skeleton-card"></div><div class="skeleton skeleton-card"></div>';
+            hint.style.display = 'none';
+
+            try {
+                const response = await fetch('/api/apply', { method: 'POST', headers: getHeaders(), body: JSON.stringify({ role_name: roleName, role_id: roleId, season: season }) });
+                const result = await response.json();
+                
+                if (response.ok) {
+                    tg.HapticFeedback.notificationOccurred('success');
+                    container.innerHTML = `<div class="status-screen success">✅ Успех!</div>`;
+                    setTimeout(() => { hint.style.display = 'block'; fetchRoles(); document.querySelectorAll('.tab-btn')[2].click(); }, 1500);
+                } else {
+                    tg.HapticFeedback.notificationOccurred('error');
+                    container.innerHTML = `<div class="error-badge">❌ ${result.detail || 'Ошибка подачи'}</div>`;
+                    setTimeout(() => { hint.style.display = 'block'; container.innerHTML = originalHtml; }, 3000);
+                }
+            } catch (error) {
+                tg.HapticFeedback.notificationOccurred('error');
+                container.innerHTML = `<div class="error-badge">❌ Ошибка сети</div>`;
+                setTimeout(() => { container.innerHTML = originalHtml; }, 3000);
+            }
+        }
+
+        async function fetchAdminRequests() {
+            const container = document.getElementById('admin-container');
+            try {
+                const response = await fetch('/api/admin/requests', { headers: getHeaders() });
+                const data = await response.json();
+                container.innerHTML = '';
+                if (data.requests.length === 0) { container.innerHTML = '<p style="color: var(--hint-color); text-align: center;">Нет заявок 🎉</p>'; return; }
+                data.requests.forEach(req => {
+                    const card = document.createElement('div'); card.className = 'role-card';
+                    card.innerHTML = `<div class="role-name">${req.role_name}</div><div style="font-size: 13px; color: var(--hint-color);">От: <b>${req.full_name}</b></div><div style="font-size: 12px; color: var(--hint-color);">${req.created_at}</div><div class="admin-actions"><button class="btn-approve" onclick="adminAction('${req.id}', 'approve')">✅</button><button class="btn-reject" onclick="adminAction('${req.id}', 'reject')">❌</button></div>`;
+                    container.appendChild(card);
+                });
+            } catch (error) { container.innerHTML = `<p style="color: #e74c3c; text-align: center;">Ошибка</p>`; }
+        }
+
+        async function adminAction(reqId, action) {
+            tg.HapticFeedback.impactOccurred('medium');
+            tg.showPopup({ title: 'Подтверждение', message: 'Вы уверены?', buttons: [{id: 'cancel', type: 'cancel', text: 'Нет'}, {id: 'ok', type: 'destructive', text: 'Да'}] }, async (buttonId) => {
+                if (buttonId !== 'ok') return;
+                try {
+                    const response = await fetch(`/api/admin/${action}`, { method: 'POST', headers: getHeaders(), body: JSON.stringify({ req_id: reqId }) });
+                    if (response.ok) { tg.HapticFeedback.notificationOccurred('success'); fetchAdminRequests(); }
+                } catch (error) {}
+            });
+        }
+
+        // ЛЕНТА СОБЫТИЙ
+        async function openFeed() {
+            tg.HapticFeedback.impactOccurred('light');
+            document.getElementById('feed-modal').classList.add('active');
+            const container = document.getElementById('feed-container');
+            container.innerHTML = '<p style="text-align: center; color: var(--hint-color);">Загрузка...</p>';
+            
+            try {
+                const response = await fetch('/api/admin/activity', { headers: getHeaders() });
+                const data = await response.json();
+                container.innerHTML = '';
+                if (data.activity.length === 0) { container.innerHTML = '<p style="text-align: center; color: var(--hint-color);">Событий пока нет.</p>'; return; }
+                
+                data.activity.forEach(ev => {
+                    const item = document.createElement('div');
+                    item.className = 'feed-item';
+                    item.innerHTML = `<div class="feed-time">${ev.time}</div><div>${ev.text}</div>`;
+                    container.appendChild(item);
+                });
+            } catch (e) {
+                container.innerHTML = '<p style="text-align: center; color: #e74c3c;">Ошибка загрузки</p>';
+            }
+        }
+
+        function closeFeed(e) {
+            if (e && e.target !== document.getElementById('feed-modal')) return;
+            document.getElementById('feed-modal').classList.remove('active');
+        }
+
+        // Инициализация
+        document.getElementById('profile-data').innerHTML = getProfileSkeleton();
+        fetchProfile();
+        fetchStats(currentChartMode);
     </script>
 </body>
 </html>

@@ -17,6 +17,7 @@ from utils.counters import (
     increment_message_count, get_message_count as get_stored_count,
     set_joined_at, get_joined_at, is_new_user,
     update_last_message_at, mark_norm_notified, is_norm_notified,
+    increment_daily_count, # 🆕 Импортируем функцию дней
 )
 from utils.warns_utils import add_warn
 from utils.settings_utils import get_messages_norm, get_setting
@@ -344,8 +345,9 @@ async def handle_message(message: types.Message):
             set_joined_at(user_id)
             logger.info(f"📅 Установлен joined_at для {user_id}")
 
-        # 🚀 ФИКС: Считаем сообщения всем, кто зареган (даже без роли, чтобы статистика была честной)
+        # Считаем сообщения всем, кто зареган
         increment_message_count(user_id)
+        increment_daily_count(user_id) # 🆕 СЧИТАЕМ ПО ДНЯМ
         await _maybe_notify_norm(message.bot, user_id)
 
         if user_id in message_counter:
