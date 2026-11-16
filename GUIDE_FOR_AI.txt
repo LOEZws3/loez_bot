@@ -1,12 +1,12 @@
 ═══════════════════════════════════════════════════════════════════════════════
 LoezF_Bot — ГАЙД ДЛЯ РАЗРАБОТЧИКОВ (ULTIMATE EDITION)
-ВЕРСИЯ: 12.0.0
-ДАТА ОБНОВЛЕНИЯ: 15.11.2026
-СТАТУС: СТАБИЛЬНО, ПРОД РАБОТАЕТ, ТЕСТ СИНХРОНИЗИРОВАН, WEBAPP ЗАПУЩЕН
+ВЕРСИЯ: 13.0.0
+ДАТА ОБНОВЛЕНИЯ: 16.11.2026
+СТАТУС: СТАБИЛЬНО, ПРОД РАБОТАЕТ, ТЕСТ СИНХРОНИЗИРОВАН, WEBAPP V1.5 ЗАПУЩЕН
 ═══════════════════════════════════════════════════════════════════════════════
 
 Этот файл — наша Библия. Тут всё: архитектура, правила, JSON-схемы, команды,
-функции, баги, грабли, фиксы, история версий и новые фичи 12.0.0. Если ты AI
+функции, баги, грабли, фиксы, история версий и новые фичи 13.0.0. Если ты AI
 и читаешь это — читай ВЕСЬ файл от корки до корки, не листай по диагонали.
 Тут нет воды, тут боль и опыт. Погнали.
 
@@ -18,9 +18,11 @@ LoezF_Bot — Telegram-бот для управления приёмом нов�
 флуд-чаты и ролевые сообщества. Бот закрывает весь цикл: заявки, роли, ресты,
 калы, нормы сообщений, варны, баны, статистика, диагностика, бэкапы, TTS.
 
-🆕 В ВЕРСИИ 12.0.0 ДОБАВЛЕН TELEGRAM WEBAPP (MINI APP).
+🆕 В ВЕРСИИ 13.0.0 ДОБАВЛЕН TELEGRAM WEBAPP (MINI APP) V1.5.
 Теперь у бота есть свой веб-интерфейс (FastAPI + HTML), который открывается
 прямо в Телеграме. Ссылка на WebApp генерируется через Tailscale Funnel.
+WebApp поддерживает: кастомные темы, аватарки-эмодзи, личные никнеймы,
+графики активности, ленту событий, встроенную диагностику и админ-панель.
 
 ⛔ ВАЖНО: Проект полностью завершён и стабильно работает.
 ⛔ НЕ ТРОГАТЬ СИСТЕМУ ПОДКЛЮЧЕНИЯ!
@@ -93,7 +95,7 @@ proxy_manager.py — управление прокси (каскад Happ → Ka
 Если обновил в ПРОД без теста — сам себе злой буратино.
 
 ═══════════════════════════════════════════════════════════════════════════════
-2. ПРАВИЛА ОБЩЕНИЯ С ВЛАДЕЛЬЦЕМ (СТИЛЬ 12.0.0)
+2. ПРАВИЛА ОБЩЕНИЯ С ВЛАДЕЛЬЦЕМ (СТИЛЬ 13.0.0)
 ═══════════════════════════════════════════════════════════════════════════════
 
 Это критически важный раздел. Если ты AI и собираешься отвечать владельцу —
@@ -393,6 +395,8 @@ PRIORITY_PROXY=http://ЛОГИН:ПАРОЛЬ@IP:ПОРТ
 - В `webapp.html` все `fetch` запросы должны быть ОТНОСИТЕЛЬНЫМИ (напр. `/api/roles`),
   так как HTML и API на одном домене.
 - FastAPI должен отдавать HTML по роуту `/webapp` через `FileResponse`.
+- 🆕 При валидации initData в WebApp API используем кастомный заголовок
+  `X-Telegram-Init-Data` (Tailscale вырезает стандартный `Authorization`).
 
 ═══════════════════════════════════════════════════════════════════════════════
 9. ФОРМАТЫ JSON-ФАЙЛОВ ДАННЫХ (ПОДРОБНО)
@@ -427,7 +431,10 @@ data/users/users.json:
         "apply_sent": true,
         "grace_until": null,
         "is_fully_registered": true,
-        "rating": 50
+        "rating": 50,
+        "theme": "default",              // 🆕 Тема WebApp
+        "avatar_emoji": "",              // 🆕 Эмодзи-аватарка
+        "custom_nickname": ""            // 🆕 Кастомный никнейм
       }
     }
 ПОЛЯ:
@@ -447,6 +454,9 @@ data/users/users.json:
 - grace_until — льготный период для синхронизации (ISO) или null
 - is_fully_registered — флаг полной регистрации (bool)
 - rating — рейтинг юзера (0-100), по дефолту 50.
+- theme — тема оформления в WebApp (default, ultramarine, pine и т.д.)
+- avatar_emoji — эмодзи для аватарки в WebApp
+- custom_nickname — кастомное имя (от 2 до 20 символов)
 
 data/users/unsubscribed_calls.json:
     {"8076284478": true, "123456789": true}
@@ -468,6 +478,15 @@ data/system/message_counts.json:
 - joined_at — когда юзер вступил (для проверки "нью")
 - last_message_at — последнее сообщение
 - norm_notified — уведомлён ли о наборе нормы
+
+data/system/daily_counts.json: // 🆕 Статистика по дням
+    {
+      "2026-11-15": {
+        "8076284478": 15,
+        "123456789": 5
+      }
+    }
+Ключ — дата (YYYY-MM-DD), значение — {user_id: count}.
 
 data/system/warns.json:
     {
@@ -631,6 +650,16 @@ data/system/stats_history.json (НОВОЕ 11.1.0):
       }
     }
 История аптайма/даунтайма/багтайма по дням.
+
+data/system/activity_feed.json: // 🆕 Лента событий
+    [
+      {
+        "time": "16.11 14:30",
+        "type": "apply_approved",
+        "text": "Одобрена заявка #42 на 'Сдерик' для Chedrik SSL"
+      }
+    ]
+Хранит последние 250 событий (обрезка при записи). Типы: apply_sent, apply_approved, apply_rejected, role_freed, rest_started, rest_ended, warn_issued, user_banned, admin_promoted, admin_demoted, role_created, role_deleted, user_joined, user_left.
 
 data/users_history/{user_id}.json:
     {
@@ -1087,8 +1116,20 @@ matplotlib строит круговую диаграмму (Pie Chart) на с�
 Если что-то падает — восстанавливает старое состояние.
 
 ═══════════════════════════════════════════════════════════════════════════════
-25. 🆕 БАГФИКСЫ (ВЕРСИЯ 11.4.0)
+25. 🆕 БАГФИКСЫ (ВЕРСИЯ 13.0.0)
 ═══════════════════════════════════════════════════════════════════════════════
+
+✅ ФИКС TypeError add_user() (13.0.0):
+   В `parsers.py` функция `add_user` теперь принимает все 9 аргументов (role, extra, changes_count, birthday, notify_norm, grace_until), которые передает `user_utils.py`.
+
+✅ ФИКС 403 Forbidden в WebApp (13.0.0):
+   Tailscale вырезает заголовок `Authorization`. В `webapp.html` и `webapp_api.py` перешли на кастомный заголовок `X-Telegram-Init-Data`.
+
+✅ ФИКС 404 в WebApp (13.0.0):
+   Добавлены пропущенные эндпоинты `/api/my_stats`, `/api/my_applications` и `/api/cancel_application`.
+
+✅ ФИКС длинных названий ролей (13.0.0):
+   В CSS добавлены свойства `word-break: break-word` и `hyphens: auto`, чтобы длинные слова переносились по правилам русского языка.
 
 ✅ chat_member.py больше не спамит "Я не вижу вас в системе":
    Проверка идёт по наличию `if user:`, а не по флагу `is_fully_registered`.
@@ -1102,7 +1143,7 @@ matplotlib строит круговую диаграмму (Pie Chart) на с�
 ✅ ФИКС RATE-LIMIT (11.2.0):
    В cmd_apply проверка _last_apply_time стоит в самом начале.
 
-🆕 ✅ ФИКС WinError 5 (11.4.0):
+✅ ФИКС WinError 5 (11.4.0):
    Ошибка «Отказано в доступе» при записи JSON. Возникает, если файл открыт в редакторе или антивирус блокирует. Атомарная запись спасает от потери данных, просто пропускается один апдейт.
 
 ═══════════════════════════════════════════════════════════════════════════════
@@ -1133,7 +1174,21 @@ matplotlib строит круговую диаграмму (Pie Chart) на с�
 - admin_commands.py — разбит на три файла для читаемости.
 
 ═══════════════════════════════════════════════════════════════════════════════
-27. ИЗМЕНЕНИЯ ВЕРСИИ 12.0.0 (15.11.2026)
+27. ИЗМЕНЕНИЯ ВЕРСИИ 13.0.0 (16.11.2026)
+═══════════════════════════════════════════════════════════════════════════════
+
+🆕 КАСТОМИЗАЦИЯ WEBAPP: Темы (10 штук), аватарки-эмодзи, кастомный никнейм.
+🆕 ДИАГНОСТИКА WEBAPP: Uptime, CPU, RAM, последняя ошибка, кнопка скачивания логов.
+🆕 ДИАГРАММЫ: Chart.js для CPU, RAM, Uptime/Downtime/Bugtime.
+🆕 ЛЕНТА СОБЫТИЙ: `activity_feed.json` (250 записей). Записывает все действия (заявки, роли, варны, баны, входы).
+🆕 СТАТИСТИКА ПО ДНЯМ: `daily_counts.json`. В WebApp можно смотреть график по дням и неделям.
+🆕 ЗАЩИТА ОТ ТЫКА: Кулдаун 10 секунд + красная плашка "Эту роль только что заняли".
+🆕 СКЕЛЕТОНЫ: Красивая загрузка (мерцающие плашки) во всех вкладках WebApp.
+🆕 СЕТЬ: Tailscale Funnel настроен, добавлен кастомный заголовок `X-Telegram-Init-Data`.
+🆕 БАГФИКС: Фикс `add_user()` и 404 в WebApp.
+
+═══════════════════════════════════════════════════════════════════════════════
+28. ИЗМЕНЕНИЯ ВЕРСИИ 12.0.0 (15.11.2026)
 ═══════════════════════════════════════════════════════════════════════════════
 
 🆕 WEBAPP (MINI APP): Запущен полноценный веб-интерфейс.
@@ -1145,7 +1200,7 @@ matplotlib строит круговую диаграмму (Pie Chart) на с�
 🆕 АРХИТЕКТУРА: В webapp.html используются относительные пути для fetch, так как HTML и API крутятся на одном домене.
 
 ═══════════════════════════════════════════════════════════════════════════════
-28. ИЗМЕНЕНИЯ ВЕРСИИ 11.4.0 (07.11.2026)
+29. ИЗМЕНЕНИЯ ВЕРСИИ 11.4.0 (07.11.2026)
 ═══════════════════════════════════════════════════════════════════════════════
 
 🆕 TTS (ElevenLabs): Голосовые поздравления и уведомления о рестах. Настройки в /settings.
@@ -1155,7 +1210,7 @@ matplotlib строит круговую диаграмму (Pie Chart) на с�
 🆕 ДОКУМЕНТАЦИЯ: Жесткое правило — не менять документацию без разрешения, отдавать файлы целиком.
 
 ═══════════════════════════════════════════════════════════════════════════════
-29. ИЗМЕНЕНИЯ ВЕРСИИ 11.2.0 (01.11.2026) — ЭТАП 3 (ФИНАЛ)
+30. ИЗМЕНЕНИЯ ВЕРСИИ 11.2.0 (01.11.2026) — ЭТАП 3 (ФИНАЛ)
 ═══════════════════════════════════════════════════════════════════════════════
 
 🆕 РЕСТАРТ: subprocess.Popen вместо os.execl.
@@ -1167,7 +1222,7 @@ matplotlib строит круговую диаграмму (Pie Chart) на с�
 🆕 GFA: полный файл восстановлен, добавлены современные правила общения (сленг, без кринжа).
 
 ═══════════════════════════════════════════════════════════════════════════════
-30. ИЗМЕНЕНИЯ ВЕРСИИ 11.1.0 (30.10.2026)
+31. ИЗМЕНЕНИЯ ВЕРСИИ 11.1.0 (30.10.2026)
 ═══════════════════════════════════════════════════════════════════════════════
 
 🆕 СТИЛЬ ОБЩЕНИЯ: кореш-программист, IT-сленг, мемы, без кринжа 2010-х.
@@ -1179,7 +1234,7 @@ matplotlib строит круговую диаграмму (Pie Chart) на с�
 🆕 БЕЗОПАСНОСТЬ: удалены /register_admin и /register_user; защита заявок.
 
 ═══════════════════════════════════════════════════════════════════════════════
-31. ИЗМЕНЕНИЯ ВЕРСИИ 11.0.0 (25–28.10.2026)
+32. ИЗМЕНЕНИЯ ВЕРСИИ 11.0.0 (25–28.10.2026)
 ═══════════════════════════════════════════════════════════════════════════════
 
 ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ: При /start требует согласия.
@@ -1199,7 +1254,7 @@ MIDDLEWARE: Обход для владельца и админов.
 RATE-LIMIT НА /APPLY: 1 минута.
 
 ═══════════════════════════════════════════════════════════════════════════════
-32. ИЗВЕСТНЫЕ ГРАБЛИ (АКТУАЛЬНЫЕ БАГИ)
+33. ИЗВЕСТНЫЕ ГРАБЛИ (АКТУАЛЬНЫЕ БАГИ)
 ═══════════════════════════════════════════════════════════════════════════════
 
 ❌ Баг смены роли (роль накладывалась): ИСПРАВЛЕНО в 7.4.0.
@@ -1232,9 +1287,11 @@ RATE-LIMIT НА /APPLY: 1 минута.
 ❌ /logs пустой: errors.txt может быть пуст.
 ❌ /ping показывает высокую задержку: Проверить прокси.
 🆕 ❌ WSAEACCES (10013) при туннелях: Причина — Kill Switch в VPN. Блокирует сокеты. Выключить Kill Switch или юзать Tailscale.
+🆕 ❌ TypeError add_user() takes 3 positional arguments: ИСПРАВЛЕНО в 13.0.0.
+🆕 ❌ 403 Forbidden в WebApp: ИСПРАВЛЕНО в 13.0.0 (кастомный заголовок).
 
 ═══════════════════════════════════════════════════════════════════════════════
-33. ⚠️ НИЧЕГО НЕ МЕНЯТЬ! (ЗАПРЕЩЁННЫЕ ДЕЙСТВИЯ)
+34. ⚠️ НИЧЕГО НЕ МЕНЯТЬ! (ЗАПРЕЩЁННЫЕ ДЕЙСТВИЯ)
 ═══════════════════════════════════════════════════════════════════════════════
 
 ❌ НЕ МЕНЯТЬ СИСТЕМУ ПОДКЛЮЧЕНИЯ В main.py: Только AiohttpSession(proxy=proxy_url).
@@ -1252,7 +1309,7 @@ RATE-LIMIT НА /APPLY: 1 минута.
 ❌ НЕ МЕНЯТЬ ДОКУМЕНТАЦИЮ БЕЗ РАЗРЕШЕНИЯ: GUIDE_FOR_AI.txt, AI_CONTEXT.md, CHANGELOG.md — только с разрешения. Отдавать ВСЕГДА полными файлами.
 
 ═══════════════════════════════════════════════════════════════════════════════
-34. СТРУКТУРА ПРОЕКТА (ПОДРОБНО)
+35. СТРУКТУРА ПРОЕКТА (ПОДРОБНО)
 ═══════════════════════════════════════════════════════════════════════════════
 
     LoEZF_Bot/
@@ -1329,7 +1386,8 @@ RATE-LIMIT НА /APPLY: 1 минута.
     │   │   ├── role_ids.py
     │   │   ├── backup_utils.py
     │   │   ├── tts_utils.py       # 🆕
-    │   │   └── self_check_utils.py # 🆕
+    │   │   ├── self_check_utils.py # 🆕
+    │   │   └── activity_logger.py # 🆕
     │   ├── config.py
     │   ├── proxy_manager.py
     │   └── main.py
@@ -1342,11 +1400,11 @@ RATE-LIMIT НА /APPLY: 1 минута.
     ├── start.bat
     ├── .gitignore
     ├── .env
-    ├── 🆕 webapp_api.py
-    └── 🆕 webapp.html
+    ├── webapp_api.py # 🆕
+    └── webapp.html # 🆕
 
 ═══════════════════════════════════════════════════════════════════════════════
-35. СПИСОК КОМАНД И ИХ НАЗНАЧЕНИЕ
+36. СПИСОК КОМАНД И ИХ НАЗНАЧЕНИЕ
 ═══════════════════════════════════════════════════════════════════════════════
 
 КОМАНДЫ ДЛЯ ВСЕХ (ТОЛЬКО В ЛС):
@@ -1429,7 +1487,7 @@ RATE-LIMIT НА /APPLY: 1 минута.
 - /warns [ID] — активные варны юзера
 
 ═══════════════════════════════════════════════════════════════════════════════
-36. НАСТРОЙКИ (МЕНЮ /SETTINGS)
+37. НАСТРОЙКИ (МЕНЮ /SETTINGS)
 ═══════════════════════════════════════════════════════════════════════════════
 
 Набор ролей — выбор сезона и ролей
@@ -1456,7 +1514,7 @@ RATE-LIMIT НА /APPLY: 1 минута.
 изменений.
 
 ═══════════════════════════════════════════════════════════════════════════════
-37. НАПОМИНАЛКА (НЕ УДАЛЯТЬ!)
+38. НАПОМИНАЛКА (НЕ УДАЛЯТЬ!)
 ═══════════════════════════════════════════════════════════════════════════════
 
 Когда юзер пишет в чат, бот проверяет, есть ли он в users.json. Если нет —
@@ -1474,7 +1532,7 @@ chat_member_router ловит ВСЕ сообщения. Если постави
 он перехватит callback-и и кнопки не будут работать.
 
 ═══════════════════════════════════════════════════════════════════════════════
-38. УПРАВЛЕНИЕ АДМИНИСТРАТОРАМИ
+39. УПРАВЛЕНИЕ АДМИНИСТРАТОРАМИ
 ═══════════════════════════════════════════════════════════════════════════════
 
 СТРУКТУРА РАНГОВ (НЕ МЕНЯТЬ!):
@@ -1499,7 +1557,7 @@ chat_member_router ловит ВСЕ сообщения. Если постави
 - /setrank
 
 ═══════════════════════════════════════════════════════════════════════════════
-39. ДИАГНОСТИКА
+40. ДИАГНОСТИКА
 ═══════════════════════════════════════════════════════════════════════════════
 
 КОМАНДЫ:
@@ -1517,10 +1575,10 @@ chat_member_router ловит ВСЕ сообщения. Если постави
 - Кнопка "💾 Создать бэкап"
 
 ═══════════════════════════════════════════════════════════════════════════════
-40. ВСЕ ФУНКЦИИ БОТА (СПРАВОЧНИК)
+41. ВСЕ ФУНКЦИИ БОТА (СПРАВОЧНИК)
 ═══════════════════════════════════════════════════════════════════════════════
 
-40.1. handlers/base_commands.py
+41.1. handlers/base_commands.py
 - cmd_start — /start, согласие, «с возвращением»
 - cmd_help — /help
 - cmd_about — /about
@@ -1547,7 +1605,7 @@ chat_member_router ловит ВСЕ сообщения. Если постави
 - cmd_history — /history
 - agree_privacy_callback — обработка кнопки "Согласен" 🆕
 
-40.2. handlers/apply_handlers.py
+41.2. handlers/apply_handlers.py
 - cmd_apply — /apply
 - cmd_free — /free
 - cmd_cancel_request — /cancel_request
@@ -1565,7 +1623,7 @@ chat_member_router ловит ВСЕ сообщения. Если постави
 - free_confirm — подтверждение /free
 - free_cancel — отмена /free
 
-40.3. handlers/request_commands.py
+41.3. handlers/request_commands.py
 - cmd_requests — /requests
 - cmd_approve — /approve
 - cmd_reject — /reject
@@ -1576,13 +1634,13 @@ chat_member_router ловит ВСЕ сообщения. Если постави
 - reject_request_callback — отклонение
 - back_to_requests — назад
 
-40.4. handlers/admin_stats.py
+41.4. handlers/admin_stats.py
 - cmd_stats — /stats
 - stats_period_callback — период
 - stats_graph_365_callback — график за 365 дней
 - stats_top_week_callback — топ-5 за неделю
 
-40.5. handlers/admin_roles.py
+41.5. handlers/admin_roles.py
 - cmd_findrole — /findrole
 - findrole_view — просмотр
 - findrole_delete_confirm — подтверждение удаления
@@ -1590,7 +1648,7 @@ chat_member_router ловит ВСЕ сообщения. Если постави
 - findrole_back — назад
 - cmd_giverest — /giverest
 
-40.6. handlers/admin_users.py
+41.6. handlers/admin_users.py
 - cmd_admins — /admins
 - cmd_users — /users
 - cmd_adduser — /adduser
@@ -1605,36 +1663,36 @@ chat_member_router ловит ВСЕ сообщения. Если постави
 - cmd_userstats — /userstats
 - cmd_sync_norm — /sync_norm
 
-40.7. handlers/admin_management.py
+41.7. handlers/admin_management.py
 - cmd_promote — /promote
 - cmd_demote — /demote
 - cmd_setrank — /setrank
 
-40.8. handlers/call_commands.py
+41.8. handlers/call_commands.py
 - cmd_call — /call
 - cmd_callfal — /callfal
 - cmd_regc — /regc
 - cmd_unregc — /unregc
 - cmd_callstaff — /callstaff
 
-40.9. handlers/rest_commands.py
+41.9. handlers/rest_commands.py
 - cmd_rest — /rest
 - cmd_unrest — /unrest
 - cmd_restextend — /restextend
 - cmd_restlist — /restlist
 - cmd_setrest — /setrest
 
-40.10. handlers/settings_commands.py
+41.10. handlers/settings_commands.py
 - cmd_settings — /settings
 - settings_callback — обработка кнопок
 - settings_value_input — ввод значения (FSM)
 - cancel_setting — отмена
 
-40.11. handlers/diagnostic_commands.py
+41.11. handlers/diagnostic_commands.py
 - cmd_diag — /diag
 - cmd_check_chats — /check_chats
 
-40.12. handlers/chat_member.py
+41.12. handlers/chat_member.py
 - handle_message — обработка сообщений
 - on_user_join — вступление юзера
 - check_user_registration — проверка регистрации
@@ -1646,7 +1704,7 @@ chat_member_router ловит ВСЕ сообщения. Если постави
 - _update_aliases — обновление алиасов
 - _remind_privacy_policy — напоминание о согласии 🆕
 
-40.13. handlers/checknorm_commands.py
+41.13. handlers/checknorm_commands.py
 - cmd_checknorm — /checknorm
 - checknorm_toggle — переключение ✅/❌
 - checknorm_preview — предпросмотр
@@ -1656,19 +1714,19 @@ chat_member_router ловит ВСЕ сообщения. Если постави
 - checknorm_send_ls — отправка в ЛС
 - checknorm_ignore — игнор
 
-40.14. handlers/clear_me.py
+41.14. handlers/clear_me.py
 - cmd_clearme — /clearme
 - clearme_cancel — отмена
 - clearme_confirm_1 — подтверждение 1
 - clearme_final_phrase — финальная фраза
 - clearme_other — другое
 
-40.15. handlers/owner_commands.py
+41.15. handlers/owner_commands.py
 - cmd_logs — /logs (50 строк errors.txt)
 - cmd_ping — /ping (задержка API)
 - cmd_warns — /warns [ID] (активные варны)
 
-40.16. handlers/utils.py
+41.16. handlers/utils.py
 - load_unsubscribed — загрузить отписки
 - save_unsubscribed — сохранить отписки
 - is_unsubscribed — проверка отписки
@@ -1678,7 +1736,7 @@ chat_member_router ловит ВСЕ сообщения. Если постави
 - save_rest_requests — сохранить запросы реста
 - generate_calendar_keyboard — календарь
 
-40.17. handlers/keyboards.py
+41.17. handlers/keyboards.py
 - create_seasons_keyboard — клавиатура сезонов
 - create_roles_keyboard — клавиатура ролей
 - get_main_keyboard — главное меню
@@ -1705,7 +1763,7 @@ chat_member_router ловит ВСЕ сообщения. Если постави
 - button_regc — кнопка подписки на калы
 - button_checknorm — кнопка чистки
 
-40.18. utils/parsers.py
+41.18. utils/parsers.py
 - load_json — загрузить JSON
 - save_json — сохранить JSON (атомарно)
 - load_users — загрузить юзеров
@@ -1744,7 +1802,7 @@ chat_member_router ловит ВСЕ сообщения. Если постави
 - set_fully_registered — установить флаг полной регистрации
 - set_invite_link — сохранить ссылку
 
-40.19. utils/user_utils.py
+41.19. utils/user_utils.py
 - load_users — загрузить юзеров
 - save_users — сохранить юзеров
 - add_user — добавить юзера
@@ -1774,7 +1832,7 @@ chat_member_router ловит ВСЕ сообщения. Если постави
 - set_invite_link — сохранить ссылку
 - set_agreed_to_privacy — сохранить согласие
 
-40.20. utils/admin_utils.py
+41.20. utils/admin_utils.py
 - load_admins — загрузить админов
 - save_admins — сохранить админов
 - is_admin — проверка админа
@@ -1786,7 +1844,7 @@ chat_member_router ловит ВСЕ сообщения. Если постави
 - set_rank — установить ранг
 - get_admin_info — инфа об админе
 
-40.21. utils/role_utils.py
+41.21. utils/role_utils.py
 - load_roles_status — загрузить статусы
 - save_roles_status — сохранить статусы
 - get_seasons_list — список сезонов
@@ -1817,7 +1875,7 @@ chat_member_router ловит ВСЕ сообщения. Если постави
 - update_role_status_by_id — обновить по ID
 - get_role_by_id — роль по ID
 
-40.22. utils/requests_utils.py
+41.22. utils/requests_utils.py
 - load_requests — загрузить заявки
 - save_requests — сохранить заявки
 - add_request — добавить заявку
@@ -1826,7 +1884,7 @@ chat_member_router ловит ВСЕ сообщения. Если постави
 - get_pending_count — количество ожидающих
 - get_requests_count — общее количество
 
-40.23. utils/settings_utils.py
+41.23. utils/settings_utils.py
 - load_settings — загрузить
 - save_settings — сохранить
 - reset_settings — сбросить
@@ -1843,7 +1901,7 @@ chat_member_router ловит ВСЕ сообщения. Если постави
 - get_tts_mode — режим TTS (text/voice/both) 🆕
 - get_tts_voice — выбранный голос 🆕
 
-40.24. utils/counters.py
+41.24. utils/counters.py
 - load_counters — загрузить счётчики
 - save_counters — сохранить
 - increment_message_count — инкремент сообщения
@@ -1860,8 +1918,10 @@ chat_member_router ловит ВСЕ сообщения. Если постави
 - get_last_message_at — получить last_message_at
 - save_weekly_norm_history — сохранить историю
 - get_norm_history — получить историю
+- increment_daily_count — инкремент по дням 🆕
+- get_daily_counts — статистика по дням 🆕
 
-40.25. utils/warns_utils.py
+41.25. utils/warns_utils.py
 - load_warns — загрузить
 - save_warns — сохранить
 - get_user_warns — варны юзера
@@ -1872,20 +1932,20 @@ chat_member_router ловит ВСЕ сообщения. Если постави
 - expire_old_warns — истёкшие
 - get_last_warn_number — последний номер
 
-40.26. utils/norm_utils.py
+41.26. utils/norm_utils.py
 - get_user_category — категория юзера
 - get_emoji — эмодзи категории
 - get_category_label — метка категории
 - get_all_categorized — все категоризированные
 
-40.27. utils/role_ids.py
+41.27. utils/role_ids.py
 - load_free_ids — загрузить свободные ID
 - save_free_ids — сохранить
 - get_next_id — следующий ID
 - add_free_id — добавить ID
 - get_stats — статистика
 
-40.28. utils/user_history.py
+41.28. utils/user_history.py
 - ensure_history_dir — создать папку
 - load_user_history — загрузить историю
 - save_user_history — сохранить
@@ -1896,27 +1956,30 @@ chat_member_router ловит ВСЕ сообщения. Если постави
 - set_last_message_at — установить last_message
 - set_left — установить уход
 
-40.29. utils/emoji_utils.py
+41.29. utils/emoji_utils.py
 - get_random_emoji — случайный эмодзи
 - get_user_emoji — эмодзи юзера
 
-40.30. utils/backup_utils.py
+41.30. utils/backup_utils.py
 - create_backup — создать ZIP
 - send_backup_to_owner — отправить в ЛС
 - cleanup_old_backups — очистка старых
 - auto_backup_loop — фоновый цикл
 
-40.31. utils/tts_utils.py 🆕
+41.31. utils/tts_utils.py 🆕
 - generate_tts — генерация аудио (ElevenLabs)
 - cleanup_old_tts — очистка старых mp3
 
-40.32. utils/self_check_utils.py 🆕
+41.32. utils/self_check_utils.py 🆕
 - run_self_check — проверка целостности JSON и сбор метрик
 
-40.33. middlewares/registration_check.py
+41.33. utils/activity_logger.py 🆕
+- log_activity — запись события в activity_feed.json
+
+41.34. middlewares/registration_check.py
 - RegistrationCheckMiddleware — проверка регистрации и согласия с политикой
 
-40.34. main.py
+41.35. main.py
 - create_bot_with_proxy — создание бота с прокси
 - switch_to_next_proxy — переключение прокси
 - set_bot_commands — установка команд
@@ -1933,8 +1996,25 @@ chat_member_router ловит ВСЕ сообщения. Если постави
 - tts_cleanup_loop — очистка TTS (04:00) 🆕
 - self_check_loop — самоконтроль (раз в час) 🆕
 
+41.36. webapp_api.py 🆕
+- serve_webapp — отдача HTML
+- get_profile — профиль юзера
+- update_profile — обновление профиля (тема, аватарка, ник, ДР)
+- get_my_stats — графики (weekly/daily)
+- get_roles — список ролей
+- get_my_applications — история заявок
+- cancel_my_application — отмена заявки
+- apply_for_role — подача заявки (кулдаун, защита от тыка)
+- get_admin_activity — лента событий
+- get_admin_stats — статистика бота
+- get_admin_diag — диагностика (CPU, RAM, Uptime)
+- get_admin_logs — скачивание логов
+- get_admin_requests — список висящих заявок
+- admin_approve — одобрение заявки
+- admin_reject — отклонение заявки
+
 ═══════════════════════════════════════════════════════════════════════════════
-41. RAW-ССЫЛКИ (ДЛЯ ЧТЕНИЯ ФАЙЛОВ)
+42. RAW-ССЫЛКИ (ДЛЯ ЧТЕНИЯ ФАЙЛОВ)
 ═══════════════════════════════════════════════════════════════════════════════
 
 Актуальные Raw-ссылки на файлы репозитория. AI ОБЯЗАН использовать их для
@@ -1948,7 +2028,7 @@ chat_member_router ловит ВСЕ сообщения. Если постави
     https://raw.githubusercontent.com/LOEZws3/loez_bot/{commit}/src/config.py
 
 ═══════════════════════════════════════════════════════════════════════════════
-42. ФИНАЛЬНЫЕ НАПУТСТВИЯ
+43. ФИНАЛЬНЫЕ НАПУТСТВИЯ
 ═══════════════════════════════════════════════════════════════════════════════
 
 Бро, если ты AI и дочитал до сюда — ты красавчик. Теперь ты знаешь проект
@@ -1974,5 +2054,5 @@ chat_member_router ловит ВСЕ сообщения. Если постави
 Удачи, бро. Ты справишься. 🔥
 
 ═══════════════════════════════════════════════════════════════════════════════
-КОНЕЦ ГАЙДА (ВЕРСИЯ 12.0.0, 15.11.2026)
+КОНЕЦ ГАЙДА (ВЕРСИЯ 13.0.0, 16.11.2026)
 ═══════════════════════════════════════════════════════════════════════════════
