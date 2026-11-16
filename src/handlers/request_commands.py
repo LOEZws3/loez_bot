@@ -491,14 +491,21 @@ async def approve_request_callback(callback: CallbackQuery):
         elif rank == 3:
             invite_text += f"\n\n🛡️ <b>Ссылка для модераторов:</b>\n{MODERATOR_LINK}"
 
+        # 🆕 НОВОЕ УВЕДОМЛЕНИЕ С КНОПКАМИ
+        kb = InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text="📝 Заполнить профиль", callback_data="post_approve_fill")],
+            [InlineKeyboardButton(text="⏭️ Пропустить", callback_data="post_approve_skip")]
+        ])
+        
         try:
             await callback.bot.send_message(
                 user_id,
-                f"✅ <b>Заявка одобрена!</b>\n\n"
-                f"📌 Роль: <b>{html.escape(role_name)}</b>\n"
-                f"🏷️ Должность: <b>{html.escape(position_name)}</b>"
-                + invite_text,
+                f"🎉 <b>Твоя заявка одобрена!</b>\n\n"
+                f"🎭 Роль: <b>{html.escape(role_name)}</b>\n"
+                f"🏷️ Должность: <b>{html.escape(position_name)}</b>\n\n"
+                f"Для получения ссылки на чат, пожалуйста, заполни профиль (дату рождения). Это займет 10 секунд.",
                 parse_mode="HTML",
+                reply_markup=kb,
                 disable_web_page_preview=True
             )
         except Exception as e:
@@ -611,3 +618,35 @@ async def back_to_requests(callback: CallbackQuery):
         )
     except TelegramBadRequest:
         pass
+
+# 🆕 ОБРАБОТЧИКИ ДЛЯ НОВОГО УВЕДОМЛЕНИЯ
+@router.callback_query(F.data == "post_approve_skip")
+async def post_approve_skip(callback: CallbackQuery):
+    await _safe_answer(callback)
+    user_id = callback.from_user.id
+    user = get_user_by_id(user_id)
+    
+    if user and user.get('invite_link'):
+        invite_link = user['invite_link']
+        await callback.message.edit_text(
+            f"✅ Ок! Ссылка на вход в чат (действует 2 дня, 1 вход):\n{invite_link}",
+            parse_mode="HTML",
+            disable_web_page_preview=True
+        )
+    else:
+        await callback.message.edit_text("❌ Ошибка: ссылка не найдена. Напиши /start")
+
+@router.callback_query(F.data == "post_approve_fill")
+async def post_approve_fill(callback: CallbackQuery, state: FSMContext):
+    await _safe_answer(callback)
+    
+    from .base_commands import SetBirthdayStates, _build_days_keyboard
+    
+    await state.set_state(SetBirthdayStates.choosing_day)
+    await state.update_data(from_approval=True)
+    
+    await callback.message.edit_text(
+        "🎂 <b>Установка даты рождения</b>\n\nВыберите <b>день</b>:",
+        parse_mode="HTML",
+        reply_markup=_build_days_keyboard()
+    )

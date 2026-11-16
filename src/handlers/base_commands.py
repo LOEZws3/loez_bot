@@ -530,6 +530,8 @@ async def bday_month_chosen(callback: CallbackQuery, state: FSMContext):
 
     data = await state.get_data()
     day = data.get('bday_day')
+    from_approval = data.get('from_approval', False) # 🆕 Флаг
+    
     if not day:
         await callback.message.edit_text("❌ Ошибка: день потерян. Начните заново /setbirthday.")
         await state.clear()
@@ -548,18 +550,36 @@ async def bday_month_chosen(callback: CallbackQuery, state: FSMContext):
 
     await state.clear()
 
-    await callback.message.edit_text(
+    text = (
         f"✅ <b>Дата рождения сохранена!</b>\n\n"
         f"🎂 {birthday}\n\n"
-        f"📌 Поздравления приходят 00:00 (лично) и 12:00 (в чат).",
-        parse_mode="HTML"
+        f"📌 Поздравления приходят 00:00 (лично) и 12:00 (в чат)."
     )
+
+    kb = None
+    # 🆕 Если пришли из одобрения заявки — добавляем ссылку и кнопку
+    if from_approval:
+        user = get_user_by_id(user_id)
+        if user and user.get('invite_link'):
+            invite_link = user['invite_link']
+            text += f"\n\n🔗 <b>Ссылка на вход в чат (действует 2 дня, 1 вход):</b>\n{invite_link}"
+            kb = InlineKeyboardMarkup(inline_keyboard=[
+                [InlineKeyboardButton(text="🚀 Перейти в чат", url=invite_link)]
+            ])
+        else:
+            text += "\n\n⚠️ Ссылка не найдена. Напиши /start"
+
+    await callback.message.edit_text(text, parse_mode="HTML", disable_web_page_preview=True, reply_markup=kb)
     logger.info(f"🎂 {user_id} установил ДР: {birthday}")
+
 
 @router.callback_query(F.data == "bday_skip")
 async def bday_skip(callback: CallbackQuery, state: FSMContext):
     await _safe_answer(callback)
     user_id = callback.from_user.id
+    
+    data = await state.get_data()
+    from_approval = data.get('from_approval', False)
     
     set_birthday(user_id, "00.00")
     
@@ -570,10 +590,22 @@ async def bday_skip(callback: CallbackQuery, state: FSMContext):
         logger.error(f"❌ Не удалось сохранить ДР в историю: {e}")
         
     await state.clear()
-    await callback.message.edit_text(
-        "✅ <b>Дата рождения пропущена.</b>\n\nТеперь в профиле будет указано 00.00, и поздравления не будут приходить.",
-        parse_mode="HTML"
-    )
+
+    text = "✅ <b>Дата рождения пропущена.</b>\n\nТеперь в профиле будет указано 00.00, и поздравления не будут приходить."
+    
+    kb = None
+    if from_approval:
+        user = get_user_by_id(user_id)
+        if user and user.get('invite_link'):
+            invite_link = user['invite_link']
+            text += f"\n\n🔗 <b>Ссылка на вход в чат (действует 2 дня, 1 вход):</b>\n{invite_link}"
+            kb = InlineKeyboardMarkup(inline_keyboard=[
+                [InlineKeyboardButton(text="🚀 Перейти в чат", url=invite_link)]
+            ])
+        else:
+            text += "\n\n⚠️ Ссылка не найдена. Напиши /start"
+
+    await callback.message.edit_text(text, parse_mode="HTML", disable_web_page_preview=True, reply_markup=kb)
     logger.info(f"🎂 {user_id} пропустил установку ДР")
 
 @router.callback_query(F.data == "bday_cancel")

@@ -7,7 +7,6 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* 🎨 ТЕМЫ */
         :root { --bg-color: var(--tg-theme-bg-color, #17212b); --text-color: var(--tg-theme-text-color, #ffffff); --hint-color: var(--tg-theme-hint-color, #708499); --button-color: var(--tg-theme-button-color, #2481cc); --secondary-bg: var(--tg-theme-secondary-bg-color, #232e3c); }
         .theme-ultramarine { --bg-color: #2B2FD9; --text-color: #FBCEB1; --secondary-bg: rgba(255,255,255,0.1); --button-color: #FBCEB1; --hint-color: rgba(251,206,177,0.6); }
         .theme-pine { --bg-color: #1B4332; --text-color: #F7F3E3; --secondary-bg: rgba(255,255,255,0.1); --button-color: #F7F3E3; --hint-color: rgba(247,243,227,0.6); }
@@ -69,7 +68,6 @@
         .chart-toggle button { background: none; border: none; color: var(--hint-color); padding: 4px 8px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 4px; }
         .chart-toggle button.active { background: var(--button-color); color: var(--bg-color); }
 
-        /* СКЕЛЕТОНЫ */
         .skeleton { background-color: var(--secondary-bg); border-radius: 8px; position: relative; overflow: hidden; }
         .skeleton::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); animation: shimmer 1.5s infinite; }
         @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
@@ -77,7 +75,6 @@
         .skeleton-row.half { width: 50%; }
         .skeleton-card { height: 80px; margin-bottom: 8px; }
 
-        /* МОДАЛКИ */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: flex-end; }
         .modal-overlay.active { display: flex; }
         .modal { background: var(--bg-color); width: 100%; max-height: 85%; border-radius: 20px 20px 0 0; padding: 20px; box-sizing: border-box; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; animation: slideUp 0.3s ease; }
@@ -89,38 +86,36 @@
         .theme-swatch div { flex: 1; }
         .settings-input { background: var(--secondary-bg); border: 1px solid var(--hint-color); color: var(--text-color); padding: 10px; border-radius: 8px; font-size: 16px; width: 100%; box-sizing: border-box; }
 
-        /* ЛЕНТА СОБЫТИЙ */
         .feed-list { display: flex; flex-direction: column; gap: 8px; }
         .feed-item { background: var(--secondary-bg); padding: 10px; border-radius: 8px; font-size: 13px; display: flex; flex-direction: column; gap: 4px; border-left: 3px solid var(--button-color); }
         .feed-time { color: var(--hint-color); font-size: 11px; }
 
-        /* ПЛАШКА ОШИБКИ */
         .error-badge { background-color: rgba(231, 76, 60, 0.2); color: #e74c3c; padding: 16px; border-radius: 10px; text-align: center; font-weight: bold; border: 1px solid #e74c3c; animation: shake 0.5s; }
         @keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-5px); } 100% { transform: translateX(0); } }
 
-        /* ДИАГНОСТИКА */
         .diag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .diag-card { background: var(--secondary-bg); padding: 12px; border-radius: 10px; display: flex; flex-direction: column; align-items: center; text-align: center; }
         .diag-val { font-size: 18px; font-weight: bold; color: var(--button-color); word-break: break-all; }
         .diag-name { font-size: 12px; color: var(--hint-color); margin-top: 4px; }
         .diag-full { grid-column: 1 / -1; }
         
-        /* КОНТЕЙНЕР ДЛЯ ДИАГРАММ */
         .charts-row { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
         .chart-box { flex: 1; min-width: 100px; height: 140px; position: relative; background: var(--secondary-bg); border-radius: 10px; padding: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center;}
         .chart-box canvas { max-height: 90px; }
         
-        /* 🆕 Центральный текст в диаграммах */
-        .chart-center-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -30%); /* Чуть выше центра, т.к. снизу еще текст */
-            font-size: 16px;
-            font-weight: bold;
-            color: var(--button-color);
-            pointer-events: none;
-        }
+        .chart-center-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -30%); font-size: 16px; font-weight: bold; color: var(--button-color); pointer-events: none; }
+
+        /* 🆕 СТИЛИ ДЛЯ ТОПА */
+        .top-card { background-color: var(--secondary-bg); padding: 12px 16px; border-radius: 10px; display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: bold; transition: 0.2s; }
+        .top-card:hover { transform: scale(1.02); }
+        .top-place { font-size: 18px; width: 30px; text-align: center; }
+        .top-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .top-count { color: var(--button-color); }
+        
+        .top-place-1 { background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.05)); border: 1px solid gold; }
+        .top-place-2 { background: linear-gradient(135deg, rgba(192, 192, 192, 0.2), rgba(192, 192, 192, 0.05)); border: 1px solid silver; }
+        .top-place-3 { background: linear-gradient(135deg, rgba(205, 127, 50, 0.2), rgba(205, 127, 50, 0.05)); border: 1px solid #cd7f32; }
+        .top-place-4-5 { background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(138, 43, 226, 0.05)); border: 1px solid #8a2be2; }
     </style>
 </head>
 <body>
@@ -138,6 +133,7 @@
         <button class="tab-btn active" onclick="openTab('profile', this)">👤 Профиль</button>
         <button class="tab-btn" onclick="openTab('roles', this)">📜 Роли</button>
         <button class="tab-btn" onclick="openTab('apps', this)">📝 Заявки</button>
+        <button class="tab-btn" onclick="openTab('top', this)">🏆 Топ</button>
         <button class="tab-btn" id="admin-tab-btn" style="display: none;" onclick="openTab('admin', this)">🔐 Админка</button>
         <button class="tab-btn" id="stats-tab-btn" style="display: none;" onclick="openTab('admin-stats', this)">📊 Стата</button>
         <button class="tab-btn" id="diag-tab-btn" style="display: none;" onclick="openTab('admin-diag', this)">🩺 Диаг</button>
@@ -172,6 +168,17 @@
         <div class="profile-card" id="apps-container"></div>
     </div>
 
+    <div id="top" class="tab-content">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+            <div class="section-title" style="margin-bottom: 0;">🏆 Топ активных</div>
+            <div class="chart-toggle">
+                <button class="active" onclick="switchTop('week', this)">Неделя</button>
+                <button onclick="switchTop('month', this)">Месяц</button>
+            </div>
+        </div>
+        <div class="roles-list" id="top-container"></div>
+    </div>
+
     <div id="admin" class="tab-content">
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <div class="section-title">Висящие заявки</div>
@@ -190,11 +197,8 @@
         </div>
     </div>
 
-    <!-- 🆕 ВКЛАДКА ДИАГНОСТИКИ -->
     <div id="admin-diag" class="tab-content">
         <div class="section-title">🩺 Диагностика системы</div>
-        
-        <!-- Диаграммы -->
         <div class="charts-row">
             <div class="chart-box">
                 <div style="font-size:12px; color:var(--hint-color);">CPU</div>
@@ -211,15 +215,12 @@
                 <canvas id="uptimeChart"></canvas>
             </div>
         </div>
-
-        <div class="diag-grid" id="diag-container">
-            <p style="grid-column: 1 / -1; text-align: center; color: var(--hint-color);">Загрузка...</p>
-        </div>
+        <div class="diag-grid" id="diag-container"></div>
         <button class="btn-primary" onclick="fetchAdminDiag()" style="margin-top: 20px;">🔄 Обновить данные</button>
         <a href="/api/admin/logs" target="_blank" class="btn-danger" style="display: block; text-align: center; text-decoration: none; box-sizing: border-box;">📥 Скачать последние 50 строк логов</a>
     </div>
 
-    <!-- МОДАЛКА НАСТРОЕК -->
+    <!-- МОДАЛКИ -->
     <div class="modal-overlay" id="settings-modal" onclick="closeSettings(event)">
         <div class="modal" onclick="event.stopPropagation()">
             <div class="section-title" style="font-size: 20px; margin-bottom: 0;">⚙️ Настройки</div>
@@ -255,13 +256,10 @@
         </div>
     </div>
 
-    <!-- МОДАЛКА ЛЕНТЫ СОБЫТИЙ -->
     <div class="modal-overlay" id="feed-modal" onclick="closeFeed(event)">
         <div class="modal" onclick="event.stopPropagation()">
             <div class="section-title" style="font-size: 20px; margin-bottom: 0;">🕒 Последние 250 событий</div>
-            <div class="feed-list" id="feed-container">
-                <p style="text-align: center; color: var(--hint-color);">Загрузка...</p>
-            </div>
+            <div class="feed-list" id="feed-container"><p style="text-align: center; color: var(--hint-color);">Загрузка...</p></div>
             <button class="btn-danger" onclick="closeFeed()">Закрыть</button>
         </div>
     </div>
@@ -269,40 +267,23 @@
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand(); 
-
         const user = tg.initDataUnsafe?.user;
         let userProfile = null;
         let selectedTheme = 'default';
         let myChart = null; 
         let myAdminChart = null; 
-        let cpuChart = null; 
-        let ramChart = null;
-        let uptimeChart = null;
+        let cpuChart = null, ramChart = null, uptimeChart = null;
         let currentChartMode = 'weekly'; 
+        let currentTopMode = 'week';
 
-        function getSkeletonHTML(rows) {
-            let html = '';
-            for(let i=0; i<rows; i++) html += `<div class="skeleton skeleton-card"></div>`;
-            return html;
-        }
-
-        function getProfileSkeleton() {
-            return `
-                <div class="skeleton skeleton-row half"></div>
-                <div class="skeleton skeleton-row"></div>
-                <div class="skeleton skeleton-row"></div>
-                <div class="skeleton skeleton-row half"></div>
-            `;
-        }
+        function getSkeletonHTML(rows) { let html = ''; for(let i=0; i<rows; i++) html += `<div class="skeleton skeleton-card"></div>`; return html; }
+        function getProfileSkeleton() { return `<div class="skeleton skeleton-row half"></div><div class="skeleton skeleton-row"></div><div class="skeleton skeleton-row"></div><div class="skeleton skeleton-row half"></div>`; }
 
         function applyTheme(themeName) {
             document.body.className = '';
             if (themeName && themeName !== 'default') document.body.classList.add(`theme-${themeName}`);
             selectedTheme = themeName || 'default';
-            document.querySelectorAll('.theme-swatch').forEach(el => {
-                if (el.getAttribute('data-theme') === themeName) el.classList.add('active');
-                else el.classList.remove('active');
-            });
+            document.querySelectorAll('.theme-swatch').forEach(el => { if (el.getAttribute('data-theme') === themeName) el.classList.add('active'); else el.classList.remove('active'); });
         }
 
         function updateHeaderAvatar() {
@@ -328,6 +309,7 @@
             if (tabName === 'profile') { document.getElementById('profile-data').innerHTML = getProfileSkeleton(); fetchProfile(); fetchStats(currentChartMode); }
             if (tabName === 'roles') { document.getElementById('roles-container').innerHTML = getSkeletonHTML(4); fetchRoles(); }
             if (tabName === 'apps') { document.getElementById('apps-container').innerHTML = getProfileSkeleton(); fetchMyApplications(); }
+            if (tabName === 'top') fetchTop(currentTopMode);
             if (tabName === 'admin') { document.getElementById('admin-container').innerHTML = getSkeletonHTML(3); fetchAdminRequests(); }
             if (tabName === 'admin-stats') fetchAdminStats();
             if (tabName === 'admin-diag') fetchAdminDiag(); 
@@ -335,24 +317,63 @@
 
         const getHeaders = () => ({ 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg.initData || '' });
 
+        // 🆕 ТОП-10
+        function switchTop(mode, btnElement) {
+            currentTopMode = mode;
+            document.querySelectorAll('#top .chart-toggle button').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+            fetchTop(mode);
+        }
+
+        async function fetchTop(mode) {
+            const container = document.getElementById('top-container');
+            container.innerHTML = getSkeletonHTML(5);
+            try {
+                const response = await fetch(`/api/top_users?period=${mode}`, { headers: getHeaders() });
+                const data = await response.json();
+                container.innerHTML = '';
+                if (data.top.length === 0) { container.innerHTML = '<p style="color: var(--hint-color); text-align: center;">Пока нет данных.</p>'; return; }
+                
+                data.top.forEach((u, index) => {
+                    const place = index + 1;
+                    let placeClass = 'top-card';
+                    let placeEmoji = place;
+                    if (place === 1) { placeClass += ' top-place-1'; placeEmoji = '🥇'; }
+                    else if (place === 2) { placeClass += ' top-place-2'; placeEmoji = '🥈'; }
+                    else if (place === 3) { placeClass += ' top-place-3'; placeEmoji = '🥉'; }
+                    else if (place === 4 || place === 5) { placeClass += ' top-place-4-5'; }
+                    
+                    const card = document.createElement('div');
+                    card.className = placeClass;
+                    
+                    let displayName = u.name;
+                    if (u.username) displayName += ` (@${u.username})`;
+
+                    card.innerHTML = `
+                        <div class="top-place">${placeEmoji}</div>
+                        <div class="top-name">${displayName}</div>
+                        <div class="top-count">${u.count} мсг</div>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (error) { container.innerHTML = `<p style="color: #e74c3c; text-align: center;">Ошибка</p>`; }
+        }
+
         async function fetchProfile() {
             try {
                 const response = await fetch('/api/profile', { headers: getHeaders() });
                 const data = await response.json();
-                
                 if (data.is_admin) {
                     document.getElementById('admin-tab-btn').style.display = 'block';
                     document.getElementById('stats-tab-btn').style.display = 'block';
                     document.getElementById('diag-tab-btn').style.display = 'block'; 
                 }
-
                 const container = document.getElementById('profile-data');
                 if (data.status === 'ok') {
                     const u = data.user;
                     userProfile = u; 
                     applyTheme(u.theme);
                     updateHeaderAvatar();
-
                     let restText = u.rest ? '<span style="color: #e74c3c;">В ресте</span>' : '<span style="color: #2ecc71;">Активен</span>';
                     let bday = u.birthday && u.birthday !== '00.00' ? u.birthday : 'не указан';
                     let displayName = u.full_name;
@@ -365,9 +386,7 @@
                         <div class="profile-row"><span>ДР:</span> <span>🎂 ${bday}</span></div>
                         <div class="profile-row"><span>Статус:</span> ${restText}</div>
                     `;
-                } else {
-                    container.innerHTML = '<p style="color: var(--hint-color); text-align: center;">Ты еще не зарегистрирован.</p>';
-                }
+                } else { container.innerHTML = '<p style="color: var(--hint-color); text-align: center;">Ты еще не зарегистрирован.</p>'; }
             } catch (error) { document.getElementById('profile-data').innerHTML = `<p style="color: #e74c3c; text-align: center;">Ошибка</p>`; }
         }
 
@@ -376,12 +395,10 @@
             tg.HapticFeedback.impactOccurred('medium');
             document.getElementById('input-avatar').value = userProfile.avatar_emoji || '';
             document.getElementById('input-nickname').value = userProfile.custom_nickname || '';
-            
             if (userProfile.birthday && userProfile.birthday !== '00.00') {
                 const [d, m] = userProfile.birthday.split('.');
                 document.getElementById('input-birthday').value = `${new Date().getFullYear()}-${m}-${d}`;
             } else document.getElementById('input-birthday').value = '';
-
             applyTheme(userProfile.theme || 'default');
             document.getElementById('settings-modal').classList.add('active');
         }
@@ -397,16 +414,9 @@
             const avatar = document.getElementById('input-avatar').value.trim();
             const birthday = document.getElementById('input-birthday').value;
             const nickname = document.getElementById('input-nickname').value.trim();
-
-            if (nickname && (nickname.length < 2 || nickname.length > 20)) {
-                tg.showAlert("❌ Никнейм должен быть от 2 до 20 символов"); return;
-            }
-
+            if (nickname && (nickname.length < 2 || nickname.length > 20)) { tg.showAlert("❌ Никнейм должен быть от 2 до 20 символов"); return; }
             try {
-                const response = await fetch('/api/update_profile', {
-                    method: 'POST', headers: getHeaders(),
-                    body: JSON.stringify({ theme: selectedTheme, avatar_emoji: avatar, birthday: birthday, custom_nickname: nickname })
-                });
+                const response = await fetch('/api/update_profile', { method: 'POST', headers: getHeaders(), body: JSON.stringify({ theme: selectedTheme, avatar_emoji: avatar, birthday: birthday, custom_nickname: nickname }) });
                 if (response.ok) { tg.HapticFeedback.notificationOccurred('success'); closeSettings(); fetchProfile(); }
                 else tg.showAlert("❌ Ошибка сохранения");
             } catch (error) { tg.showAlert("❌ Ошибка сети."); }
@@ -456,7 +466,6 @@
             } catch (error) {}
         }
 
-        // 🆕 ДИАГНОСТИКА С ДИАГРАММАМИ
         async function fetchAdminDiag() {
             const container = document.getElementById('diag-container');
             try {
@@ -464,72 +473,34 @@
                 const data = await response.json();
                 if (data.status === 'ok') {
                     const d = data.diag;
-                    
-                    // Обновляем карточки
                     container.innerHTML = `
                         <div class="diag-card"><div class="diag-val">${d.bot_uptime}</div><div class="diag-name">Uptime Бота</div></div>
                         <div class="diag-card"><div class="diag-val">${d.api_uptime}</div><div class="diag-name">Uptime API</div></div>
                         <div class="diag-card"><div class="diag-val">${d.proxy}</div><div class="diag-name">Прокси</div></div>
                         <div class="diag-card diag-full"><div class="diag-val" style="font-size:12px; font-weight:normal;">${d.last_error}</div><div class="diag-name">Последняя ошибка</div></div>
                     `;
-
-                    // 🆕 Рисуем диаграммы CPU и RAM (с процентами в центре)
                     const btnColor = getComputedStyle(document.body).getPropertyValue('--button-color').trim();
                     const bgColor = getComputedStyle(document.body).getPropertyValue('--secondary-bg').trim();
                     
                     document.getElementById('cpu-text').innerText = d.cpu + '%';
                     const ctxCpu = document.getElementById('cpuChart').getContext('2d');
                     if(cpuChart) cpuChart.destroy();
-                    cpuChart = new Chart(ctxCpu, {
-                        type: 'doughnut',
-                        data: {
-                            labels: ['Занято', 'Свободно'],
-                            datasets: [{ data: [d.cpu, 100 - d.cpu], backgroundColor: [btnColor, bgColor], borderWidth: 0 }]
-                        },
-                        options: { responsive: true, maintainAspectRatio: false, cutout: '80%', plugins: { legend: { display: false }, tooltip: { enabled: false } } }
-                    });
+                    cpuChart = new Chart(ctxCpu, { type: 'doughnut', data: { labels: ['Занято', 'Свободно'], datasets: [{ data: [d.cpu, 100 - d.cpu], backgroundColor: [btnColor, bgColor], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '80%', plugins: { legend: { display: false }, tooltip: { enabled: false } } } });
 
                     document.getElementById('ram-text').innerText = d.ram + '%';
                     const ctxRam = document.getElementById('ramChart').getContext('2d');
                     if(ramChart) ramChart.destroy();
-                    ramChart = new Chart(ctxRam, {
-                        type: 'doughnut',
-                        data: {
-                            labels: ['Занято', 'Свободно'],
-                            datasets: [{ data: [d.ram, 100 - d.ram], backgroundColor: [btnColor, bgColor], borderWidth: 0 }]
-                        },
-                        options: { responsive: true, maintainAspectRatio: false, cutout: '80%', plugins: { legend: { display: false }, tooltip: { enabled: false } } }
-                    });
+                    ramChart = new Chart(ctxRam, { type: 'doughnut', data: { labels: ['Занято', 'Свободно'], datasets: [{ data: [d.ram, 100 - d.ram], backgroundColor: [btnColor, bgColor], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '80%', plugins: { legend: { display: false }, tooltip: { enabled: false } } } });
 
-                    // 🆕 Рисуем диаграмму Uptime (Uptime / Bugtime / Downtime)
                     const u = d.uptime_stats;
                     const ctxUp = document.getElementById('uptimeChart').getContext('2d');
                     if(uptimeChart) uptimeChart.destroy();
-                    
                     const upH = (u.uptime / 3600).toFixed(1);
                     const bugH = (u.bugtime / 3600).toFixed(1);
                     const downH = (u.downtime / 3600).toFixed(1);
-
-                    uptimeChart = new Chart(ctxUp, {
-                        type: 'pie',
-                        data: {
-                            labels: [`Uptime (${upH}ч)`, `Bugtime (${bugH}ч)`, `Downtime (${downH}ч)`],
-                            datasets: [{ 
-                                data: [u.uptime, u.bugtime, u.downtime], 
-                                backgroundColor: ['#2ecc71', '#eab308', '#e74c3c'], 
-                                borderWidth: 0 
-                            }]
-                        },
-                        options: { 
-                            responsive: true, 
-                            maintainAspectRatio: false, 
-                            plugins: { legend: { position: 'right', labels: { color: '#888', font: {size: 10} } } } 
-                        }
-                    });
+                    uptimeChart = new Chart(ctxUp, { type: 'pie', data: { labels: [`Uptime (${upH}ч)`, `Bugtime (${bugH}ч)`, `Downtime (${downH}ч)`], datasets: [{ data: [u.uptime, u.bugtime, u.downtime], backgroundColor: ['#2ecc71', '#eab308', '#e74c3c'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { color: '#888', font: {size: 10} } } } } });
                 }
-            } catch (e) {
-                container.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: #e74c3c;">Ошибка загрузки диагностики</p>';
-            }
+            } catch (e) { container.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: #e74c3c;">Ошибка</p>'; }
         }
 
         async function fetchMyApplications() {
@@ -660,28 +631,23 @@
             });
         }
 
-        // ЛЕНТА СОБЫТИЙ
         async function openFeed() {
             tg.HapticFeedback.impactOccurred('light');
             document.getElementById('feed-modal').classList.add('active');
             const container = document.getElementById('feed-container');
             container.innerHTML = '<p style="text-align: center; color: var(--hint-color);">Загрузка...</p>';
-            
             try {
                 const response = await fetch('/api/admin/activity', { headers: getHeaders() });
                 const data = await response.json();
                 container.innerHTML = '';
                 if (data.activity.length === 0) { container.innerHTML = '<p style="text-align: center; color: var(--hint-color);">Событий пока нет.</p>'; return; }
-                
                 data.activity.forEach(ev => {
                     const item = document.createElement('div');
                     item.className = 'feed-item';
                     item.innerHTML = `<div class="feed-time">${ev.time}</div><div>${ev.text}</div>`;
                     container.appendChild(item);
                 });
-            } catch (e) {
-                container.innerHTML = '<p style="text-align: center; color: #e74c3c;">Ошибка загрузки</p>';
-            }
+            } catch (e) { container.innerHTML = '<p style="text-align: center; color: #e74c3c;">Ошибка загрузки</p>'; }
         }
 
         function closeFeed(e) {
@@ -689,7 +655,6 @@
             document.getElementById('feed-modal').classList.remove('active');
         }
 
-        // Инициализация
         document.getElementById('profile-data').innerHTML = getProfileSkeleton();
         fetchProfile();
         fetchStats(currentChartMode);
